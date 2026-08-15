@@ -71,3 +71,7 @@ tmp/
 
 # --- build venv ---
 .venv-build/
+
+# --- macOS ---
+.DS_Store
+**/.DS_Store

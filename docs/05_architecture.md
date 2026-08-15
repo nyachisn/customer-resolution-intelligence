@@ -1,0 +1,378 @@
+# Resolution Intelligence — Architecture
+
+**Status:** Phase 0 — Product contract  
+**Owner:** Shem Nyachieo  
+**Version:** 1.1  
+**Last updated:** August 15, 2026  
+**Revision note:** v1.1 fixes the ingestion path to the bulk CSV archive and revises the DAG to remove duration derivation. See `adr/ADR-004-source-validation-removes-response-duration.md`.
+
+## 1. Architecture objective
+
+Build a clean, reproducible, portfolio-grade analytical product that separates source ingestion, transformations, policy configuration, curated product outputs, and web presentation.
+
+The architecture must make it easy to answer:
+
+- Where did this data come from?
+- What does this table/model represent?
+- Which policy created this recommendation?
+- What is real public data versus derived data?
+- What can the Vercel application access?
+- How can a future developer reproduce the build safely?
+
+## 2. High-level architecture
+
+```text
+Official CFPB bulk CSV archive (primary)
+  complaints.csv.zip
+          │   (search API used only for
+          │    aggregate reconciliation)
+          ▼
+Ingestion script + schema validation
+          │
+          ▼
+Snowflake RAW schema
+          │
+          ▼
+dbt staging → intermediate → marts
+          │
+          ├── Governance seeds / policy configuration
+          │
+          ▼
+Curated demo export or protected server-side API
+          │
+          ▼
+Next.js / Vercel portfolio application
+          │
+          ▼
+Operations overview · issue investigation · agent context · methodology
+```
+
+## 3. System boundaries
+
+### In the MVP
+
+- CFPB public structured data.
+- Snowflake storage and SQL execution.
+- dbt transformation, testing, documentation, and lineage.
+- Version-controlled policy seeds.
+- Curated demo data for a Vercel application.
+- GitHub source control and CI.
+
+### Outside the MVP boundary
+
+- Bank/fintech CRM data.
+- Consumer identifiers, contact points, accounts, and transaction data.
+- Production ticketing, contact-center, CDP, or Twilio integration.
+- Customer communications.
+- Complaint narratives, narrative ingestion, NLP, sentiment analysis, and LLM processing.
+- Multi-tenant authentication or a production SaaS tenant model.
+- **Any response-duration or resolution-duration measure.** The source publishes no company response timestamp.
+- The `tags` and `zip_code` fields beyond the raw layer.
+
+## 4. Snowflake architecture
+
+### Database and schemas
+
+```text
+RESOLUTION_INTELLIGENCE
+├── RAW
+│   └── Immutable source-aligned public CFPB loads + load metadata
+├── ANALYTICS_DEV
+│   └── dbt development target
+├── ANALYTICS_PROD
+│   └── dbt production-style final models and curated outputs
+└── GOVERNANCE
+    └── Optional policy/reference tables, run metadata, and data-quality logs
+```
+
+### Warehouse
+
+```text
+RI_TRANSFORM_WH
+```
+
+Requirements:
+
+- Smallest practical initial size.
+- Auto-suspend enabled.
+- Auto-resume enabled only if needed for development convenience.
+- Resource monitor or documented cost-control approach.
+- Query tags for raw load, dbt transformation, and demo export where feasible.
+
+### Roles
+
+| Role | Responsibilities | Restrictions |
+|---|---|---|
+| `RI_ADMIN` | Bootstrap and grant administration | Not used for routine transformations |
+| `RI_LOADER` | Stage/load approved public source data into `RAW` | No write access to final marts unless needed for metadata |
+| `RI_TRANSFORMER` | Run dbt transformations in dev/prod schemas | No account-level admin grants |
+| `RI_APP_READER` | Read curated demo surface only | No access to raw tables or credentials in client app |
+
+### Required metadata/tags
+
+Apply where practical:
+
+```text
+owner = shem_nyachieo
+project = resolution_intelligence
+environment = dev | prod
+data_classification = real_public | derived | reference_config
+source_system = cfpb
+```
+
+## 5. dbt architecture
+
+### Project layout
+
+```text
+dbt/
+├── dbt_project.yml
+├── packages.yml
+├── profiles.example.yml
+├── macros/
+├── models/
+│   ├── staging/cfpb/
+│   ├── intermediate/
+│   └── marts/
+│       ├── core/
+│       ├── operations/
+│       └── agent_context/
+├── seeds/
+├── tests/
+├── analyses/
+└── README.md
+```
+
+### Layer responsibilities
+
+| Layer | Responsibility | Allowed logic |
+|---|---|---|
+| Source | Declare raw tables and freshness | No transformation |
+| Staging | Rename, cast, clean whitespace, normalize source values, add source/load metadata | One-to-one source shaping; no complex business rules |
+| Intermediate | Reusable joins, lifecycle calculations, rolling volumes, policy-evaluation inputs | Explicit multi-step business logic with documented grain |
+| Mart | Consumer-facing, trusted business products | Final metrics, context, action queue, application outputs |
+| Seed | Version-controlled configuration | Policies, thresholds, action playbooks, accepted-value mappings |
+
+### Initial DAG
+
+```text
+src_cfpb_complaints
+        │
+        ▼
+stg_cfpb_complaints
+        │  (null normalization, type fixes,
+        │   recent_publication_lag_flag)
+        ├────────────────────────────┐
+        ▼                            ▼
+int_complaint_status_context   dim_issue_taxonomy
+        │
+        ├──────────────┐
+        ▼              ▼
+int_issue_daily_volume  int_resolution_signals
+        │              │
+        ▼              │
+int_issue_trends        │
+        │              │
+        └──────┬───────┘
+               ▼
+int_priority_policy_application
+               │
+       ┌───────┼───────────────┐
+       ▼       ▼               ▼
+fct_complaints agent_case_context resolution_action_queue
+       │                                │
+       ▼                                ▼
+fct_issue_daily_metrics         operations_overview_metrics
+```
+
+### DAG changes required by source validation
+
+These are documented here for implementation later. **No SQL is to be written yet.**
+
+| Model | Change | Reason |
+|---|---|---|
+| `int_complaint_lifecycle` | **Rename** to `int_complaint_status_context`; remove all timing/duration derivation | "Lifecycle" implied durations the source cannot support |
+| `stg_cfpb_complaints` | **Revise** — add null normalization (`None`, empty string), string `complaint_id`, masked-ZIP handling, `recent_publication_lag_flag`, `has_narrative` | Verified source behavior |
+| `int_issue_trends` | **Revise** — add `observed_share_pct`, `baseline_volume`, `issue_pattern_status`, minimum baseline volume, within-category evaluation | Concentration and baseline qualification |
+| `int_resolution_signals` | **Revise** — remove any duration input; carry `signal_confidence` | Response-time limitation |
+| `int_priority_policy_application` | **Revise** — remove dispute policy evaluation; add publication-lag policy; implement lowest-confidence propagation | Policy changes |
+| `agent_case_context` | **Revise** — column contract updated per `03_data_dictionary.md` §6 | Field removals and additions |
+| `resolution_action_queue` | **Revise** — add `evidence_fields`, `signal_confidence`, `interpretation_limitation`, `recent_publication_lag_flag`, `policy_version` | Recommendation contract |
+| `int_company_issue_patterns` | **Retained, constrained.** Must hard-code `signal_confidence = LIMITED` and a non-null denominator limitation on every row; must never rank, sort by, or compare companies | Revisit after the first build — remove if it cannot earn its place under these constraints |
+| *(any duration model)* | **Must not be created** | No company response timestamp exists |
+
+## 6. Data flow and controls
+
+### Ingestion flow
+
+1. Retrieve the **official CFPB bulk CSV archive** (`complaints.csv.zip`). Do not use the filtered API export as the primary path — it is capped at roughly 100,000 rows and fails opaquely above that.
+2. Complete the **source retrieval record** in `02_data_provenance.md` §2.2: publisher, source URL, retrieval date, file type, source coverage, schema observed, known limitations. A load that cannot populate every field must not proceed.
+3. Validate the expected schema before loading, asserting the exact expected column count and names. Treat any change as source drift requiring documentation review, not a transient error.
+4. Load source-aligned fields into `RAW` without business transformations.
+5. Reconcile against the search API `_meta` block — total record count, `last_updated`, `is_data_stale` — as an independent freshness check.
+6. Run dbt source freshness/schema checks.
+7. Build staging through final marts.
+8. Run dbt tests and generate docs.
+9. Export only approved curated fields for the product demo, validated against `09_supported_vs_unsupported_metrics.md`.
+
+**Do not hard-code assumptions about API response formats.** The API surface has changed materially and with limited notice — two fields removed in June 2026, JSON export retired in July 2026.
+
+### No raw data in Git
+
+GitHub contains:
+
+- Ingestion scripts.
+- Data contracts and schema expectations.
+- DDL and dbt code.
+- Curated tiny UI fixtures only if reviewed and documented.
+
+GitHub does not contain:
+
+- Full source downloads. **Note:** a 1.4 GB `complaints.csv.zip` currently sits in the project working directory. It must be covered by `.gitignore` before the repository is initialized.
+- Credentials, private keys, profiles, `.env` values, or Snowflake account details.
+- Complaint narratives.
+
+## 7. Application architecture
+
+### Recommended application stack
+
+- Next.js with TypeScript.
+- Vercel for preview and production deployment.
+- Accessible UI components and lightweight charts.
+- Static curated demo JSON/CSV for MVP, or a server-side protected API route.
+
+### Data-access rule
+
+The browser must never connect directly to Snowflake. The application may consume:
+
+1. A versioned, curated demo export placed in the application’s safe data directory; or
+2. A server-only API route using a least-privilege read path.
+
+The app must not expose:
+
+- Snowflake account details.
+- Private keys or passwords.
+- Raw table names/paths that invite direct browsing.
+- Source records beyond the reviewed demo contract.
+
+## 8. GitHub and delivery architecture
+
+### Repository
+
+```text
+resolution-intelligence/
+├── docs/
+├── snowflake/
+├── dbt/
+├── scripts/
+├── app/
+├── data/README.md
+└── .github/workflows/
+```
+
+### Branch strategy
+
+- `main`: protected, deployable portfolio state.
+- `feature/<short-description>`: focused work branch.
+- Pull request required for all substantive changes.
+- One concern per pull request: docs, Snowflake, a dbt model group, policy change, export, or UI feature.
+
+### CI requirements
+
+| Workflow | Trigger | Minimum checks |
+|---|---|---|
+| `dbt-ci.yml` | Pull request affecting `dbt/` or `docs/` | `dbt deps`, parse, selected build/tests, schema/YAML validation |
+| `app-ci.yml` | Pull request affecting `app/` | Type check, lint, test/build, Vercel preview where configured |
+| Documentation check | Pull request affecting models/policies | Model header/YAML/docs update expected; manual review gate |
+
+## 9. SQL and code conventions
+
+### SQL file header
+
+Every material dbt model and standalone Snowflake script must begin with:
+
+```sql
+-- model/script: <file name>
+-- purpose: <why this exists>
+-- grain: <what one row represents>
+-- inputs: <sources/refs/seeds>
+-- outputs: <downstream consumers>
+-- owner: Shem Nyachieo
+-- data classification: REAL_PUBLIC | DERIVED | REFERENCE_CONFIG
+-- limitations: <known analytical limits>
+-- decision record: <link to relevant ADR, if any>
+```
+
+### Naming conventions
+
+| Object | Convention | Example |
+|---|---|---|
+| Source | `src_<system>_<entity>` | `src_cfpb_complaints` |
+| Staging model | `stg_<system>_<entity>` | `stg_cfpb_complaints` |
+| Intermediate model | `int_<concept>` | `int_issue_trends` |
+| Dimension | `dim_<entity>` | `dim_issue_taxonomy` |
+| Fact | `fct_<event/entity>` | `fct_complaints` |
+| Final product mart | clear noun phrase | `agent_case_context` |
+| Seed | lower snake case | `priority_policy_thresholds.csv` |
+| Test | `test_<assertion>` | `test_nonstandard_action_has_reason` |
+
+## 10. Observability and auditability
+
+At a minimum, record:
+
+- Source retrieval/load timestamps.
+- Load run ID.
+- dbt run/artifact metadata.
+- Source schema-validation results.
+- Model generation timestamp.
+- Policy version/configuration reference.
+- Curated export version.
+
+A reviewer should be able to trace a final recommendation back to:
+
+```text
+recommendation → policy IDs/reason codes → derived signals → canonical complaint → raw source/load metadata
+```
+
+## 11. Architecture decisions requiring ADRs
+
+Create an ADR for any change to:
+
+- Source datasets or source usage terms.
+- Narrative/LLM use.
+- Model grain of a final mart.
+- Action or priority domain.
+- Policy threshold/precedence with material product impact.
+- Private-data onboarding.
+- Public demo field exposure.
+- Direct application-to-warehouse connectivity.
+- Ingestion mechanism (bulk archive versus API).
+- The supported/unsupported metric register.
+
+### Existing decision records
+
+| ADR | Subject |
+|---|---|
+| `ADR-001-use-cfpb-public-data.md` | Source selection *(planned)* |
+| `ADR-002-exclude-narratives-from-mvp.md` | Narrative exclusion *(planned)* |
+| `ADR-003-no-individual-risk-score.md` | No consumer scoring *(planned)* |
+| `ADR-004-source-validation-removes-response-duration.md` | **Removal of response-duration measurement following source validation** |
+
+## 12. Phase 0 architecture acceptance checklist
+
+Before implementation, confirm:
+
+- [ ] Raw, derived, reference, synthetic, and restricted data classifications are understood.
+- [ ] All final marts have declared grain.
+- [ ] The browser will not access Snowflake directly.
+- [ ] Raw downloads will not be committed to Git, and `complaints.csv.zip` is in `.gitignore`.
+- [ ] Policy seeds are version-controlled and documented.
+- [ ] dbt model layering is agreed.
+- [ ] Source and recommendation lineage are explicit.
+- [ ] The app’s public disclosure and methodology pages are part of the MVP.
+- [ ] No model, column, metric, or UI element derives a duration from `date_received` and `date_sent_to_company`.
+- [ ] `date_sent_to_company` is labelled as the CFPB routing/transmission date everywhere it appears.
+- [ ] The source retrieval record is complete for the loaded snapshot.
+- [ ] Null normalization covers literal `None`, empty strings, and masked ZIP values.
+- [ ] `recent_publication_lag_flag` and `signal_confidence` are implemented before any trend surface is published.
+- [ ] Every export column is checked against `09_supported_vs_unsupported_metrics.md`.

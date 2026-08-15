@@ -1,0 +1,73 @@
+# ---------------------------------------------------------------------------
+# Resolution Intelligence — .gitignore
+#
+# Two rules matter most in this repository:
+#   1. No raw CFPB source data. Ever. It is 1.4 GB compressed and freely
+#      re-downloadable from the official source.
+#   2. No credentials. Not Snowflake, not dbt profiles, not .env.
+# See docs/02_data_provenance.md §8 and docs/05_architecture.md §6.
+# ---------------------------------------------------------------------------
+
+# --- Raw source data (NEVER COMMIT) ---
+data/*
+!data/README.md
+*.csv
+*.csv.zip
+*.csv.gz
+*.tsv
+complaints*.json
+complaints*.zip
+
+# Exception: curated, reviewed demo exports are committed deliberately
+!app/src/data/**/*.csv
+!app/src/data/**/*.json
+!dbt/seeds/**/*.csv
+
+# --- Credentials and secrets (NEVER COMMIT) ---
+.env
+.env.*
+!.env.example
+profiles.yml
+!dbt/profiles.example.yml
+*.pem
+*.p8
+*.key
+*_rsa_key*
+snowflake_credentials*
+
+# --- dbt ---
+dbt/target/
+dbt/dbt_packages/
+dbt/logs/
+dbt/.user.yml
+
+# --- Python ---
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+.mypy_cache/
+*.egg-info/
+
+# --- Node / Next.js ---
+node_modules/
+.next/
+out/
+.vercel/
+*.tsbuildinfo
+
+# --- OS and editor ---
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+
+# --- Scratch ---
+scratch/
+tmp/
+*.log
+
+# --- build venv ---
+.venv-build/

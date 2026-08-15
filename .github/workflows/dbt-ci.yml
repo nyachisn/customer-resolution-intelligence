@@ -28,12 +28,33 @@ jobs:
         working-directory: dbt
         run: dbt deps
 
+      # dbt requires a resolvable profile even to parse. These are placeholder
+      # values that are never connected to — parse builds the manifest without
+      # touching the warehouse. Real credentials live in repository secrets and
+      # are used only by the build job.
+      - name: Write CI profile
+        run: |
+          mkdir -p "$HOME/.dbt"
+          cat > "$HOME/.dbt/profiles.yml" <<'YAML'
+          customer_resolution_intelligence:
+            target: ci
+            outputs:
+              ci:
+                type: snowflake
+                account: ci-placeholder
+                user: ci-placeholder
+                password: ci-placeholder
+                role: CRI_TRANSFORMER
+                warehouse: CRI_TRANSFORM_WH
+                database: CUSTOMER_RESOLUTION_INTELLIGENCE
+                schema: ANALYTICS_DEV
+                threads: 1
+          YAML
+
       # Parses without a warehouse connection. Catches YAML, ref, and
       # compilation errors on every PR at no infrastructure cost.
       - name: dbt parse
         working-directory: dbt
-        env:
-          DBT_PROFILES_DIR: ${{ github.workspace }}/dbt
         run: dbt parse --no-partial-parse
 
   governance:

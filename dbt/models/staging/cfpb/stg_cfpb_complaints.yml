@@ -23,10 +23,11 @@ sources:
           One row per published complaint record in the retrieved extract.
           A row is a complaint observation — not a customer, a consumer
           profile, or an identified person.
-        loaded_at_field: loaded_at
-        freshness:
-          warn_after: {count: 3, period: day}
-          error_after: {count: 14, period: day}
+        config:
+          loaded_at_field: loaded_at
+          freshness:
+            warn_after: {count: 3, period: day}
+            error_after: {count: 14, period: day}
         columns:
           - name: complaint_id
             description: >
@@ -103,13 +104,13 @@ models:
       - name: timely_response_status
         description: Normalized published timeliness signal.
         tests:
+          # UNKNOWN is currently unreachable — the source has no null or third
+          # value. Retained for safety; do not assert its reachability.
           - accepted_values:
-              values: ["YES", "NO", "UNKNOWN"]
+              arguments:
+                values: ["YES", "NO", "UNKNOWN"]
               config:
                 severity: warn
-                description: >
-                  UNKNOWN is currently unreachable — the source has no null or
-                  third value. Retained for safety; do not assert reachability.
       - name: recent_publication_lag_flag
         description: >
           TRUE when date_received falls within the trailing 60-day window

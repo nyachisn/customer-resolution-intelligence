@@ -1,0 +1,12 @@
+-- model: operations_overview_metrics.sql
+-- purpose: Curated aggregate display metrics for the demo.
+-- grain: 1 metric date x dashboard dimension x metric name
+-- inputs: fct_issue_daily_metrics
+-- outputs: Curated demo export
+-- owner: Shem Nyachieo
+-- data classification: DERIVED
+-- limitations: Every metric must appear as Supported in the metric register. Context notes required on display.
+-- decision record: docs/02_data_provenance.md §9
+--
+-- STATUS: NOT IMPLEMENTED. Phase 0 scaffold.
+-- Gated on docs/00_project_charter.md §11.

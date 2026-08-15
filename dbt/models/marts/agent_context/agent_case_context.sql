@@ -1,0 +1,12 @@
+-- model: agent_case_context.sql
+-- purpose: Agent-safe factual and derived complaint-record context.
+-- grain: 1 published complaint record
+-- inputs: int_priority_policy_application, int_issue_trends
+-- outputs: Curated demo export
+-- owner: Shem Nyachieo
+-- data classification: DERIVED
+-- limitations: No narrative text. No dispute field. No duration. Deterministic context_summary template only, no generative text.
+-- decision record: docs/03_data_dictionary.md §6
+--
+-- STATUS: NOT IMPLEMENTED. Phase 0 scaffold.
+-- Gated on docs/00_project_charter.md §11.

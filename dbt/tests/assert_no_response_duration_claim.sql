@@ -1,0 +1,11 @@
+-- test: assert_no_response_duration_claim
+-- asserts: No model or exported column expresses a response duration, resolution duration, or any interval derived from date_received and date_sent_to_company.
+-- enforces: DQ-16; docs/adr/ADR-004-source-validation-removes-response-duration.md
+--
+-- STATUS: NOT IMPLEMENTED. Phase 0 scaffold.
+-- Returns rows on FAILURE (dbt singular test convention).
+--
+-- Implementation note: scan information_schema column names in the project's
+-- schemas for duration-shaped patterns (days, hours, duration, elapsed, sla,
+-- time_to, response_time) and return any match. The source publishes no
+-- company response timestamp, so any such column is a defect by construction.

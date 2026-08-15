@@ -1,0 +1,13 @@
+-- model/script: 03_grants.sql
+-- purpose: Apply least-privilege grants.
+-- grain: n/a
+-- inputs: Roles, database, schemas
+-- outputs: Access control posture
+-- owner: Shem Nyachieo
+-- data classification: REFERENCE_CONFIG
+-- limitations: Verify CRI_APP_READER cannot reach RAW before proceeding.
+-- decision record: docs/05_architecture.md §4
+--
+-- STATUS: NOT IMPLEMENTED. Phase 0 scaffold.
+-- Implementation is gated on the approval checkpoints in
+-- docs/00_project_charter.md §11. Do not add logic without that approval.

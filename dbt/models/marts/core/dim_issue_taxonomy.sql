@@ -1,0 +1,12 @@
+-- model: dim_issue_taxonomy.sql
+-- purpose: Reusable product/issue taxonomy reference.
+-- grain: 1 distinct product x sub_product x issue x sub_issue combination
+-- inputs: stg_cfpb_complaints
+-- outputs: Trend and case marts
+-- owner: Shem Nyachieo
+-- data classification: REAL_PUBLIC
+-- limitations: Legacy and current labels coexist and must be versioned, never merged.
+-- decision record: docs/08_source_quality_report.md §5
+--
+-- STATUS: NOT IMPLEMENTED. Phase 0 scaffold.
+-- Gated on docs/00_project_charter.md §11.

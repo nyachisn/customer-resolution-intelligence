@@ -1,0 +1,17 @@
+-- model/script: 01_create_warehouse.sql
+-- purpose: Create the transform warehouse with cost controls.
+-- grain: n/a
+-- inputs: n/a
+-- outputs: dbt and load sessions
+-- owner: Shem Nyachieo
+-- data classification: REFERENCE_CONFIG
+-- limitations: Smallest practical size; auto-suspend required.
+-- decision record: docs/05_architecture.md §4
+--
+-- STATUS: NOT IMPLEMENTED. Phase 0 scaffold.
+-- Implementation is gated on the approval checkpoints in
+-- docs/00_project_charter.md §11. Do not add logic without that approval.
+--
+-- Warehouse: CRI_TRANSFORM_WH
+-- Required: smallest practical size, AUTO_SUSPEND enabled,
+-- and a resource monitor or documented cost-control approach.

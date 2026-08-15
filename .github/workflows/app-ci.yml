@@ -1,0 +1,62 @@
+name: App CI
+
+on:
+  pull_request:
+    paths: ["app/**", ".github/workflows/app-ci.yml"]
+  workflow_dispatch:
+
+concurrency:
+  group: app-ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: Type check, lint, build
+    runs-on: ubuntu-latest
+    # Enable once app/ has a package.json with real dependencies.
+    if: false
+    defaults:
+      run:
+        working-directory: app
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+          cache-dependency-path: app/package-lock.json
+
+      - run: npm ci
+      - run: npm run typecheck
+      - run: npm run lint
+      - run: npm run build
+
+  disclosure:
+    name: Disclosure checks
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # Claims review, mechanized. See docs/01_product_requirements.md §9.
+      #
+      # Heuristic tripwire, not a proof. Word boundaries keep it from flagging
+      # prose that explains the prohibition — "no company response timestamp"
+      # is correct and must pass. A hit needs human judgment, not a reflex fix.
+      - name: No prohibited claims in UI copy
+        run: |
+          if [ ! -d app/src ]; then echo "app/src not present yet — skipping."; exit 0; fi
+          if grep -rniE 'response time\b|resolution time\b|days to respond|time to resolution|customer satisfaction|root cause|high[- ]risk customer' app/src/ ; then
+            echo "::error::Possible prohibited claim in application copy. Review against docs/01_product_requirements.md §9 and docs/09_supported_vs_unsupported_metrics.md."
+            exit 1
+          fi
+          echo "OK — no prohibited claims."
+
+      - name: No credentials in client-side code
+        run: |
+          if [ ! -d app/src ]; then echo "app/src not present yet — skipping."; exit 0; fi
+          if grep -rniE 'SNOWFLAKE_(ACCOUNT|USER|PASSWORD|PRIVATE_KEY)|BEGIN [A-Z ]*PRIVATE KEY' app/src/ app/public/ 2>/dev/null ; then
+            echo "::error::Credential reference in client-side code."
+            exit 1
+          fi
+          echo "OK — no credential references."

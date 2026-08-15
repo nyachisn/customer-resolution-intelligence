@@ -1,0 +1,12 @@
+-- model: int_resolution_signals.sql
+-- purpose: Attach record-level published and derived resolution signals.
+-- grain: 1 published complaint record
+-- inputs: int_complaint_status_context, int_issue_trends
+-- outputs: int_priority_policy_application
+-- owner: Shem Nyachieo
+-- data classification: DERIVED
+-- limitations: No duration inputs. timely_response is a published category, not a measured interval.
+-- decision record: docs/adr/ADR-004-source-validation-removes-response-duration.md
+--
+-- STATUS: NOT IMPLEMENTED. Phase 0 scaffold.
+-- Gated on docs/00_project_charter.md §11.

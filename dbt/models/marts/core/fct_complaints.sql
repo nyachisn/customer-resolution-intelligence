@@ -1,0 +1,12 @@
+-- model: fct_complaints.sql
+-- purpose: Authoritative canonical complaint record fact model.
+-- grain: 1 canonical published complaint record
+-- inputs: int_complaint_status_context
+-- outputs: All case-level marts
+-- owner: Shem Nyachieo
+-- data classification: REAL_PUBLIC
+-- limitations: One row per complaint record. A row is a complaint observation, not a customer.
+-- decision record: docs/03_data_dictionary.md §3
+--
+-- STATUS: NOT IMPLEMENTED. Phase 0 scaffold.
+-- Gated on docs/00_project_charter.md §11.

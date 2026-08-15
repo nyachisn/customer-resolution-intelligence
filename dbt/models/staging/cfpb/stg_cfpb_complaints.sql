@@ -1,0 +1,12 @@
+-- model: stg_cfpb_complaints.sql
+-- purpose: Rename, cast, normalize nulls, add lineage and publication-lag flag.
+-- grain: 1 published CFPB complaint record
+-- inputs: source: raw.cfpb_complaints
+-- outputs: int_complaint_status_context, dim_issue_taxonomy
+-- owner: Shem Nyachieo
+-- data classification: REAL_PUBLIC
+-- limitations: complaint_id is STRING. Literal 'None' and empty strings become NULL. Masked ZIPs unparsed. No duration derived from date_sent_to_company.
+-- decision record: docs/adr/ADR-004-source-validation-removes-response-duration.md
+--
+-- STATUS: NOT IMPLEMENTED. Phase 0 scaffold.
+-- Gated on docs/00_project_charter.md §11.

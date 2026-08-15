@@ -1,0 +1,6 @@
+-- test: assert_no_critical_without_trigger
+-- asserts: No row carries priority = CRITICAL without two or more triggered HIGH policies, COMPLETE data, no publication-lag flag, and a QUALIFIED_SIGNAL pattern.
+-- enforces: docs/04_decisioning_policy.md §7.1
+--
+-- STATUS: NOT IMPLEMENTED. Phase 0 scaffold.
+-- Returns rows on FAILURE (dbt singular test convention).

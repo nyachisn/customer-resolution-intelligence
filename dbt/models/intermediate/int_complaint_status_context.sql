@@ -1,0 +1,12 @@
+-- model: int_complaint_status_context.sql
+-- purpose: Assemble published status context. Derives NO timing or duration measures.
+-- grain: 1 published complaint record
+-- inputs: stg_cfpb_complaints
+-- outputs: int_issue_daily_volume, int_resolution_signals
+-- owner: Shem Nyachieo
+-- data classification: DERIVED
+-- limitations: Renamed from int_complaint_lifecycle. The source publishes no company response timestamp; any duration here would measure CFPB routing latency.
+-- decision record: docs/adr/ADR-004-source-validation-removes-response-duration.md
+--
+-- STATUS: NOT IMPLEMENTED. Phase 0 scaffold.
+-- Gated on docs/00_project_charter.md §11.

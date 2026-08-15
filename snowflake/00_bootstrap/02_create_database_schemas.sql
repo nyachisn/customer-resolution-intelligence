@@ -1,0 +1,16 @@
+-- model/script: 02_create_database_schemas.sql
+-- purpose: Create the project database and schemas.
+-- grain: n/a
+-- inputs: n/a
+-- outputs: All project objects
+-- owner: Shem Nyachieo
+-- data classification: REFERENCE_CONFIG
+-- limitations: Idempotent.
+-- decision record: docs/05_architecture.md §4
+--
+-- STATUS: NOT IMPLEMENTED. Phase 0 scaffold.
+-- Implementation is gated on the approval checkpoints in
+-- docs/00_project_charter.md §11. Do not add logic without that approval.
+--
+-- Database: CUSTOMER_RESOLUTION_INTELLIGENCE
+-- Schemas:  RAW, ANALYTICS_DEV, ANALYTICS_PROD, GOVERNANCE

@@ -1,0 +1,91 @@
+name: dbt CI
+
+on:
+  pull_request:
+    paths: ["dbt/**", "docs/**", ".github/workflows/dbt-ci.yml"]
+  workflow_dispatch:
+
+concurrency:
+  group: dbt-ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  parse:
+    name: Parse and validate
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - name: Install dbt
+        run: pip install "dbt-snowflake>=1.8,<2.0"
+
+      - name: dbt deps
+        working-directory: dbt
+        run: dbt deps
+
+      # Parses without a warehouse connection. Catches YAML, ref, and
+      # compilation errors on every PR at no infrastructure cost.
+      - name: dbt parse
+        working-directory: dbt
+        env:
+          DBT_PROFILES_DIR: ${{ github.workspace }}/dbt
+        run: dbt parse --no-partial-parse
+
+  governance:
+    name: Governance checks
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # The project's premise is that it refuses to make unsupported claims.
+      # These checks make that mechanical rather than aspirational.
+      - name: No duration-shaped column names
+        run: |
+          if grep -rniE '\b(response_days|resolution_days|days_to_respond|time_to_resolution|handling_time|response_duration|resolution_duration|elapsed_)' \
+               --include='*.sql' --include='*.yml' --include='*.csv' dbt/ ; then
+            echo "::error::Duration-shaped identifier found. The CFPB source publishes no company response timestamp — see docs/adr/ADR-004-source-validation-removes-response-duration.md"
+            exit 1
+          fi
+          echo "OK — no duration-shaped identifiers."
+
+      - name: No dispute field references
+        run: |
+          if grep -rniE 'consumer_disputed|POLICY_DISPUTED' --include='*.sql' --include='*.yml' --include='*.csv' dbt/ ; then
+            echo "::error::Dispute field referenced. It was removed from CFPB exports in June 2026 and does not exist."
+            exit 1
+          fi
+          echo "OK — no dispute references."
+
+      - name: Every model carries the standard header
+        run: |
+          missing=0
+          for f in $(find dbt/models -name '*.sql'); do
+            grep -q '^-- grain:' "$f" || { echo "::error file=$f::missing '-- grain:' header"; missing=1; }
+            grep -q '^-- limitations:' "$f" || { echo "::error file=$f::missing '-- limitations:' header"; missing=1; }
+          done
+          exit $missing
+
+  build:
+    name: Build and test
+    runs-on: ubuntu-latest
+    # Requires Snowflake credentials in repository secrets. Enable once the
+    # warehouse is bootstrapped (docs/07_runbook.md §3).
+    if: false
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install "dbt-snowflake>=1.8,<2.0"
+      - name: dbt build
+        working-directory: dbt
+        env:
+          SNOWFLAKE_ACCOUNT: ${{ secrets.SNOWFLAKE_ACCOUNT }}
+          SNOWFLAKE_USER: ${{ secrets.SNOWFLAKE_USER }}
+          SNOWFLAKE_PRIVATE_KEY_PATH: ${{ secrets.SNOWFLAKE_PRIVATE_KEY_PATH }}
+        run: dbt build --target dev --select state:modified+ --defer --state ./prod-manifest

@@ -1,0 +1,12 @@
+# Customer Resolution Intelligence — code owners
+#
+# Single-owner portfolio project. Every path requires the owner's review.
+* @nyachisn
+
+# Governance-critical paths. Changes here require an ADR and a documentation
+# update in the same pull request — see CONTRIBUTING.md.
+/docs/                  @nyachisn
+/docs/adr/              @nyachisn
+/dbt/seeds/             @nyachisn
+/scripts/               @nyachisn
+/.github/workflows/     @nyachisn

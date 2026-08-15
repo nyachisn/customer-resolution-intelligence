@@ -1,0 +1,13 @@
+-- model/script: 00_create_file_format.sql
+-- purpose: CSV file format for the CFPB bulk archive.
+-- grain: n/a
+-- inputs: n/a
+-- outputs: Stage and COPY INTO
+-- owner: Shem Nyachieo
+-- data classification: REFERENCE_CONFIG
+-- limitations: Empty strings must load as NULL; all columns land as strings.
+-- decision record: docs/02_data_provenance.md §10.1
+--
+-- STATUS: NOT IMPLEMENTED. Phase 0 scaffold.
+-- Implementation is gated on the approval checkpoints in
+-- docs/00_project_charter.md §11. Do not add logic without that approval.

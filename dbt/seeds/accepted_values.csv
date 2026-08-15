@@ -1,0 +1,33 @@
+field_name,accepted_value,domain_note
+company_response,Closed with explanation,current
+company_response,Closed with non-monetary relief,current
+company_response,Closed with monetary relief,current
+company_response,In progress,unresolved at publication - not a performance signal
+company_response,Untimely response,current
+company_response,Closed,legacy label - version do not merge
+company_response,Closed with relief,legacy label - version do not merge
+company_response,Closed without relief,legacy label - version do not merge
+timely_response_status,YES,published CFPB signal
+timely_response_status,NO,published CFPB signal
+timely_response_status,UNKNOWN,currently unreachable - source has no null or third value
+submitted_via,Web,96.30 percent of records
+submitted_via,Referral,
+submitted_via,Phone,
+submitted_via,Postal mail,
+submitted_via,Fax,
+submitted_via,Email,
+priority,LOW,
+priority,MEDIUM,
+priority,HIGH,
+priority,CRITICAL,reachable only via POLICY_CRITICAL_COMBINATION
+signal_confidence,HIGH,directly observed source field
+signal_confidence,MEDIUM,deterministic derived signal with documented methodology
+signal_confidence,LIMITED,affected by coverage lag or denominator limits
+signal_confidence,NOT_SUPPORTED,conclusion the public data cannot establish
+issue_pattern_status,QUALIFIED_SIGNAL,
+issue_pattern_status,UNQUALIFIED_SIGNAL,
+issue_pattern_status,INSUFFICIENT_BASELINE,
+issue_pattern_status,NO_SIGNAL,
+data_completeness_status,COMPLETE,
+data_completeness_status,PARTIAL,
+data_completeness_status,INSUFFICIENT,

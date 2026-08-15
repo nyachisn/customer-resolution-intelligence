@@ -1,0 +1,12 @@
+-- model: resolution_action_queue.sql
+-- purpose: Prioritized, auditable operational action queue.
+-- grain: 1 published complaint record x final recommendation run/version
+-- inputs: int_priority_policy_application
+-- outputs: Curated demo export
+-- owner: Shem Nyachieo
+-- data classification: DERIVED
+-- limitations: Every non-standard action requires policy_id, reason_code, evidence_fields, and signal_confidence. STANDARD_HANDLING is a valid outcome.
+-- decision record: docs/04_decisioning_policy.md §3
+--
+-- STATUS: NOT IMPLEMENTED. Phase 0 scaffold.
+-- Gated on docs/00_project_charter.md §11.

@@ -1,0 +1,6 @@
+-- test: assert_reason_code_required
+-- asserts: Every recommendation whose action is not STANDARD_HANDLING carries at least one reason code, a policy_id, evidence_fields, and a signal_confidence value.
+-- enforces: docs/04_decisioning_policy.md §3 and §10
+--
+-- STATUS: NOT IMPLEMENTED. Phase 0 scaffold.
+-- Returns rows on FAILURE (dbt singular test convention).

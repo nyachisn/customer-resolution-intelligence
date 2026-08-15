@@ -1,0 +1,13 @@
+-- model/script: load_cfpb_data.sql
+-- purpose: COPY the staged archive into the raw table with load metadata.
+-- grain: 1 source record
+-- inputs: Stage, file format, raw table
+-- outputs: stg_cfpb_complaints
+-- owner: Shem Nyachieo
+-- data classification: REAL_PUBLIC
+-- limitations: Never overwrite a prior load without a new load_run_id.
+-- decision record: docs/07_runbook.md §5
+--
+-- STATUS: NOT IMPLEMENTED. Phase 0 scaffold.
+-- Implementation is gated on the approval checkpoints in
+-- docs/00_project_charter.md §11. Do not add logic without that approval.

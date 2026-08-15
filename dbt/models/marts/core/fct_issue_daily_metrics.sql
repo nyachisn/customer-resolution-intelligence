@@ -1,0 +1,12 @@
+-- model: fct_issue_daily_metrics.sql
+-- purpose: Trusted daily operational metric layer.
+-- grain: 1 calendar date x approved analysis dimensions
+-- inputs: int_issue_trends
+-- outputs: operations_overview_metrics
+-- owner: Shem Nyachieo
+-- data classification: DERIVED
+-- limitations: Observed counts only. Requires observed_share_pct alongside any change measure.
+-- decision record: docs/09_supported_vs_unsupported_metrics.md
+--
+-- STATUS: NOT IMPLEMENTED. Phase 0 scaffold.
+-- Gated on docs/00_project_charter.md §11.

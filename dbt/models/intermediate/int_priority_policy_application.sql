@@ -1,0 +1,12 @@
+-- model: int_priority_policy_application.sql
+-- purpose: Evaluate every policy rule and retain each trigger state.
+-- grain: 1 published complaint record x policy rule evaluated
+-- inputs: int_resolution_signals, seed priority_policy_thresholds
+-- outputs: agent_case_context, resolution_action_queue
+-- owner: Shem Nyachieo
+-- data classification: DERIVED
+-- limitations: Lowest-confidence propagation across triggered policies. No dispute policy: the source field does not exist.
+-- decision record: docs/04_decisioning_policy.md §6
+--
+-- STATUS: NOT IMPLEMENTED. Phase 0 scaffold.
+-- Gated on docs/00_project_charter.md §11.

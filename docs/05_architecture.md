@@ -353,10 +353,11 @@ Create an ADR for any change to:
 
 | ADR | Subject |
 |---|---|
-| `ADR-001-use-cfpb-public-data.md` | Source selection *(planned)* |
-| `ADR-002-exclude-narratives-from-mvp.md` | Narrative exclusion *(planned)* |
-| `ADR-003-no-individual-risk-score.md` | No consumer scoring *(planned)* |
-| `ADR-004-source-validation-removes-response-duration.md` | **Removal of response-duration measurement following source validation** |
+| `ADR-001-use-cfpb-public-data.md` | CFPB public data as the sole MVP source |
+| `ADR-002-exclude-narratives-from-mvp.md` | Narrative exclusion — opt-in, unverified, revocable consent |
+| `ADR-003-no-individual-risk-score.md` | No consumer scoring or consumer-level inference |
+| `ADR-004-source-validation-removes-response-duration.md` | Removal of response-duration measurement following source validation |
+| `ADR-005-bulk-csv-as-primary-ingestion.md` | Bulk CSV archive over the row-capped API export |
 
 ## 12. Phase 0 architecture acceptance checklist
 

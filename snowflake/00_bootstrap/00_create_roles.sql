@@ -1,0 +1,16 @@
+-- model/script: 00_create_roles.sql
+-- purpose: Create least-privilege roles.
+-- grain: n/a
+-- inputs: n/a
+-- outputs: All downstream Snowflake objects
+-- owner: Shem Nyachieo
+-- data classification: REFERENCE_CONFIG
+-- limitations: Idempotent; re-running must not revoke existing grants.
+-- decision record: docs/05_architecture.md §4
+--
+-- STATUS: NOT IMPLEMENTED. Phase 0 scaffold.
+-- Implementation is gated on the approval checkpoints in
+-- docs/00_project_charter.md §11. Do not add logic without that approval.
+--
+-- Roles: CRI_ADMIN, CRI_LOADER, CRI_TRANSFORMER, CRI_APP_READER
+-- CRI_APP_READER must NOT be able to read RAW. Verify explicitly after bootstrap.

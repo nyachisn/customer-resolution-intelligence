@@ -1,0 +1,12 @@
+-- model: int_issue_trends.sql
+-- purpose: Baselines, deltas, observed share, and pattern qualification.
+-- grain: 1 calendar date x approved dimensions x trend policy
+-- inputs: int_issue_daily_volume, seed priority_policy_thresholds
+-- outputs: int_priority_policy_application, operations marts
+-- owner: Shem Nyachieo
+-- data classification: DERIVED
+-- limitations: Counts are not normalized for company size or market share. Evaluate within product category; ~81% of the dataset is credit reporting. A percentage change is never evidence of a market incident.
+-- decision record: docs/04_decisioning_policy.md §8
+--
+-- STATUS: NOT IMPLEMENTED. Phase 0 scaffold.
+-- Gated on docs/00_project_charter.md §11.

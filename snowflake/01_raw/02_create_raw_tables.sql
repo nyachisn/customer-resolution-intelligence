@@ -1,0 +1,21 @@
+-- model/script: 02_create_raw_tables.sql
+-- purpose: Immutable source-aligned raw table plus load metadata.
+-- grain: 1 source record in the loaded CFPB extract
+-- inputs: CFPB bulk CSV archive
+-- outputs: stg_cfpb_complaints
+-- owner: Shem Nyachieo
+-- data classification: REAL_PUBLIC
+-- limitations: All 16 source columns stored as strings. No casting, no business logic at this layer.
+-- decision record: docs/03_data_dictionary.md §4
+--
+-- STATUS: NOT IMPLEMENTED. Phase 0 scaffold.
+-- Implementation is gated on the approval checkpoints in
+-- docs/00_project_charter.md §11. Do not add logic without that approval.
+--
+-- RAW.CFPB_COMPLAINTS
+-- 16 source columns (see docs/03_data_dictionary.md §4) + load metadata:
+--   source_system, source_url, source_retrieved_at, source_file_name,
+--   source_snapshot_date, loaded_at, load_run_id
+--
+-- complaint_id is a STRING. Never cast to integer.
+-- zip_code is VARCHAR and may contain 'X' privacy masks. Never parse.

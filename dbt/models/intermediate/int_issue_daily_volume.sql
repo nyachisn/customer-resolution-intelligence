@@ -1,0 +1,12 @@
+-- model: int_issue_daily_volume.sql
+-- purpose: Daily observed complaint counts by approved dimensions.
+-- grain: 1 calendar date x approved analysis dimensions
+-- inputs: int_complaint_status_context
+-- outputs: int_issue_trends
+-- owner: Shem Nyachieo
+-- data classification: DERIVED
+-- limitations: An observed count of published complaints, not a rate and not a market measure.
+-- decision record: docs/09_supported_vs_unsupported_metrics.md
+--
+-- STATUS: NOT IMPLEMENTED. Phase 0 scaffold.
+-- Gated on docs/00_project_charter.md §11.

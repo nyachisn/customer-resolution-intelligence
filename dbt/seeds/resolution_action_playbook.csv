@@ -1,0 +1,7 @@
+recommended_action,meaning,owner,human_review_required,prohibited_use
+STANDARD_HANDLING,No special operational signal identified by this product,Operations queue,FALSE,Do not treat as a quality endorsement
+PRIORITIZE_CASE_REVIEW,Review this record sooner due to a documented service signal,Resolution manager,TRUE,Not a judgment of complaint validity
+ESCALATE_REVIEW,Route to a supervisor or specialist review workflow,Supervisor,TRUE,Not an adverse action or account decision
+INVESTIGATE_PATTERN,Investigate a potential emerging issue pattern,Operations or product,TRUE,Not a confirmed incident root cause or market event
+REQUIRE_HUMAN_REVIEW,Source data or policy condition is incomplete or ambiguous,Resolution manager,TRUE,Do not auto-resolve or infer the missing value
+UPDATE_AGENT_GUIDANCE,Consider knowledge or routing guidance for a documented aggregate pattern,Knowledge owner,TRUE,Not an automated content change

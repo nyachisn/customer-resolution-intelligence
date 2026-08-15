@@ -1,0 +1,12 @@
+-- model: int_company_issue_patterns.sql
+-- purpose: Bounded company-level pattern context.
+-- grain: 1 calendar date x company x product x issue
+-- inputs: int_complaint_status_context
+-- outputs: operations marts
+-- owner: Shem Nyachieo
+-- data classification: DERIVED
+-- limitations: CONSTRAINED MODEL. Every row must carry signal_confidence = LIMITED and a non-null denominator limitation. Never rank, sort, or compare companies. No denominator exists in the source.
+-- decision record: docs/adr/ADR-003-no-individual-risk-score.md
+--
+-- STATUS: NOT IMPLEMENTED. Phase 0 scaffold.
+-- Gated on docs/00_project_charter.md §11.

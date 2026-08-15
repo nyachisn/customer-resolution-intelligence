@@ -1,0 +1,13 @@
+-- model/script: 01_create_stage.sql
+-- purpose: Internal stage for the retrieved archive.
+-- grain: n/a
+-- inputs: n/a
+-- outputs: COPY INTO raw table
+-- owner: Shem Nyachieo
+-- data classification: REFERENCE_CONFIG
+-- limitations: Stage holds no data in version control.
+-- decision record: docs/05_architecture.md §6
+--
+-- STATUS: NOT IMPLEMENTED. Phase 0 scaffold.
+-- Implementation is gated on the approval checkpoints in
+-- docs/00_project_charter.md §11. Do not add logic without that approval.

@@ -1,0 +1,76 @@
+name: customer_resolution_intelligence
+version: 1.1.0
+config-version: 2
+
+profile: customer_resolution_intelligence
+
+model-paths: ["models"]
+seed-paths: ["seeds"]
+test-paths: ["tests"]
+macro-paths: ["macros"]
+analysis-paths: ["analyses"]
+
+target-path: "target"
+clean-targets: ["target", "dbt_packages"]
+
+require-dbt-version: [">=1.8.0", "<2.0.0"]
+
+# ---------------------------------------------------------------------------
+# Materialization follows docs/05_architecture.md §5:
+# views for simple staging; tables where dashboard performance justifies them.
+# Incremental only when measured volume justifies it — not by default.
+# ---------------------------------------------------------------------------
+models:
+  customer_resolution_intelligence:
+    +persist_docs:
+      relation: true
+      columns: true
+
+    staging:
+      +materialized: view
+      +schema: staging
+      +tags: ["staging", "ci"]
+
+    intermediate:
+      +materialized: view
+      +schema: intermediate
+      +tags: ["intermediate"]
+
+    marts:
+      +materialized: table
+      +tags: ["marts", "ci"]
+      core:
+        +schema: core
+      operations:
+        +schema: operations
+        +tags: ["critical"]
+      agent_context:
+        +schema: agent_context
+        +tags: ["critical"]
+
+seeds:
+  customer_resolution_intelligence:
+    +schema: policy
+    +tags: ["seeds", "ci"]
+    priority_policy_thresholds:
+      +column_types:
+        policy_id: varchar
+    accepted_values:
+      +column_types:
+        field_name: varchar
+        accepted_value: varchar
+
+tests:
+  customer_resolution_intelligence:
+    +store_failures: true
+    +schema: dq
+
+vars:
+  # Retrieval surface determines date grain. Declare it; never mix surfaces.
+  # See docs/02_data_provenance.md §10.1 (DQ-06).
+  source_retrieval_surface: bulk_csv_archive
+
+  # Publication-lag window. Set from measurement, not convention:
+  # 33.94% of records 30-60 days old are still 'In progress'.
+  # See docs/04_decisioning_policy.md §9.1.
+  publication_lag_window_days: 60

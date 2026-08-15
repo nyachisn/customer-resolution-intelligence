@@ -1,0 +1,121 @@
+version: 2
+
+# ---------------------------------------------------------------------------
+# Source and staging contract for the CFPB Consumer Complaint Database.
+#
+# Schema verified against the live source on August 15, 2026 — see
+# docs/02_data_source_audit.md. The published record has EXACTLY 16 fields.
+# Any deviation is source drift: follow docs/07_runbook.md §9.
+# ---------------------------------------------------------------------------
+
+sources:
+  - name: cfpb
+    schema: RAW
+    description: >
+      Immutable source-aligned load of the official CFPB Consumer Complaint
+      Database bulk CSV archive. All columns land as strings; no casting or
+      business logic at this layer. Publisher: U.S. Consumer Financial
+      Protection Bureau. License: CC0.
+    tables:
+      - name: cfpb_complaints
+        identifier: CFPB_COMPLAINTS
+        description: >
+          One row per published complaint record in the retrieved extract.
+          A row is a complaint observation — not a customer, a consumer
+          profile, or an identified person.
+        loaded_at_field: loaded_at
+        freshness:
+          warn_after: {count: 3, period: day}
+          error_after: {count: 14, period: day}
+        columns:
+          - name: complaint_id
+            description: >
+              Public identifier for a published complaint record. STRING —
+              the source OpenAPI spec declares int64 but the live API returns
+              a string. Never cast to integer. Not a consumer ID.
+            tests: [unique, not_null]
+          - name: date_received
+            description: Date the CFPB received the complaint.
+            tests: [not_null]
+          - name: date_sent_to_company
+            description: >
+              CFPB ROUTING/TRANSMISSION DATE — the date the CFPB forwarded the
+              complaint to the company. NOT a company response date. No
+              duration may be derived from this field. See ADR-004.
+          - name: product
+            tests: [not_null]
+          - name: sub_product
+          - name: issue
+            tests: [not_null]
+          - name: sub_issue
+          - name: company
+            tests: [not_null]
+          - name: state
+          - name: zip_code
+            description: >
+              CFPB-masked ZIP. May contain 'X' characters (~5.7% of records).
+              Never parse, cast, geocode, or display as a real postal code.
+              Raw layer only — excluded downstream.
+          - name: tags
+            description: >
+              Older American / Servicemember. PROTECTED-POPULATION ATTRIBUTE.
+              Raw layer only — excluded from every downstream model, export,
+              and decisioning input as a governance decision. See ADR-003.
+          - name: submitted_via
+            tests: [not_null]
+          - name: company_response_to_consumer
+            description: >
+              Published company response category. 'In progress' means
+              unresolved at publication — never a performance signal.
+            tests: [not_null]
+          - name: timely_response
+            description: >
+              CFPB's PUBLISHED timeliness assessment (Yes/No). A source-provided
+              category, NOT a measured interval. Never render as a duration.
+            tests: [not_null]
+          - name: company_public_response
+            description: >
+              Optional company public-facing response. 45.4% null; of non-null
+              values ~96% are the "chooses not to provide a public response"
+              placeholder. Do not build a headline metric on this field.
+          - name: consumer_complaint_narrative
+            description: >
+              EXCLUDED. Never loaded beyond the raw layer. Derive the
+              has_narrative flag only. See ADR-002.
+
+models:
+  - name: stg_cfpb_complaints
+    description: >
+      One row per published CFPB complaint record. Renames, casts, normalizes
+      nulls, and attaches lineage plus the publication-lag flag. No business
+      rules. STATUS: not yet implemented.
+    columns:
+      - name: complaint_id
+        description: Canonical complaint record key. STRING.
+        tests: [unique, not_null]
+      - name: complaint_received_date
+        description: Standardized date_received. Source date only.
+        tests: [not_null]
+      - name: cfpb_routing_date
+        description: >
+          Standardized date_sent_to_company, named for what it is. Context
+          only — no duration may be derived from it.
+      - name: timely_response_status
+        description: Normalized published timeliness signal.
+        tests:
+          - accepted_values:
+              values: ["YES", "NO", "UNKNOWN"]
+              config:
+                severity: warn
+                description: >
+                  UNKNOWN is currently unreachable — the source has no null or
+                  third value. Retained for safety; do not assert reachability.
+      - name: recent_publication_lag_flag
+        description: >
+          TRUE when date_received falls within the trailing 60-day window
+          (var: publication_lag_window_days) or company_response is
+          'In progress'. Any response-status metric aggregating flagged
+          records is directional only.
+        tests: [not_null]
+      - name: has_narrative
+        description: Completeness flag only. Narrative text is never loaded.

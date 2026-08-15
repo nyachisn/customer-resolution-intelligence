@@ -1,0 +1,14 @@
+# Customer Resolution Intelligence — Python dependencies
+
+# Ingestion, validation, and profiling
+requests>=2.32
+pandas>=2.2
+
+# Snowflake load path
+snowflake-connector-python>=3.12
+
+# Transformation
+dbt-snowflake>=1.8,<2.0
+
+# Specification PDF generation (scripts/build_spec_pdf.py)
+reportlab>=4.2

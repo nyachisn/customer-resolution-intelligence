@@ -1,4 +1,4 @@
-# Resolution Intelligence — Known Limitations
+# Customer Resolution Intelligence — Known Limitations
 
 **Status:** Phase 0 — Product contract
 **Owner:** Shem Nyachieo
@@ -6,7 +6,7 @@
 **Last updated:** August 15, 2026
 **Basis:** Verified source audit of the CFPB Consumer Complaint Database, retrieved August 15, 2026 (`02_data_source_audit.md`)
 
-> This is the consolidated limitation register for Resolution Intelligence. It exists so that a reviewer, an agent consuming project output, or a future developer can see in one place what this product **cannot** establish and why.
+> This is the consolidated limitation register for Customer Resolution Intelligence. It exists so that a reviewer, an agent consuming project output, or a future developer can see in one place what this product **cannot** establish and why.
 >
 > A limitation recorded here is a product feature, not an apology. The charter principle "No forced certainty" requires that constraints stay visible rather than being smoothed over.
 

@@ -3,7 +3,7 @@
 **Status:** Accepted
 **Date:** August 15, 2026
 **Owner:** Shem Nyachieo
-**Supersedes:** Response-timing assumptions in `Resolution_Intelligence_Product_and_Build_Specification.pdf` v1.0, `03_data_dictionary.md` v1.0, and `04_decisioning_policy.md` v1.0
+**Supersedes:** Response-timing assumptions in `Customer_Resolution_Intelligence_Product_and_Build_Specification.pdf` v1.0, `03_data_dictionary.md` v1.0, and `04_decisioning_policy.md` v1.0
 **Related:** `02_data_source_audit.md`, `06_known_limitations.md`, `08_source_quality_report.md`, `09_supported_vs_unsupported_metrics.md`
 
 ---
@@ -87,7 +87,7 @@ Even the categorical response field is unreliable on recent data.
 
 ## 4. Decision
 
-**Resolution Intelligence will not measure, derive, store, export, or display any company response duration or resolution duration.**
+**Customer Resolution Intelligence will not measure, derive, store, export, or display any company response duration or resolution duration.**
 
 Specifically:
 
@@ -168,7 +168,7 @@ Unchanged in ambition, sharpened in claim. The product remains a trusted decisio
 
 ## 7. Note on the PDF specification
 
-`Resolution_Intelligence_Product_and_Build_Specification.pdf` v1.0 is a fixed artifact and cannot be edited in place. The following statements in it are **superseded by this ADR** and by the v1.1 Markdown documents:
+`Customer_Resolution_Intelligence_Product_and_Build_Specification.pdf` v1.0 is a fixed artifact and cannot be edited in place. The following statements in it are **superseded by this ADR** and by the v1.1 Markdown documents:
 
 | PDF location | Superseded statement |
 |---|---|

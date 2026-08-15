@@ -1,4 +1,4 @@
-# Resolution Intelligence — Supported vs. Unsupported Metrics
+# Customer Resolution Intelligence — Supported vs. Unsupported Metrics
 
 **Status:** Phase 0 — Product contract
 **Owner:** Shem Nyachieo
@@ -6,7 +6,7 @@
 **Last updated:** August 15, 2026
 **Basis:** Verified source audit retrieved August 15, 2026 (`02_data_source_audit.md`, `08_source_quality_report.md`)
 
-> This is the **binding register** of what Resolution Intelligence may and may not measure from the public CFPB dataset.
+> This is the **binding register** of what Customer Resolution Intelligence may and may not measure from the public CFPB dataset.
 >
 > **Enforcement rule:** no dbt model, curated export, API surface, UI element, README claim, or portfolio narrative may publish a metric marked **No** in this register. FR-013 requires a test asserting the export column set against this table.
 >

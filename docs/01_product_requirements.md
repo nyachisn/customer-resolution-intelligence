@@ -1,4 +1,4 @@
-# Resolution Intelligence — Product Requirements
+# Customer Resolution Intelligence — Product Requirements
 
 **Status:** Phase 0 — Product contract  
 **Owner:** Shem Nyachieo  
@@ -8,7 +8,7 @@
 
 ## 1. Product requirement statement
 
-Resolution Intelligence must convert structured public complaint records into a trusted, explainable operational decision layer, following the flow **Customer signal → Context → Pattern → Priority → Action**. It must support an operations leader’s need to detect patterns, a case manager’s need to prioritize review, and an agent’s need for concise complaint-record context.
+Customer Resolution Intelligence must convert structured public complaint records into a trusted, explainable operational decision layer, following the flow **Customer signal → Context → Pattern → Priority → Action**. It must support an operations leader’s need to detect patterns, a case manager’s need to prioritize review, and an agent’s need for concise complaint-record context.
 
 The product must never present a recommendation as a credit, legal, eligibility, fraud, underwriting, or consumer-behavior decision, and must never present itself as a complaint-resolution prediction engine.
 

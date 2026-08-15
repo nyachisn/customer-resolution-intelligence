@@ -1,10 +1,10 @@
-# Resolution Intelligence
+# Customer Resolution Intelligence
 
 **A trusted decision layer for customer-issue operations.**
 
 > Customer signal → Context → Pattern → Priority → Action
 
-Resolution Intelligence is a **portfolio prototype**. It converts the public CFPB Consumer Complaint Database into governed issue context, emerging-pattern signals, explainable operational priority, and recommended investigation or action — each carrying its supporting evidence and its stated limitations.
+Customer Resolution Intelligence is a **portfolio prototype**. It converts the public CFPB Consumer Complaint Database into governed issue context, emerging-pattern signals, explainable operational priority, and recommended investigation or action — each carrying its supporting evidence and its stated limitations.
 
 It is an independent project. It is not affiliated with, endorsed by, or integrated with the CFPB, any financial institution, or Twilio.
 
@@ -105,7 +105,7 @@ No Snowflake objects, dbt models, ingestion code, or application code have been 
 
 Twilio frames agent productivity around unifying channels and carrying context across AI and human agents. This project deliberately works the layer beneath that: **what is known about an issue, what pattern it belongs to, what is uncertain, and what should happen next.**
 
-Communications and agents are only as useful as the context behind them. Resolution Intelligence focuses on making that context trustworthy — governed fields, explicit reasoning, stated confidence, and clear handoff conditions that a customer-engagement platform could activate.
+Communications and agents are only as useful as the context behind them. Customer Resolution Intelligence focuses on making that context trustworthy — governed fields, explicit reasoning, stated confidence, and clear handoff conditions that a customer-engagement platform could activate.
 
 The prototype is **activation-ready**, not activated. It claims no live integration.
 

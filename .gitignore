@@ -1,5 +1,5 @@
 # ---------------------------------------------------------------------------
-# Resolution Intelligence — .gitignore
+# Customer Resolution Intelligence — .gitignore
 #
 # Two rules matter most in this repository:
 #   1. No raw CFPB source data. Ever. It is 1.4 GB compressed and freely

@@ -25,7 +25,7 @@ from reportlab.platypus import (
 )
 
 ROOT = Path(__file__).resolve().parent.parent
-OUT = ROOT / "Resolution_Intelligence_Product_and_Build_Specification.pdf"
+OUT = ROOT / "Customer_Resolution_Intelligence_Product_and_Build_Specification.pdf"
 
 VERSION = "1.1"
 UPDATED = "August 15, 2026"
@@ -123,7 +123,7 @@ def decorate(canvas, doc):
     canvas.setFont("Helvetica", 7.5)
     canvas.setFillColor(MUTED)
     canvas.drawString(0.8 * inch, h - 0.55 * inch,
-                      "Resolution Intelligence — Product & Build Specification")
+                      "Customer Resolution Intelligence — Product & Build Specification")
     canvas.drawRightString(w - 0.8 * inch, h - 0.55 * inch, f"v{VERSION}")
     canvas.setStrokeColor(RULE)
     canvas.setLineWidth(0.5)
@@ -141,7 +141,7 @@ def build(story):
         str(OUT), pagesize=LETTER,
         leftMargin=0.8 * inch, rightMargin=0.8 * inch,
         topMargin=0.85 * inch, bottomMargin=0.85 * inch,
-        title="Resolution Intelligence — Product & Build Specification",
+        title="Customer Resolution Intelligence — Product & Build Specification",
         author="Shem Nyachieo",
         subject="Customer-issue intelligence and decisioning layer — portfolio prototype",
     )
@@ -157,7 +157,7 @@ def content():
 
     # ---- cover
     s += [Spacer(1, 1.1 * inch),
-          P("Resolution Intelligence", "title"), Spacer(1, 6),
+          P("Customer Resolution Intelligence", "title"), Spacer(1, 6),
           P("A trusted decision layer for customer-issue operations", "subtitle"),
           Spacer(1, 18),
           P("Customer signal &#187; Context &#187; Pattern &#187; Priority &#187; Action", "quote"),
@@ -187,7 +187,7 @@ def content():
 
     # ---- 1. positioning
     s += [P("1. Executive positioning", "h1"),
-          P("Resolution Intelligence is a <b>trusted decision layer for customer-issue "
+          P("Customer Resolution Intelligence is a <b>trusted decision layer for customer-issue "
             "operations</b>. It transforms published complaint records into governed issue "
             "context, emerging-pattern signals, explainable priority, and recommended "
             "investigation or action — each carrying its supporting evidence and its "
@@ -480,13 +480,13 @@ def content():
     # ---- 9. positioning close
     s += [P("9. Final positioning", "h1"),
           table([
-              ["Product", "Resolution Intelligence"],
+              ["Product", "Customer Resolution Intelligence"],
               ["Category", "Customer-issue intelligence and decisioning layer"],
               ["Core flow", "Customer signal &#187; Context &#187; Pattern &#187; Priority &#187; Action"],
               ["Tagline", "Turn customer signals into the next best action."],
           ], [1.15, 5.75], header=False),
           Spacer(1, 12),
-          P("“I built Resolution Intelligence, a Snowflake and dbt decision layer that "
+          P("“I built Customer Resolution Intelligence, a Snowflake and dbt decision layer that "
             "converts public CFPB complaint records into governed issue context, "
             "emerging-pattern signals, and explainable operational next-best actions. It is "
             "intentionally not a complaint-management system or a financial decision engine. "

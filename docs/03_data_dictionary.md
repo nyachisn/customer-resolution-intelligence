@@ -1,4 +1,4 @@
-# Resolution Intelligence — Data Dictionary and Model Grain
+# Customer Resolution Intelligence — Data Dictionary and Model Grain
 
 **Status:** Phase 0 — Product contract  
 **Owner:** Shem Nyachieo  

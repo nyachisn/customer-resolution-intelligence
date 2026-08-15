@@ -1,4 +1,4 @@
-# Resolution Intelligence — Project Charter
+# Customer Resolution Intelligence — Project Charter
 
 **Status:** Phase 0 — Product contract  
 **Owner:** Shem Nyachieo  
@@ -8,7 +8,7 @@
 
 ## 1. Product summary
 
-**Resolution Intelligence** is a portfolio prototype for a **trusted decision layer for customer-issue operations**. It transforms publicly released Consumer Financial Protection Bureau (CFPB) complaint records into governed issue context, emerging-pattern signals, explainable priority, and recommended investigation or operational action — each accompanied by its supporting evidence and its stated limitations.
+**Customer Resolution Intelligence** is a portfolio prototype for a **trusted decision layer for customer-issue operations**. It transforms publicly released Consumer Financial Protection Bureau (CFPB) complaint records into governed issue context, emerging-pattern signals, explainable priority, and recommended investigation or operational action — each accompanied by its supporting evidence and its stated limitations.
 
 The project demonstrates the data foundation that could support AI agents, human agents, service-operations teams, and customer-engagement workflows. It is **not** complaint-management software, a credit-decision engine, a complaint-resolution prediction engine, or an autonomous customer-contact platform.
 
@@ -114,7 +114,7 @@ The MVP is successful when:
 
 ## 9. Portfolio positioning
 
-> I built Resolution Intelligence, a Snowflake + dbt decision layer that converts public CFPB complaint records into governed issue context, emerging-pattern signals, and explainable operational next-best actions. It demonstrates the trusted context an AI or human agent would need to resolve customer issues with more consistency and speed.
+> I built Customer Resolution Intelligence, a Snowflake + dbt decision layer that converts public CFPB complaint records into governed issue context, emerging-pattern signals, and explainable operational next-best actions. It demonstrates the trusted context an AI or human agent would need to resolve customer issues with more consistency and speed.
 
 ## 10. Key artifacts
 

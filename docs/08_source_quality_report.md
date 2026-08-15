@@ -1,4 +1,4 @@
-# Resolution Intelligence — Source Quality Report
+# Customer Resolution Intelligence — Source Quality Report
 
 **Status:** Phase 0 — Measured source assessment
 **Owner:** Shem Nyachieo

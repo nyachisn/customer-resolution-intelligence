@@ -1,4 +1,4 @@
-# Resolution Intelligence — Data Source Audit (CFPB Consumer Complaint Database)
+# Customer Resolution Intelligence — Data Source Audit (CFPB Consumer Complaint Database)
 
 **Status:** Phase 0 — Independent source verification
 **Owner:** Shem Nyachieo

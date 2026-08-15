@@ -1,4 +1,4 @@
-# Resolution Intelligence — Decisioning Policy
+# Customer Resolution Intelligence — Decisioning Policy
 
 **Status:** Phase 0 — Product contract  
 **Owner:** Shem Nyachieo  

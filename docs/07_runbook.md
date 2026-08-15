@@ -1,4 +1,4 @@
-# Resolution Intelligence — Runbook
+# Customer Resolution Intelligence — Runbook
 
 **Status:** Phase 0 — Written ahead of implementation
 **Owner:** Shem Nyachieo
@@ -29,7 +29,7 @@
 
 ```bash
 git clone <repository-url>
-cd resolution-intelligence
+cd customer-resolution-intelligence
 python -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt
 cp .env.example .env    # then fill in your own values
@@ -56,7 +56,7 @@ snowsql -f snowflake/00_bootstrap/02_create_database_schemas.sql
 snowsql -f snowflake/00_bootstrap/03_grants.sql
 ```
 
-**Verification gate.** Inspect role grants and confirm the warehouse has auto-suspend enabled and a resource monitor or documented cost control attached. Do not proceed until `RI_APP_READER` demonstrably cannot read `RAW`.
+**Verification gate.** Inspect role grants and confirm the warehouse has auto-suspend enabled and a resource monitor or documented cost control attached. Do not proceed until `CRI_APP_READER` demonstrably cannot read `RAW`.
 
 ---
 

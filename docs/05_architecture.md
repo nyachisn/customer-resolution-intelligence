@@ -1,4 +1,4 @@
-# Resolution Intelligence — Architecture
+# Customer Resolution Intelligence — Architecture
 
 **Status:** Phase 0 — Product contract  
 **Owner:** Shem Nyachieo  
@@ -74,7 +74,7 @@ Operations overview · issue investigation · agent context · methodology
 ### Database and schemas
 
 ```text
-RESOLUTION_INTELLIGENCE
+CUSTOMER_RESOLUTION_INTELLIGENCE
 ├── RAW
 │   └── Immutable source-aligned public CFPB loads + load metadata
 ├── ANALYTICS_DEV
@@ -88,7 +88,7 @@ RESOLUTION_INTELLIGENCE
 ### Warehouse
 
 ```text
-RI_TRANSFORM_WH
+CRI_TRANSFORM_WH
 ```
 
 Requirements:
@@ -103,10 +103,10 @@ Requirements:
 
 | Role | Responsibilities | Restrictions |
 |---|---|---|
-| `RI_ADMIN` | Bootstrap and grant administration | Not used for routine transformations |
-| `RI_LOADER` | Stage/load approved public source data into `RAW` | No write access to final marts unless needed for metadata |
-| `RI_TRANSFORMER` | Run dbt transformations in dev/prod schemas | No account-level admin grants |
-| `RI_APP_READER` | Read curated demo surface only | No access to raw tables or credentials in client app |
+| `CRI_ADMIN` | Bootstrap and grant administration | Not used for routine transformations |
+| `CRI_LOADER` | Stage/load approved public source data into `RAW` | No write access to final marts unless needed for metadata |
+| `CRI_TRANSFORMER` | Run dbt transformations in dev/prod schemas | No account-level admin grants |
+| `CRI_APP_READER` | Read curated demo surface only | No access to raw tables or credentials in client app |
 
 ### Required metadata/tags
 
@@ -114,7 +114,7 @@ Apply where practical:
 
 ```text
 owner = shem_nyachieo
-project = resolution_intelligence
+project = customer_resolution_intelligence
 environment = dev | prod
 data_classification = real_public | derived | reference_config
 source_system = cfpb
@@ -260,7 +260,7 @@ The app must not expose:
 ### Repository
 
 ```text
-resolution-intelligence/
+customer-resolution-intelligence/
 ├── docs/
 ├── snowflake/
 ├── dbt/

@@ -1,4 +1,4 @@
-# Resolution Intelligence — Data Provenance and Responsible Use
+# Customer Resolution Intelligence — Data Provenance and Responsible Use
 
 **Status:** Phase 0 — Product contract  
 **Owner:** Shem Nyachieo  
@@ -8,7 +8,7 @@
 
 ## 1. Purpose
 
-This document defines what data may enter Resolution Intelligence, how it is classified, how it may be used, what claims can be made from it, and what must never be inferred or exposed.
+This document defines what data may enter Customer Resolution Intelligence, how it is classified, how it may be used, what claims can be made from it, and what must never be inferred or exposed.
 
 ## 2. Approved MVP source
 

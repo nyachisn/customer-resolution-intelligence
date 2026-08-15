@@ -1,4 +1,4 @@
-# Contributing to Resolution Intelligence
+# Contributing to Customer Resolution Intelligence
 
 This is a portfolio project with a single owner, but it is built to the standards it advocates. These rules exist because the project's premise is data governance — a contribution that quietly weakens a control undermines the whole artifact.
 

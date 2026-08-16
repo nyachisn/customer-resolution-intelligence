@@ -113,7 +113,7 @@ models:
     description: >
       One row per published CFPB complaint record. Renames, casts, normalizes
       nulls, and attaches lineage plus the publication-lag flag. No business
-      rules. STATUS: not yet implemented.
+      rules.
     columns:
       - name: complaint_id
         description: Canonical complaint record key. STRING.

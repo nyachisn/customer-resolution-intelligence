@@ -26,5 +26,5 @@ where table_schema ilike '{{ target.schema }}%'
       or column_name ilike '%handling_time%'
       or column_name ilike '%response_duration%'
       or column_name ilike '%resolution_duration%'
-      or (column_name ilike '%elapsed%' and column_name not ilike '%elapsed_placeholder_never_matches%')
+      or column_name ilike '%elapsed%'
   )

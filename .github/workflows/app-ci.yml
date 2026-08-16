@@ -45,10 +45,18 @@ jobs:
       # Heuristic tripwire, not a proof. Word boundaries keep it from flagging
       # prose that explains the prohibition — "no company response timestamp"
       # is correct and must pass. A hit needs human judgment, not a reflex fix.
+      #
+      # methodology/ is excluded: its entire purpose is naming these terms in
+      # order to disclaim them ("this dataset cannot support root cause..."),
+      # so it is the one page where every one of these words is EXPECTED to
+      # appear, always in negated form. Excluding it doesn't weaken the
+      # check's real purpose — catching this language slipping into
+      # operational UI copy elsewhere, where it would read as an active claim
+      # rather than a disclosed limitation.
       - name: No prohibited claims in UI copy
         run: |
           if [ ! -d app/src ]; then echo "app/src not present yet — skipping."; exit 0; fi
-          if grep -rniE 'response time\b|resolution time\b|days to respond|time to resolution|customer satisfaction|root cause|high[- ]risk customer' app/src/ ; then
+          if grep -rniE 'response time\b|resolution time\b|days to respond|time to resolution|customer satisfaction|root cause|high[- ]risk customer' app/src/ --exclude-dir=methodology ; then
             echo "::error::Possible prohibited claim in application copy. Review against docs/01_product_requirements.md §9 and docs/09_supported_vs_unsupported_metrics.md."
             exit 1
           fi

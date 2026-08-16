@@ -1,7 +1,9 @@
 {
   "export_version": "2026-08-16",
-  "generated_at_utc": "2026-08-16T01:13:27Z",
+  "generated_at_utc": "2026-08-16T02:09:19Z",
   "case_context_window_days": 180,
   "case_context_row_count": 300,
-  "metrics_row_count": 15964
+  "metrics_row_count": 15964,
+  "source_total_records": 17119590,
+  "source_retrieval_date": "2026-08-16T00:38:17Z"
 }

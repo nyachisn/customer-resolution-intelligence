@@ -15,6 +15,12 @@
 --              across-dataset comparison would be dominated by that
 --              concentration. A percentage change is never evidence of a
 --              market incident on its own — see the qualification logic below.
+--              daily_complaint_count is safe to SUM() across dates.
+--              issue_volume_current, baseline_volume_raw, and every field
+--              derived from them are trailing rolling-window sums and are
+--              NOT safe to sum across dates — doing so double-counts. See
+--              the comment on daily_complaint_count below for the 2026-08-16
+--              finding this distinction exists to prevent from recurring.
 -- decision record: docs/04_decisioning_policy.md §8
 
 {% set current_days = var('emerging_issue_current_window_days') %}
@@ -94,6 +100,21 @@ combined as (
         w.metric_date,
         w.product,
         w.issue,
+
+        -- The true, non-overlapping count of complaints received on THIS
+        -- single date for this product x issue grain. Distinct from
+        -- issue_volume_current below, which is a trailing N-day rolling sum
+        -- and must never be summed across multiple dates — doing so was a
+        -- real bug found in the application layer (Operations Overview
+        -- "Complaint volume by product") on 2026-08-16: the app was summing
+        -- issue_volume_current across a date range, double- and
+        -- multi-counting every complaint up to current_days times. This
+        -- field is the correct source for any "total volume over a window"
+        -- calculation, since a caller can safely SUM() it across dates
+        -- without overlap. It was already computed in the windowed CTE
+        -- above and simply never carried through to this model's output.
+        w.complaint_count                                         as daily_complaint_count,
+
         w.issue_volume_current,
 
         -- Baseline normalized to the current window's length, so the

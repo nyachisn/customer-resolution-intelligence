@@ -55,6 +55,15 @@ models:
         tests: [not_null]
       - name: issue
         tests: [not_null]
+      - name: daily_complaint_count
+        description: >
+          The true, non-overlapping count of complaints received on this
+          single date for this product x issue grain. Safe to SUM() across
+          dates. Added 2026-08-16 to fix a real double-counting defect in
+          the application layer, which had been summing issue_volume_current
+          (a rolling window) across dates instead. See
+          docs/09_supported_vs_unsupported_metrics.md §4.1.
+        tests: [not_null]
       - name: issue_pattern_status
         tests:
           - accepted_values:

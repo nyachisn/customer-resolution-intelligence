@@ -86,8 +86,17 @@ export default async function Home() {
           </div>
           <div className="card">
             <h3>Records loaded</h3>
-            <p className="metric">17.1M</p>
-            <p className="metric-label">published complaint records</p>
+            <p className="metric">
+              {meta.source_total_records != null
+                ? `${(meta.source_total_records / 1_000_000).toFixed(1)}M`
+                : "—"}
+            </p>
+            <p className="metric-label">
+              published complaint records
+              {meta.source_retrieval_date
+                ? ` as of ${meta.source_retrieval_date.slice(0, 10)}`
+                : ""}
+            </p>
           </div>
           <div className="card">
             <h3>Demo export</h3>

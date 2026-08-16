@@ -87,4 +87,12 @@ export interface DemoExportMeta {
   case_context_window_days: number;
   case_context_row_count: number;
   metrics_row_count: number;
+  /**
+   * Total published records in the source archive at ingestion time —
+   * read from the pipeline's own retrieval record, not a hardcoded string.
+   * Null in a checkout that has never run the ingestion scripts (data/ is
+   * git-ignored) rather than a stale or fabricated number.
+   */
+  source_total_records: number | null;
+  source_retrieval_date: string | null;
 }

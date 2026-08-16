@@ -9,6 +9,15 @@
 --              docs/09_supported_vs_unsupported_metrics.md. Context notes
 --              (docs/02_data_provenance.md §9) are attached by the export
 --              script, not baked into the numbers themselves.
+--              FIXED 2026-08-16: complaint_volume previously sourced from
+--              issue_volume_current (a trailing 7-day rolling sum), summed
+--              across every date in the application's export window — a
+--              real double-counting defect, since the same complaint was
+--              counted in up to 7 different rows before the app's own sum.
+--              Now sourced from daily_complaint_count, the true per-date
+--              count, which is safe to sum across a date range. See
+--              dbt/models/intermediate/int_issue_trends.sql and
+--              docs/09_supported_vs_unsupported_metrics.md §4.1.
 -- decision record: docs/09_supported_vs_unsupported_metrics.md
 
 with daily_metrics as (
@@ -24,14 +33,18 @@ action_queue as (
 ),
 
 -- Complaint volume by date x product — the core, unconditionally supported
--- measure (docs/09_supported_vs_unsupported_metrics.md).
+-- measure (docs/09_supported_vs_unsupported_metrics.md). Sourced from
+-- daily_complaint_count (true per-date count), NOT issue_volume_current
+-- (rolling 7-day sum) — see the model header for why this distinction is
+-- load-bearing here specifically: this metric is the one place downstream
+-- consumers sum across dates, which only daily_complaint_count supports.
 volume_metric as (
 
     select
         metric_date,
         product                                                   as dashboard_dimension,
         'complaint_volume'                                        as metric_name,
-        issue_volume_current                                      as metric_value,
+        daily_complaint_count                                     as metric_value,
         current_timestamp()                                       as generated_at
     from daily_metrics
 

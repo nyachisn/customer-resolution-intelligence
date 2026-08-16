@@ -8,7 +8,12 @@
 -- limitations: Observed counts only. Every row carries observed_share_pct
 --              alongside volume_change_pct so a reviewer can see whether a
 --              percentage change sits on a large or trivial base. Never a
---              market-wide measure.
+--              market-wide measure. daily_complaint_count is the true,
+--              non-overlapping per-date count — safe to SUM() across dates.
+--              issue_volume_current is a trailing rolling-window sum — safe
+--              to display standalone, NOT safe to sum across dates. A
+--              consumer wanting "total volume over a window" must use
+--              daily_complaint_count, never issue_volume_current.
 -- decision record: docs/09_supported_vs_unsupported_metrics.md
 
 with trends as (
@@ -23,6 +28,7 @@ metrics as (
         metric_date,
         product,
         issue,
+        daily_complaint_count,
         issue_volume_current,
         baseline_volume,
         volume_change_pct,

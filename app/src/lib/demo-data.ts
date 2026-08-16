@@ -85,5 +85,7 @@ export async function loadDemoMeta(): Promise<DemoExportMeta> {
     case_context_window_days: 0,
     case_context_row_count: 0,
     metrics_row_count: 0,
+    source_total_records: null,
+    source_retrieval_date: null,
   });
 }

@@ -127,6 +127,27 @@ def main() -> int:
     out_dir = REPO_ROOT / args.out_dir
     out_dir.mkdir(parents=True, exist_ok=True)
 
+    # The landing page's "records loaded" figure was previously a hardcoded
+    # string in page.tsx — accurate at the time it was written, but with no
+    # mechanism to stay accurate after a future reload. This reads the same
+    # source-of-truth number already produced by the ingestion pipeline
+    # (download_cfpb_data.py's reconciliation check against the CFPB API's
+    # own _meta block — see docs/02_data_provenance.md §2.2) rather than
+    # adding a new Snowflake query for a figure the pipeline already knows.
+    # data/ is git-ignored, so this is best-effort: a checkout that has never
+    # run the ingestion scripts won't have it, and the export degrades to
+    # omitting the field rather than failing.
+    retrieval_record_path = REPO_ROOT / "data" / "source_retrieval_record.json"
+    source_total_records = None
+    source_retrieval_date = None
+    if retrieval_record_path.exists():
+        retrieval_record = json.loads(retrieval_record_path.read_text())
+        source_total_records = retrieval_record.get("reconciliation_meta", {}).get("total_record_count")
+        source_retrieval_date = retrieval_record.get("retrieval_date_utc")
+    else:
+        print(f"NOTE: {retrieval_record_path} not found — export_meta.json will omit "
+              f"source_total_records. Run scripts/download_cfpb_data.py to populate it.")
+
     # Query AS the app-reader role, over the app-reader connection posture,
     # so this script fails the same way the application would if the
     # boundary were ever wrong — not as CRI_TRANSFORMER, which can see more.
@@ -177,6 +198,8 @@ def main() -> int:
         "case_context_window_days": args.window_days,
         "case_context_row_count": len(case_context),
         "metrics_row_count": len(metrics),
+        "source_total_records": source_total_records,
+        "source_retrieval_date": source_retrieval_date,
     }
 
     (out_dir / "agent_case_context.json").write_text(json.dumps(case_context, indent=2, default=str))

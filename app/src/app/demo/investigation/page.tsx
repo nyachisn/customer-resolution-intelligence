@@ -15,6 +15,17 @@ export const metadata = { title: "Issue investigation — Customer Resolution In
 export default async function InvestigationPage() {
   const records = await loadDemoRecords();
 
+  // DEDUP SEMANTICS (documented 2026-08-16, not redesigned — see
+  // docs/12_project_context.md): agent_case_context.json is exported sorted
+  // complaint_received_date DESC (scripts/export_demo_data.py). The
+  // `if (!byGrain.has(key))` below therefore keeps, for each product x
+  // issue pair, that pair's MOST RECENT complaint record and displays ITS
+  // trend snapshot (issueVolumeCurrent/baselineVolume/etc, joined per-
+  // complaint from that complaint's own received date). This is a
+  // reasonable proxy for "current trend status for this pattern" — it is
+  // not an independent aggregate query — and depends on the export's sort
+  // order to be correct. If that sort order ever changes, this dedup must
+  // change with it.
   const byGrain = new Map<
     string,
     {

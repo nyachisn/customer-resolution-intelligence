@@ -12,7 +12,7 @@ import {
   Chip,
   ConfidenceChip,
   EmptyState,
-  MetricCard,
+  MetricCell,
   PageHeader,
   PriorityChip,
   SectionHead,
@@ -42,34 +42,36 @@ export default async function DecisionsPage() {
   const clearRate = populationTotal > 0 ? standardHandling / populationTotal : null;
 
   return (
-    <div>
+    <>
       <PageHeader
         eyebrow="Decisions"
         title="What needs attention"
         lede="Patterns the decisioning layer flagged, ordered by priority. Each one shows the signal behind it and what to do next."
       />
 
-      <div className="metric-grid">
-        <MetricCard
+      <section className="band section">
+        <div className="container">
+      <div className="metric-strip">
+        <MetricCell
           label="Patterns in queue"
           value={String(needsAttention.length)}
           foot={`across ${queue.length} reviewed`}
           definition="Product and issue combinations where at least one policy rule fired. This queue deliberately covers every decisioning outcome, so the rarer ones stay visible rather than being buried by volume."
         />
-        <MetricCard
+        <MetricCell
           label="Critical priority"
           value={String(criticalCount)}
           foot="Two independent signals agree"
           definition="Reserved for patterns where more than one qualifying signal fired at once. This is the narrowest category by design."
         />
-        <MetricCard
+        <MetricCell
           label="High priority"
           value={String(highCount)}
           foot="One qualifying signal"
           definition="A single high-confidence rule fired — most often an emerging volume pattern or a published reporting exception."
         />
         {clearRate != null && (
-          <MetricCard
+          <MetricCell
             label="Clears automatically"
             value={formatPct(clearRate)}
             foot="Across all analyzed records"
@@ -78,21 +80,28 @@ export default async function DecisionsPage() {
         )}
       </div>
 
-      <SectionHead
-        title="Attention queue"
-        description="Ranked by priority, then by how much the pattern moved against its own baseline. Covers every decisioning outcome so the rare ones stay visible."
-        note={<Link href="/explore">Explore the underlying trends →</Link>}
-      />
+      <div style={{ marginTop: "3rem" }}>
+        <SectionHead
+          eyebrow="Queue"
+          title="Attention queue"
+          description="Ranked by priority, then by how much the pattern moved against its own baseline. Covers every decisioning outcome so the rare ones stay visible."
+          aside={
+            <Link href="/explore" className="btn btn-ghost">
+              Explore the trends
+            </Link>
+          }
+        />
+      </div>
 
       {shown.length === 0 ? (
-        <div className="surface">
+        <div className="decision-list">
           <EmptyState title="Nothing needs attention right now">
             No pattern in the current period triggered a policy rule. This is a
             valid outcome, not a gap in the data.
           </EmptyState>
         </div>
       ) : (
-        <div className="surface">
+        <div className="decision-list">
           {shown.map((item) => (
             <article className="decision-row" key={item.key}>
               <div className="decision-meta">
@@ -114,7 +123,7 @@ export default async function DecisionsPage() {
                     style={{
                       margin: "0.55rem 0 0",
                       fontSize: "0.8rem",
-                      color: "var(--text-muted)",
+                      color: "var(--text-3)",
                       maxWidth: "68ch",
                     }}
                   >
@@ -139,7 +148,7 @@ export default async function DecisionsPage() {
                   </>
                 ) : (
                   <>
-                    <div className="ds-value" style={{ color: "var(--text-muted)" }}>
+                    <div className="ds-value" style={{ color: "var(--text-3)" }}>
                       —
                     </div>
                     <div className="ds-label">no baseline</div>
@@ -155,15 +164,17 @@ export default async function DecisionsPage() {
       )}
 
       {needsAttention.length > shown.length && (
-        <p style={{ marginTop: "1rem", fontSize: "0.85rem", color: "var(--text-muted)" }}>
+        <p style={{ marginTop: "1rem", fontSize: "0.85rem", color: "var(--text-3)" }}>
           Showing the top {shown.length} of {needsAttention.length} patterns needing action.
         </p>
       )}
 
-      <p style={{ marginTop: "2rem", fontSize: "0.83rem", color: "var(--text-muted)" }}>
-        A flagged pattern is a prompt to investigate, not a confirmed cause.{" "}
-        <Link href="/data-story">How these are produced →</Link>
+      <p style={{ marginTop: "2rem", fontFamily: "var(--mono)", fontSize: ".7rem", letterSpacing: ".08em", textTransform: "uppercase", color: "var(--text-3)" }}>
+        A flagged pattern is a prompt to investigate, not a confirmed cause ·{" "}
+        <Link href="/data-story">How these are produced</Link>
       </p>
-    </div>
+        </div>
+      </section>
+    </>
   );
 }

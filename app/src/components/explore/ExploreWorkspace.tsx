@@ -211,12 +211,12 @@ export function ExploreWorkspace({
           {!excludeLag && <Chip tone="caution">Including incomplete days</Chip>}
         </div>
 
-        <div className="chart-frame">
-          <h3 className="chart-title">
+        <div className="panel">
+          <h3 className="panel-title">
             {measureLabel}
             {activeProduct ? ` · ${activeProduct}` : ""}
           </h3>
-          <p className="chart-sub">
+          <p className="panel-sub">
             {view.windowed.length > 0
               ? `${formatDate(view.windowed[0].date)} – ${formatDate(view.windowed[view.windowed.length - 1].date)}`
               : "No data in this selection"}
@@ -230,9 +230,9 @@ export function ExploreWorkspace({
         </div>
 
         {breakdown.length > 0 && (
-          <div className="chart-frame" style={{ marginTop: "1.25rem" }}>
-            <h3 className="chart-title">Breakdown</h3>
-            <p className="chart-sub">
+          <div className="panel" style={{ marginTop: "1.25rem" }}>
+            <h3 className="panel-title">Breakdown</h3>
+            <p className="panel-sub">
               {measureLabel} by {metricName === "action_count" ? "action" : "product"} over the
               selected period. Select one to filter the trend above.
             </p>

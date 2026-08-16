@@ -10,55 +10,62 @@ import type { ReactNode } from "react";
 
 type Tone = "neutral" | "accent" | "positive" | "caution" | "negative";
 
+/**
+ * Full-bleed page header band with the soft radial wash. Pages render this
+ * first, then their own `.container` sections beneath it.
+ */
 export function PageHeader({
   eyebrow,
   title,
   lede,
-  actions,
+  aside,
 }: {
-  eyebrow?: string;
+  eyebrow: string;
   title: string;
   lede?: string;
-  actions?: ReactNode;
+  aside?: ReactNode;
 }) {
   return (
-    <header className="page-header">
-      {eyebrow && <div className="page-eyebrow">{eyebrow}</div>}
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "flex-end",
-          gap: "1.5rem",
-          flexWrap: "wrap",
-        }}
-      >
-        <div>
-          <h1>{title}</h1>
-          {lede && <p className="page-lede">{lede}</p>}
+    <section className="band wash">
+      {/* Vertical only — a `padding` shorthand would override the horizontal
+          padding `.container` sets, which is responsive. */}
+      <div className="container" style={{ paddingTop: "3.5rem", paddingBottom: "3rem" }}>
+        <div className="section-head-row" style={{ marginBottom: 0 }}>
+          <div className="section-head" style={{ marginBottom: 0 }}>
+            <div className="eyebrow">{eyebrow}</div>
+            <h2 style={{ fontSize: "clamp(1.9rem, 3.4vw, 2.6rem)" }}>{title}</h2>
+            {lede && <p>{lede}</p>}
+          </div>
+          {aside}
         </div>
-        {actions}
       </div>
-    </header>
+    </section>
   );
 }
 
 export function SectionHead({
+  eyebrow,
   title,
   description,
-  note,
+  aside,
 }: {
+  eyebrow?: string;
   title: string;
   description?: string;
-  note?: ReactNode;
+  aside?: ReactNode;
 }) {
-  return (
+  const head = (
     <div className="section-head">
-      <div>
-        <h2>{title}</h2>
-        {description && <p>{description}</p>}
-      </div>
-      {note && <div className="section-note">{note}</div>}
+      {eyebrow && <div className="eyebrow">{eyebrow}</div>}
+      <h2>{title}</h2>
+      {description && <p>{description}</p>}
+    </div>
+  );
+  if (!aside) return head;
+  return (
+    <div className="section-head-row">
+      {head}
+      {aside}
     </div>
   );
 }
@@ -85,7 +92,7 @@ const PRIORITY_TONE: Record<string, Tone> = {
 
 export function PriorityChip({ priority }: { priority: string }) {
   const label = priority.charAt(0) + priority.slice(1).toLowerCase();
-  return <DotChip tone={PRIORITY_TONE[priority] ?? "neutral"}>{label} priority</DotChip>;
+  return <DotChip tone={PRIORITY_TONE[priority] ?? "neutral"}>{label}</DotChip>;
 }
 
 const CONFIDENCE_LABEL: Record<string, string> = {
@@ -99,11 +106,8 @@ export function ConfidenceChip({ confidence }: { confidence: string }) {
   return <Chip tone="neutral">{CONFIDENCE_LABEL[confidence] ?? confidence}</Chip>;
 }
 
-/**
- * A headline number. `definition` renders as a disclosure so the metric can
- * carry its own meaning without turning the card into documentation.
- */
-export function MetricCard({
+/** One cell of the dashboard metric strip. */
+export function MetricCell({
   label,
   value,
   foot,
@@ -115,13 +119,13 @@ export function MetricCard({
   definition?: string;
 }) {
   return (
-    <div className="metric-card">
+    <div className="metric-cell">
       <div className="metric-label">{label}</div>
       <div className="metric-value">{value}</div>
       {foot && <div className="metric-foot">{foot}</div>}
       {definition && (
         <details>
-          <summary>What this means</summary>
+          <summary>Definition</summary>
           <p>{definition}</p>
         </details>
       )}
@@ -149,23 +153,22 @@ export function InsightCard({
   const inner = (
     <>
       <h3>{title}</h3>
-      <div className="insight-figure">
-        <span className={`insight-delta is-${direction}`}>{delta}</span>
-        <span className="insight-basis">{basis}</span>
+      <div className="card-figure">
+        <span className={`card-delta is-${direction}`}>{delta}</span>
+        <span className="card-basis">{basis}</span>
       </div>
-      <p className="insight-body">{body}</p>
-      {href && <span className="insight-foot">{cta}</span>}
+      <p>{body}</p>
+      {href && <span className="card-cta">{cta}</span>}
     </>
   );
-
   if (href) {
     return (
-      <Link href={href} className="insight-card">
+      <Link href={href} className="card">
         {inner}
       </Link>
     );
   }
-  return <div className="insight-card">{inner}</div>;
+  return <div className="card">{inner}</div>;
 }
 
 export function EmptyState({ title, children }: { title: string; children: ReactNode }) {

@@ -4,6 +4,19 @@
 
 ---
 
+## CURRENT STATUS (as of the third 2026-08-16 validation pass — FINALIZATION)
+
+**Supersedes the "Streamlit: NOT COMPLETED / NOT validated" lines below.** A Streamlit object (`cri-operations-console`) had been created in the user's personal Snowflake Workspace after the second pass completed; its source was obtained (pasted by the user from Snowsight) and is now committed at `cri-operations-console/streamlit_app.py`. Three defects were found and fixed, each verified live against `CRI_APP_READER`:
+1. Issue Investigation empty state — caused by a hardcoded `CURRENT_DATE() - 180 days` window; 958 of 2,642 selectable taxonomy combinations had real history older than that. Fixed by removing the artificial window; verified live (e.g., `Prepaid card` / `Overdraft, savings or rewards features` now correctly returns its real 2017 history instead of "no data").
+2. Source Date / Snapshot Date inconsistency — root cause: `resolution_action_queue.sql:177` computes `source_snapshot_date` as `current_date()` (dbt-rebuild-time, drifts), diverging from `fct_complaints.source_snapshot_date` (correctly propagated from staging). Fixed presentation-side: both labels now read the one authoritative `fct_complaints` value. No dbt SQL changed.
+3. Total record count — `resolution_action_queue` and `fct_complaints` coincidentally both report 17,119,581 today, but `fct_complaints` is the more correct authoritative source; console now reads it once and reuses the value everywhere.
+
+Full detail, plus a found-but-not-yet-closed gap (the deployed object has never executed under `CRI_APP_READER` — see `docs/13_snowflake_streamlit.md` "Known gap"), and what's still not done (the fix has not been synced back into the live Snowflake Workspace object; no `snow streamlit deploy` was run): `docs/13_snowflake_streamlit.md`.
+
+Also completed this pass: security re-verification (no new grants/roles since bootstrap; live RAW negative-access test re-passed), full Next.js re-validation (`tsc`/`eslint`/`next build` all clean, 7 static routes), a repo-wide claim-integrity grep (no unsupported claims found — every "AI"/"prediction"/"risk score"/"autonomous"/"live" hit is an intentional disclaimer or accurate methodology note), `docs/11_vercel_deployment.md` (prepared, not deployed — actual deployment needs the user's own Vercel authentication), and `docs/14_interview_architecture_defense.md`.
+
+---
+
 ## CURRENT STATUS (as of the second 2026-08-16 validation pass)
 
 **COMPLETED**
@@ -29,7 +42,7 @@
 - Next.js production build: `tsc --noEmit` clean, `eslint .` clean, `next build` succeeds, production server verified rendering the corrected figures (landing page dynamic stat, Operations Overview showing the true 3,331,441 rather than the old 26,794,984).
 - **Streamlit console: NOT validated — confirmed not to exist.** See `docs/13_snowflake_streamlit.md`, created this pass, which records the approved design and exactly what would be required to build it. `SHOW STREAMLITS IN ACCOUNT` was queried directly; the one object present is an unrelated personal Snowflake Workspaces artifact, not part of this project.
 
-**REMAINING**
+**REMAINING (as understood at the end of this second pass — see the third-pass section above for what changed since)**
 - Build the Streamlit console (approved design exists; zero implementation exists) — a genuinely new-work item, not validation.
 - Visual/UX design pass — functional, accessible HTML exists; no design system applied.
 - Vercel deployment — not deployed; `docs/11_vercel_deployment.md` does not exist yet.

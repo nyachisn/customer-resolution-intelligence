@@ -89,6 +89,7 @@ Complaint narratives are excluded. No narrative ingestion, NLP, sentiment analys
 | [06_known_limitations.md](docs/06_known_limitations.md) | Consolidated limitation register |
 | [08_source_quality_report.md](docs/08_source_quality_report.md) | Measured source quality and data-quality controls |
 | [09_supported_vs_unsupported_metrics.md](docs/09_supported_vs_unsupported_metrics.md) | Binding metric register |
+| [10_build_plan.md](docs/10_build_plan.md) | Build status board, issue log, and open decisions |
 | [adr/](docs/adr/) | Architecture decision records |
 
 ---

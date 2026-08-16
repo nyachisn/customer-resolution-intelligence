@@ -241,6 +241,22 @@ GitHub does not contain:
 - Accessible UI components and lightweight charts.
 - Static curated demo JSON/CSV for MVP, or a server-side protected API route.
 
+### Secondary roles will defeat the access boundary
+
+Snowflake defaults users to `DEFAULT_SECONDARY_ROLES = ('ALL')`. With that set, **every role granted to the user stays active alongside the primary role**, and the session's privileges are the union of all of them. `USE ROLE CRI_APP_READER` does not drop `ACCOUNTADMIN` if the user holds it — the primary role becomes decorative.
+
+This was observed during the initial bootstrap on August 15, 2026: `CRI_APP_READER` successfully read a table in `RAW` while holding **no grant of any kind** on `RAW`. The grants were correct. The session was the problem.
+
+Consequences for this project:
+
+| Context | Requirement |
+|---|---|
+| Verifying the boundary | Always `USE SECONDARY ROLES NONE` first. `snowflake/00_bootstrap/04_verify_access_boundary.sql` does this — the line is load-bearing, not decoration |
+| Any future application service user | Create it with `DEFAULT_SECONDARY_ROLES = ()`, and grant it **only** `CRI_APP_READER`. Never grant it a role that also carries broader access |
+| Reading a grant list | A `SHOW GRANTS` output is necessary but **not sufficient** evidence that a boundary holds. Test the boundary by attempting the access |
+
+The general lesson is worth stating plainly, because it generalizes past Snowflake: a privilege boundary that has only been verified by reading configuration has not been verified.
+
 ### Data-access rule
 
 The browser must never connect directly to Snowflake. The application may consume:

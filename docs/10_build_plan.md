@@ -10,7 +10,7 @@
 | ⚠️ | Changed from original plan — see note |
 | ⬜ | Not started |
 
-**Overall:** Phase 0 complete · Snowflake connected · Phase 1 awaiting your SQL review · Phase 11 partly done early
+**Overall:** Phase 0 ✅ · **Phase 1 ✅ Snowflake bootstrapped and boundary-verified** · Phase 2 unblocked · Phase 11 partly done early
 
 ---
 
@@ -35,11 +35,11 @@
 | # | Item | Status | Note |
 |---|---|---|---|
 | 10 | Bootstrap SQL | ✅ | Real idempotent SQL — roles, warehouse, monitor, schemas, tags, grants |
-| 11 | **You review SQL** | ⏸️ | **Waiting on you** — PR open |
-| 12 | Execute bootstrap | ⏸️ | Blocked by 11. Account connected ✅ |
-| 13 | Verify environment | ⏸️ | Blocked by 12 |
+| 11 | You review SQL | ✅ | Approved, PR #1 merged |
+| 12 | Execute bootstrap | ✅ | All 4 scripts run. Roles, WH, monitor, DB, 4 schemas, 6 tags, 29 grants |
+| 13 | Verify environment | ✅ | Boundary tested live — see L-10. `04_verify_access_boundary.sql` added |
 | — | Snowflake connection | ✅ | `snow` CLI 3.24.1, key-pair auth, tested OK |
-| 14 | Governance metadata | ⬜ | |
+| 14 | Governance metadata | ✅ | 6 tags applied to DB + all schemas |
 
 ---
 
@@ -52,10 +52,10 @@
 | 17 | Validate file locally | 🟦 | |
 | 18 | Profile dataset | 🟦 | Would confirm sampled figures in §4 of quality report |
 | 19 | Document findings | 🟦 | |
-| 20 | File format / stage | ⏸️ | Snowflake |
-| 21 | `RAW.CFPB_COMPLAINTS` | ⏸️ | Snowflake |
-| 22 | Load to Snowflake | ⏸️ | Snowflake |
-| 23 | Validate raw load | ⏸️ | Snowflake |
+| 20 | File format / stage | 🟦 | Unblocked |
+| 21 | `RAW.CFPB_COMPLAINTS` | 🟦 | Unblocked |
+| 22 | Load to Snowflake | 🟦 | Unblocked |
+| 23 | Validate raw load | 🟦 | Unblocked |
 
 ---
 
@@ -64,8 +64,8 @@
 | # | Item | Status | Note |
 |---|---|---|---|
 | 24 | Scaffold dbt | ✅ | Project, packages, 13 models, macros, seeds, tests |
-| 25 | Configure dbt → Snowflake | ⏸️ | Snowflake |
-| 26 | `dbt debug` | ⏸️ | Snowflake |
+| 25 | Configure dbt → Snowflake | 🟦 | Unblocked |
+| 26 | `dbt debug` | 🟦 | Unblocked |
 | 27 | Source definition | ✅ | `stg_cfpb_complaints.yml` |
 | 28 | `stg_cfpb_complaints` | ⚠️ | Stub — contract written, no SQL |
 | 29 | Staging YAML docs | ✅ | All 16 fields + traps documented |
@@ -228,6 +228,7 @@ Extra (not in original plan): CI blocks duration-shaped identifiers, dispute-fie
 | L-07 | Aug 15 | dbt `+schema:` overrides would have created `ANALYTICS_PROD_operations` etc., leaving `CRI_APP_READER` granted on an empty schema | Removed overrides; models land in target schema. **Fixed pre-merge** |
 | L-08 | Aug 15 | Dead `SET DB` variable in `03_grants.sql` | Removed. **Fixed pre-merge** |
 | L-09 | Aug 15 | `dbt-ci` path filter missed `snowflake/**` and `scripts/**` | Widened. **Fixed pre-merge** |
+| L-10 | Aug 15 | **`CRI_APP_READER` read `RAW` despite holding no grant on it** | Root cause: `DEFAULT_SECONDARY_ROLES = ALL` keeps `ACCOUNTADMIN` active alongside the primary role. Grants were correct. Added `04_verify_access_boundary.sql` using `USE SECONDARY ROLES NONE`; boundary now proven by test. **Resolved** |
 
 ---
 
@@ -244,6 +245,6 @@ Extra (not in original plan): CI blocks duration-shaped identifiers, dispute-fie
 
 # Recommended Next 3
 
-1. **Review the bootstrap SQL** (item 11) — unblocks Phases 1–6.
-2. **Items 16–19** — download + profile the real dataset. Doable now, no Snowflake, confirms the sampled figures.
+1. **Items 16–19** — download and profile the real CFPB dataset.
+2. **Items 20–23** — file format, stage, `RAW.CFPB_COMPLAINTS`, load. Now unblocked.
 3. **Item 112** — branch protection before the repo gets shared.

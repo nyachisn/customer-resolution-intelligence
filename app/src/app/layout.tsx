@@ -52,9 +52,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           </nav>
         </header>
 
-        <main id="main-content" className="container">
-          {children}
-        </main>
+        <main id="main-content">{children}</main>
 
         <footer className="site-footer">
           <div className="container footer-inner">

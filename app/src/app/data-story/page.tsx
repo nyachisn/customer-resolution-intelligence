@@ -7,6 +7,7 @@
 
 import Link from "next/link";
 import { Chip, PageHeader, SectionHead } from "@/components/ui/Primitives";
+import { PipelineDiagram } from "@/components/ui/PipelineDiagram";
 import { loadDemoMeta, loadLedgerExhibits, loadOperationsMetrics } from "@/lib/demo-data";
 import { datesFor, dimensionsFor, formatDate } from "@/lib/analytics";
 
@@ -23,32 +24,39 @@ export default async function DataStoryPage() {
   const products = dimensionsFor(metrics, "complaint_volume").length;
   const actions = dimensionsFor(metrics, "action_count");
 
-  const steps = [
+  const stages = [
+    { name: "Source", meta: ledger ? `${(ledger.totalRecords / 1_000_000).toFixed(1)}M records` : "CFPB" },
+    { name: "Ingest", meta: "Unchanged" },
+    { name: "Transform", meta: ledger ? `${ledger.distinctProducts} categories` : "Typed" },
+    { name: "Analyze", meta: `${dates.length} days` },
+    { name: "Prioritize", meta: `${actions.length} outcomes` },
+    { name: "Explore", meta: "Investigate" },
+  ];
+
+  const detail = [
     {
       title: "Source",
-      body: "Consumer complaint records published by the Consumer Financial Protection Bureau. Public, official, and updated continuously.",
-      chips: ledger
-        ? [`${ledger.totalRecords.toLocaleString()} records`, `${ledger.minDate.slice(0, 4)}–${ledger.maxDate.slice(0, 4)}`]
-        : [],
+      body: "Consumer complaint records published by the Consumer Financial Protection Bureau. Public, official, updated continuously.",
+      chips: ledger ? [`${ledger.minDate.slice(0, 4)}–${ledger.maxDate.slice(0, 4)}`] : [],
     },
     {
       title: "Ingest",
-      body: "Records land unchanged, exactly as published. Nothing is edited or interpreted at this stage — the original stays intact so any later number can be traced back to it.",
-      chips: ledger ? [`${ledger.distinctProducts} product categories`] : [],
+      body: "Records land exactly as published. Nothing is edited or interpreted here, so any later number can be traced back to its original.",
+      chips: [],
     },
     {
       title: "Transform",
-      body: "Records are standardized and enriched: fields are typed consistently, categories are preserved as published rather than merged, and records missing anything decision-critical are set aside instead of quietly filled in.",
-      chips: ledger ? [`${ledger.completeness[0]?.label ?? "Complete"} records prioritized`] : [],
+      body: "Fields are typed consistently and categories preserved as published rather than merged. Records missing anything decision-critical are set aside, not filled in.",
+      chips: ledger ? [`${ledger.distinctProducts} product categories`] : [],
     },
     {
       title: "Analyze",
-      body: "Daily volume, trend direction, and emerging-pattern status are computed for each product and issue — always against that pattern's own history, never against another product's scale.",
-      chips: [`${products} products tracked`, `${dates.length} days of daily coverage`],
+      body: "Daily volume, trend direction and emerging-pattern status are computed per product and issue — always against that pattern's own history.",
+      chips: [`${products} products`, `${dates.length} days`],
     },
     {
       title: "Prioritize",
-      body: "Policy rules run over every record and assign one recommended action, with the reason and confidence attached. Most records need nothing; the ones that do say exactly why.",
+      body: "Policy rules run over every record and assign one recommended action, with its reason and confidence attached. Most records need nothing.",
       chips: actions.map((a) => a.replaceAll("_", " ").toLowerCase()),
     },
     {
@@ -59,79 +67,117 @@ export default async function DataStoryPage() {
   ];
 
   return (
-    <div>
+    <>
       <PageHeader
         eyebrow="Data Story"
         title="How complaint records become intelligence"
         lede="Six steps from a public record to a decision someone can act on."
       />
 
-      <div className="pipeline">
-        {steps.map((step, i) => (
-          <article className="pipeline-step" key={step.title}>
-            <div className="pipeline-num">0{i + 1}</div>
-            <div>
-              <h3>{step.title}</h3>
-              <p>{step.body}</p>
-              {step.chips.length > 0 && (
-                <div className="pipeline-detail">
-                  {step.chips.map((c) => (
-                    <Chip key={c} tone="neutral">
-                      {c}
-                    </Chip>
-                  ))}
-                </div>
-              )}
-            </div>
-          </article>
-        ))}
-      </div>
+      <section className="band section">
+        <div className="container">
+          <PipelineDiagram stages={stages} />
+        </div>
+      </section>
 
-      <SectionHead
-        title="What the numbers can and cannot say"
-        description="A short note on reading this data well."
-      />
+      <section className="band-tint section">
+        <div className="container">
+          <SectionHead
+            eyebrow="Each stage"
+            title="What happens, and what it guarantees"
+          />
+          <div className="stage-detail">
+            {detail.slice(0, 3).map((d, i) => (
+              <div className="stage-cell" key={d.title}>
+                <div className="eyebrow eyebrow-muted">{String(i + 1).padStart(2, "0")}</div>
+                <h3>{d.title}</h3>
+                <p>{d.body}</p>
+                {d.chips.length > 0 && (
+                  <div className="stage-chips">
+                    {d.chips.map((c) => (
+                      <Chip key={c}>{c}</Chip>
+                    ))}
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+          <div className="stage-detail" style={{ marginTop: "1.25rem" }}>
+            {detail.slice(3).map((d, i) => (
+              <div className="stage-cell" key={d.title}>
+                <div className="eyebrow eyebrow-muted">{String(i + 4).padStart(2, "0")}</div>
+                <h3>{d.title}</h3>
+                <p>{d.body}</p>
+                {d.chips.length > 0 && (
+                  <div className="stage-chips">
+                    {d.chips.map((c) => (
+                      <Chip key={c}>{c}</Chip>
+                    ))}
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
 
-      <div className="note-card">
-        <p style={{ margin: "0 0 0.7rem" }}>
-          <strong>Volume reflects what was reported and published</strong> — not
-          everything customers experienced. Comparisons are most meaningful
-          within a single product area, where the same reporting conditions
-          apply.
-        </p>
-        <p style={{ margin: "0 0 0.7rem" }}>
-          <strong>Recent records are still arriving.</strong> The most recent{" "}
-          {meta.publication_lag_window_days} days are held out of every
-          period comparison, because a record published today may not be
-          complete yet. Counting them would read as a decline that is really
-          just timing.
-        </p>
-        <p style={{ margin: 0 }}>
-          <strong>A signal is a prompt, not a conclusion.</strong> An emerging
-          pattern means something moved enough to be worth a look. What it
-          means is for the person investigating it to establish.
-        </p>
-      </div>
+      <section className="band section">
+        <div className="container">
+          <SectionHead
+            eyebrow="Reading it well"
+            title="What the numbers can and cannot say"
+          />
+          <div className="note">
+            <p>
+              <strong>Volume reflects what was reported and published</strong> —
+              not everything customers experienced. Comparisons are most
+              meaningful within a single product area, where the same reporting
+              conditions apply.
+            </p>
+            <p>
+              <strong>Recent records are still arriving.</strong> The most recent{" "}
+              {meta.publication_lag_window_days} days are held out of every
+              period comparison, because a record published today may not be
+              complete yet. Counting them would read as a decline that is really
+              just timing.
+            </p>
+            <p>
+              <strong>A signal is a prompt, not a conclusion.</strong> An
+              emerging pattern means something moved enough to be worth a look.
+              What it means is for the person investigating it to establish.
+            </p>
+          </div>
+        </div>
+      </section>
 
-      <SectionHead title="Where this leads" />
-      <div className="insight-grid">
-        <Link href="/insights" className="insight-card">
-          <h3>Insights</h3>
-          <p className="insight-body">The movements worth knowing about this period.</p>
-          <span className="insight-foot">View insights</span>
-        </Link>
-        <Link href="/explore" className="insight-card">
-          <h3>Explore</h3>
-          <p className="insight-body">
-            Filter, compare, and investigate the question you actually have.
+      <section className="band-tint section">
+        <div className="container">
+          <SectionHead eyebrow="Next" title="Where this leads" />
+          <div className="card-grid">
+            <Link href="/insights" className="card">
+              <div className="eyebrow eyebrow-muted">Insights</div>
+              <h3>What&apos;s happening</h3>
+              <p>The movements worth knowing about this period.</p>
+              <span className="card-cta">View insights</span>
+            </Link>
+            <Link href="/explore" className="card">
+              <div className="eyebrow eyebrow-muted">Explore</div>
+              <h3>Answer your own question</h3>
+              <p>Filter, compare, and investigate the question you actually have.</p>
+              <span className="card-cta">Open explore</span>
+            </Link>
+            <Link href="/decisions" className="card">
+              <div className="eyebrow eyebrow-muted">Decisions</div>
+              <h3>What needs attention</h3>
+              <p>A prioritized queue with the signal behind each item.</p>
+              <span className="card-cta">Review queue</span>
+            </Link>
+          </div>
+          <p style={{ marginTop: "2rem", fontSize: ".78rem", color: "var(--text-3)", fontFamily: "var(--mono)", letterSpacing: ".08em", textTransform: "uppercase" }}>
+            Data current as of {formatDate(meta.generated_at_utc)}
           </p>
-          <span className="insight-foot">Open Explore</span>
-        </Link>
-      </div>
-
-      <p style={{ marginTop: "2rem", fontSize: "0.83rem", color: "var(--text-muted)" }}>
-        Data current as of {formatDate(meta.generated_at_utc)}.
-      </p>
-    </div>
+        </div>
+      </section>
+    </>
   );
 }

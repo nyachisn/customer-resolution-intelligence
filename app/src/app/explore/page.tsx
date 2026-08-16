@@ -24,18 +24,22 @@ export default async function ExplorePage({
   ]);
 
   return (
-    <div>
+    <>
       <PageHeader
         eyebrow="Explore"
         title="Answer your own question"
         lede="Filter by measure, period and product. Compare against the prior period and drill into whatever you find."
       />
-      <ExploreWorkspace
-        metrics={metrics}
-        lagDays={meta.publication_lag_window_days}
-        initialProduct={params.product}
-        initialMetric={params.metric}
-      />
-    </div>
+      <section className="band section-tight">
+        <div className="container">
+          <ExploreWorkspace
+            metrics={metrics}
+            lagDays={meta.publication_lag_window_days}
+            initialProduct={params.product}
+            initialMetric={params.metric}
+          />
+        </div>
+      </section>
+    </>
   );
 }

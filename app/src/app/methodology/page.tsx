@@ -24,12 +24,14 @@ const CONFIDENCE_ROWS = [
 
 export default function MethodologyPage() {
   return (
-    <div className="prose">
+    <>
       <PageHeader
         eyebrow="Reference"
         title="Methodology"
         lede="How these numbers are produced, and the questions this data can and cannot answer."
       />
+      <section className="band section">
+        <div className="container prose">
 
       <SectionHead title="Source" />
       <p>
@@ -125,6 +127,8 @@ export default function MethodologyPage() {
         </a>
         .
       </p>
-    </div>
+        </div>
+      </section>
+    </>
   );
 }

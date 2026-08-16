@@ -17,8 +17,6 @@
 
 USE ROLE SECURITYADMIN;
 
-SET DB = 'CUSTOMER_RESOLUTION_INTELLIGENCE';
-
 -- ---------------------------------------------------------------------------
 -- Database usage — every project role needs to see the database
 -- ---------------------------------------------------------------------------

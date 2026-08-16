@@ -2,7 +2,7 @@ name: dbt CI
 
 on:
   pull_request:
-    paths: ["dbt/**", "docs/**", ".github/workflows/dbt-ci.yml"]
+    paths: ["dbt/**", "docs/**", "snowflake/**", "scripts/**", ".github/workflows/dbt-ci.yml"]
   workflow_dispatch:
 
 concurrency:
@@ -14,7 +14,7 @@ jobs:
     name: Parse and validate
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - uses: actions/setup-python@v5
         with:
@@ -61,7 +61,7 @@ jobs:
     name: Governance checks
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       # The project's premise is that it refuses to make unsupported claims.
       # These checks make that mechanical rather than aspirational.
@@ -98,7 +98,7 @@ jobs:
     # warehouse is bootstrapped (docs/07_runbook.md §3).
     if: false
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"

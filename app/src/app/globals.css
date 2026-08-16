@@ -29,6 +29,7 @@
   --radius: 8px;
   --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   --font-mono: ui-monospace, "SF Mono", "Cascadia Code", "Roboto Mono", Consolas, monospace;
+  --font-serif: Georgia, "Iowan Old Style", "Palatino Linotype", "Times New Roman", serif;
 
   --chart-accent: #0b5fa5;
   --chart-good: #1a8a3d;
@@ -339,6 +340,36 @@ textarea {
 
 /* ---------- homepage data report ---------- */
 
+.ledger-masthead {
+  border-bottom: 3px double var(--color-text);
+  padding-bottom: 1.1rem;
+  margin: 2.5rem 0 0;
+}
+.ledger-eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+  margin-bottom: 0.7rem;
+}
+.ledger-masthead h2 {
+  font-family: var(--font-serif);
+  font-weight: 400;
+  font-size: clamp(1.7rem, 4vw, 2.4rem);
+  line-height: 1.1;
+  margin: 0 0 0.5rem;
+  letter-spacing: -0.01em;
+  text-wrap: balance;
+}
+.ledger-dek {
+  font-size: 0.95rem;
+  line-height: 1.55;
+  color: var(--color-text-muted);
+  max-width: 62ch;
+  margin: 0;
+}
+
 .stat-strip {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -388,9 +419,12 @@ textarea {
   color: var(--color-text-muted);
 }
 .exhibit h3 {
+  font-family: var(--font-serif);
+  font-weight: 400;
   margin: 0;
-  font-size: 1.2rem;
+  font-size: 1.3rem;
   line-height: 1.3;
+  letter-spacing: -0.005em;
 }
 .exhibit-source {
   font-family: var(--font-mono);
@@ -497,9 +531,35 @@ textarea {
   font-size: 0.7rem;
 }
 
+.ledger-trend-wrap {
+  position: relative;
+}
 .ledger-trend-svg {
   width: 100%;
   height: auto;
+  cursor: crosshair;
+}
+.ledger-trend-hoverline {
+  stroke: var(--color-text-muted);
+  stroke-width: 1;
+  stroke-dasharray: 2 3;
+}
+.ledger-trend-hoverdot {
+  fill: var(--color-bg-subtle);
+  stroke: var(--chart-accent);
+  stroke-width: 2;
+}
+.ledger-chart-tooltip {
+  position: absolute;
+  pointer-events: none;
+  background: var(--color-text);
+  color: var(--color-bg);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  padding: 0.3rem 0.55rem;
+  border-radius: 4px;
+  white-space: nowrap;
+  transform: translate(-50%, -135%);
 }
 .ledger-gridline {
   stroke: var(--color-border);

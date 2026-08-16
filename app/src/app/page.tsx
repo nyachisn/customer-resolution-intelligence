@@ -8,7 +8,8 @@
 
 import Link from "next/link";
 import { PrototypeDisclosure, ConcentrationContextNote } from "@/components/common/ContextNote";
-import { LedgerBarChart, LedgerTrendChart } from "@/components/common/LedgerCharts";
+import { LedgerBarChart } from "@/components/common/LedgerCharts";
+import { LedgerTrendChart } from "@/components/common/LedgerTrendChart";
 import { loadDemoMeta, loadLedgerExhibits } from "@/lib/demo-data";
 
 export default async function Home() {
@@ -53,12 +54,16 @@ export default async function Home() {
 
       {ledger && (
         <section>
-          <h2 className="section-title">The complaint ledger</h2>
-          <p style={{ color: "var(--color-text-muted)", maxWidth: "62ch" }}>
-            Seven exhibits read directly off the governed dbt marts &mdash;
-            what each one shows in the CFPB complaint record, and the
-            operational decision it&apos;s built to support.
-          </p>
+          <div className="ledger-masthead">
+            <div className="ledger-eyebrow">Customer Resolution Intelligence &middot; Analytics_Prod</div>
+            <h2>The Complaint Ledger</h2>
+            <p className="ledger-dek">
+              Seven exhibits read directly off the governed dbt marts &mdash;
+              what each one shows in the CFPB complaint record, and the
+              operational decision it&apos;s built to support. Every figure
+              below is a live query result, not an illustration.
+            </p>
+          </div>
 
           <div className="stat-strip">
             <div className="stat-cell">

@@ -1,0 +1,7 @@
+{
+  "export_version": "2026-08-16",
+  "generated_at_utc": "2026-08-16T01:13:27Z",
+  "case_context_window_days": 180,
+  "case_context_row_count": 300,
+  "metrics_row_count": 15964
+}

@@ -1,0 +1,59 @@
+version: 2
+
+models:
+  - name: resolution_action_queue
+    description: >
+      Prioritized, auditable operational action queue. One row per
+      complaint record x final recommendation run/version. Every
+      non-standard action carries policy_id, reason_code, evidence_fields,
+      and signal_confidence. STANDARD_HANDLING is a first-class outcome.
+    columns:
+      - name: recommendation_id
+        tests: [unique, not_null]
+      - name: complaint_id
+        tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('fct_complaints')
+                field: complaint_id
+      - name: priority
+        tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ["LOW", "MEDIUM", "HIGH", "CRITICAL"]
+      - name: recommended_action
+        tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values:
+                  - STANDARD_HANDLING
+                  - PRIORITIZE_CASE_REVIEW
+                  - ESCALATE_REVIEW
+                  - INVESTIGATE_PATTERN
+                  - REQUIRE_HUMAN_REVIEW
+                  - UPDATE_AGENT_GUIDANCE
+      - name: signal_confidence
+        tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ["HIGH", "MEDIUM", "LIMITED", "NOT_SUPPORTED"]
+      - name: model_version
+        tests: [not_null]
+      - name: policy_version
+        tests: [not_null]
+      - name: generated_at
+        tests: [not_null]
+
+  - name: operations_overview_metrics
+    description: >
+      Curated aggregate display metrics for the demo. One row per metric
+      date x dashboard dimension x metric name.
+    columns:
+      - name: metric_date
+        tests: [not_null]
+      - name: metric_name
+        tests: [not_null]

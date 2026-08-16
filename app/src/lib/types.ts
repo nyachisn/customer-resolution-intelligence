@@ -72,9 +72,19 @@ export interface ComplaintRecordContext {
   generatedAt: string;
 }
 
+/** One curated aggregate metric row, matching operations_overview_metrics. */
+export interface OperationsMetric {
+  metricDate: string;
+  dashboardDimension: string;
+  metricName: string;
+  metricValue: number;
+}
+
+/** Matches the literal keys scripts/export_demo_data.py writes to export_meta.json. */
 export interface DemoExportMeta {
-  exportVersion: string;
-  sourceSnapshotDate: string;
-  policyVersion: string;
-  generatedAt: string;
+  export_version: string;
+  generated_at_utc: string;
+  case_context_window_days: number;
+  case_context_row_count: number;
+  metrics_row_count: number;
 }

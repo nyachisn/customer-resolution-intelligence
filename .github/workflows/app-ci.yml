@@ -13,8 +13,10 @@ jobs:
   build:
     name: Type check, lint, build
     runs-on: ubuntu-latest
-    # Enable once app/ has a package.json with real dependencies.
-    if: false
+    # Verified locally 2026-08-16: npm install, tsc --noEmit, eslint, and
+    # next build all pass clean against real demo data. See
+    # docs/10_build_plan.md L-18/L-19 for the two fixes that got it there
+    # (eslint config rewrite, next 15->16 bump for 3 high-severity CVEs).
     defaults:
       run:
         working-directory: app
@@ -23,7 +25,7 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: "20"
+          node-version: "22"
           cache: npm
           cache-dependency-path: app/package-lock.json
 

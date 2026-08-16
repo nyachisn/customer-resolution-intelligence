@@ -84,3 +84,28 @@ vars:
   # 33.94% of records 30-60 days old are still 'In progress'.
   # See docs/04_decisioning_policy.md §9.1.
   publication_lag_window_days: 60
+
+  # ---------------------------------------------------------------------
+  # Emerging-issue policy parameters. MUST match seeds/priority_policy_
+  # thresholds.csv row POLICY_EMERGING_ISSUE. The seed is the audited,
+  # human-readable policy record queried at run time by
+  # int_priority_policy_application; these vars drive the SAME values
+  # compiled into int_issue_trends.sql's window-frame INTERVAL clauses,
+  # which must be Jinja-time constants, not a runtime seed lookup, because
+  # a window frame's RANGE bound cannot reference a queried table value.
+  # If you change one, change both, in the same pull request.
+  # See docs/04_decisioning_policy.md §8.
+  # ---------------------------------------------------------------------
+  emerging_issue_current_window_days: 7
+  emerging_issue_baseline_window_days: 30
+  emerging_issue_min_current_volume: 20
+  emerging_issue_min_baseline_volume: 50
+  emerging_issue_min_pct_change: 0.30
+
+  # Versioning for the recommendation contract (docs/04_decisioning_policy.md
+  # §13). model_version tracks this dbt project; policy_version tracks
+  # docs/04_decisioning_policy.md's own version header. Bump policy_version
+  # whenever a policy rule, threshold, or precedence order changes, so a
+  # past recommendation stays reproducible against the policy that produced it.
+  model_version: '1.0.0'
+  policy_version: '1.1.0'

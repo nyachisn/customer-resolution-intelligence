@@ -1,0 +1,25 @@
+version: 2
+
+models:
+  - name: agent_case_context
+    description: >
+      Agent-safe factual and derived complaint-record context. One row per
+      published complaint record. No narrative text, no dispute field, no
+      duration. context_summary is a deterministic template — no generative
+      text in the MVP.
+    columns:
+      - name: complaint_id
+        tests:
+          - unique
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('fct_complaints')
+                field: complaint_id
+      - name: signal_confidence
+        tests:
+          - accepted_values:
+              arguments:
+                values: ["HIGH", "MEDIUM", "LIMITED", "NOT_SUPPORTED"]
+      - name: context_summary
+        tests: [not_null]

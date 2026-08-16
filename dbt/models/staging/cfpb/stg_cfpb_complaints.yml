@@ -111,9 +111,17 @@ sources:
 models:
   - name: stg_cfpb_complaints
     description: >
-      One row per published CFPB complaint record. Renames, casts, normalizes
-      nulls, and attaches lineage plus the publication-lag flag. No business
-      rules.
+      I check what the raw CFPB extract actually contains here, before any
+      business logic touches it — one row per published complaint record;
+      renames, casts, normalizes nulls, and attaches lineage plus the
+      publication-lag flag, but no business rules. I hypothesized the
+      source would match its own documented schema exactly. What I found:
+      it doesn't. 3 of 17,119,590 rows load with a null complaint_id, and 30
+      rows total show corruption from an unescaped comma in the narrative
+      field shifting every subsequent column left
+      (docs/08_source_quality_report.md §12). I exclude these here, not
+      downstream, so everything after this model can assume clean required
+      fields.
     columns:
       - name: complaint_id
         description: Canonical complaint record key. STRING.

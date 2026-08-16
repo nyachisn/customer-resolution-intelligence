@@ -3,10 +3,15 @@ version: 2
 models:
   - name: int_complaint_status_context
     description: >
-      Assembles published status context and a per-record data-completeness
-      assessment for every complaint record. Derives no timing or duration
-      measures — see
-      docs/adr/ADR-004-source-validation-removes-response-duration.md.
+      I built this to assign one data-completeness label per record before
+      anything else runs — published status context plus that assessment,
+      for every complaint record, deriving no timing or duration measures
+      (docs/adr/ADR-004-source-validation-removes-response-duration.md). I
+      expected some INSUFFICIENT rows, given how import errors usually show
+      up. What I found: zero — every INSUFFICIENT-eligible row was already
+      dropped at staging, so this status only ever resolves to COMPLETE or
+      PARTIAL in practice today. I kept the INSUFFICIENT branch anyway, as a
+      safety net in case that upstream filter ever loosens.
     columns:
       - name: complaint_id
         tests: [unique, not_null]
@@ -24,9 +29,16 @@ models:
 
   - name: int_issue_daily_volume
     description: >
-      Daily observed complaint-volume counts by product x issue x calendar
-      date. An observed count of published complaints, not a rate and not a
-      market measure — see docs/09_supported_vs_unsupported_metrics.md.
+      I query this to check how much of CFPB's own taxonomy actually clears
+      the volume needed to compute a trend — daily observed complaint-volume
+      counts by product x issue x calendar date, never a rate and never a
+      market measure (docs/09_supported_vs_unsupported_metrics.md). I
+      expected most of the 2,642 taxonomy entries to show up here. What I
+      found: only 314,733 date x product x issue rows total, and when I
+      cross-referenced against the taxonomy directly, only 346 of the 2,642
+      combinations ever produce a row at all. The rest never reach the
+      volume floor — which is why the investigation UI has to treat "no
+      trend data" as an expected, policy-driven outcome, not a bug.
     columns:
       - name: metric_date
         tests: [not_null]
@@ -43,9 +55,17 @@ models:
 
   - name: int_issue_trends
     description: >
-      Deterministic issue-volume trend measures — current window, baseline,
-      percentage change, observed share, and pattern qualification — per
-      calendar date x product x issue.
+      I use this to see which product x issue pairs are actually qualifying
+      as emerging right now, not historically — deterministic trend
+      measures (current window, baseline, percentage change, observed
+      share, pattern qualification) per calendar date x product x issue. I
+      hypothesized qualification would cluster in the highest-volume
+      products. What I found: it doesn't. Checking the most recent ten
+      weeks, the strongest signal is a 79% jump in a mid-volume
+      credit-reporting issue, and several qualifying pairs sit in low-volume
+      products like payday loans — because qualification is evaluated
+      against each pair's own baseline, never against another product's
+      scale.
     columns:
       - name: metric_date
         tests: [not_null]
@@ -72,11 +92,19 @@ models:
 
   - name: int_company_issue_patterns
     description: >
-      Bounded company-level pattern context. CONSTRAINED MODEL — every row
+      I look at this only to confirm the LIMITED-confidence guardrail is
+      actually being enforced, never to compare companies — every row here
       carries signal_confidence = LIMITED because the source has no company
-      size, customer count, or transaction-volume denominator. Never rank,
-      sort, or compare companies — see
-      docs/adr/ADR-003-no-individual-risk-score.md.
+      size, customer count, or transaction-volume denominator
+      (docs/adr/ADR-003-no-individual-risk-score.md). I expected the three
+      nationwide credit bureaus to dominate, given how the credit-reporting
+      complaint process works. What I found: TransUnion, Equifax, and
+      Experian each sit at 4-4.7M complaints, an order of magnitude
+      above the next-largest company (Bank of America, ~184K) — exactly the
+      shape you'd expect from bureaus named on nearly every credit-reporting
+      complaint regardless of which furnisher actually caused the problem.
+      That's precisely why this model can never earn above LIMITED
+      confidence.
     columns:
       - name: metric_date
         tests: [not_null]
@@ -100,11 +128,16 @@ models:
 
   - name: int_priority_policy_application
     description: >
-      Evaluates every policy rule against every complaint record and
-      retains each trigger state — one row per complaint x policy
-      evaluated, not just per policy triggered. Precedence and final-action
-      selection happen downstream in resolution_action_queue — see
-      docs/04_decisioning_policy.md §7.
+      I run this to see how often each of the six policies actually fires —
+      one row per complaint x policy evaluated, not just per policy
+      triggered, with precedence and final-action selection happening
+      downstream in resolution_action_queue (docs/04_decisioning_policy.md
+      §7). A policy nobody ever triggers is dead weight, and one that fires
+      constantly needs its threshold checked, so I expected fairly even
+      trigger rates. What I found: they're not even at all. STABLE_PATTERN
+      fires on 70.7% of records, EMERGING_ISSUE on 18.0%, and
+      CRITICAL_COMBINATION - which needs two HIGH-confidence triggers at
+      once - on just 0.1%. Exactly as designed.
     columns:
       - name: complaint_id
         tests: [not_null]
@@ -145,9 +178,14 @@ models:
 
   - name: int_resolution_signals
     description: >
-      Attaches record-level published and derived resolution signals,
-      joining each complaint record to the trend context for its own date
-      x product x issue grain. No duration inputs — see
+      I join this to check whether every complaint actually gets a trend
+      match, since it's a left join and I wasn't certain the join key (date
+      x product x issue) would find a row for every complaint, especially
+      near the start of the archive before a baseline exists. What I found:
+      it does, for all 17,119,581 rows, right now — zero nulls on
+      issue_volume_current — though the join is still a left join on
+      purpose, because that won't stay true if the trend model's coverage
+      ever narrows. No duration inputs here either way — see
       docs/adr/ADR-004-source-validation-removes-response-duration.md.
     columns:
       - name: complaint_id

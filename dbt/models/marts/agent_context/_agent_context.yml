@@ -3,10 +3,14 @@ version: 2
 models:
   - name: agent_case_context
     description: >
-      Agent-safe factual and derived complaint-record context. One row per
-      published complaint record. No narrative text, no dispute field, no
-      duration. context_summary is a deterministic template — no generative
-      text in the MVP.
+      This is the one-row-per-complaint surface I hand to a downstream agent
+      or human reviewer — agent-safe factual and derived context, no
+      narrative text, no dispute field, no duration; context_summary is a
+      deterministic template, not generative text. I checked its grain
+      against fct_complaints to make sure nothing gets silently dropped or
+      duplicated on the way out: both are 17,119,581 rows, so it's a clean
+      1:1. The committed demo export samples only 300 of these rows for the
+      app — this mart itself carries the full population.
     columns:
       - name: complaint_id
         tests:

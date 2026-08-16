@@ -20,6 +20,22 @@ require-dbt-version: [">=1.8.0", "<2.0.0"]
 # views for simple staging; tables where dashboard performance justifies them.
 # Incremental only when measured volume justifies it — not by default.
 # ---------------------------------------------------------------------------
+# ---------------------------------------------------------------------------
+# NOTE ON SCHEMAS — deliberately no `+schema:` overrides.
+#
+# dbt's default generate_schema_name appends the custom schema to the target,
+# producing ANALYTICS_PROD_operations, ANALYTICS_DEV_staging, and so on. Those
+# are new schemas at the database level that the bootstrap grants do not cover,
+# so CRI_APP_READER would hold read on an ANALYTICS_PROD containing nothing.
+#
+# Models therefore land directly in the target schema, matching the four-schema
+# architecture in docs/05_architecture.md §4.
+#
+# This is safe for the app-read boundary because zip_code and tags are excluded
+# downstream of RAW (docs/03_data_dictionary.md §4), so no sensitive field
+# reaches ANALYTICS_PROD in the first place. The exclusion happens in the model
+# layer, not at the grant layer.
+# ---------------------------------------------------------------------------
 models:
   customer_resolution_intelligence:
     +persist_docs:
@@ -28,29 +44,24 @@ models:
 
     staging:
       +materialized: view
-      +schema: staging
       +tags: ["staging", "ci"]
 
     intermediate:
       +materialized: view
-      +schema: intermediate
       +tags: ["intermediate"]
 
     marts:
       +materialized: table
       +tags: ["marts", "ci"]
-      core:
-        +schema: core
       operations:
-        +schema: operations
         +tags: ["critical"]
       agent_context:
-        +schema: agent_context
         +tags: ["critical"]
 
+# Seeds and test failures land in the target schema for the same reason models
+# do — see the schema note above.
 seeds:
   customer_resolution_intelligence:
-    +schema: policy
     +tags: ["seeds", "ci"]
     priority_policy_thresholds:
       +column_types:
@@ -63,7 +74,6 @@ seeds:
 tests:
   customer_resolution_intelligence:
     +store_failures: true
-    +schema: dq
 
 vars:
   # Retrieval surface determines date grain. Declare it; never mix surfaces.

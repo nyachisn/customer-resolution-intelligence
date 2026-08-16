@@ -225,6 +225,9 @@ Extra (not in original plan): CI blocks duration-shaped identifiers, dispute-fie
 | L-04 | Aug 15 | `timely_response_status = UNKNOWN` unreachable in source | Test set to `severity: warn`. **Accepted, documented** |
 | L-05 | Aug 15 | Null rates measured on 192k sample, not full 17.1M | **Postponed** → item 18 re-measures on full load |
 | L-06 | Aug 15 | Snowflake JWT auth failed twice before key registration | Expected — key not yet registered. **Resolved** after `ALTER USER`, fingerprint matched |
+| L-07 | Aug 15 | dbt `+schema:` overrides would have created `ANALYTICS_PROD_operations` etc., leaving `CRI_APP_READER` granted on an empty schema | Removed overrides; models land in target schema. **Fixed pre-merge** |
+| L-08 | Aug 15 | Dead `SET DB` variable in `03_grants.sql` | Removed. **Fixed pre-merge** |
+| L-09 | Aug 15 | `dbt-ci` path filter missed `snowflake/**` and `scripts/**` | Widened. **Fixed pre-merge** |
 
 ---
 
@@ -235,7 +238,7 @@ Extra (not in original plan): CI blocks duration-shaped identifiers, dispute-fie
 | D-01 | Approve source contract (item 7) | Phase 1 onward |
 | ~~D-02~~ | ~~Snowflake account~~ — **resolved**, existing account connected | ~~—~~ |
 | D-03 | Enable branch protection now? | Item 112 |
-| D-04 | Node.js 20 deprecation warning in CI — bump `actions/checkout` to v5? | Cosmetic |
+| ~~D-04~~ | ~~Node.js 20 deprecation~~ — **resolved**, `actions/checkout` bumped to v5 | ~~—~~ |
 
 ---
 

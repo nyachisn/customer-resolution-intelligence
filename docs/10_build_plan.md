@@ -10,7 +10,7 @@
 | ⚠️ | Changed from original plan — see note |
 | ⬜ | Not started |
 
-**Overall:** Phase 0 complete · Phase 1–2 blocked on Snowflake account · Phase 11 partly done early
+**Overall:** Phase 0 complete · Snowflake connected · Phase 1 awaiting your SQL review · Phase 11 partly done early
 
 ---
 
@@ -34,10 +34,11 @@
 
 | # | Item | Status | Note |
 |---|---|---|---|
-| 10 | Bootstrap SQL | ⚠️ | Stub files w/ headers only — no SQL yet |
-| 11 | You review SQL | ⏸️ | Blocked by 10 |
-| 12 | You execute bootstrap | ⏸️ | **Need Snowflake account** |
+| 10 | Bootstrap SQL | ✅ | Real idempotent SQL — roles, warehouse, monitor, schemas, tags, grants |
+| 11 | **You review SQL** | ⏸️ | **Waiting on you** — PR open |
+| 12 | Execute bootstrap | ⏸️ | Blocked by 11. Account connected ✅ |
 | 13 | Verify environment | ⏸️ | Blocked by 12 |
+| — | Snowflake connection | ✅ | `snow` CLI 3.24.1, key-pair auth, tested OK |
 | 14 | Governance metadata | ⬜ | |
 
 ---
@@ -223,6 +224,7 @@ Extra (not in original plan): CI blocks duration-shaped identifiers, dispute-fie
 | L-03 | Aug 15 | dbt 1.12 deprecations (freshness, accepted_values) | Moved to `config`/`arguments`. **Fixed immediately** |
 | L-04 | Aug 15 | `timely_response_status = UNKNOWN` unreachable in source | Test set to `severity: warn`. **Accepted, documented** |
 | L-05 | Aug 15 | Null rates measured on 192k sample, not full 17.1M | **Postponed** → item 18 re-measures on full load |
+| L-06 | Aug 15 | Snowflake JWT auth failed twice before key registration | Expected — key not yet registered. **Resolved** after `ALTER USER`, fingerprint matched |
 
 ---
 
@@ -231,7 +233,7 @@ Extra (not in original plan): CI blocks duration-shaped identifiers, dispute-fie
 | # | Decision | Blocks |
 |---|---|---|
 | D-01 | Approve source contract (item 7) | Phase 1 onward |
-| D-02 | Snowflake account — trial or existing? | Items 12–13, all of Phase 2–6 |
+| ~~D-02~~ | ~~Snowflake account~~ — **resolved**, existing account connected | ~~—~~ |
 | D-03 | Enable branch protection now? | Item 112 |
 | D-04 | Node.js 20 deprecation warning in CI — bump `actions/checkout` to v5? | Cosmetic |
 
@@ -239,6 +241,6 @@ Extra (not in original plan): CI blocks duration-shaped identifiers, dispute-fie
 
 # Recommended Next 3
 
-1. **D-02 Snowflake account** — the single biggest unblock (Phases 1–6).
+1. **Review the bootstrap SQL** (item 11) — unblocks Phases 1–6.
 2. **Items 16–19** — download + profile the real dataset. Doable now, no Snowflake, confirms the sampled figures.
 3. **Item 112** — branch protection before the repo gets shared.

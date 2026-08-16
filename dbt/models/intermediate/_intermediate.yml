@@ -1,0 +1,164 @@
+version: 2
+
+models:
+  - name: int_complaint_status_context
+    description: >
+      Assembles published status context and a per-record data-completeness
+      assessment for every complaint record. Derives no timing or duration
+      measures — see
+      docs/adr/ADR-004-source-validation-removes-response-duration.md.
+    columns:
+      - name: complaint_id
+        tests: [unique, not_null]
+      - name: complaint_received_date
+        tests: [not_null]
+      - name: product
+        tests: [not_null]
+      - name: issue
+        tests: [not_null]
+      - name: data_completeness_status
+        tests:
+          - accepted_values:
+              arguments:
+                values: ["COMPLETE", "PARTIAL", "INSUFFICIENT"]
+
+  - name: int_issue_daily_volume
+    description: >
+      Daily observed complaint-volume counts by product x issue x calendar
+      date. An observed count of published complaints, not a rate and not a
+      market measure — see docs/09_supported_vs_unsupported_metrics.md.
+    columns:
+      - name: metric_date
+        tests: [not_null]
+      - name: product
+        tests: [not_null]
+      - name: issue
+        tests: [not_null]
+      - name: complaint_count
+        tests: [not_null]
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns: [metric_date, product, issue]
+
+  - name: int_issue_trends
+    description: >
+      Deterministic issue-volume trend measures — current window, baseline,
+      percentage change, observed share, and pattern qualification — per
+      calendar date x product x issue.
+    columns:
+      - name: metric_date
+        tests: [not_null]
+      - name: product
+        tests: [not_null]
+      - name: issue
+        tests: [not_null]
+      - name: daily_complaint_count
+        description: >
+          The true, non-overlapping count of complaints received on this
+          single date for this product x issue grain. Safe to SUM() across
+          dates — see the same column on fct_issue_daily_metrics
+          (docs/09_supported_vs_unsupported_metrics.md §4.1).
+        tests: [not_null]
+      - name: issue_pattern_status
+        tests:
+          - accepted_values:
+              arguments:
+                values: ["QUALIFIED_SIGNAL", "UNQUALIFIED_SIGNAL", "INSUFFICIENT_BASELINE", "NO_SIGNAL"]
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns: [metric_date, product, issue]
+
+  - name: int_company_issue_patterns
+    description: >
+      Bounded company-level pattern context. CONSTRAINED MODEL — every row
+      carries signal_confidence = LIMITED because the source has no company
+      size, customer count, or transaction-volume denominator. Never rank,
+      sort, or compare companies — see
+      docs/adr/ADR-003-no-individual-risk-score.md.
+    columns:
+      - name: metric_date
+        tests: [not_null]
+      - name: company
+        tests: [not_null]
+      - name: product
+        tests: [not_null]
+      - name: issue
+        tests: [not_null]
+      - name: complaint_count
+        tests: [not_null]
+      - name: signal_confidence
+        tests:
+          - accepted_values:
+              arguments:
+                values: ["LIMITED"]
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns: [metric_date, company, product, issue]
+
+  - name: int_priority_policy_application
+    description: >
+      Evaluates every policy rule against every complaint record and
+      retains each trigger state — one row per complaint x policy
+      evaluated, not just per policy triggered. Precedence and final-action
+      selection happen downstream in resolution_action_queue — see
+      docs/04_decisioning_policy.md §7.
+    columns:
+      - name: complaint_id
+        tests: [not_null]
+      - name: policy_id
+        tests:
+          - accepted_values:
+              arguments:
+                values:
+                  - POLICY_UNTIMELY_RESPONSE
+                  - POLICY_EMERGING_ISSUE
+                  - POLICY_PUBLICATION_LAG
+                  - POLICY_INCOMPLETE_CONTEXT
+                  - POLICY_STABLE_PATTERN
+                  - POLICY_CRITICAL_COMBINATION
+      - name: triggered
+        tests: [not_null]
+      - name: priority
+        tests:
+          - accepted_values:
+              arguments:
+                values: ["LOW", "MEDIUM", "HIGH", "CRITICAL"]
+      - name: recommended_action
+        tests:
+          - accepted_values:
+              arguments:
+                values: ["STANDARD_HANDLING", "ESCALATE_REVIEW", "INVESTIGATE_PATTERN", "REQUIRE_HUMAN_REVIEW"]
+      - name: signal_confidence
+        tests:
+          - accepted_values:
+              arguments:
+                values: ["HIGH", "MEDIUM", "LIMITED"]
+      - name: human_review_required
+        tests: [not_null]
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns: [complaint_id, policy_id]
+
+  - name: int_resolution_signals
+    description: >
+      Attaches record-level published and derived resolution signals,
+      joining each complaint record to the trend context for its own date
+      x product x issue grain. No duration inputs — see
+      docs/adr/ADR-004-source-validation-removes-response-duration.md.
+    columns:
+      - name: complaint_id
+        tests: [unique, not_null]
+      - name: data_completeness_status
+        tests:
+          - accepted_values:
+              arguments:
+                values: ["COMPLETE", "PARTIAL", "INSUFFICIENT"]
+      - name: issue_pattern_status
+        tests:
+          - accepted_values:
+              arguments:
+                values: ["QUALIFIED_SIGNAL", "UNQUALIFIED_SIGNAL", "INSUFFICIENT_BASELINE", "NO_SIGNAL"]

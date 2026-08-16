@@ -66,6 +66,12 @@ ALLOWED_METRICS_COLUMNS = {
 FORBIDDEN_SUBSTRINGS = ["narrative", "tags", "zip", "consumer_disputed"]
 FORBIDDEN_EXCEPTIONS = {"has_narrative"}
 
+# Mirrors dbt_project.yml var publication_lag_window_days. Complaints publish
+# before their record is complete, so the trailing N days of any series taper
+# as an artifact of publication rather than a real decline. Both the metric
+# exports and the application exclude this window from period comparisons.
+PUBLICATION_LAG_WINDOW_DAYS = 60
+
 
 def run_query(connection: str, sql: str) -> list[dict]:
     result = subprocess.run(
@@ -121,6 +127,11 @@ def main() -> int:
     parser.add_argument("--sample-size", type=int, default=300,
                          help="Row cap for the case-context export — keeps the "
                               "committed file small and reviewable.")
+    parser.add_argument("--per-group", type=int, default=60,
+                         help="Rows kept per priority x recommended-action group. "
+                              "A stratified sample, so the committed export shows "
+                              "the real spread of decisioning outcomes rather than "
+                              "whichever outcome happens to be most recent.")
     args = parser.parse_args()
 
     version = datetime.now(timezone.utc).strftime("%Y-%m-%d")
@@ -164,14 +175,26 @@ def main() -> int:
     # and documented." args.sample_size caps this at a size actually fit to
     # commit — a demo needs enough rows to populate a UI, not the full
     # windowed result set.
-    print(f"Querying agent_case_context via CRI_APP_READER (last {args.window_days} days, "
-          f"sample {args.sample_size})...")
+    # The sample deliberately ENDS at the publication-lag boundary rather than
+    # at today. Taking the most recent N records returns only rows inside the
+    # lag window, where every record is still POLICY_PUBLICATION_LAG /
+    # REQUIRE_HUMAN_REVIEW — measured 2026-08-16: 300/300 identical, which
+    # made the attention queue look like the decisioning layer had one rule.
+    # Sampling from complete records surfaces the real spread (CRITICAL, HIGH,
+    # MEDIUM and LOW all present in the same span).
+    print(f"Querying agent_case_context via CRI_APP_READER ({args.window_days}d window ending "
+          f"{PUBLICATION_LAG_WINDOW_DAYS}d back, sample {args.sample_size})...")
     case_context = run_query(
         args.connection,
         role_prefix +
         "SELECT * FROM CUSTOMER_RESOLUTION_INTELLIGENCE.ANALYTICS_PROD.AGENT_CASE_CONTEXT "
         f"WHERE complaint_received_date >= dateadd(day, -{args.window_days}, current_date()) "
-        f"ORDER BY complaint_received_date DESC LIMIT {args.sample_size};",
+        f"  AND complaint_received_date <  dateadd(day, -{PUBLICATION_LAG_WINDOW_DAYS}, current_date()) "
+        f"QUALIFY row_number() over ("
+        f"  partition by priority, recommended_action "
+        f"  order by complaint_received_date desc"
+        f") <= {args.per_group} "
+        f"ORDER BY complaint_received_date DESC;",
     )
     assert_no_forbidden(case_context, "agent_case_context")
     case_context = filter_columns(case_context, ALLOWED_CASE_CONTEXT_COLUMNS)
@@ -192,9 +215,18 @@ def main() -> int:
     assert_no_forbidden(metrics, "operations_overview_metrics")
     metrics = filter_columns(metrics, ALLOWED_METRICS_COLUMNS)
 
+    # Mirrors dbt_project.yml var publication_lag_window_days. Recently
+    # received complaints are published before their record is complete, so
+    # the trailing N days of any volume series taper toward zero as an
+    # artifact of publication, not a real decline (measured 2026-08-16: the
+    # final day reads ~1.5K against a ~20K daily norm). The application
+    # excludes this window from every period-over-period comparison rather
+    # than presenting the taper as a trend. Kept here instead of hardcoded
+    # in the frontend so the two cannot drift apart.
     meta = {
         "export_version": version,
         "generated_at_utc": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
+        "publication_lag_window_days": PUBLICATION_LAG_WINDOW_DAYS,
         "case_context_window_days": args.window_days,
         "case_context_row_count": len(case_context),
         "metrics_row_count": len(metrics),

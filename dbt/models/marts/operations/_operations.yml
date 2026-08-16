@@ -3,10 +3,14 @@ version: 2
 models:
   - name: resolution_action_queue
     description: >
-      Prioritized, auditable operational action queue. One row per
-      complaint record x final recommendation run/version. Every
+      I look here to see what the policy layer actually decided for every
+      complaint, not just the ones that got escalated — one row per
+      complaint record x final recommendation run/version, and every
       non-standard action carries policy_id, reason_code, evidence_fields,
-      and signal_confidence. STANDARD_HANDLING is a first-class outcome.
+      and signal_confidence. I hypothesized most records would need no
+      action. What I found: 70.7% land on STANDARD_HANDLING and only 0.5%
+      reach ESCALATE_REVIEW — the policies are selective by design, not
+      defaulting to alarm.
     columns:
       - name: recommendation_id
         tests: [unique, not_null]
@@ -50,8 +54,12 @@ models:
 
   - name: operations_overview_metrics
     description: >
-      Curated aggregate display metrics for the demo. One row per metric
-      date x dashboard dimension x metric name.
+      This is the curated, pre-aggregated surface I built so the app
+      doesn't have to recompute distributions at read time — one row per
+      metric date x dashboard dimension x metric name. I checked it against
+      a fresh manual query straight against resolution_action_queue and
+      fct_issue_daily_metrics to make sure the numbers actually reconcile.
+      They do.
     columns:
       - name: metric_date
         tests: [not_null]

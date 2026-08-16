@@ -129,6 +129,13 @@ export interface LedgerExhibits {
 export interface DemoExportMeta {
   export_version: string;
   generated_at_utc: string;
+  /**
+   * Trailing days excluded from period-over-period comparisons. Recently
+   * received complaints publish before their record is complete, so the
+   * tail of any volume series tapers as an artifact of publication rather
+   * than a real decline. Mirrors dbt var publication_lag_window_days.
+   */
+  publication_lag_window_days: number;
   case_context_window_days: number;
   case_context_row_count: number;
   metrics_row_count: number;

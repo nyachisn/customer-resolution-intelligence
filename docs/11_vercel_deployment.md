@@ -16,7 +16,9 @@ CFPB → Snowflake RAW → dbt → ANALYTICS_PROD → export_demo_data.py
                                                  Vercel (static hosting)
 ```
 
-The Next.js app has **no runtime dependency on Snowflake**. `scripts/export_demo_data.py` is run manually (or on a schedule, outside Vercel) against `CRI_APP_READER`, and its output — `app/src/data/*.json` — is committed to the repo. `app/src/lib/demo-data.ts` reads those files at build time via `server-only` filesystem access (`fs.readFile`, never `fetch`). `next build` bakes the resulting pages as static content. Vercel serves static output; it never opens a Snowflake connection, has no Snowflake credentials, and has no server-side data-fetching route to protect.
+The Next.js app has **no runtime dependency on Snowflake**. `scripts/export_demo_data.py` is run manually (or on a schedule, outside Vercel) against `CRI_APP_READER`, and its output — `app/src/data/*.json` — is committed to the repo. `app/src/lib/demo-data.ts` reads those files via `server-only` filesystem access (`fs.readFile`, never `fetch`). Vercel never opens a Snowflake connection, has no Snowflake credentials, and has no server-side data-fetching route to protect.
+
+**Rendering mode.** Six of the seven routes are prerendered as static content at build time. `/explore` is server-rendered on demand because it reads `searchParams` — an insight links into it with a filter pre-applied (`/explore?product=…`). That still reads the same committed JSON from the filesystem; "on demand" means the HTML is assembled per request, not that any external system is queried.
 
 This is why the app currently has zero `process.env` usage (confirmed: `grep -rn "process.env" app/src` returns nothing) — there is nothing environment-specific to configure. **No environment variables are required for deployment.**
 
@@ -39,7 +41,7 @@ Refreshing the demo data means re-running the export script and committing the n
 ```bash
 cd app
 npm install
-npm run build   # next build — static export, 7 routes, verified in this pass (see below)
+npm run build   # next build — 7 routes, verified in this pass (see below)
 ```
 
 `vercel.json` (already present, `app/vercel.json`) sets `framework: nextjs`, `buildCommand: npm run build`, and baseline security headers (`X-Content-Type-Options`, `X-Frame-Options`, `Referrer-Policy`) applied to every route. No further Vercel-specific configuration exists or is needed.
@@ -48,7 +50,7 @@ npm run build   # next build — static export, 7 routes, verified in this pass 
 
 - `npx tsc --noEmit` — clean.
 - `npx eslint .` — clean.
-- `npx next build` — succeeded: 7 static routes (`/`, `/_not-found`, `/assessment`, `/demo/context`, `/demo/investigation`, `/demo/operations`, `/methodology`), all prerendered as static content.
+- `npx next build` — succeeded: 7 routes (`/`, `/_not-found`, `/data-story`, `/decisions`, `/explore`, `/insights`, `/methodology`). All prerendered as static except `/explore`, which is server-rendered on demand for its filter query string.
 - No test runner is configured for the app (`package.json` has no `test` script, no test files found) — this is a known gap, not a false claim of coverage.
 
 ## What deployment actually requires (STOP point)
@@ -61,4 +63,4 @@ Both are external-authentication actions on the user's own Vercel/GitHub account
 
 ## Rollback considerations
 
-Because the deployed artifact is static and stateless, rollback is ordinary Vercel behavior: every deployment is immutable and addressable, and Vercel's dashboard lets you promote any prior deployment back to production instantly, with no data-layer rollback needed (there is no database or live connection to roll back — only the committed JSON snapshot changes between deployments, and that's `git revert`-able like any other file).
+Because the deployed artifact is stateless — it holds no database connection and no mutable state — rollback is ordinary Vercel behavior: every deployment is immutable and addressable, and Vercel's dashboard lets you promote any prior deployment back to production instantly, with no data-layer rollback needed (there is no database or live connection to roll back — only the committed JSON snapshot changes between deployments, and that's `git revert`-able like any other file).

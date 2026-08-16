@@ -31,6 +31,25 @@ async function readJson<T>(file: string, fallback: T): Promise<T> {
   }
 }
 
+/**
+ * Snowflake serializes ARRAY columns as a JSON-formatted *string*, not a JSON
+ * array, so these arrive as '[\n  "RECENT_PUBLICATION_LAG"\n]'. An
+ * Array.isArray() check silently yields [] for every row — which is what had
+ * been quietly blanking every reason code and policy id on the record views.
+ */
+function toStringArray(raw: unknown): string[] {
+  if (Array.isArray(raw)) return raw as string[];
+  if (typeof raw === "string" && raw.trim().startsWith("[")) {
+    try {
+      const parsed: unknown = JSON.parse(raw);
+      if (Array.isArray(parsed)) return parsed.map(String);
+    } catch {
+      return [];
+    }
+  }
+  return [];
+}
+
 function lower<T extends Record<string, unknown>>(row: T): Record<string, unknown> {
   const out: Record<string, unknown> = {};
   for (const [k, v] of Object.entries(row)) out[k.toLowerCase()] = v;
@@ -62,8 +81,8 @@ export async function loadDemoRecords(): Promise<ComplaintRecordContext[]> {
       interpretationLimitation: (row.interpretation_limitation as string) ?? null,
       priority: (row.priority as ComplaintRecordContext["priority"]) ?? "LOW",
       recommendedAction: (row.recommended_action as ComplaintRecordContext["recommendedAction"]) ?? "STANDARD_HANDLING",
-      reasonCodes: Array.isArray(row.reason_codes) ? (row.reason_codes as string[]) : [],
-      policyIds: Array.isArray(row.policy_ids) ? (row.policy_ids as string[]) : [],
+      reasonCodes: toStringArray(row.reason_codes),
+      policyIds: toStringArray(row.policy_ids),
       contextSummary: String(row.context_summary ?? ""),
       generatedAt: String(row.generated_at ?? ""),
     };
@@ -153,6 +172,7 @@ export async function loadDemoMeta(): Promise<DemoExportMeta> {
   return readJson<DemoExportMeta>("export_meta.json", {
     export_version: "unset",
     generated_at_utc: "unset",
+    publication_lag_window_days: 60,
     case_context_window_days: 0,
     case_context_row_count: 0,
     metrics_row_count: 0,

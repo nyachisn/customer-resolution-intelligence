@@ -1,0 +1,6 @@
+name: cri_operations_console
+channels:
+  - snowflake
+dependencies:
+  - pandas
+  - streamlit=1.52.2

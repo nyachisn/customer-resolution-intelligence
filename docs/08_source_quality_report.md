@@ -2,10 +2,11 @@
 
 **Status:** Phase 0 — Measured source assessment
 **Owner:** Shem Nyachieo
-**Version:** 1.0
-**Last updated:** August 15, 2026
+**Version:** 1.2
+**Last updated:** August 16, 2026
 **Source retrieval date:** August 15, 2026
 **Source snapshot metadata:** `last_updated` = `2026-08-15T12:00:00-05:00`; `total_record_count` = 17,119,590; `is_data_stale` = `false`; `has_data_issue` = `false`; `license` = `CC0`
+**Revision note:** v1.1 replaced the §4 sample-based estimates with full-population measurements. **v1.2 adds §12** — a measured parser-disagreement defect found during the actual Snowflake load, invisible to the file-level Python profile that produced every other figure in this report.
 
 > This report records **measured** source-quality findings and the data-quality controls the implementation must carry as a result. It complements `02_data_source_audit.md` (which establishes the schema) and `06_known_limitations.md` (which states what the product cannot claim).
 
@@ -76,22 +77,28 @@ API-only, not a CSV column: `has_narrative` (boolean).
 
 ## 4. Completeness and null rates
 
-Measured on a 192,820-row sample of the bulk archive, with whole-database aggregation figures where available.
+**Measured against the full population** — all 17,119,590 rows, streamed from the retrieved archive by `scripts/profile_source_data.py` on August 15, 2026.
 
-| Field | Empty in sample | Sample rate | Whole-DB estimate |
-|---|---:|---:|---|
-| `Consumer complaint narrative` | 188,940 | 97.99% | 77.59% empty; ~100% for 2026 |
-| `Tags` | 187,580 | 97.28% | 95.38% null |
-| `Company public response` | 127,275 | 66.01% | 45.41% null |
-| `Sub-issue` | 2,635 | 1.37% | ~5.4% |
-| `State` | 220 | 0.11% | ~0.36% |
-| `ZIP code` | 178 | 0.09% | plus 5.66% masked |
-| `Sub-product` | 1 | 0.0005% | ~1.4% |
-| `Product`, `Issue`, `Company`, `Submitted via`, `Timely response?`, `Complaint ID` | 0 | 0.00% | effectively non-null |
+| Field | Null count | Null rate |
+|---|---:|---:|
+| `Consumer complaint narrative` | 13,282,406 | 77.586% |
+| `Tags` | 16,331,589 | 95.375% |
+| `Company public response` | 7,774,036 | 45.409% |
+| `Sub-issue` | 927,566 | 5.418% |
+| `Sub-product` | 235,222 | 1.374% |
+| `State` | 62,326 | 0.364% |
+| `ZIP code` | 1,867 | 0.011% |
+| `Product`, `Issue`, `Company`, `Submitted via`, `Date received`, `Date sent to company`, `Company response to consumer`, `Timely response?`, `Complaint ID` | 0 | 0.000% |
 
-Whole-database figures derive from aggregation bucket sums against total. Aggregation buckets are top-N truncated, so these are **upper-bound estimates** and must be re-measured after load rather than treated as exact.
+Every figure confirmed the v1.0 sample-based estimate to within 0.05 percentage points, except ZIP masking — see §4.1.
 
-**Control:** surface measured null rates for all fields after every load. Alert on material change from the figures above.
+**Control:** surface measured null rates for all fields after every load. Alert on material change from the figures above (`scripts/validate_source_quality.py`, `DRIFT_WARN_THRESHOLD_PCT = 5.0`).
+
+### 4.1 Correction — ZIP masking rate
+
+The v1.0 report estimated **5.66%** ZIP masking from aggregation-bucket arithmetic. **Full-population measurement finds 7.393%** (1,266,203 of 17,119,590 rows) — a real discrepancy, not sampling noise, most likely because the v1.0 estimate summed top-N-truncated aggregation buckets rather than counting masked values directly.
+
+The underlying control is unaffected — masked ZIPs must never be parsed, cast, or geocoded regardless of their exact rate — but the corrected figure is the one to cite.
 
 ---
 
@@ -233,9 +240,53 @@ Each control below is mandatory and traceable to a finding above.
 | DQ-16 | Assert that no model or export column expresses a duration | `06_known_limitations.md` §2 |
 | DQ-17 | Validate every export column against `09_supported_vs_unsupported_metrics.md` | Register enforcement |
 | DQ-18 | Check the CFPB release-notes page on a recurring basis for schema drift | §8 of limitations |
+| DQ-19 | Verify null/duplicate counts against the actual loaded table, not only a pre-load file profile — different parsers can recover differently from the same malformed input | §12 |
 
 ---
 
-## 11. Report maintenance
+## 11. Raw load results (executed 2026-08-16)
+
+| Metric | Value |
+|---|---|
+| `load_run_id` | `49781bc8-1608-4436-a6d1-c6b0aa690cca` |
+| Ingestion path | 18 row-aligned gzip chunks, ~1M rows each (see §9 amendment below) |
+| Rows loaded | 17,119,590 |
+| Rows affected by parser-shift corruption | 30 — see full breakdown in §12 |
+| Rows with duplicate `complaint_id` | 0 (the naive formula `COUNT(*) - COUNT(DISTINCT complaint_id)` initially suggested 3, fully explained by the 3 null-`complaint_id` rows — `COUNT(DISTINCT)` excludes nulls, so it double-counts them as apparent duplicates. Confirmed by direct inspection: 0 genuine duplicate complaint IDs.) |
+| Date range loaded | 2011-12-01 to 2026-08-15 |
+| `VALIDATE()` errors reported | 0 across all 18 files |
+
+### 11.1 Ingestion mechanism amendment — single-file COPY failed; multi-file chunking required
+
+Loading the 9GB uncompressed CSV as one staged file failed partway through with a field-delimiter parse error, despite the file being valid CSV (confirmed: Python's `csv` module parses all 17.1M rows without an anomaly, and a 50,000-row extract of the same content loads into Snowflake with zero errors). The fault is Snowflake's internal parallel byte-range scan of one very large uncompressed file landing inside a quoted multi-line narrative field. Snowflake's own documented mitigation — loading from multiple moderately-sized files instead of one large one — resolved it completely. See `scripts/split_and_stage.py` and `docs/adr/ADR-005-bulk-csv-as-primary-ingestion.md`.
+
+## 12. Load-time finding — parser disagreement on malformed rows (measured 2026-08-16)
+
+The full-population profile in §4 was produced by streaming the archive through Python's `csv` module. That profile reported **zero** null values across all 17,119,590 rows for every field. Loading the same archive into Snowflake (`load_run_id 49781bc8-1608-4436-a6d1-c6b0aa690cca`) produced null values Python never saw — a genuine discrepancy between two correct, careful measurements of the same file, not a mistake in either one.
+
+**Full measured scope.** Querying the loaded raw table directly (not assuming the first symptom found was the only one):
+
+| Symptom | Row count |
+|---|---:|
+| Null `complaint_id` | 3 |
+| Null `issue` | 6 |
+| Null `company_response_to_consumer` | 21 |
+| **Union (any of the three)** | **30** |
+
+The three sets do not overlap — 30 distinct rows, each corrupted in one specific field, out of 17,119,590 (0.000175%). `product` and `date_received` — the two fields preceding the narrative column in row order — are never affected.
+
+**Root cause, confirmed by inspecting raw row content:** these rows contain an unescaped literal comma inside the `Consumer complaint narrative` field — a real RFC4180 violation in the CFPB's own published file. One recovered row's narrative field read in part:
+
+> *"...and just the SNAP BENEFI=ST.**,**Company believes it acted appropriately as authorized by contract or law"*
+
+The comma mid-sentence is not a field delimiter in the source data's intent, but nothing in the file marks it as literal text either — the field's opening quote was not properly closed and reopened around the embedded comma. Every field after the malformation shifts left by one position; where the resulting shortfall lands — `issue` at position 4, `company_response_to_consumer` at position 14, `complaint_id` at position 16 — depends on exactly how much content the malformed comma swallowed in that specific row. This is genuinely ambiguous input, not a bug in either parser: Python's `csv` module (lenient mode) absorbed it one way, producing a complete-looking 16-field row; Snowflake's COPY parser absorbed it differently, correctly recognizing each row as short one field and leaving the corresponding column empty.
+
+**Why this matters beyond these 30 rows.** A file-level profile, however careful, characterizes what one parser makes of the file. It is not proof of what a *different* parser — specifically, the one that will actually load the data — will do with the same bytes. This is why §3's schema check and this section both exist: one is necessary, neither alone is sufficient. It is also why the first-found symptom (3 null `complaint_id` rows) was not assumed to be the whole story — querying the union across every field the source contract requires non-null found ten times as many affected rows as the first check alone would have reported.
+
+**Handling.** `stg_cfpb_complaints.sql` excludes any row missing `complaint_id`, `product`, `issue`, or `complaint_received_date` — the four fields the source contract requires non-null. A shift severe enough to null one required field means the row's other, still-non-null fields cannot be trusted either, so the whole row is excluded rather than loaded with a plausible-looking but corrupted value in some other column. `RAW.CFPB_COMPLAINTS` retains all 17,119,590 rows unmodified, including these 30, preserving source fidelity at that layer — the three affected source columns carry `severity: warn` tests rather than hard failures for exactly this reason. `dbt/tests/assert_dropped_row_count_bounded.sql` fails the build if the excluded-row count ever exceeds 100 — generous relative to the measured 30, but tight enough to catch a materially different class of problem (a broken chunk boundary, a corrupted upload, a schema change) rather than assuming every future gap is "the same known issue."
+
+**Control:** DQ-19 — never assume a file-level profile characterizes load-time parser behavior; verify null/duplicate counts against the actual loaded table, not only against a pre-load streaming profile.
+
+## 13. Report maintenance
 
 Re-run this assessment whenever the source is re-retrieved, and always before a portfolio demo. Record the new retrieval date, re-measure §2, §4, §7, and §8, and note any drift from the figures above. Material drift requires an ADR.

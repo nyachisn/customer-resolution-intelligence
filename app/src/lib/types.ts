@@ -72,9 +72,27 @@ export interface ComplaintRecordContext {
   generatedAt: string;
 }
 
+/** One curated aggregate metric row, matching operations_overview_metrics. */
+export interface OperationsMetric {
+  metricDate: string;
+  dashboardDimension: string;
+  metricName: string;
+  metricValue: number;
+}
+
+/** Matches the literal keys scripts/export_demo_data.py writes to export_meta.json. */
 export interface DemoExportMeta {
-  exportVersion: string;
-  sourceSnapshotDate: string;
-  policyVersion: string;
-  generatedAt: string;
+  export_version: string;
+  generated_at_utc: string;
+  case_context_window_days: number;
+  case_context_row_count: number;
+  metrics_row_count: number;
+  /**
+   * Total published records in the source archive at ingestion time —
+   * read from the pipeline's own retrieval record, not a hardcoded string.
+   * Null in a checkout that has never run the ingestion scripts (data/ is
+   * git-ignored) rather than a stale or fabricated number.
+   */
+  source_total_records: number | null;
+  source_retrieval_date: string | null;
 }

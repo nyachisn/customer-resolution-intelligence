@@ -34,7 +34,18 @@ sources:
               Public identifier for a published complaint record. STRING —
               the source OpenAPI spec declares int64 but the live API returns
               a string. Never cast to integer. Not a consumer ID.
-            tests: [unique, not_null]
+              MEASURED (2026-08-16, load_run_id 49781bc8-...): 3 of
+              17,119,590 rows load with a null complaint_id due to a
+              parser-shift defect from an unescaped comma in the narrative
+              field — see docs/08_source_quality_report.md §12. RAW must
+              preserve this fidelity, so not_null is warn-severity here;
+              stg_cfpb_complaints enforces the real guarantee by excluding
+              these rows.
+            tests:
+              - unique
+              - not_null:
+                  config:
+                    severity: warn
           - name: date_received
             description: Date the CFPB received the complaint.
             tests: [not_null]
@@ -47,7 +58,14 @@ sources:
             tests: [not_null]
           - name: sub_product
           - name: issue
-            tests: [not_null]
+            description: >
+              MEASURED (2026-08-16): 6 of 17,119,590 rows load with a null
+              issue from the same parser-shift defect class — see
+              docs/08_source_quality_report.md §12.
+            tests:
+              - not_null:
+                  config:
+                    severity: warn
           - name: sub_issue
           - name: company
             tests: [not_null]
@@ -68,7 +86,13 @@ sources:
             description: >
               Published company response category. 'In progress' means
               unresolved at publication — never a performance signal.
-            tests: [not_null]
+              MEASURED (2026-08-16): 21 of 17,119,590 rows load with a null
+              value here from the same parser-shift defect class — see
+              docs/08_source_quality_report.md §12.
+            tests:
+              - not_null:
+                  config:
+                    severity: warn
           - name: timely_response
             description: >
               CFPB's PUBLISHED timeliness assessment (Yes/No). A source-provided

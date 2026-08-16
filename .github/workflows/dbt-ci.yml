@@ -65,10 +65,19 @@ jobs:
 
       # The project's premise is that it refuses to make unsupported claims.
       # These checks make that mechanical rather than aspirational.
+      #
+      # dbt/tests/assert_no_response_duration_claim.sql is excluded: it is
+      # the model-layer version of this exact check, run against
+      # INFORMATION_SCHEMA at dbt-build time (see that file). Its job is to
+      # CONTAIN these strings as detection patterns ('%response_duration%',
+      # etc.), not to introduce a duration column — excluding it here avoids
+      # the check matching its own pattern list, without weakening either
+      # check's actual coverage.
       - name: No duration-shaped column names
         run: |
           if grep -rniE '\b(response_days|resolution_days|days_to_respond|time_to_resolution|handling_time|response_duration|resolution_duration|elapsed_)' \
-               --include='*.sql' --include='*.yml' --include='*.csv' dbt/ ; then
+               --include='*.sql' --include='*.yml' --include='*.csv' \
+               --exclude='assert_no_response_duration_claim.sql' dbt/ ; then
             echo "::error::Duration-shaped identifier found. The CFPB source publishes no company response timestamp — see docs/adr/ADR-004-source-validation-removes-response-duration.md"
             exit 1
           fi

@@ -72,6 +72,14 @@
 
 ---
 
+## 4.1 Reading note — backtest vs. point-in-time (verified against the real build, 2026-08-16)
+
+`fct_issue_daily_metrics` and `resolution_action_queue` compute trend status **for every historical date** across the full 2011–2026 archive, not only for "today." A complaint's `issue_pattern_status` reflects whether *its own received date* looked like an emerging pattern at the time, relative to that date's own trailing baseline.
+
+Aggregated across all 15 years, this produces a headline figure that reads as surprising until this is understood: in the real build, **15.5% of all 17.1M complaint records** carry `priority = HIGH, recommended_action = INVESTIGATE_PATTERN`. That is not "15.5% of complaints today warrant investigation" — it is "15.5% of complaints, across the dataset's entire history, landed on a date that was an emerging blip relative to its own recent baseline at the time." Early-history dates with small, volatile baselines qualify easily; this is expected behavior for a 15-year backtest, not a defect.
+
+**An operational deployment must filter to a current window** (e.g., `complaint_received_date >= current_date - N days`) before presenting `resolution_action_queue` as "the queue" — the full-history table is a research/demo artifact, not an operational one. `scripts/export_demo_data.py` should apply such a filter (or clearly label the export as historical) rather than presenting the all-time distribution as if it were today's queue.
+
 ## 5. Register maintenance
 
 - Re-validate whenever the source audit is re-run.

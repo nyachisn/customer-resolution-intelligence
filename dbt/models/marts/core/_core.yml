@@ -1,0 +1,71 @@
+version: 2
+
+models:
+  - name: dim_issue_taxonomy
+    description: >
+      Reusable product/issue taxonomy reference. One row per distinct
+      product x sub_product x issue x sub_issue combination observed in the
+      source. Legacy and current labels coexist and are never merged.
+    columns:
+      - name: issue_taxonomy_key
+        description: Deterministic surrogate key over the four taxonomy fields.
+        tests: [unique, not_null]
+      - name: product
+        tests: [not_null]
+      - name: issue
+        tests: [not_null]
+
+  - name: fct_complaints
+    description: >
+      Authoritative canonical complaint record fact model. One row per
+      published complaint record. A row is a complaint observation — never
+      a customer, a consumer profile, or an identified person.
+    columns:
+      - name: complaint_id
+        description: Canonical complaint record key. STRING, not integer.
+        tests: [unique, not_null]
+      - name: complaint_received_date
+        tests: [not_null]
+      - name: product
+        tests: [not_null]
+      - name: issue
+        tests: [not_null]
+      - name: timely_response_status
+        tests:
+          - accepted_values:
+              arguments:
+                values: ["YES", "NO", "UNKNOWN"]
+              config:
+                severity: warn  # UNKNOWN is currently unreachable — no null/third value exists at source
+      - name: data_completeness_status
+        tests:
+          - accepted_values:
+              arguments:
+                values: ["COMPLETE", "PARTIAL", "INSUFFICIENT"]
+
+  - name: fct_issue_daily_metrics
+    description: >
+      Trusted daily operational metric layer. One row per calendar date x
+      product x issue. Never a market-wide measure — see
+      docs/09_supported_vs_unsupported_metrics.md.
+    columns:
+      - name: metric_date
+        tests: [not_null]
+      - name: product
+        tests: [not_null]
+      - name: issue
+        tests: [not_null]
+      - name: daily_complaint_count
+        description: >
+          The true, non-overlapping count of complaints received on this
+          single date for this product x issue grain. Safe to SUM() across
+          dates. Added 2026-08-16 to fix a real double-counting defect in
+          the application layer, which had been summing issue_volume_current
+          (a rolling window) across dates instead. See
+          docs/09_supported_vs_unsupported_metrics.md §4.1.
+        tests: [not_null]
+      - name: issue_pattern_status
+        tests:
+          - accepted_values:
+              arguments:
+                values: ["QUALIFIED_SIGNAL", "UNQUALIFIED_SIGNAL", "INSUFFICIENT_BASELINE", "NO_SIGNAL"]

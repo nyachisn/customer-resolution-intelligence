@@ -1,0 +1,13 @@
+definition_version: 2
+entities:
+  cri_operations_console:
+    type: streamlit
+    identifier:
+      name: CRI_OPERATIONS_CONSOLE
+      database: CUSTOMER_RESOLUTION_INTELLIGENCE
+      schema: ANALYTICS_PROD
+    query_warehouse: CRI_TRANSFORM_WH
+    main_file: streamlit_app.py
+    artifacts:
+      - streamlit_app.py
+      - environment.yml

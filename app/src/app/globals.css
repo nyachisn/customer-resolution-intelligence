@@ -1,0 +1,325 @@
+/**
+ * Design tokens and base styles.
+ *
+ * Requirements: docs/01_product_requirements.md §4.3 — semantic HTML,
+ * keyboard navigation, visible focus state, sufficient contrast, mobile
+ * legibility. Status is never communicated by color alone — every status
+ * badge pairs a color with text and/or an icon.
+ */
+
+:root {
+  --color-bg: #ffffff;
+  --color-bg-subtle: #f6f7f9;
+  --color-text: #1a1a1a;
+  --color-text-muted: #5b6470;
+  --color-border: #d4d8dd;
+  --color-accent: #0b5fa5;
+  --color-accent-bg: #eaf2fa;
+
+  --status-low-bg: #eef2f6;
+  --status-low-text: #3c4550;
+  --status-medium-bg: #fdf3e0;
+  --status-medium-text: #7a5200;
+  --status-high-bg: #fdece7;
+  --status-high-text: #9c3b1f;
+  --status-critical-bg: #fbe4e1;
+  --status-critical-text: #a3341f;
+
+  --max-width: 1080px;
+  --radius: 8px;
+  --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-bg: #14161a;
+    --color-bg-subtle: #1c1f24;
+    --color-text: #edeef0;
+    --color-text-muted: #a2a9b3;
+    --color-border: #2e333a;
+    --color-accent: #6db3f2;
+    --color-accent-bg: #16283a;
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  padding: 0;
+  margin: 0;
+}
+
+body {
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-sans);
+  line-height: 1.5;
+}
+
+a {
+  color: var(--color-accent);
+}
+
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 3px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+.container {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 1.25rem;
+}
+
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  background: var(--color-accent);
+  color: white;
+  padding: 0.75rem 1rem;
+  z-index: 100;
+}
+.skip-link:focus {
+  left: 1rem;
+  top: 1rem;
+}
+
+.site-header {
+  border-bottom: 1px solid var(--color-border);
+  padding: 1rem 0;
+}
+
+.site-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.25rem;
+  align-items: center;
+}
+
+.site-nav a {
+  text-decoration: none;
+  color: var(--color-text);
+  font-size: 0.95rem;
+}
+.site-nav a:hover {
+  color: var(--color-accent);
+}
+
+.brand {
+  font-weight: 700;
+  font-size: 1.05rem;
+  text-decoration: none !important;
+  color: var(--color-text) !important;
+}
+
+main {
+  min-height: 60vh;
+  padding: 2rem 0 4rem;
+}
+
+.site-footer {
+  border-top: 1px solid var(--color-border);
+  padding: 2rem 0;
+  color: var(--color-text-muted);
+  font-size: 0.85rem;
+}
+
+.disclosure-banner {
+  background: var(--color-accent-bg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  padding: 0.85rem 1rem;
+  font-size: 0.9rem;
+  margin: 1rem 0;
+}
+
+.context-note {
+  background: var(--color-bg-subtle);
+  border-left: 3px solid var(--color-accent);
+  padding: 0.75rem 1rem;
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+  margin: 1rem 0;
+  border-radius: 0 var(--radius) var(--radius) 0;
+}
+
+.hero {
+  padding: 2.5rem 0 1.5rem;
+}
+.hero h1 {
+  font-size: clamp(1.8rem, 4vw, 2.6rem);
+  margin: 0 0 0.5rem;
+}
+.hero p.tagline {
+  font-size: 1.15rem;
+  color: var(--color-text-muted);
+  max-width: 42rem;
+}
+
+.flow-diagram {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
+  margin: 1.5rem 0;
+  font-size: 0.95rem;
+}
+.flow-step {
+  background: var(--color-bg-subtle);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  padding: 0.5rem 0.9rem;
+}
+.flow-arrow {
+  color: var(--color-text-muted);
+}
+
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem;
+  margin: 1.5rem 0;
+}
+.card {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  padding: 1rem;
+  background: var(--color-bg-subtle);
+}
+.card h3 {
+  margin: 0 0 0.4rem;
+  font-size: 1rem;
+}
+.card .metric {
+  font-size: 1.6rem;
+  font-weight: 700;
+}
+.card .metric-label {
+  color: var(--color-text-muted);
+  font-size: 0.8rem;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.88rem;
+}
+caption {
+  text-align: left;
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+  margin-bottom: 0.5rem;
+}
+th,
+td {
+  text-align: left;
+  padding: 0.55rem 0.6rem;
+  border-bottom: 1px solid var(--color-border);
+  vertical-align: top;
+}
+th {
+  color: var(--color-text-muted);
+  font-weight: 600;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+.table-scroll {
+  overflow-x: auto;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.15rem 0.55rem;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+.badge-low { background: var(--status-low-bg); color: var(--status-low-text); }
+.badge-medium { background: var(--status-medium-bg); color: var(--status-medium-text); }
+.badge-high { background: var(--status-high-bg); color: var(--status-high-text); }
+.badge-critical { background: var(--status-critical-bg); color: var(--status-critical-text); }
+
+.btn {
+  display: inline-block;
+  background: var(--color-accent);
+  color: white;
+  padding: 0.65rem 1.2rem;
+  border-radius: var(--radius);
+  text-decoration: none;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  font-size: 0.95rem;
+}
+.btn:hover {
+  opacity: 0.92;
+}
+.btn-secondary {
+  background: transparent;
+  color: var(--color-text);
+  border: 1px solid var(--color-border);
+}
+
+label {
+  display: block;
+  font-weight: 600;
+  font-size: 0.85rem;
+  margin: 1rem 0 0.3rem;
+}
+input,
+select,
+textarea {
+  width: 100%;
+  padding: 0.55rem 0.7rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  font-size: 0.95rem;
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: inherit;
+}
+
+.section-title {
+  margin-top: 2.5rem;
+}
+
+.limitation-list li {
+  margin-bottom: 0.5rem;
+}
+
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  align-items: end;
+  margin: 1rem 0 1.5rem;
+}
+.filters label {
+  margin: 0 0 0.3rem;
+}
+.filter-group {
+  min-width: 160px;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+}

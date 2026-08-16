@@ -124,14 +124,18 @@ curl -s "https://www.consumerfinance.gov/data-research/consumer-complaints/searc
 
 ---
 
-## 5. Raw load **[not yet implemented]**
+## 5. Raw load
 
 ```bash
-snowsql -f snowflake/01_raw/00_create_file_format.sql
-snowsql -f snowflake/01_raw/01_create_stage.sql
-snowsql -f snowflake/01_raw/02_create_raw_tables.sql
-snowsql -f snowflake/02_load/load_cfpb_complaints.sql
+snow sql -c cri -f snowflake/01_raw/00_create_file_format.sql
+snow sql -c cri -f snowflake/01_raw/01_create_stage.sql
+snow sql -c cri -f snowflake/01_raw/02_create_raw_tables.sql
+python scripts/load_to_snowflake.py --connection cri
 ```
+
+**Executed and verified August 16, 2026** (`load_run_id 49781bc8-1608-4436-a6d1-c6b0aa690cca`): 17,119,590 rows loaded, 0 duplicate `complaint_id`, 30 rows (0.000175%) affected by a genuine parser-shift defect in the source CSV — see `docs/08_source_quality_report.md` §12.
+
+`load_to_snowflake.py` does not stage the archive as one file. Loading the 9GB uncompressed CSV as a single staged file fails partway through — see `docs/adr/ADR-005-bulk-csv-as-primary-ingestion.md` and `08_source_quality_report.md` §11.1. It instead calls `scripts/split_and_stage.py`, which splits the archive into row-aligned gzip chunks (Python's `csv` module guarantees no chunk boundary falls inside a quoted field) and uploads them to `@CFPB_STAGE/chunks/`.
 
 Load rules:
 

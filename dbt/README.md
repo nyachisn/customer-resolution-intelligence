@@ -2,7 +2,7 @@
 
 Transformation, testing, documentation, and lineage.
 
-**Status:** not yet implemented. The DAG and model contracts are specified; SQL is written in Phases 3–4.
+**Status:** implemented and verified. All 13 models built successfully against both `ANALYTICS_DEV` and `ANALYTICS_PROD` on the full 17,119,590-row CFPB archive. Last full `dbt build`: 66 PASS, 3 expected WARN (documented source anomalies — see `docs/08_source_quality_report.md` §12), 0 ERROR. See `docs/12_project_context.md` for current status and `docs/10_build_plan.md` for the full history.
 
 ## Layering
 
@@ -18,21 +18,24 @@ Transformation, testing, documentation, and lineage.
 
 ## DAG
 
+Verified 2026-08-16 by extracting every `{{ ref(...) }}` call directly from the model files, not assumed from a simplified drawing:
+
 ```text
-src_cfpb_complaints
-  └── stg_cfpb_complaints
-        ├── dim_issue_taxonomy
-        └── int_complaint_status_context
-              ├── int_issue_daily_volume ── int_issue_trends
-              ├── int_company_issue_patterns
-              └── int_resolution_signals
-                    └── int_priority_policy_application
-                          ├── fct_complaints ── fct_issue_daily_metrics
-                          ├── agent_case_context
-                          └── resolution_action_queue ── operations_overview_metrics
+stg_cfpb_complaints (view)
+  ├── dim_issue_taxonomy (table)
+  └── int_complaint_status_context (view)
+        ├── int_issue_daily_volume → int_issue_trends
+        ├── int_company_issue_patterns
+        └── int_resolution_signals ◄── also reads int_issue_trends directly
+              └── int_priority_policy_application
+                    ├── fct_complaints ◄── also reads dim_issue_taxonomy
+                    │     └── fct_issue_daily_metrics ◄── reads int_issue_trends, not fct_complaints
+                    ├── resolution_action_queue ◄── also reads int_resolution_signals
+                    │     └── operations_overview_metrics ◄── also reads fct_issue_daily_metrics
+                    └── agent_case_context ◄── ALSO reads fct_complaints AND resolution_action_queue directly
 ```
 
-Model grains are defined in [docs/03_data_dictionary.md](../docs/03_data_dictionary.md) §2. Every model states its grain in one sentence or it is not ready to build.
+The tree-shaped drawing understates `agent_case_context`'s real dependencies — it reads three upstream models directly (`fct_complaints`, `int_resolution_signals`, `resolution_action_queue`), not only `int_priority_policy_application` transitively. Model grains are defined in [docs/03_data_dictionary.md](../docs/03_data_dictionary.md) §2. Every model states its grain in one sentence or it is not ready to build.
 
 ## Non-negotiables
 

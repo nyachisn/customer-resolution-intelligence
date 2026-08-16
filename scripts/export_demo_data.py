@@ -202,12 +202,128 @@ def main() -> int:
         "source_retrieval_date": source_retrieval_date,
     }
 
+    # Ledger exhibits: eight aggregate-only queries backing the homepage
+    # data report. Every row here is a GROUP BY count/percentage over the
+    # full 17.1M-record population — never a complaint-level column — so
+    # the ALLOWED_*_COLUMNS allowlist regime above doesn't apply; there is
+    # no complaint_id, no per-record field, nothing to over-select. Same
+    # CRI_APP_READER boundary, same governed marts, just aggregated further.
+    print("Querying ledger exhibits (aggregate-only, all-history) via CRI_APP_READER...")
+    schema = "CUSTOMER_RESOLUTION_INTELLIGENCE.ANALYTICS_PROD"
+
+    totals = run_query(
+        args.connection,
+        role_prefix +
+        f"SELECT COUNT(*) AS TOTAL, MIN(COMPLAINT_RECEIVED_DATE) AS MIN_DATE, "
+        f"MAX(COMPLAINT_RECEIVED_DATE) AS MAX_DATE, "
+        f"COUNT(DISTINCT PRODUCT) AS DISTINCT_PRODUCTS FROM {schema}.FCT_COMPLAINTS;",
+    )
+
+    # Excludes the current, still-in-progress calendar month — an
+    # in-progress month reads as a sharp artificial drop on a monthly trend
+    # line, not a real decline.
+    monthly_volume = run_query(
+        args.connection,
+        role_prefix +
+        f"SELECT DATE_TRUNC('month', METRIC_DATE)::DATE AS MONTH, SUM(DAILY_COMPLAINT_COUNT) AS TOTAL "
+        f"FROM {schema}.FCT_ISSUE_DAILY_METRICS WHERE METRIC_DATE >= '2020-01-01' "
+        f"AND METRIC_DATE < DATE_TRUNC('month', CURRENT_DATE()) "
+        f"GROUP BY 1 ORDER BY 1;",
+    )
+
+    products = run_query(
+        args.connection,
+        role_prefix +
+        f"SELECT PRODUCT, COUNT(*) AS CNT FROM {schema}.FCT_COMPLAINTS "
+        f"GROUP BY 1 ORDER BY 2 DESC LIMIT 8;",
+    )
+
+    priority = run_query(
+        args.connection,
+        role_prefix +
+        f"SELECT PRIORITY, COUNT(*) AS CNT FROM {schema}.RESOLUTION_ACTION_QUEUE GROUP BY 1 ORDER BY 1;",
+    )
+    confidence = run_query(
+        args.connection,
+        role_prefix +
+        f"SELECT SIGNAL_CONFIDENCE, COUNT(*) AS CNT FROM {schema}.RESOLUTION_ACTION_QUEUE GROUP BY 1 ORDER BY 1;",
+    )
+    action = run_query(
+        args.connection,
+        role_prefix +
+        f"SELECT RECOMMENDED_ACTION, COUNT(*) AS CNT FROM {schema}.RESOLUTION_ACTION_QUEUE "
+        f"GROUP BY 1 ORDER BY 2 DESC;",
+    )
+
+    policy_triggers = run_query(
+        args.connection,
+        role_prefix +
+        f"SELECT POLICY_ID, SUM(CASE WHEN TRIGGERED THEN 1 ELSE 0 END) AS TRIGGERED_CNT, "
+        f"COUNT(*) AS EVALUATED_CNT FROM {schema}.INT_PRIORITY_POLICY_APPLICATION "
+        f"GROUP BY 1 ORDER BY 2 DESC;",
+    )
+
+    completeness = run_query(
+        args.connection,
+        role_prefix +
+        f"SELECT DATA_COMPLETENESS_STATUS, COUNT(*) AS CNT FROM {schema}.FCT_COMPLAINTS "
+        f"GROUP BY 1 ORDER BY 2 DESC;",
+    )
+    timely = run_query(
+        args.connection,
+        role_prefix +
+        f"SELECT TIMELY_RESPONSE_STATUS, COUNT(*) AS CNT FROM {schema}.FCT_COMPLAINTS "
+        f"GROUP BY 1 ORDER BY 2 DESC;",
+    )
+
+    # Most-recent-ten-weeks qualified signals, one row per distinct
+    # product x issue pair (its latest qualifying date only) — matches
+    # docs/09_supported_vs_unsupported_metrics.md: a signal is read against
+    # its own baseline, never against another product.
+    emerging_signals = run_query(
+        args.connection,
+        role_prefix +
+        "WITH ranked AS ("
+        "  SELECT PRODUCT, ISSUE, METRIC_DATE, VOLUME_CHANGE_PCT, ISSUE_VOLUME_CURRENT, "
+        "         ROW_NUMBER() OVER (PARTITION BY PRODUCT, ISSUE ORDER BY METRIC_DATE DESC) AS rn "
+        f"  FROM {schema}.INT_ISSUE_TRENDS "
+        "  WHERE ISSUE_PATTERN_STATUS = 'QUALIFIED_SIGNAL' AND METRIC_DATE >= DATEADD(WEEK, -10, CURRENT_DATE())"
+        ") SELECT PRODUCT, ISSUE, METRIC_DATE, VOLUME_CHANGE_PCT, ISSUE_VOLUME_CURRENT "
+        "FROM ranked WHERE rn = 1 ORDER BY VOLUME_CHANGE_PCT DESC LIMIT 8;",
+    )
+
+    # Raw complaint counts only — never ranked, never compared as a rate.
+    # See docs/adr/ADR-003-no-individual-risk-score.md.
+    companies = run_query(
+        args.connection,
+        role_prefix +
+        f"SELECT COMPANY, SUM(COMPLAINT_COUNT) AS TOTAL FROM {schema}.INT_COMPANY_ISSUE_PATTERNS "
+        f"GROUP BY 1 ORDER BY 2 DESC LIMIT 8;",
+    )
+
+    ledger = {
+        "generated_at_utc": meta["generated_at_utc"],
+        "totals": totals[0] if totals else None,
+        "monthly_volume": monthly_volume,
+        "products": products,
+        "priority": priority,
+        "confidence": confidence,
+        "action": action,
+        "policy_triggers": policy_triggers,
+        "completeness": completeness,
+        "timely": timely,
+        "emerging_signals": emerging_signals,
+        "companies": companies,
+    }
+
     (out_dir / "agent_case_context.json").write_text(json.dumps(case_context, indent=2, default=str))
     (out_dir / "operations_overview_metrics.json").write_text(json.dumps(metrics, indent=2, default=str))
     (out_dir / "export_meta.json").write_text(json.dumps(meta, indent=2))
+    (out_dir / "ledger_exhibits.json").write_text(json.dumps(ledger, indent=2, default=str))
 
     print()
-    print(f"Wrote {len(case_context)} case-context rows, {len(metrics)} metric rows to {out_dir}")
+    print(f"Wrote {len(case_context)} case-context rows, {len(metrics)} metric rows, "
+          f"and the ledger exhibits to {out_dir}")
     print()
     print("=" * 70)
     print("MANUAL REVIEW REQUIRED — read every column name below against")

@@ -1,0 +1,555 @@
+{
+  "generated_at_utc": "2026-08-16T21:41:06Z",
+  "totals": {
+    "TOTAL": 17119581,
+    "MIN_DATE": "2011-12-01",
+    "MAX_DATE": "2026-08-15",
+    "DISTINCT_PRODUCTS": 21
+  },
+  "monthly_volume": [
+    {
+      "MONTH": "2020-01-01",
+      "TOTAL": 26394
+    },
+    {
+      "MONTH": "2020-02-01",
+      "TOTAL": 25079
+    },
+    {
+      "MONTH": "2020-03-01",
+      "TOTAL": 29480
+    },
+    {
+      "MONTH": "2020-04-01",
+      "TOTAL": 34794
+    },
+    {
+      "MONTH": "2020-05-01",
+      "TOTAL": 36987
+    },
+    {
+      "MONTH": "2020-06-01",
+      "TOTAL": 37888
+    },
+    {
+      "MONTH": "2020-07-01",
+      "TOTAL": 40639
+    },
+    {
+      "MONTH": "2020-08-01",
+      "TOTAL": 39187
+    },
+    {
+      "MONTH": "2020-09-01",
+      "TOTAL": 39874
+    },
+    {
+      "MONTH": "2020-10-01",
+      "TOTAL": 43975
+    },
+    {
+      "MONTH": "2020-11-01",
+      "TOTAL": 41541
+    },
+    {
+      "MONTH": "2020-12-01",
+      "TOTAL": 48375
+    },
+    {
+      "MONTH": "2021-01-01",
+      "TOTAL": 42475
+    },
+    {
+      "MONTH": "2021-02-01",
+      "TOTAL": 33262
+    },
+    {
+      "MONTH": "2021-03-01",
+      "TOTAL": 41172
+    },
+    {
+      "MONTH": "2021-04-01",
+      "TOTAL": 39665
+    },
+    {
+      "MONTH": "2021-05-01",
+      "TOTAL": 41312
+    },
+    {
+      "MONTH": "2021-06-01",
+      "TOTAL": 45732
+    },
+    {
+      "MONTH": "2021-07-01",
+      "TOTAL": 45075
+    },
+    {
+      "MONTH": "2021-08-01",
+      "TOTAL": 42584
+    },
+    {
+      "MONTH": "2021-09-01",
+      "TOTAL": 40371
+    },
+    {
+      "MONTH": "2021-10-01",
+      "TOTAL": 39295
+    },
+    {
+      "MONTH": "2021-11-01",
+      "TOTAL": 39069
+    },
+    {
+      "MONTH": "2021-12-01",
+      "TOTAL": 45927
+    },
+    {
+      "MONTH": "2022-01-01",
+      "TOTAL": 53229
+    },
+    {
+      "MONTH": "2022-02-01",
+      "TOTAL": 53185
+    },
+    {
+      "MONTH": "2022-03-01",
+      "TOTAL": 61896
+    },
+    {
+      "MONTH": "2022-04-01",
+      "TOTAL": 72243
+    },
+    {
+      "MONTH": "2022-05-01",
+      "TOTAL": 60376
+    },
+    {
+      "MONTH": "2022-06-01",
+      "TOTAL": 61869
+    },
+    {
+      "MONTH": "2022-07-01",
+      "TOTAL": 64438
+    },
+    {
+      "MONTH": "2022-08-01",
+      "TOTAL": 69257
+    },
+    {
+      "MONTH": "2022-09-01",
+      "TOTAL": 65777
+    },
+    {
+      "MONTH": "2022-10-01",
+      "TOTAL": 75791
+    },
+    {
+      "MONTH": "2022-11-01",
+      "TOTAL": 77038
+    },
+    {
+      "MONTH": "2022-12-01",
+      "TOTAL": 85146
+    },
+    {
+      "MONTH": "2023-01-01",
+      "TOTAL": 93933
+    },
+    {
+      "MONTH": "2023-02-01",
+      "TOTAL": 86539
+    },
+    {
+      "MONTH": "2023-03-01",
+      "TOTAL": 110635
+    },
+    {
+      "MONTH": "2023-04-01",
+      "TOTAL": 97084
+    },
+    {
+      "MONTH": "2023-05-01",
+      "TOTAL": 106211
+    },
+    {
+      "MONTH": "2023-06-01",
+      "TOTAL": 104425
+    },
+    {
+      "MONTH": "2023-07-01",
+      "TOTAL": 106773
+    },
+    {
+      "MONTH": "2023-08-01",
+      "TOTAL": 119711
+    },
+    {
+      "MONTH": "2023-09-01",
+      "TOTAL": 112887
+    },
+    {
+      "MONTH": "2023-10-01",
+      "TOTAL": 117420
+    },
+    {
+      "MONTH": "2023-11-01",
+      "TOTAL": 113365
+    },
+    {
+      "MONTH": "2023-12-01",
+      "TOTAL": 123066
+    },
+    {
+      "MONTH": "2024-01-01",
+      "TOTAL": 143365
+    },
+    {
+      "MONTH": "2024-02-01",
+      "TOTAL": 157614
+    },
+    {
+      "MONTH": "2024-03-01",
+      "TOTAL": 177814
+    },
+    {
+      "MONTH": "2024-04-01",
+      "TOTAL": 191116
+    },
+    {
+      "MONTH": "2024-05-01",
+      "TOTAL": 211960
+    },
+    {
+      "MONTH": "2024-06-01",
+      "TOTAL": 204168
+    },
+    {
+      "MONTH": "2024-07-01",
+      "TOTAL": 232654
+    },
+    {
+      "MONTH": "2024-08-01",
+      "TOTAL": 263814
+    },
+    {
+      "MONTH": "2024-09-01",
+      "TOTAL": 264821
+    },
+    {
+      "MONTH": "2024-10-01",
+      "TOTAL": 295878
+    },
+    {
+      "MONTH": "2024-11-01",
+      "TOTAL": 287076
+    },
+    {
+      "MONTH": "2024-12-01",
+      "TOTAL": 303981
+    },
+    {
+      "MONTH": "2025-01-01",
+      "TOTAL": 475783
+    },
+    {
+      "MONTH": "2025-02-01",
+      "TOTAL": 335236
+    },
+    {
+      "MONTH": "2025-03-01",
+      "TOTAL": 396973
+    },
+    {
+      "MONTH": "2025-04-01",
+      "TOTAL": 406100
+    },
+    {
+      "MONTH": "2025-05-01",
+      "TOTAL": 415182
+    },
+    {
+      "MONTH": "2025-06-01",
+      "TOTAL": 412161
+    },
+    {
+      "MONTH": "2025-07-01",
+      "TOTAL": 473195
+    },
+    {
+      "MONTH": "2025-08-01",
+      "TOTAL": 495575
+    },
+    {
+      "MONTH": "2025-09-01",
+      "TOTAL": 503850
+    },
+    {
+      "MONTH": "2025-10-01",
+      "TOTAL": 519787
+    },
+    {
+      "MONTH": "2025-11-01",
+      "TOTAL": 496658
+    },
+    {
+      "MONTH": "2025-12-01",
+      "TOTAL": 512476
+    },
+    {
+      "MONTH": "2026-01-01",
+      "TOTAL": 541266
+    },
+    {
+      "MONTH": "2026-02-01",
+      "TOTAL": 497091
+    },
+    {
+      "MONTH": "2026-03-01",
+      "TOTAL": 614912
+    },
+    {
+      "MONTH": "2026-04-01",
+      "TOTAL": 618223
+    },
+    {
+      "MONTH": "2026-05-01",
+      "TOTAL": 619754
+    },
+    {
+      "MONTH": "2026-06-01",
+      "TOTAL": 622905
+    },
+    {
+      "MONTH": "2026-07-01",
+      "TOTAL": 700437
+    }
+  ],
+  "products": [
+    {
+      "PRODUCT": "Credit reporting or other personal consumer reports",
+      "CNT": 11610338
+    },
+    {
+      "PRODUCT": "Credit reporting, credit repair services, or other personal consumer reports",
+      "CNT": 2163770
+    },
+    {
+      "PRODUCT": "Debt collection",
+      "CNT": 1170674
+    },
+    {
+      "PRODUCT": "Mortgage",
+      "CNT": 457181
+    },
+    {
+      "PRODUCT": "Checking or savings account",
+      "CNT": 387531
+    },
+    {
+      "PRODUCT": "Credit card",
+      "CNT": 334726
+    },
+    {
+      "PRODUCT": "Credit card or prepaid card",
+      "CNT": 206356
+    },
+    {
+      "PRODUCT": "Money transfer, virtual currency, or money service",
+      "CNT": 187589
+    }
+  ],
+  "priority": [
+    {
+      "PRIORITY": "CRITICAL",
+      "CNT": 19363
+    },
+    {
+      "PRIORITY": "HIGH",
+      "CNT": 2723571
+    },
+    {
+      "PRIORITY": "LOW",
+      "CNT": 12101799
+    },
+    {
+      "PRIORITY": "MEDIUM",
+      "CNT": 2274848
+    }
+  ],
+  "confidence": [
+    {
+      "SIGNAL_CONFIDENCE": "HIGH",
+      "CNT": 12165983
+    },
+    {
+      "SIGNAL_CONFIDENCE": "LIMITED",
+      "CNT": 2274848
+    },
+    {
+      "SIGNAL_CONFIDENCE": "MEDIUM",
+      "CNT": 2678750
+    }
+  ],
+  "action": [
+    {
+      "RECOMMENDED_ACTION": "STANDARD_HANDLING",
+      "CNT": 12101799
+    },
+    {
+      "RECOMMENDED_ACTION": "INVESTIGATE_PATTERN",
+      "CNT": 2659387
+    },
+    {
+      "RECOMMENDED_ACTION": "REQUIRE_HUMAN_REVIEW",
+      "CNT": 2274848
+    },
+    {
+      "RECOMMENDED_ACTION": "ESCALATE_REVIEW",
+      "CNT": 83547
+    }
+  ],
+  "policy_triggers": [
+    {
+      "POLICY_ID": "POLICY_STABLE_PATTERN",
+      "TRIGGERED_CNT": 12101799,
+      "EVALUATED_CNT": 17119581
+    },
+    {
+      "POLICY_ID": "POLICY_EMERGING_ISSUE",
+      "TRIGGERED_CNT": 3075538,
+      "EVALUATED_CNT": 17119581
+    },
+    {
+      "POLICY_ID": "POLICY_PUBLICATION_LAG",
+      "TRIGGERED_CNT": 1218065,
+      "EVALUATED_CNT": 17119581
+    },
+    {
+      "POLICY_ID": "POLICY_INCOMPLETE_CONTEXT",
+      "TRIGGERED_CNT": 1068194,
+      "EVALUATED_CNT": 17119581
+    },
+    {
+      "POLICY_ID": "POLICY_UNTIMELY_RESPONSE",
+      "TRIGGERED_CNT": 106108,
+      "EVALUATED_CNT": 17119581
+    },
+    {
+      "POLICY_ID": "POLICY_CRITICAL_COMBINATION",
+      "TRIGGERED_CNT": 19363,
+      "EVALUATED_CNT": 17119581
+    }
+  ],
+  "completeness": [
+    {
+      "DATA_COMPLETENESS_STATUS": "COMPLETE",
+      "CNT": 16051387
+    },
+    {
+      "DATA_COMPLETENESS_STATUS": "PARTIAL",
+      "CNT": 1068194
+    }
+  ],
+  "timely": [
+    {
+      "TIMELY_RESPONSE_STATUS": "YES",
+      "CNT": 17013473
+    },
+    {
+      "TIMELY_RESPONSE_STATUS": "NO",
+      "CNT": 106108
+    }
+  ],
+  "emerging_signals": [
+    {
+      "PRODUCT": "Credit reporting or other personal consumer reports",
+      "ISSUE": "Problem with a company's investigation into an existing issue",
+      "METRIC_DATE": "2026-06-30",
+      "VOLUME_CHANGE_PCT": 0.7893961477802411,
+      "ISSUE_VOLUME_CURRENT": 324
+    },
+    {
+      "PRODUCT": "Vehicle loan or lease",
+      "ISSUE": "Problems at the end of the loan or lease",
+      "METRIC_DATE": "2026-07-21",
+      "VOLUME_CHANGE_PCT": 0.4724661225349675,
+      "ISSUE_VOLUME_CURRENT": 123
+    },
+    {
+      "PRODUCT": "Payday loan, title loan, personal loan, or advance loan",
+      "ISSUE": "Problem when making payments",
+      "METRIC_DATE": "2026-07-20",
+      "VOLUME_CHANGE_PCT": 0.46218487394957986,
+      "ISSUE_VOLUME_CURRENT": 87
+    },
+    {
+      "PRODUCT": "Student loan",
+      "ISSUE": "Dealing with your lender or servicer",
+      "METRIC_DATE": "2026-07-08",
+      "VOLUME_CHANGE_PCT": 0.4035603798368064,
+      "ISSUE_VOLUME_CURRENT": 318
+    },
+    {
+      "PRODUCT": "Payday loan, title loan, personal loan, or advance loan",
+      "ISSUE": "Charged fees or interest you didn't expect",
+      "METRIC_DATE": "2026-07-16",
+      "VOLUME_CHANGE_PCT": 0.39344262295081966,
+      "ISSUE_VOLUME_CURRENT": 119
+    },
+    {
+      "PRODUCT": "Checking or savings account",
+      "ISSUE": "Problem caused by your funds being low",
+      "METRIC_DATE": "2026-07-28",
+      "VOLUME_CHANGE_PCT": 0.3914657133219295,
+      "ISSUE_VOLUME_CURRENT": 125
+    },
+    {
+      "PRODUCT": "Credit card",
+      "ISSUE": "Incorrect information on your report",
+      "METRIC_DATE": "2026-07-29",
+      "VOLUME_CHANGE_PCT": 0.3893249989218014,
+      "ISSUE_VOLUME_CURRENT": 118
+    },
+    {
+      "PRODUCT": "Credit card",
+      "ISSUE": "Getting a credit card",
+      "METRIC_DATE": "2026-07-30",
+      "VOLUME_CHANGE_PCT": 0.38875062220009954,
+      "ISSUE_VOLUME_CURRENT": 279
+    }
+  ],
+  "companies": [
+    {
+      "COMPANY": "TRANSUNION INTERMEDIATE HOLDINGS, INC.",
+      "TOTAL": 4686080
+    },
+    {
+      "COMPANY": "EQUIFAX, INC.",
+      "TOTAL": 4520051
+    },
+    {
+      "COMPANY": "Experian Information Solutions Inc.",
+      "TOTAL": 4099781
+    },
+    {
+      "COMPANY": "BANK OF AMERICA, NATIONAL ASSOCIATION",
+      "TOTAL": 184445
+    },
+    {
+      "COMPANY": "JPMORGAN CHASE & CO.",
+      "TOTAL": 173314
+    },
+    {
+      "COMPANY": "WELLS FARGO & COMPANY",
+      "TOTAL": 172936
+    },
+    {
+      "COMPANY": "CAPITAL ONE FINANCIAL CORPORATION",
+      "TOTAL": 168599
+    },
+    {
+      "COMPANY": "CITIBANK, N.A.",
+      "TOTAL": 139416
+    }
+  ]
+}

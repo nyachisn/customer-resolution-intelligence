@@ -10,7 +10,12 @@
 import "server-only";
 import { readFile } from "node:fs/promises";
 import path from "node:path";
-import type { ComplaintRecordContext, DemoExportMeta, OperationsMetric } from "./types";
+import type {
+  ComplaintRecordContext,
+  DemoExportMeta,
+  LedgerExhibits,
+  OperationsMetric,
+} from "./types";
 
 const DATA_DIR = path.join(process.cwd(), "src", "data");
 
@@ -76,6 +81,72 @@ export async function loadOperationsMetrics(): Promise<OperationsMetric[]> {
       metricValue: Number(row.metric_value ?? 0),
     };
   });
+}
+
+function titleCase(raw: string, stripPrefix?: string): string {
+  const s = stripPrefix && raw.startsWith(stripPrefix) ? raw.slice(stripPrefix.length) : raw;
+  return s
+    .toLowerCase()
+    .split("_")
+    .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
+    .join(" ");
+}
+
+function toCounts(
+  rows: Record<string, unknown>[],
+  labelKey: string,
+  countKey: string,
+  prefix?: string,
+): { label: string; count: number }[] {
+  return rows.map((r) => {
+    const row = lower(r);
+    const rawLabel = String(row[labelKey.toLowerCase()] ?? "");
+    return { label: titleCase(rawLabel, prefix), count: Number(row[countKey.toLowerCase()] ?? 0) };
+  });
+}
+
+export async function loadLedgerExhibits(): Promise<LedgerExhibits | null> {
+  const raw = await readJson<Record<string, unknown> | null>("ledger_exhibits.json", null);
+  if (!raw) return null;
+
+  const totals = (raw.totals ?? {}) as Record<string, unknown>;
+  const monthlyVolume = ((raw.monthly_volume as Record<string, unknown>[]) ?? []).map((r) => {
+    const row = lower(r);
+    return { month: String(row.month ?? "").slice(0, 7), total: Number(row.total ?? 0) };
+  });
+  const emergingSignals = ((raw.emerging_signals as Record<string, unknown>[]) ?? []).map((r) => {
+    const row = lower(r);
+    return {
+      product: String(row.product ?? ""),
+      issue: String(row.issue ?? ""),
+      metricDate: String(row.metric_date ?? ""),
+      volumeChangePct: Number(row.volume_change_pct ?? 0),
+      issueVolumeCurrent: Number(row.issue_volume_current ?? 0),
+    };
+  });
+
+  return {
+    generatedAtUtc: String(raw.generated_at_utc ?? ""),
+    totalRecords: Number(totals.total ?? totals.TOTAL ?? 0),
+    minDate: String(totals.min_date ?? totals.MIN_DATE ?? ""),
+    maxDate: String(totals.max_date ?? totals.MAX_DATE ?? ""),
+    distinctProducts: Number(totals.distinct_products ?? totals.DISTINCT_PRODUCTS ?? 0),
+    monthlyVolume,
+    products: toCounts((raw.products as Record<string, unknown>[]) ?? [], "product", "cnt"),
+    priority: toCounts((raw.priority as Record<string, unknown>[]) ?? [], "priority", "cnt"),
+    confidence: toCounts((raw.confidence as Record<string, unknown>[]) ?? [], "signal_confidence", "cnt"),
+    action: toCounts((raw.action as Record<string, unknown>[]) ?? [], "recommended_action", "cnt"),
+    policyTriggers: toCounts(
+      (raw.policy_triggers as Record<string, unknown>[]) ?? [],
+      "policy_id",
+      "triggered_cnt",
+      "POLICY_",
+    ),
+    completeness: toCounts((raw.completeness as Record<string, unknown>[]) ?? [], "data_completeness_status", "cnt"),
+    timely: toCounts((raw.timely as Record<string, unknown>[]) ?? [], "timely_response_status", "cnt"),
+    emergingSignals,
+    companies: toCounts((raw.companies as Record<string, unknown>[]) ?? [], "company", "total"),
+  };
 }
 
 export async function loadDemoMeta(): Promise<DemoExportMeta> {

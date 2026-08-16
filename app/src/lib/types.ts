@@ -80,6 +80,51 @@ export interface OperationsMetric {
   metricValue: number;
 }
 
+/** One aggregate row: a category label paired with its count. */
+export interface LedgerCount {
+  label: string;
+  count: number;
+}
+
+/** One month's total complaint volume. */
+export interface LedgerMonth {
+  month: string;
+  total: number;
+}
+
+/** One recently-qualified emerging-pattern signal. */
+export interface LedgerSignal {
+  product: string;
+  issue: string;
+  metricDate: string;
+  volumeChangePct: number;
+  issueVolumeCurrent: number;
+}
+
+/**
+ * Matches ledger_exhibits.json, produced by scripts/export_demo_data.py.
+ * Every row is a GROUP BY aggregate over the full population — never a
+ * complaint-level record — so there is no consumer or company-ranking
+ * risk in this shape by construction.
+ */
+export interface LedgerExhibits {
+  generatedAtUtc: string;
+  totalRecords: number;
+  minDate: string;
+  maxDate: string;
+  distinctProducts: number;
+  monthlyVolume: LedgerMonth[];
+  products: LedgerCount[];
+  priority: LedgerCount[];
+  confidence: LedgerCount[];
+  action: LedgerCount[];
+  policyTriggers: LedgerCount[];
+  completeness: LedgerCount[];
+  timely: LedgerCount[];
+  emergingSignals: LedgerSignal[];
+  companies: LedgerCount[];
+}
+
 /** Matches the literal keys scripts/export_demo_data.py writes to export_meta.json. */
 export interface DemoExportMeta {
   export_version: string;

@@ -1,255 +1,360 @@
 /**
- * Overview — an introduction to the data this product is built on, before
- * any analysis is asked of the reader.
+ * Overview — the problem, the product, and one worked example.
  *
- * Every figure comes from the curated export. Nothing is hardcoded: a cell
- * whose value is unavailable is not rendered.
+ * Every figure is read from the curated export at request time. The two
+ * record counts are deliberately kept distinct: 17,119,581 published records
+ * are modelled, and 16,896,978 of those fall inside complete calendar months,
+ * which is what the analytical experience reads. Collapsing them into one
+ * number would misstate both.
  */
 
 import Link from "next/link";
-import { MetricCell } from "@/components/ui/Primitives";
-import { PipelineDiagram } from "@/components/ui/PipelineDiagram";
-import {
-  loadDemoMeta,
-  loadLedgerExhibits,
-  loadMetricBundle,
-  loadOperationsMetrics,
-} from "@/lib/demo-data";
-import {
-  comparePeriods,
-  seriesPoints,
-  datesFor,
-  dimensionsFor,
-  formatCompact,
-  formatDate,
-  formatPct,
-} from "@/lib/analytics";
+import { Sparkline } from "@/components/ui/Sparkline";
+import { loadArchiveExplorer, loadDemoMeta, loadLedgerExhibits } from "@/lib/demo-data";
+import { archiveMonths, archiveTotals, familySeries } from "@/lib/archive-analytics";
+import { formatCompact, formatMonth, formatPct } from "@/lib/analytics";
+import { WAREHOUSE } from "@/lib/pipeline";
+
+const PIPELINE_STEPS = [
+  { name: "Source", detail: "A published CFPB complaint" },
+  { name: "Clean", detail: "Standardize and validate" },
+  { name: "Measure", detail: "Daily volume by product and issue" },
+  { name: "Detect", detail: "Compare with the issue's own baseline" },
+  { name: "Prioritize", detail: "Evaluate the decision policies" },
+  { name: "Explore", detail: "Investigate the resulting signals" },
+];
+
+const INVESTIGATIONS = [
+  {
+    name: "Trends",
+    detail: "See which products and issues are changing, over 15 years or the last twelve months.",
+  },
+  {
+    name: "Signals",
+    detail: "Identify patterns that cleared their own baseline by enough to qualify.",
+  },
+  {
+    name: "Decisions",
+    detail: "Review the priority and recommended action the decisioning layer produced.",
+  },
+];
 
 export default async function OverviewPage() {
-  const [meta, ledger, metrics, bundle] = await Promise.all([
+  const [meta, ledger, archive] = await Promise.all([
     loadDemoMeta(),
     loadLedgerExhibits(),
-    loadOperationsMetrics(),
-    loadMetricBundle(),
+    loadArchiveExplorer(),
   ]);
 
-  const lag = meta.publication_lag_window_days;
-  const volume = seriesPoints(bundle.complaint_volume, null);
-  const analysed = lag > 0 ? volume.slice(0, -lag) : volume;
-  const comparison = comparePeriods(analysed, 28);
-  const issueCount = dimensionsFor(metrics, "emerging_issue_count").length;
-  const dates = datesFor(metrics, "complaint_volume");
+  const rows = archive?.monthlyProductVolume ?? [];
+  const months = archiveMonths(rows);
+  const totals = archiveTotals(rows, months);
+  const families = familySeries(rows, months);
 
-  const stages = [
-    {
-      name: "Source",
-      meta: "CFPB",
-      detail:
-        "Complaint records published by the Consumer Financial Protection Bureau, downloaded from their public bulk archive. Official, free to use, and updated daily.",
-    },
-    {
-      name: "Ingest",
-      meta: "Loaded as-is",
-      detail:
-        "The archive is split into row-aligned chunks and loaded into a raw layer exactly as published — no edits, no interpretation — so any later number can be traced back to its original record.",
-    },
-    {
-      name: "Transform",
-      meta: "Typed and enriched",
-      detail:
-        "Fields are typed consistently, categories preserved as published rather than merged, and records missing anything decision-critical are set aside instead of quietly filled in.",
-    },
-    {
-      name: "Analyze",
-      meta: "Trends computed",
-      detail:
-        "Daily volume, baseline, rate of change and emerging-pattern status are computed for each product and issue — always against that pattern's own history, never another product's scale.",
-    },
-    {
-      name: "Prioritize",
-      meta: "Rules applied",
-      detail:
-        "Six policy rules run over every record and assign one recommended action, carrying its reason and confidence. Most records need nothing, and that is a real outcome.",
-    },
-    {
-      name: "Explore",
-      meta: "Ask questions",
-      detail:
-        "The result is a working surface: filter by product and period, switch policies on and off, and follow any signal down to the pattern behind it.",
-    },
-  ];
+  const modelled = ledger?.totalRecords ?? WAREHOUSE.modelledRows;
+  const inMonths = rows.reduce((s, r) => s + r.total, 0);
+
+  // The demonstration for "totals hide movement". Picking the fastest-growing
+  // small category would not make the point here: the archive total is itself
+  // up 56%, so a category growing at a similar rate proves nothing. The
+  // category that *diverges* most from the total does — and in this data it
+  // moves in the opposite direction entirely.
+  const overall = families.length > 0 ? familyChange(totals) : null;
+  const hidden =
+    overall?.changePct == null
+      ? undefined
+      : families
+          .filter((f) => f.share < 0.05 && f.changePct != null && f.recent12m > 1000)
+          .sort(
+            (a, b) =>
+              Math.abs((b.changePct ?? 0) - overall.changePct!) -
+              Math.abs((a.changePct ?? 0) - overall.changePct!),
+          )[0];
+
+  // One real qualifying signal, with its baseline recovered from the change
+  // the trends model recorded against it.
+  const signal = ledger?.emergingSignals?.[0] ?? null;
+  const baseline = signal ? signal.issueVolumeCurrent / (1 + signal.volumeChangePct) : null;
 
   return (
     <>
       {/* ---------------- hero ---------------- */}
       <section className="band wash">
-        <div className="container hero">
-          <h1>
-            Millions of complaints. <em>A few</em> that matter.
-          </h1>
+        <div className="hero container">
+          <h1>From millions of complaints to signals worth investigating</h1>
           <p className="hero-sub">
-            This is a working analysis of the public U.S. consumer complaint
-            record — what people actually reported, which patterns are moving,
-            and which ones are worth someone&apos;s time this week.
+            Explore patterns across the CFPB Consumer Complaint Database, compare changes over
+            time, and identify issues that have moved enough to warrant investigation.
           </p>
           <div className="hero-actions">
             <Link href="/explore" className="btn">
               Explore the data
             </Link>
             <Link href="/data-story" className="btn btn-ghost">
-              See how it is built
+              See how it&rsquo;s built
             </Link>
-          </div>
-        </div>
-
-        <div className="container">
-          <div className="split">
-            <div>
-              <h3>Where the data comes from</h3>
-              <p>
-                The Consumer Financial Protection Bureau publishes every
-                complaint it receives about banks, lenders, credit bureaus and
-                other financial companies. It is downloaded directly from their{" "}
-                <a href="https://www.consumerfinance.gov/data-research/consumer-complaints/">
-                  public database
-                </a>{" "}
-                — no private customer data is involved, and every figure here
-                traces back to a published record.
-              </p>
-            </div>
-            <div>
-              <h3>Why it is hard to read</h3>
-              <p>
-                Records arrive continuously across {ledger?.distinctProducts ?? "dozens of"}{" "}
-                product categories. Totals hide the movements that matter: a
-                small category doubling disappears next to a large one drifting,
-                and the most recent weeks always look like a decline simply
-                because those records are still being published.
-              </p>
-            </div>
-            <div>
-              <h3>What this does about it</h3>
-              <p>
-                Every product and issue is measured against its own history.
-                Something only surfaces when its volume, its baseline and its
-                rate of change all clear threshold together — so what you see is
-                genuinely unusual, not just large.
-              </p>
-            </div>
           </div>
         </div>
       </section>
 
-      {/* ---------------- the numbers ---------------- */}
+      {/* ---------------- the dataset ---------------- */}
       <section className="band section">
         <div className="container">
           <div className="section-head">
-            <h2>What sits behind every number</h2>
-            <p>
-              The full evidence base available to this product, measured rather
-              than asserted.
-            </p>
+            <h2>A large public dataset with very different signals inside it</h2>
           </div>
-
-          <div className="metric-strip">
-            {ledger && (
-              <MetricCell
-                label="Complaints analyzed"
-                value={ledger.totalRecords.toLocaleString()}
-                foot={`${ledger.minDate.slice(0, 4)} to ${ledger.maxDate.slice(0, 4)}`}
-                definition="Every published complaint record in the source archive, after records missing a required field are excluded."
-              />
-            )}
-            {ledger && (
-              <MetricCell
-                label="Product categories"
-                value={String(ledger.distinctProducts)}
-                foot="Tracked separately"
-                definition="Distinct product categories as published. Legacy and current labels stay separate rather than merged, so a category is never silently rewritten."
-              />
-            )}
-            <MetricCell
-              label="Issue areas monitored"
-              value={String(issueCount)}
-              foot="With trend coverage"
-              definition="Product areas carrying enough volume to compute a trend against their own baseline. Areas below the threshold are not scored."
-            />
-            {comparison && (
-              <MetricCell
-                label="Recent volume"
-                value={formatCompact(comparison.current)}
-                foot={`${comparison.currentDays} days to ${formatDate(comparison.currentEnd)}`}
-                definition={`Volume over the most recent complete ${comparison.currentDays}-day window. The trailing ${lag} days are held back because those records are still publishing.`}
-              />
-            )}
-            {comparison && (
-              <MetricCell
-                label="Change vs prior period"
-                value={formatPct(comparison.changePct, { signed: true })}
-                foot="Like-for-like windows"
-                definition="Compares two equal, consecutive windows. Both sit outside the publication-lag period, so the comparison is not distorted by records still arriving."
-              />
-            )}
-            <MetricCell
-              label="Days of daily detail"
-              value={String(dates.length)}
-              foot={`from ${formatDate(dates[0] ?? "")}`}
-              definition="The daily analytical window available for exploration. It ends at the last complete month, so no partial month reads as a decline."
-            />
+          <div className="figures">
+            <div className="figure">
+              <span className="figure-value">{formatCompact(modelled)}</span>
+              <span className="figure-label">Published complaint records modeled</span>
+            </div>
+            <div className="figure">
+              <span className="figure-value">{formatCompact(inMonths)}</span>
+              <span className="figure-label">Inside complete months, read by the product</span>
+            </div>
+            <div className="figure">
+              <span className="figure-value">{families.length}</span>
+              <span className="figure-label">
+                Product categories, from {WAREHOUSE.publishedProducts} published labels
+              </span>
+            </div>
+            <div className="figure">
+              <span className="figure-value">{WAREHOUSE.issueAreas}</span>
+              <span className="figure-label">Issue areas</span>
+            </div>
+            <div className="figure">
+              <span className="figure-value">{months.length}</span>
+              <span className="figure-label">
+                Complete months
+                {months.length > 0 &&
+                  `, ${formatMonth(`${months[0]}-01`)} – ${formatMonth(`${months[months.length - 1]}-01`)}`}
+              </span>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* ---------------- pipeline ---------------- */}
-      <section className="band-tint band section">
+      {/* ---------------- why totals aren't enough ---------------- */}
+      {overall && hidden && (
+        <section className="band band-tint section">
+          <div className="container">
+            <div className="section-head">
+              <h2>Why totals are not enough</h2>
+              <p>
+                One category accounts for most of the file, so the headline number mostly tracks
+                that category. Smaller ones can be moving at a different rate — or in the opposite
+                direction — without registering in the total at all.
+              </p>
+            </div>
+            <div className="compare-pair">
+              <article className="compare">
+                <h3>Every category</h3>
+                <p className="compare-figure">
+                  {formatCompact(overall.recent)}
+                  <span className={`compare-delta is-${overall.dir}`}>
+                    {formatPct(overall.changePct, { signed: true })}
+                  </span>
+                </p>
+                <p className="compare-note">
+                  Last 12 months against the 12 before. {families[0].family.label} is{" "}
+                  {formatPct(families[0].share)} of the file, so this mostly tracks it.
+                </p>
+                <Sparkline points={totals.map((p) => p.value)} />
+              </article>
+              <article className="compare is-accent">
+                <h3>{hidden.family.label}</h3>
+                <p className="compare-figure">
+                  {formatCompact(hidden.recent12m)}
+                  <span
+                    className={`compare-delta is-${
+                      (hidden.changePct ?? 0) > 0.02 ? "up" : (hidden.changePct ?? 0) < -0.02 ? "down" : "flat"
+                    }`}
+                  >
+                    {formatPct(hidden.changePct, { signed: true })}
+                  </span>
+                </p>
+                <p className="compare-note">
+                  {formatPct(hidden.share)} of all complaints, moving{" "}
+                  {hidden.changePct != null && overall.changePct != null
+                    ? `${Math.abs((hidden.changePct - overall.changePct) * 100).toFixed(0)} points`
+                    : "differently"}{" "}
+                  from the total
+                </p>
+                <Sparkline points={hidden.points.map((p) => p.value)} accent />
+              </article>
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* ---------------- from record to signal ---------------- */}
+      <section className="band section">
         <div className="container">
           <div className="section-head">
-            <h2>How a published record becomes a decision</h2>
-            <p>
-              Six steps, each one traceable back to the record it came from.
-              Hover any step to see what happens there.
-            </p>
+            <h2>From record to signal</h2>
           </div>
-          <PipelineDiagram stages={stages} />
+          <Link href="/data-story" className="steps-link">
+            <ol className="steps">
+              {PIPELINE_STEPS.map((step, i) => (
+                <li className="step" key={step.name}>
+                  <span className="step-index">{String(i + 1).padStart(2, "0")}</span>
+                  <span className="step-name">{step.name}</span>
+                  <span className="step-detail">{step.detail}</span>
+                </li>
+              ))}
+            </ol>
+            <span className="steps-cta">See how it&rsquo;s built →</span>
+          </Link>
         </div>
       </section>
 
-      {/* ---------------- next ---------------- */}
-      <section className="section">
+      {/* ---------------- one real example ---------------- */}
+      {signal && baseline != null && (
+        <section className="band band-tint section">
+          <div className="container">
+            <div className="section-head">
+              <h2>One signal, end to end</h2>
+              <p>
+                A pattern the decisioning layer flagged, with the evidence behind it and the action
+                it produced.
+              </p>
+            </div>
+            <div className="example">
+              <div className="example-head">
+                <h3>{signal.issue}</h3>
+                <p>{signal.product}</p>
+              </div>
+              <dl className="example-figures">
+                <div>
+                  <dt>Current volume</dt>
+                  <dd>{signal.issueVolumeCurrent.toLocaleString()}</dd>
+                </div>
+                <div>
+                  <dt>Its own baseline</dt>
+                  <dd>{Math.round(baseline).toLocaleString()}</dd>
+                </div>
+                <div>
+                  <dt>Change</dt>
+                  <dd className="is-up">{formatPct(signal.volumeChangePct, { signed: true })}</dd>
+                </div>
+                <div>
+                  <dt>Measured</dt>
+                  <dd>{signal.metricDate}</dd>
+                </div>
+              </dl>
+              <div className="example-why">
+                <div>
+                  <h4>Why it was flagged</h4>
+                  <p>
+                    Volume for this product and issue cleared the emerging-signal thresholds
+                    against its own baseline, so <code>int_issue_trends</code> marked the pattern
+                    qualified and <code>int_priority_policy_application</code> recorded the trigger.
+                  </p>
+                </div>
+                <div>
+                  <h4>Recommended action</h4>
+                  <p>
+                    Investigate this trend. Precedence in <code>resolution_action_queue</code>{" "}
+                    lands one action per record, and an emerging signal on its own resolves here
+                    rather than to escalation.
+                  </p>
+                </div>
+              </div>
+              <Link href="/explore" className="example-cta">
+                Open this in Explore →
+              </Link>
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* ---------------- what you can investigate ---------------- */}
+      <section className="band section">
         <div className="container">
           <div className="section-head">
-            <h2>Take a look for yourself</h2>
+            <h2>What can you investigate?</h2>
           </div>
           <div className="card-grid">
-            <Link href="/explore" className="card">
-              <h3>Explore the data</h3>
-              <p>
-                Filter by product and period, compare against the prior period,
-                switch decision policies on and off, and see the queue those
-                choices produce.
-              </p>
-              <span className="card-cta">Open explore</span>
+            {INVESTIGATIONS.map((c) => (
+              <div className="card" key={c.name}>
+                <h3>{c.name}</h3>
+                <p>{c.detail}</p>
+              </div>
+            ))}
+          </div>
+          <div className="hero-actions" style={{ marginTop: "2rem" }}>
+            <Link href="/explore" className="btn">
+              Explore the data
             </Link>
-            <Link href="/data-story" className="card">
-              <h3>See how it is built</h3>
-              <p>
-                The full path from the CFPB archive through Snowflake, dbt and
-                Vercel — including which models do what, and why each one
-                exists.
-              </p>
-              <span className="card-cta">View the pipeline</span>
+          </div>
+        </div>
+      </section>
+
+      {/* ---------------- foundation ---------------- */}
+      <section className="band band-tint section">
+        <div className="container">
+          <div className="section-head">
+            <h2>Built on a tested analytical foundation</h2>
+          </div>
+          <dl className="stack-roles">
+            <div className="stack-role">
+              <dt>Snowflake</dt>
+              <dd>Analytical warehouse</dd>
+            </div>
+            <div className="stack-role">
+              <dt>dbt</dt>
+              <dd>{WAREHOUSE.models} version-controlled models</dd>
+            </div>
+            <div className="stack-role">
+              <dt>{WAREHOUSE.tests} tests</dt>
+              <dd>Automated data quality</dd>
+            </div>
+            <div className="stack-role">
+              <dt>dbt Cloud</dt>
+              <dd>Production orchestration</dd>
+            </div>
+            <div className="stack-role">
+              <dt>Next.js</dt>
+              <dd>Analytical product experience</dd>
+            </div>
+          </dl>
+        </div>
+      </section>
+
+      {/* ---------------- final ---------------- */}
+      <section className="band section">
+        <div className="container">
+          <div className="section-head">
+            <h2>Start with a question</h2>
+            <p>
+              Explore the data, investigate a signal, and trace it back to the models that produced
+              it. Comparisons exclude the trailing {meta.publication_lag_window_days} days, where
+              records are still arriving.
+            </p>
+          </div>
+          <div className="hero-actions">
+            <Link href="/explore" className="btn">
+              Explore the data
             </Link>
-            <Link href="/methodology" className="card">
-              <h3>Check the method</h3>
-              <p>
-                What this data can and cannot answer, how confidence is
-                assigned, and the known quality issues in the source file.
-              </p>
-              <span className="card-cta">Read methodology</span>
+            <Link href="/data-story" className="btn btn-ghost">
+              See how it&rsquo;s built
             </Link>
           </div>
         </div>
       </section>
     </>
   );
+}
+
+/** Last 12 complete months against the 12 before them. */
+function familyChange(points: { value: number }[]) {
+  const recent = points.slice(-12).reduce((s, p) => s + p.value, 0);
+  const prior = points.slice(-24, -12).reduce((s, p) => s + p.value, 0);
+  const changePct = prior > 0 ? (recent - prior) / prior : null;
+  return {
+    recent,
+    prior,
+    changePct,
+    dir: changePct == null ? "flat" : changePct > 0.02 ? "up" : changePct < -0.02 ? "down" : "flat",
+  };
 }

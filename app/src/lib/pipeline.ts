@@ -23,6 +23,8 @@ export interface DagNode {
   materialized: "view" | "table";
   /** Rows in ANALYTICS_PROD, for the models that persist. */
   rows?: number;
+  /** One row of this model is… — from the model header's `grain:`. */
+  grain: string;
   /** One line on what it does. */
   role: string;
 }
@@ -30,6 +32,7 @@ export interface DagNode {
 export const DAG: DagNode[] = [
   {
     name: "stg_cfpb_complaints",
+    grain: "1 published complaint record, as received",
     layer: "staging",
     deps: [],
     materialized: "view",
@@ -37,6 +40,7 @@ export const DAG: DagNode[] = [
   },
   {
     name: "int_complaint_status_context",
+    grain: "1 published complaint record",
     layer: "intermediate",
     deps: ["stg_cfpb_complaints"],
     materialized: "view",
@@ -44,6 +48,7 @@ export const DAG: DagNode[] = [
   },
   {
     name: "dim_issue_taxonomy",
+    grain: "1 product x sub-product x issue x sub-issue combination",
     layer: "mart",
     deps: ["stg_cfpb_complaints"],
     materialized: "table",
@@ -52,6 +57,7 @@ export const DAG: DagNode[] = [
   },
   {
     name: "int_issue_daily_volume",
+    grain: "1 calendar date x product x issue",
     layer: "intermediate",
     deps: ["int_complaint_status_context"],
     materialized: "view",
@@ -59,6 +65,7 @@ export const DAG: DagNode[] = [
   },
   {
     name: "int_company_issue_patterns",
+    grain: "1 calendar date x company x product x issue",
     layer: "intermediate",
     deps: ["int_complaint_status_context"],
     materialized: "view",
@@ -66,6 +73,7 @@ export const DAG: DagNode[] = [
   },
   {
     name: "fct_complaints",
+    grain: "1 canonical published complaint record",
     layer: "mart",
     deps: ["int_complaint_status_context", "dim_issue_taxonomy"],
     materialized: "table",
@@ -74,6 +82,7 @@ export const DAG: DagNode[] = [
   },
   {
     name: "int_issue_trends",
+    grain: "1 calendar date x product x issue x trend policy",
     layer: "intermediate",
     deps: ["int_issue_daily_volume"],
     materialized: "view",
@@ -81,6 +90,7 @@ export const DAG: DagNode[] = [
   },
   {
     name: "fct_issue_daily_metrics",
+    grain: "1 calendar date x product x issue",
     layer: "mart",
     deps: ["int_issue_trends"],
     materialized: "table",
@@ -89,6 +99,7 @@ export const DAG: DagNode[] = [
   },
   {
     name: "int_resolution_signals",
+    grain: "1 published complaint record",
     layer: "intermediate",
     deps: ["int_complaint_status_context", "int_issue_trends"],
     materialized: "view",
@@ -96,6 +107,7 @@ export const DAG: DagNode[] = [
   },
   {
     name: "int_priority_policy_application",
+    grain: "1 complaint record x policy rule evaluated",
     layer: "intermediate",
     deps: ["int_resolution_signals"],
     materialized: "view",
@@ -103,6 +115,7 @@ export const DAG: DagNode[] = [
   },
   {
     name: "resolution_action_queue",
+    grain: "1 complaint record x final recommendation run",
     layer: "mart",
     deps: ["int_priority_policy_application", "int_resolution_signals"],
     materialized: "table",
@@ -111,6 +124,7 @@ export const DAG: DagNode[] = [
   },
   {
     name: "operations_overview_metrics",
+    grain: "1 metric date x dashboard dimension x metric name",
     layer: "mart",
     deps: ["fct_issue_daily_metrics", "resolution_action_queue"],
     materialized: "table",
@@ -119,6 +133,7 @@ export const DAG: DagNode[] = [
   },
   {
     name: "agent_case_context",
+    grain: "1 published complaint record",
     layer: "mart",
     deps: ["fct_complaints", "int_resolution_signals", "resolution_action_queue"],
     materialized: "table",
@@ -164,59 +179,122 @@ export const LAYER_LABEL: Record<Layer, string> = {
   mart: "Marts",
 };
 
-/** The stages data passes through, end to end. */
+/** One stage of the pipeline, as drawn on the How it's built page. */
 export interface Stage {
   id: string;
+  index: string;
   name: string;
   system: string;
-  detail: string;
-  /** What physically moves out of this stage. */
-  output: string;
+  summary: string;
+  /** Accent used to separate stages; not a data encoding. */
+  tone: "source" | "ingest" | "transform" | "warehouse" | "serve" | "users";
+  items: string[];
+  /** Sub-blocks, used by the transform stage to show its four layers. */
+  blocks?: { name: string; detail: string }[];
 }
 
 export const STAGES: Stage[] = [
   {
     id: "source",
+    index: "01",
     name: "Source",
     system: "CFPB",
-    detail: "The public Consumer Complaint Database, downloaded as a bulk extract.",
-    output: "CSV",
+    summary: "Structured public complaint data",
+    tone: "source",
+    items: [
+      "Consumer Complaint Database",
+      "Bulk CSV extract",
+      "Published complaint records",
+      "Product, issue, response, date and state fields",
+    ],
   },
   {
-    id: "raw",
-    name: "Raw",
-    system: "Snowflake",
-    detail: "Landed exactly as received, in its own schema. Nothing is corrected on the way in.",
-    output: "RAW schema",
+    id: "ingest",
+    index: "02",
+    name: "Ingest",
+    system: "Batch ingestion",
+    summary: "Source-preserving load into Snowflake RAW",
+    tone: "ingest",
+    items: [
+      "Chunked loading of the bulk extract",
+      "Record count validated against source metadata",
+      "Landed unchanged in the RAW schema",
+    ],
   },
   {
     id: "transform",
+    index: "03",
     name: "Transform",
     system: "dbt",
-    detail: "13 models across staging, intermediate and marts, with 91 tests that fail the build.",
-    output: "SQL, versioned in Git",
+    summary: "A dependency-driven model DAG, executed inside Snowflake",
+    tone: "transform",
+    items: [],
+    blocks: [
+      { name: "Staging", detail: "Clean and standardize source fields" },
+      {
+        name: "Intermediate",
+        detail: "Join records, calculate metrics, derive analytical context, evaluate business logic",
+      },
+      { name: "Marts", detail: "Publish reusable analytical datasets" },
+      {
+        name: "Decisioning",
+        detail: "Apply policy precedence; produce priorities, reason codes and confidence",
+      },
+    ],
   },
   {
     id: "analytics",
+    index: "04",
     name: "Analytics",
     system: "Snowflake",
-    detail: "Models materialize back into the warehouse. Marts persist as tables; the layers below stay views.",
-    output: "ANALYTICS_PROD",
+    summary: "Where dbt models are materialized and served",
+    tone: "warehouse",
+    items: [
+      "Analytics schema",
+      "Materialized mart tables",
+      "Analytical views",
+      "Decisioning surfaces",
+      "Curated metrics",
+    ],
   },
   {
     id: "export",
-    name: "Export",
-    system: "Git",
-    detail: "A curated aggregate export, read through the app-reader role and committed to the repo.",
-    output: "JSON",
+    index: "05",
+    name: "Application data",
+    system: "Curated export",
+    summary: "The analytical fields the product needs, and nothing else",
+    tone: "serve",
+    items: [
+      "Read-only analytical access",
+      "Explicit column allowlist",
+      "Reviewed aggregate output",
+      "Versioned JSON, tracked in Git",
+    ],
   },
   {
-    id: "serve",
-    name: "Serve",
-    system: "Vercel",
-    detail: "Next.js builds from that commit. The browser never holds a warehouse credential.",
-    output: "Static + server-rendered",
+    id: "experience",
+    index: "06",
+    name: "Experience",
+    system: "Next.js on Vercel",
+    summary: "Two consumption surfaces on one analytical platform",
+    tone: "users",
+    items: ["Overview", "Insights", "Exploration", "Decision support"],
+    blocks: [
+      {
+        name: "Streamlit operations console",
+        detail: "Pipeline health, data freshness, model status, quality checks",
+      },
+    ],
   },
+];
+
+/** Which tool owns which job — the distinction the page has to make. */
+export const STACK_ROLES = [
+  { tool: "Snowflake", job: "Data platform and warehouse" },
+  { tool: "dbt", job: "Transformation and analytical modeling" },
+  { tool: "dbt Cloud", job: "Orchestration, scheduling, CI and job execution" },
+  { tool: "Next.js", job: "Application experience" },
+  { tool: "Vercel", job: "Application deployment and hosting" },
 ];
 
 /**
@@ -237,70 +315,69 @@ export const WAREHOUSE = {
     return this.schemaTests + this.singularTests;
   },
   martTables: 6,
+  /** Measured from INFORMATION_SCHEMA: ANALYTICS_PROD 1.51 GB + RAW 1.02 GB. */
   storageGb: 2.53,
-  rawRows: 17119590,
-  /** One row was dropped by the staging model's required-field filter. */
+  /** Rows landed in RAW, reconciled against the source API's own metadata. */
+  loadedRows: 17119590,
+  /** Rows surviving the staging model's required-field filter. */
   modelledRows: 17119581,
+  get droppedRows() {
+    return this.loadedRows - this.modelledRows;
+  },
+  /**
+   * Rows inside complete calendar months, which is what the analytical
+   * experience reads. Lower than modelledRows because the in-progress month
+   * is excluded — the two must not be collapsed into one figure.
+   */
+  completeMonthRows: 16896978,
+  publishedProducts: 21,
+  productCategories: 11,
+  issueAreas: 178,
+  schemaTestBreakdown: [
+    { kind: "not_null", count: 55 },
+    { kind: "accepted_values", count: 17 },
+    { kind: "unique", count: 8 },
+    { kind: "unique_combination_of_columns", count: 4 },
+    { kind: "relationships", count: 2 },
+  ],
+  roles: [
+    { name: "CRI_LOADER", does: "Loads source data into RAW." },
+    { name: "CRI_TRANSFORMER", does: "Builds the analytical models." },
+    { name: "CRI_APP_READER", does: "Reads curated analytical outputs." },
+    { name: "CRI_ADMIN", does: "Owns Snowflake objects and grants." },
+  ],
 };
 
 export interface Decision {
-  question: string;
+  title: string;
+  subtitle: string;
   answer: string;
 }
 
 export const DECISIONS: Decision[] = [
   {
-    question: "Why Snowflake",
+    title: "Snowflake",
+    subtitle: "Centralized analytical storage",
     answer:
-      "Because the access boundary had to be a database primitive, not application code. The app reads through a role that can see the curated marts and nothing else, so a mistake in the frontend cannot reach raw data. Separating storage from compute also means a 17M-row rebuild costs a few minutes of warehouse time and nothing when idle.",
+      "Raw source data and transformed analytical models live in Snowflake, so storage, transformation and access control are managed independently of the application. Compute is separate from storage, so a full rebuild of 17.1M rows costs warehouse time only while it runs.",
   },
   {
-    question: "Why dbt",
+    title: "dbt",
+    subtitle: "Transformation as code",
     answer:
-      "Because the transformation logic needed to be reviewable and testable like code. Every model is version-controlled SQL with its own tests, the DAG is derived from the queries themselves rather than maintained by hand, and a test that fails stops the build instead of publishing a wrong number.",
+      "Business logic is version-controlled SQL with explicit dependencies and automated tests. The DAG is derived from ref() relationships rather than maintained separately, so model relationships stay visible and reproducible.",
   },
   {
-    question: "Why separate the layers",
+    title: "Layered modeling",
+    subtitle: "Separate responsibilities",
     answer:
-      "So that each layer can be trusted for one thing. Staging guarantees clean types, intermediate holds the business logic, marts are the only surface anything downstream reads. When a number looks wrong there is exactly one place it can have come from.",
+      "Staging handles source cleanup. Intermediate models calculate reusable analytical logic. Mart models publish business-ready datasets. Decisioning models apply policy and produce actions. A wrong number can be traced to the layer that owns it.",
   },
   {
-    question: "Why a curated export instead of a live connection",
+    title: "Curated application data",
+    subtitle: "Isolate the product layer",
     answer:
-      "Because the browser should never hold a warehouse credential. The application reads a versioned aggregate committed to the repo, produced by the same read-only role a server-backed deployment would use. It also means a deploy is reproducible: the data that shipped is in the commit.",
-  },
-];
-
-export interface TrustControl {
-  name: string;
-  detail: string;
-}
-
-export const TRUST: TrustControl[] = [
-  {
-    name: "Testing",
-    detail:
-      "86 schema tests on uniqueness, nullability, accepted values and relationships, plus 5 singular tests asserting things the schema cannot — that daily volume reconciles, that no critical priority exists without a trigger, that no reason code is missing, that dropped rows stay within bounds, and that no response-duration claim can enter the models.",
-  },
-  {
-    name: "Reconciliation",
-    detail:
-      "Ingestion checks its own row count against the source API's metadata before the load is accepted. One row of 17,119,590 is dropped by the staging filter, and that difference is asserted rather than tolerated silently.",
-  },
-  {
-    name: "Lineage",
-    detail:
-      "The DAG above is generated from ref() calls, so it cannot drift from the code. Every tile in Explore names the model behind it.",
-  },
-  {
-    name: "Monitoring",
-    detail:
-      "dbt Cloud runs the project on a schedule and on every pull request. The Streamlit operations console reads freshness, model status and quality checks directly from the warehouse.",
-  },
-  {
-    name: "Access",
-    detail:
-      "Four roles with separate jobs: a loader that can write raw, a transformer that can build models, an app reader that can only select from curated marts, and an admin that owns the objects. The export script runs as the app reader so it fails the same way the application would.",
+      "The application receives only the analytical fields the product needs, produced through an explicit column allowlist and read with CRI_APP_READER. The export is versioned alongside the code, so a deploy and the data it shipped with stay together.",
   },
 ];
 
@@ -311,27 +388,78 @@ export interface DecisionStep {
 }
 
 export const DECISION_CHAIN: DecisionStep[] = [
+  { stage: "Complaint", detail: "A published CFPB complaint enters the pipeline.", model: "" },
   {
-    stage: "Complaint",
-    detail: "One published record, cleaned and typed, with its completeness labelled.",
+    stage: "Cleaned record",
+    detail: "Types and required fields are standardized.",
     model: "stg_cfpb_complaints",
   },
   {
-    stage: "Signal",
-    detail:
-      "Its issue pattern measured against that pattern's own baseline — rolling window, change, observed share.",
+    stage: "Issue context",
+    detail: "The complaint's product and issue contribute to daily volume.",
+    model: "int_issue_daily_volume",
+  },
+  {
+    stage: "Trend signal",
+    detail: "The issue is compared against its own historical baseline.",
     model: "int_issue_trends",
   },
   {
-    stage: "Priority",
-    detail:
-      "Six policies evaluated against the record. Every result is kept, not just the ones that fired.",
+    stage: "Policy evaluation",
+    detail: "The defined priority rules are evaluated against the record.",
     model: "int_priority_policy_application",
   },
   {
-    stage: "Action",
+    stage: "Recommended action",
     detail:
-      "Precedence applied across whatever triggered, landing one recommendation with its reason codes and confidence.",
+      "Policy precedence produces one recommendation with supporting reason codes and confidence.",
     model: "resolution_action_queue",
+  },
+];
+
+export interface TrustControl {
+  name: string;
+  detail: string;
+  points?: string[];
+}
+
+export const TRUST: TrustControl[] = [
+  {
+    name: "Automated tests",
+    detail:
+      "91 dbt tests run across the project — 86 declared in the schema files and 5 singular tests written as SQL that must return no rows.",
+    points: [
+      "55 not_null",
+      "17 accepted_values",
+      "8 unique",
+      "4 unique_combination_of_columns",
+      "2 relationships",
+      "5 singular business-rule tests",
+    ],
+  },
+  {
+    name: "Reconciliation",
+    detail:
+      "Ingestion compares the loaded record count against the source metadata before the load is accepted. 17,119,590 records landed in RAW; 17,119,581 survive the staging model's required-field filter, a difference of 9 rows that a singular test holds within bounds.",
+  },
+  {
+    name: "Lineage",
+    detail:
+      "The model dependency graph is generated from dbt ref() relationships, so downstream dependencies are derived from the SQL rather than maintained as a separate diagram.",
+  },
+  {
+    name: "Orchestration and monitoring",
+    detail:
+      "dbt Cloud runs the production transformation job and reports job, test and model status. It also runs on pull requests in this repository. The Streamlit operations console exposes freshness, model status, quality checks and pipeline health.",
+  },
+  {
+    name: "Access",
+    detail: "Four Snowflake roles, each with one job.",
+    points: [
+      "CRI_LOADER — loads source data into RAW",
+      "CRI_TRANSFORMER — builds analytical models",
+      "CRI_APP_READER — reads curated analytical outputs",
+      "CRI_ADMIN — manages Snowflake objects and permissions",
+    ],
   },
 ];

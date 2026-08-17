@@ -26,7 +26,6 @@ export default function MethodologyPage() {
   return (
     <>
       <PageHeader
-        eyebrow="Reference"
         title="Methodology"
         lede="How these numbers are produced, and the questions this data can and cannot answer."
       />

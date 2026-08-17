@@ -205,12 +205,20 @@ def main() -> int:
     # full 15-year archive — 328,994 rows / 68MB from a single run, nowhere
     # near "tiny." The same window as the case context keeps both exports
     # describing the same period.
-    print(f"Querying operations_overview_metrics via CRI_APP_READER (last {args.window_days} days)...")
+    # Also stops at the last COMPLETE calendar month. The current month is
+    # only partly published, so its daily counts taper toward zero and a
+    # chart that includes them reads as a collapse rather than a month in
+    # progress. Ending at the last complete month means every series ends on
+    # a real peak instead of an artifact.
+    print(f"Querying operations_overview_metrics via CRI_APP_READER (last {args.window_days} days, "
+          f"through the last complete month)...")
     metrics = run_query(
         args.connection,
         role_prefix +
         "SELECT * FROM CUSTOMER_RESOLUTION_INTELLIGENCE.ANALYTICS_PROD.OPERATIONS_OVERVIEW_METRICS "
-        f"WHERE metric_date >= dateadd(day, -{args.window_days}, current_date());",
+        f"WHERE metric_date >= dateadd(day, -{args.window_days}, current_date()) "
+        f"  AND (metric_name = 'action_count' "
+        f"       OR metric_date < date_trunc('month', current_date()));",
     )
     assert_no_forbidden(metrics, "operations_overview_metrics")
     metrics = filter_columns(metrics, ALLOWED_METRICS_COLUMNS)

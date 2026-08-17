@@ -1,49 +1,74 @@
 "use client";
 
 /**
- * Explore — the analytical workspace.
+ * Explore — the single analytical workspace.
  *
- * Filters, period comparison and drill-down all run client-side over the
- * curated export already loaded on the server. No request is made while
- * exploring, so interaction is immediate.
+ * Consolidates trend exploration, headline movement, and the attention
+ * queue. Filters and policy toggles run client-side over the curated export
+ * already loaded on the server, so interaction is immediate.
+ *
+ * The policy toggles are a real simulation, not a display filter: a record
+ * stays in the queue only while at least one of the policies that actually
+ * triggered for it is still switched on.
  */
 
 import { useMemo, useState } from "react";
 import Link from "next/link";
 import { TrendChart } from "@/components/ui/TrendChart";
-import { Chip, EmptyState } from "@/components/ui/Primitives";
-import type { OperationsMetric } from "@/lib/types";
+import { Chip, ConfidenceChip, EmptyState, PriorityChip } from "@/components/ui/Primitives";
+import type { ComplaintRecordContext, OperationsMetric } from "@/lib/types";
 import {
   METRIC_LABELS,
+  buildAttentionQueue,
   comparePeriods,
   dailySeries,
   dimensionsFor,
+  explainReasons,
   formatDate,
   formatPct,
+  nextStepFor,
   titleize,
 } from "@/lib/analytics";
 
 const RANGES = [
-  { days: 28, label: "28d" },
-  { days: 56, label: "56d" },
-  { days: 90, label: "90d" },
+  { days: 28, label: "28 days" },
+  { days: 56, label: "56 days" },
+  { days: 90, label: "90 days" },
   { days: 0, label: "All" },
 ];
 
+const POLICY_LABEL: Record<string, string> = {
+  POLICY_UNTIMELY_RESPONSE: "Untimely response",
+  POLICY_EMERGING_ISSUE: "Emerging issue",
+  POLICY_PUBLICATION_LAG: "Publication lag",
+  POLICY_INCOMPLETE_CONTEXT: "Incomplete context",
+  POLICY_CRITICAL_COMBINATION: "Critical combination",
+  POLICY_STABLE_PATTERN: "Stable pattern",
+};
+
+const POLICY_NOTE: Record<string, string> = {
+  POLICY_UNTIMELY_RESPONSE: "Company missed the published reporting standard",
+  POLICY_EMERGING_ISSUE: "Volume cleared threshold against its own baseline",
+  POLICY_PUBLICATION_LAG: "Record may still be incomplete",
+  POLICY_INCOMPLETE_CONTEXT: "A field needed to interpret it is missing",
+  POLICY_CRITICAL_COMBINATION: "Two independent signals agreed",
+  POLICY_STABLE_PATTERN: "Nothing fired — no action needed",
+};
+
+// STABLE_PATTERN means "no rule fired", so it never puts a record in the queue.
+const QUEUEING_POLICIES = Object.keys(POLICY_LABEL).filter((p) => p !== "POLICY_STABLE_PATTERN");
+
 export function ExploreWorkspace({
   metrics,
+  records,
   lagDays,
   initialProduct,
-  initialMetric,
 }: {
   metrics: OperationsMetric[];
+  records: ComplaintRecordContext[];
   lagDays: number;
   initialProduct?: string;
-  initialMetric?: string;
 }) {
-  // Only measures that are genuinely a daily series belong here. action_count
-  // is published as a single point-in-time snapshot, so offering it as a
-  // trend would render one point and make period comparison meaningless.
   const metricNames = useMemo(() => {
     const dateCount = new Map<string, Set<string>>();
     for (const m of metrics) {
@@ -54,17 +79,13 @@ export function ExploreWorkspace({
     return [...dateCount.entries()].filter(([, dates]) => dates.size > 1).map(([name]) => name);
   }, [metrics]);
 
-  const [metricName, setMetricName] = useState(
-    initialMetric && metricNames.includes(initialMetric) ? initialMetric : "complaint_volume",
-  );
-  const [rangeDays, setRangeDays] = useState(56);
+  const [metricName, setMetricName] = useState("complaint_volume");
+  const [rangeDays, setRangeDays] = useState(28);
   const [product, setProduct] = useState<string>(initialProduct ?? "");
-  const [compare, setCompare] = useState(true);
   const [excludeLag, setExcludeLag] = useState(true);
+  const [enabled, setEnabled] = useState<string[]>(QUEUEING_POLICIES);
 
   const dimensions = useMemo(() => dimensionsFor(metrics, metricName), [metrics, metricName]);
-
-  // A dimension selected for one measure may not exist for another.
   const activeProduct = dimensions.includes(product) ? product : "";
 
   const view = useMemo(() => {
@@ -72,9 +93,8 @@ export function ExploreWorkspace({
     const trimmed = excludeLag && lagDays > 0 ? full.slice(0, -lagDays) : full;
     const windowed = rangeDays > 0 ? trimmed.slice(-rangeDays) : trimmed;
 
-    // Prior window of equal length, for the dashed comparison series.
     let priorAligned: { date: string; value: number }[] | undefined;
-    if (compare && rangeDays > 0 && trimmed.length >= rangeDays * 2) {
+    if (rangeDays > 0 && trimmed.length >= rangeDays * 2) {
       const prior = trimmed.slice(-rangeDays * 2, -rangeDays);
       priorAligned = prior.map((p, i) => ({ date: windowed[i]?.date ?? p.date, value: p.value }));
     }
@@ -85,14 +105,9 @@ export function ExploreWorkspace({
       (best, p) => (p.value > best.value ? p : best),
       windowed[0] ?? { date: "", value: 0 },
     );
+    return { windowed, priorAligned, cmp, total, peak };
+  }, [metrics, metricName, activeProduct, rangeDays, excludeLag, lagDays]);
 
-    return { windowed, priorAligned, cmp, total, peak, trimmedLength: trimmed.length };
-  }, [metrics, metricName, activeProduct, rangeDays, compare, excludeLag, lagDays]);
-
-  // The breakdown must describe exactly the slice the chart is showing.
-  // Deriving its bounds from the rendered points — rather than recomputing a
-  // day count — keeps the two from drifting apart when the lag window or the
-  // range changes, which is what produced shares above 100%.
   const breakdown = useMemo(() => {
     if (activeProduct || view.windowed.length === 0) return [];
     const from = view.windowed[0].date;
@@ -109,19 +124,44 @@ export function ExploreWorkspace({
       .slice(0, 10);
   }, [metrics, metricName, activeProduct, view.windowed]);
 
+  // How often each policy actually fires across the sample — shown next to
+  // each toggle so switching one off has a visible, quantified consequence.
+  const policyCounts = useMemo(() => {
+    const counts = new Map<string, number>();
+    for (const r of records) {
+      for (const p of r.policyIds) counts.set(p, (counts.get(p) ?? 0) + 1);
+    }
+    return counts;
+  }, [records]);
+
+  const queue = useMemo(() => {
+    const on = new Set(enabled);
+    const kept = records.filter((r) => r.policyIds.some((p) => on.has(p)));
+    const scoped = activeProduct ? kept.filter((r) => r.product === activeProduct) : kept;
+    return buildAttentionQueue(scoped);
+  }, [records, enabled, activeProduct]);
+
+  const clearedCount = records.length - queue.reduce((s, q) => s + q.recordCount, 0);
+
+  function togglePolicy(policy: string) {
+    setEnabled((cur) =>
+      cur.includes(policy) ? cur.filter((p) => p !== policy) : [...cur, policy],
+    );
+  }
+
   const isDefault =
     metricName === "complaint_volume" &&
-    rangeDays === 56 &&
+    rangeDays === 28 &&
     !activeProduct &&
-    compare &&
-    excludeLag;
+    excludeLag &&
+    enabled.length === QUEUEING_POLICIES.length;
 
   function reset() {
     setMetricName("complaint_volume");
-    setRangeDays(56);
+    setRangeDays(28);
     setProduct("");
-    setCompare(true);
     setExcludeLag(true);
+    setEnabled(QUEUEING_POLICIES);
   }
 
   const measureLabel = METRIC_LABELS[metricName] ?? titleize(metricName);
@@ -129,9 +169,9 @@ export function ExploreWorkspace({
 
   return (
     <div className="explore-layout">
-      {/* ---------------- filters ---------------- */}
-      <aside className="filter-panel" aria-label="Filters">
-        <h2>Filters</h2>
+      {/* ---------------- controls ---------------- */}
+      <aside className="filter-panel" aria-label="Controls">
+        <h2>What are you looking at?</h2>
 
         <div className="filter-group">
           <label htmlFor="measure">Measure</label>
@@ -146,7 +186,7 @@ export function ExploreWorkspace({
 
         <div className="filter-group">
           <span className="filter-legend" id="range-legend">
-            Period
+            Time period
           </span>
           <div className="segmented" role="group" aria-labelledby="range-legend">
             {RANGES.map((r) => (
@@ -163,52 +203,97 @@ export function ExploreWorkspace({
         </div>
 
         <div className="filter-group">
-          <label htmlFor="product">
-            {metricName === "action_count" ? "Action" : "Product"}
-          </label>
+          <label htmlFor="product">Product</label>
           <select id="product" value={activeProduct} onChange={(e) => setProduct(e.target.value)}>
-            <option value="">All ({dimensions.length})</option>
+            <option value="">All products ({dimensions.length})</option>
             {dimensions.map((d) => (
               <option key={d} value={d}>
-                {metricName === "action_count" ? titleize(d) : d}
+                {d}
               </option>
             ))}
           </select>
         </div>
 
-        <div className="filter-group">
-          <label style={{ display: "flex", gap: "0.5rem", alignItems: "center", fontWeight: 500 }}>
+        <label className="toggle-row" style={{ borderBottom: "none", paddingBottom: 0 }}>
+          <input
+            type="checkbox"
+            checked={excludeLag}
+            onChange={(e) => setExcludeLag(e.target.checked)}
+          />
+          <span className="toggle-copy">
+            <span className="toggle-name">Hide incomplete recent days</span>
+            <span className="toggle-meta">Last {lagDays} days still publishing</span>
+          </span>
+        </label>
+
+        <h3>Which rules should apply?</h3>
+        {QUEUEING_POLICIES.map((p) => (
+          <label className="toggle-row" key={p}>
             <input
               type="checkbox"
-              checked={compare}
-              onChange={(e) => setCompare(e.target.checked)}
-              style={{ width: "auto" }}
+              checked={enabled.includes(p)}
+              onChange={() => togglePolicy(p)}
             />
-            Compare with prior period
+            <span className="toggle-copy">
+              <span className="toggle-name">{POLICY_LABEL[p]}</span>
+              <span className="toggle-meta">
+                {POLICY_NOTE[p]} · fires on {policyCounts.get(p) ?? 0}
+              </span>
+            </span>
           </label>
-          <label style={{ display: "flex", gap: "0.5rem", alignItems: "center", fontWeight: 500 }}>
-            <input
-              type="checkbox"
-              checked={excludeLag}
-              onChange={(e) => setExcludeLag(e.target.checked)}
-              style={{ width: "auto" }}
-            />
-            Exclude incomplete recent days
-          </label>
-        </div>
+        ))}
 
         <button type="button" className="filter-reset" onClick={reset} disabled={isDefault}>
-          Reset filters
+          Reset everything
         </button>
       </aside>
 
-      {/* ---------------- main visualization ---------------- */}
-      <section aria-label="Trend">
+      {/* ---------------- main ---------------- */}
+      <section aria-label="Analysis">
         <div className="active-filters">
           <Chip tone="accent">{measureLabel}</Chip>
-          <Chip tone="neutral">{rangeDays > 0 ? `Last ${rangeDays} days` : "All time"}</Chip>
-          {activeProduct && <Chip tone="neutral">{activeProduct}</Chip>}
+          <Chip>{rangeDays > 0 ? `Last ${rangeDays} days` : "All time"}</Chip>
+          {activeProduct && <Chip>{activeProduct}</Chip>}
           {!excludeLag && <Chip tone="caution">Including incomplete days</Chip>}
+          {enabled.length < QUEUEING_POLICIES.length && (
+            <Chip tone="caution">
+              {enabled.length} of {QUEUEING_POLICIES.length} rules on
+            </Chip>
+          )}
+        </div>
+
+        <div className="stat-row">
+          <div className="stat-cell">
+            <div className="stat-label">Total in view</div>
+            <div className="stat-value">{Math.round(view.total).toLocaleString()}</div>
+          </div>
+          <div className="stat-cell">
+            <div className="stat-label">Daily average</div>
+            <div className="stat-value">{Math.round(avg).toLocaleString()}</div>
+          </div>
+          <div className="stat-cell">
+            <div className="stat-label">Busiest day</div>
+            <div className="stat-value">{Math.round(view.peak.value).toLocaleString()}</div>
+            <div className="stat-foot">{view.peak.date ? formatDate(view.peak.date) : ""}</div>
+          </div>
+          {view.cmp && (
+            <div className="stat-cell">
+              <div className="stat-label">Change vs prior period</div>
+              <div
+                className="stat-value"
+                style={{
+                  color:
+                    view.cmp.changePct == null || Math.abs(view.cmp.changePct) < 0.02
+                      ? "var(--text)"
+                      : view.cmp.changePct > 0
+                        ? "var(--negative)"
+                        : "var(--positive)",
+                }}
+              >
+                {formatPct(view.cmp.changePct, { signed: true })}
+              </div>
+            </div>
+          )}
         </div>
 
         <div className="panel">
@@ -217,39 +302,32 @@ export function ExploreWorkspace({
             {activeProduct ? ` · ${activeProduct}` : ""}
           </h3>
           <p className="panel-sub">
-            {view.windowed.length > 0
-              ? `${formatDate(view.windowed[0].date)} – ${formatDate(view.windowed[view.windowed.length - 1].date)}`
-              : "No data in this selection"}
+            {view.windowed.length === 0
+              ? "No data in this selection"
+              : `${formatDate(view.windowed[0].date)} to ${formatDate(view.windowed[view.windowed.length - 1].date)}${
+                  view.priorAligned ? ", against the period before it" : ""
+                }`}
           </p>
           <TrendChart
             points={view.windowed}
             comparePoints={view.priorAligned}
-            compareLabel="Prior period"
+            compareLabel="Previous period"
             seriesLabel={measureLabel}
           />
         </div>
 
         {breakdown.length > 0 && (
-          <div className="panel" style={{ marginTop: "1.25rem" }}>
-            <h3 className="panel-title">Breakdown</h3>
-            <p className="panel-sub">
-              {measureLabel} by {metricName === "action_count" ? "action" : "product"} over the
-              selected period. Select one to filter the trend above.
-            </p>
-            <div className="table-wrap" style={{ border: "none", boxShadow: "none" }}>
+          <div className="panel" style={{ marginTop: "1.35rem" }}>
+            <h3 className="panel-title">Which products make up that total</h3>
+            <p className="panel-sub">Select a row to narrow everything to that product.</p>
+            <div className="table-wrap" style={{ border: "none" }}>
               <table>
                 <thead>
                   <tr>
-                    <th scope="col">{metricName === "action_count" ? "Action" : "Product"}</th>
-                    <th scope="col" className="num">
-                      Total
-                    </th>
-                    <th scope="col" className="num">
-                      Share
-                    </th>
-                    <th scope="col" className="num">
-                      Daily avg
-                    </th>
+                    <th scope="col">Product</th>
+                    <th scope="col" className="num">Total</th>
+                    <th scope="col" className="num">Share</th>
+                    <th scope="col" className="num">Daily average</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -262,9 +340,7 @@ export function ExploreWorkspace({
                         onClick={() => setProduct(b.dimension)}
                         style={{ cursor: "pointer" }}
                       >
-                        <td>
-                          {metricName === "action_count" ? titleize(b.dimension) : b.dimension}
-                        </td>
+                        <td>{b.dimension}</td>
                         <td className="num">{Math.round(b.value).toLocaleString()}</td>
                         <td className="num">{formatPct(share)}</td>
                         <td className="num">{Math.round(b.value / days).toLocaleString()}</td>
@@ -276,78 +352,89 @@ export function ExploreWorkspace({
             </div>
           </div>
         )}
-      </section>
 
-      {/* ---------------- context ---------------- */}
-      <aside className="explore-context" aria-label="Context">
-        <h2>This selection</h2>
-
-        {view.windowed.length === 0 ? (
-          <EmptyState title="Nothing to summarize">
-            Adjust the filters to bring data into view.
-          </EmptyState>
-        ) : (
-          <>
-            <div className="context-stat">
-              <div className="cs-label">Total</div>
-              <div className="cs-value">{Math.round(view.total).toLocaleString()}</div>
-            </div>
-            <div className="context-stat">
-              <div className="cs-label">Daily average</div>
-              <div className="cs-value">{Math.round(avg).toLocaleString()}</div>
-            </div>
-            <div className="context-stat">
-              <div className="cs-label">Peak day</div>
-              <div className="cs-value">{Math.round(view.peak.value).toLocaleString()}</div>
-              <div className="cs-label" style={{ marginTop: "0.2rem" }}>
-                {view.peak.date ? formatDate(view.peak.date) : ""}
-              </div>
-            </div>
-            {view.cmp && (
-              <div className="context-stat">
-                <div className="cs-label">Change vs prior period</div>
-                <div
-                  className="cs-value"
-                  style={{
-                    color:
-                      view.cmp.changePct == null || Math.abs(view.cmp.changePct) < 0.02
-                        ? "var(--text)"
-                        : view.cmp.changePct > 0
-                          ? "var(--negative)"
-                          : "var(--positive)",
-                  }}
-                >
-                  {formatPct(view.cmp.changePct, { signed: true })}
-                </div>
-              </div>
-            )}
-
-            <p className="context-readout">
-              {activeProduct ? (
+        {/* ---------------- queue ---------------- */}
+        <div style={{ marginTop: "3.5rem" }}>
+          <div className="section-head">
+            <h2>What these rules flag</h2>
+            <p>
+              {queue.length > 0 ? (
                 <>
-                  <strong>{activeProduct}</strong> accounts for this view.{" "}
-                  {view.cmp && view.cmp.changePct != null
-                    ? `It moved ${formatPct(view.cmp.changePct, { signed: true })} against its own prior period.`
-                    : "Select a shorter period to compare against the prior one."}
+                  {queue.length} pattern{queue.length === 1 ? "" : "s"} would reach
+                  someone with the rules currently switched on
+                  {clearedCount > 0 ? `, and ${clearedCount} records clear with no action` : ""}.
+                  Switch a rule off on the left to see what stops being flagged.
                 </>
               ) : (
-                <>
-                  Showing all {dimensions.length}{" "}
-                  {metricName === "action_count" ? "actions" : "products"} combined. Select one to
-                  isolate its trend — comparisons are most meaningful within a single product area.
-                </>
+                <>Nothing is flagged with the rules currently switched on.</>
               )}
             </p>
+          </div>
 
-            {excludeLag && (
-              <p className="context-readout">
-                The most recent {lagDays} days are held back while records finish publishing.{" "}
-                <Link href="/data-story">Why →</Link>
-              </p>
-            )}
-          </>
-        )}
-      </aside>
+          {queue.length === 0 ? (
+            <div className="decision-list">
+              <EmptyState title="Nothing flagged">
+                Every rule is switched off, or no record in this selection
+                triggered the ones that remain. Switch a rule back on to
+                populate the queue.
+              </EmptyState>
+            </div>
+          ) : (
+            <div className="decision-list">
+              {queue.slice(0, 10).map((item) => (
+                <article className="decision-row" key={item.key}>
+                  <div className="decision-meta">
+                    <PriorityChip priority={item.priority} />
+                    <ConfidenceChip confidence={item.confidence} />
+                  </div>
+                  <div>
+                    <h3 className="decision-title">{item.issue}</h3>
+                    <div style={{ marginBottom: ".6rem" }}>
+                      <Chip>{item.product}</Chip>
+                    </div>
+                    <p className="decision-why">{explainReasons(item.reasonCodes)}</p>
+                    <p className="decision-next">
+                      <strong>Next step:</strong> {nextStepFor(item.recommendedAction)}
+                    </p>
+                  </div>
+                  <div className="decision-signal">
+                    {item.volumeChangePct != null ? (
+                      <>
+                        <div
+                          className="ds-value"
+                          style={{
+                            color: item.volumeChangePct > 0 ? "var(--negative)" : "var(--text)",
+                          }}
+                        >
+                          {formatPct(item.volumeChangePct, { signed: true })}
+                        </div>
+                        <div className="ds-label">vs baseline</div>
+                      </>
+                    ) : (
+                      <>
+                        <div className="ds-value" style={{ color: "var(--text-3)" }}>
+                          —
+                        </div>
+                        <div className="ds-label">no baseline</div>
+                      </>
+                    )}
+                    <div className="ds-label" style={{ marginTop: ".5rem" }}>
+                      {item.recordCount} record{item.recordCount === 1 ? "" : "s"}
+                    </div>
+                  </div>
+                </article>
+              ))}
+            </div>
+          )}
+
+          <p style={{ marginTop: "1.5rem", fontSize: "var(--fs-min)", color: "var(--text-3)", fontWeight: 300 }}>
+            The queue is drawn from a sample that covers every decisioning
+            outcome, so rare ones stay visible. A flagged pattern is a prompt to
+            investigate, not a confirmed cause ·{" "}
+            <Link href="/data-story">How this is built</Link>
+          </p>
+        </div>
+      </section>
     </div>
   );
 }

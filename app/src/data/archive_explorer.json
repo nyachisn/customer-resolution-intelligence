@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-08-17T15:57:36Z",
+  "generated_at_utc": "2026-08-17T16:36:22Z",
   "monthly_product_volume": [
     {
       "MONTH": "2011-12-01",
@@ -9731,6 +9731,850 @@
       "POLICY_ID": "POLICY_UNTIMELY_RESPONSE",
       "TRIGGERED_COUNT": 2,
       "EVALUATED_COUNT": 18
+    }
+  ],
+  "policy_combinations": [
+    {
+      "PRODUCT": "Bank account or service",
+      "COMBO": "POLICY_INCOMPLETE_CONTEXT",
+      "CNT": 64350
+    },
+    {
+      "PRODUCT": "Bank account or service",
+      "COMBO": "POLICY_EMERGING_ISSUE|POLICY_INCOMPLETE_CONTEXT",
+      "CNT": 19627
+    },
+    {
+      "PRODUCT": "Bank account or service",
+      "COMBO": "POLICY_INCOMPLETE_CONTEXT|POLICY_UNTIMELY_RESPONSE",
+      "CNT": 1581
+    },
+    {
+      "PRODUCT": "Bank account or service",
+      "COMBO": "POLICY_EMERGING_ISSUE|POLICY_INCOMPLETE_CONTEXT|POLICY_UNTIMELY_RESPONSE",
+      "CNT": 640
+    },
+    {
+      "PRODUCT": "Checking or savings account",
+      "COMBO": "POLICY_STABLE_PATTERN",
+      "CNT": 288144
+    },
+    {
+      "PRODUCT": "Checking or savings account",
+      "COMBO": "POLICY_EMERGING_ISSUE",
+      "CNT": 83018
+    },
+    {
+      "PRODUCT": "Checking or savings account",
+      "COMBO": "POLICY_PUBLICATION_LAG",
+      "CNT": 11143
+    },
+    {
+      "PRODUCT": "Checking or savings account",
+      "COMBO": "POLICY_UNTIMELY_RESPONSE",
+      "CNT": 2988
+    },
+    {
+      "PRODUCT": "Checking or savings account",
+      "COMBO": "POLICY_EMERGING_ISSUE|POLICY_PUBLICATION_LAG",
+      "CNT": 1219
+    },
+    {
+      "PRODUCT": "Checking or savings account",
+      "COMBO": "POLICY_CRITICAL_COMBINATION|POLICY_EMERGING_ISSUE|POLICY_UNTIMELY_RESPONSE",
+      "CNT": 663
+    },
+    {
+      "PRODUCT": "Checking or savings account",
+      "COMBO": "POLICY_INCOMPLETE_CONTEXT",
+      "CNT": 308
+    },
+    {
+      "PRODUCT": "Checking or savings account",
+      "COMBO": "POLICY_PUBLICATION_LAG|POLICY_UNTIMELY_RESPONSE",
+      "CNT": 31
+    },
+    {
+      "PRODUCT": "Checking or savings account",
+      "COMBO": "POLICY_INCOMPLETE_CONTEXT|POLICY_PUBLICATION_LAG",
+      "CNT": 8
+    },
+    {
+      "PRODUCT": "Checking or savings account",
+      "COMBO": "POLICY_EMERGING_ISSUE|POLICY_PUBLICATION_LAG|POLICY_UNTIMELY_RESPONSE",
+      "CNT": 6
+    },
+    {
+      "PRODUCT": "Checking or savings account",
+      "COMBO": "POLICY_INCOMPLETE_CONTEXT|POLICY_UNTIMELY_RESPONSE",
+      "CNT": 2
+    },
+    {
+      "PRODUCT": "Checking or savings account",
+      "COMBO": "POLICY_EMERGING_ISSUE|POLICY_INCOMPLETE_CONTEXT",
+      "CNT": 1
+    },
+    {
+      "PRODUCT": "Consumer Loan",
+      "COMBO": "POLICY_INCOMPLETE_CONTEXT",
+      "CNT": 26874
+    },
+    {
+      "PRODUCT": "Consumer Loan",
+      "COMBO": "POLICY_EMERGING_ISSUE|POLICY_INCOMPLETE_CONTEXT",
+      "CNT": 3490
+    },
+    {
+      "PRODUCT": "Consumer Loan",
+      "COMBO": "POLICY_INCOMPLETE_CONTEXT|POLICY_UNTIMELY_RESPONSE",
+      "CNT": 1023
+    },
+    {
+      "PRODUCT": "Consumer Loan",
+      "COMBO": "POLICY_EMERGING_ISSUE|POLICY_INCOMPLETE_CONTEXT|POLICY_UNTIMELY_RESPONSE",
+      "CNT": 172
+    },
+    {
+      "PRODUCT": "Credit card",
+      "COMBO": "POLICY_STABLE_PATTERN",
+      "CNT": 170490
+    },
+    {
+      "PRODUCT": "Credit card",
+      "COMBO": "POLICY_INCOMPLETE_CONTEXT",
+      "CNT": 85405
+    },
+    {
+      "PRODUCT": "Credit card",
+      "COMBO": "POLICY_EMERGING_ISSUE",
+      "CNT": 61159
+    },
+    {
+      "PRODUCT": "Credit card",
+      "COMBO": "POLICY_PUBLICATION_LAG",
+      "CNT": 10279
+    },
+    {
+      "PRODUCT": "Credit card",
+      "COMBO": "POLICY_EMERGING_ISSUE|POLICY_INCOMPLETE_CONTEXT",
+      "CNT": 3022
+    },
+    {
+      "PRODUCT": "Credit card",
+      "COMBO": "POLICY_EMERGING_ISSUE|POLICY_PUBLICATION_LAG",
+      "CNT": 2195
+    },
+    {
+      "PRODUCT": "Credit card",
+      "COMBO": "POLICY_INCOMPLETE_CONTEXT|POLICY_UNTIMELY_RESPONSE",
+      "CNT": 946
+    },
+    {
+      "PRODUCT": "Credit card",
+      "COMBO": "POLICY_UNTIMELY_RESPONSE",
+      "CNT": 935
+    },
+    {
+      "PRODUCT": "Credit card",
+      "COMBO": "POLICY_CRITICAL_COMBINATION|POLICY_EMERGING_ISSUE|POLICY_UNTIMELY_RESPONSE",
+      "CNT": 214
+    },
+    {
+      "PRODUCT": "Credit card",
+      "COMBO": "POLICY_EMERGING_ISSUE|POLICY_INCOMPLETE_CONTEXT|POLICY_UNTIMELY_RESPONSE",
+      "CNT": 33
+    },
+    {
+      "PRODUCT": "Credit card",
+      "COMBO": "POLICY_PUBLICATION_LAG|POLICY_UNTIMELY_RESPONSE",
+      "CNT": 29
+    },
+    {
+      "PRODUCT": "Credit card",
+      "COMBO": "POLICY_INCOMPLETE_CONTEXT|POLICY_PUBLICATION_LAG",
+      "CNT": 13
+    },
+    {
+      "PRODUCT": "Credit card",
+      "COMBO": "POLICY_EMERGING_ISSUE|POLICY_PUBLICATION_LAG|POLICY_UNTIMELY_RESPONSE",
+      "CNT": 5
+    },
+    {
+      "PRODUCT": "Credit card",
+      "COMBO": "POLICY_INCOMPLETE_CONTEXT|POLICY_PUBLICATION_LAG|POLICY_UNTIMELY_RESPONSE",
+      "CNT": 1
+    },
+    {
+      "PRODUCT": "Credit card or prepaid card",
+      "COMBO": "POLICY_STABLE_PATTERN",
+      "CNT": 168845
+    },
+    {
+      "PRODUCT": "Credit card or prepaid card",
+      "COMBO": "POLICY_EMERGING_ISSUE",
+      "CNT": 32222
+    },
+    {
+      "PRODUCT": "Credit card or prepaid card",
+      "COMBO": "POLICY_INCOMPLETE_CONTEXT",
+      "CNT": 2857
+    },
+    {
+      "PRODUCT": "Credit card or prepaid card",
+      "COMBO": "POLICY_UNTIMELY_RESPONSE",
+      "CNT": 2024
+    },
+    {
+      "PRODUCT": "Credit card or prepaid card",
+      "COMBO": "POLICY_CRITICAL_COMBINATION|POLICY_EMERGING_ISSUE|POLICY_UNTIMELY_RESPONSE",
+      "CNT": 284
+    },
+    {
+      "PRODUCT": "Credit card or prepaid card",
+      "COMBO": "POLICY_INCOMPLETE_CONTEXT|POLICY_UNTIMELY_RESPONSE",
+      "CNT": 124
+    },
+    {
+      "PRODUCT": "Credit reporting",
+      "COMBO": "POLICY_INCOMPLETE_CONTEXT",
+      "CNT": 101177
+    },
+    {
+      "PRODUCT": "Credit reporting",
+      "COMBO": "POLICY_EMERGING_ISSUE|POLICY_INCOMPLETE_CONTEXT",
+      "CNT": 38958
+    },
+    {
+      "PRODUCT": "Credit reporting",
+      "COMBO": "POLICY_INCOMPLETE_CONTEXT|POLICY_UNTIMELY_RESPONSE",
+      "CNT": 206
+    },
+    {
+      "PRODUCT": "Credit reporting",
+      "COMBO": "POLICY_EMERGING_ISSUE|POLICY_INCOMPLETE_CONTEXT|POLICY_UNTIMELY_RESPONSE",
+      "CNT": 85
+    },
+    {
+      "PRODUCT": "Credit reporting or other personal consumer reports",
+      "COMBO": "POLICY_STABLE_PATTERN",
+      "CNT": 8783974
+    },
+    {
+      "PRODUCT": "Credit reporting or other personal consumer reports",
+      "COMBO": "POLICY_EMERGING_ISSUE",
+      "CNT": 1648629
+    },
+    {
+      "PRODUCT": "Credit reporting or other personal consumer reports",
+      "COMBO": "POLICY_PUBLICATION_LAG",
+      "CNT": 970422
+    },
+    {
+      "PRODUCT": "Credit reporting or other personal consumer reports",
+      "COMBO": "POLICY_EMERGING_ISSUE|POLICY_PUBLICATION_LAG",
+      "CNT": 156917
+    },
+    {
+      "PRODUCT": "Credit reporting or other personal consumer reports",
+      "COMBO": "POLICY_INCOMPLETE_CONTEXT",
+      "CNT": 20871
+    },
+    {
+      "PRODUCT": "Credit reporting or other personal consumer reports",
+      "COMBO": "POLICY_EMERGING_ISSUE|POLICY_INCOMPLETE_CONTEXT",
+      "CNT": 14186
+    },
+    {
+      "PRODUCT": "Credit reporting or other personal consumer reports",
+      "COMBO": "POLICY_UNTIMELY_RESPONSE",
+      "CNT": 9722
+    },
+    {
+      "PRODUCT": "Credit reporting or other personal consumer reports",
+      "COMBO": "POLICY_INCOMPLETE_CONTEXT|POLICY_PUBLICATION_LAG",
+      "CNT": 2835
+    },
+    {
+      "PRODUCT": "Credit reporting or other personal consumer reports",
+      "COMBO": "POLICY_CRITICAL_COMBINATION|POLICY_EMERGING_ISSUE|POLICY_UNTIMELY_RESPONSE",
+      "CNT": 1661
+    },
+    {
+      "PRODUCT": "Credit reporting or other personal consumer reports",
+      "COMBO": "POLICY_PUBLICATION_LAG|POLICY_UNTIMELY_RESPONSE",
+      "CNT": 359
+    },
+    {
+      "PRODUCT": "Credit reporting or other personal consumer reports",
+      "COMBO": "POLICY_EMERGING_ISSUE|POLICY_INCOMPLETE_CONTEXT|POLICY_PUBLICATION_LAG",
+      "CNT": 220
+    },
+    {
+      "PRODUCT": "Credit reporting or other personal consumer reports",
+      "COMBO": "POLICY_INCOMPLETE_CONTEXT|POLICY_UNTIMELY_RESPONSE",
+      "CNT": 217
+    },
+    {
+      "PRODUCT": "Credit reporting or other personal consumer reports",
+      "COMBO": "POLICY_EMERGING_ISSUE|POLICY_INCOMPLETE_CONTEXT|POLICY_UNTIMELY_RESPONSE",
+      "CNT": 146
+    },
+    {
+      "PRODUCT": "Credit reporting or other personal consumer reports",
+      "COMBO": "POLICY_INCOMPLETE_CONTEXT|POLICY_PUBLICATION_LAG|POLICY_UNTIMELY_RESPONSE",
+      "CNT": 95
+    },
+    {
+      "PRODUCT": "Credit reporting or other personal consumer reports",
+      "COMBO": "POLICY_EMERGING_ISSUE|POLICY_PUBLICATION_LAG|POLICY_UNTIMELY_RESPONSE",
+      "CNT": 71
+    },
+    {
+      "PRODUCT": "Credit reporting or other personal consumer reports",
+      "COMBO": "POLICY_EMERGING_ISSUE|POLICY_INCOMPLETE_CONTEXT|POLICY_PUBLICATION_LAG|POLICY_UNTIMELY_RESPONSE",
+      "CNT": 13
+    },
+    {
+      "PRODUCT": "Credit reporting, credit repair services, or other personal consumer reports",
+      "COMBO": "POLICY_STABLE_PATTERN",
+      "CNT": 1641933
+    },
+    {
+      "PRODUCT": "Credit reporting, credit repair services, or other personal consumer reports",
+      "COMBO": "POLICY_EMERGING_ISSUE",
+      "CNT": 493914
+    },
+    {
+      "PRODUCT": "Credit reporting, credit repair services, or other personal consumer reports",
+      "COMBO": "POLICY_INCOMPLETE_CONTEXT",
+      "CNT": 18077
+    },
+    {
+      "PRODUCT": "Credit reporting, credit repair services, or other personal consumer reports",
+      "COMBO": "POLICY_UNTIMELY_RESPONSE",
+      "CNT": 5957
+    },
+    {
+      "PRODUCT": "Credit reporting, credit repair services, or other personal consumer reports",
+      "COMBO": "POLICY_EMERGING_ISSUE|POLICY_INCOMPLETE_CONTEXT",
+      "CNT": 1813
+    },
+    {
+      "PRODUCT": "Credit reporting, credit repair services, or other personal consumer reports",
+      "COMBO": "POLICY_CRITICAL_COMBINATION|POLICY_EMERGING_ISSUE|POLICY_UNTIMELY_RESPONSE",
+      "CNT": 1790
+    },
+    {
+      "PRODUCT": "Credit reporting, credit repair services, or other personal consumer reports",
+      "COMBO": "POLICY_INCOMPLETE_CONTEXT|POLICY_UNTIMELY_RESPONSE",
+      "CNT": 285
+    },
+    {
+      "PRODUCT": "Credit reporting, credit repair services, or other personal consumer reports",
+      "COMBO": "POLICY_EMERGING_ISSUE|POLICY_INCOMPLETE_CONTEXT|POLICY_UNTIMELY_RESPONSE",
+      "CNT": 1
+    },
+    {
+      "PRODUCT": "Debt collection",
+      "COMBO": "POLICY_STABLE_PATTERN",
+      "CNT": 798894
+    },
+    {
+      "PRODUCT": "Debt collection",
+      "COMBO": "POLICY_EMERGING_ISSUE",
+      "CNT": 289436
+    },
+    {
+      "PRODUCT": "Debt collection",
+      "COMBO": "POLICY_PUBLICATION_LAG",
+      "CNT": 37890
+    },
+    {
+      "PRODUCT": "Debt collection",
+      "COMBO": "POLICY_UNTIMELY_RESPONSE",
+      "CNT": 29881
+    },
+    {
+      "PRODUCT": "Debt collection",
+      "COMBO": "POLICY_CRITICAL_COMBINATION|POLICY_EMERGING_ISSUE|POLICY_UNTIMELY_RESPONSE",
+      "CNT": 10359
+    },
+    {
+      "PRODUCT": "Debt collection",
+      "COMBO": "POLICY_EMERGING_ISSUE|POLICY_PUBLICATION_LAG",
+      "CNT": 3046
+    },
+    {
+      "PRODUCT": "Debt collection",
+      "COMBO": "POLICY_PUBLICATION_LAG|POLICY_UNTIMELY_RESPONSE",
+      "CNT": 1010
+    },
+    {
+      "PRODUCT": "Debt collection",
+      "COMBO": "POLICY_EMERGING_ISSUE|POLICY_PUBLICATION_LAG|POLICY_UNTIMELY_RESPONSE",
+      "CNT": 154
+    },
+    {
+      "PRODUCT": "Debt collection",
+      "COMBO": "POLICY_INCOMPLETE_CONTEXT",
+      "CNT": 3
+    },
+    {
+      "PRODUCT": "Debt collection",
+      "COMBO": "POLICY_INCOMPLETE_CONTEXT|POLICY_UNTIMELY_RESPONSE",
+      "CNT": 1
+    },
+    {
+      "PRODUCT": "Debt or credit management",
+      "COMBO": "POLICY_INCOMPLETE_CONTEXT",
+      "CNT": 8441
+    },
+    {
+      "PRODUCT": "Debt or credit management",
+      "COMBO": "POLICY_INCOMPLETE_CONTEXT|POLICY_UNTIMELY_RESPONSE",
+      "CNT": 816
+    },
+    {
+      "PRODUCT": "Debt or credit management",
+      "COMBO": "POLICY_INCOMPLETE_CONTEXT|POLICY_PUBLICATION_LAG",
+      "CNT": 567
+    },
+    {
+      "PRODUCT": "Debt or credit management",
+      "COMBO": "POLICY_INCOMPLETE_CONTEXT|POLICY_PUBLICATION_LAG|POLICY_UNTIMELY_RESPONSE",
+      "CNT": 28
+    },
+    {
+      "PRODUCT": "Money transfer, virtual currency, or money service",
+      "COMBO": "POLICY_INCOMPLETE_CONTEXT",
+      "CNT": 120487
+    },
+    {
+      "PRODUCT": "Money transfer, virtual currency, or money service",
+      "COMBO": "POLICY_EMERGING_ISSUE|POLICY_INCOMPLETE_CONTEXT",
+      "CNT": 58947
+    },
+    {
+      "PRODUCT": "Money transfer, virtual currency, or money service",
+      "COMBO": "POLICY_INCOMPLETE_CONTEXT|POLICY_PUBLICATION_LAG",
+      "CNT": 3873
+    },
+    {
+      "PRODUCT": "Money transfer, virtual currency, or money service",
+      "COMBO": "POLICY_INCOMPLETE_CONTEXT|POLICY_UNTIMELY_RESPONSE",
+      "CNT": 2690
+    },
+    {
+      "PRODUCT": "Money transfer, virtual currency, or money service",
+      "COMBO": "POLICY_EMERGING_ISSUE|POLICY_INCOMPLETE_CONTEXT|POLICY_PUBLICATION_LAG",
+      "CNT": 1187
+    },
+    {
+      "PRODUCT": "Money transfer, virtual currency, or money service",
+      "COMBO": "POLICY_EMERGING_ISSUE|POLICY_INCOMPLETE_CONTEXT|POLICY_UNTIMELY_RESPONSE",
+      "CNT": 354
+    },
+    {
+      "PRODUCT": "Money transfer, virtual currency, or money service",
+      "COMBO": "POLICY_INCOMPLETE_CONTEXT|POLICY_PUBLICATION_LAG|POLICY_UNTIMELY_RESPONSE",
+      "CNT": 41
+    },
+    {
+      "PRODUCT": "Money transfer, virtual currency, or money service",
+      "COMBO": "POLICY_EMERGING_ISSUE|POLICY_INCOMPLETE_CONTEXT|POLICY_PUBLICATION_LAG|POLICY_UNTIMELY_RESPONSE",
+      "CNT": 10
+    },
+    {
+      "PRODUCT": "Money transfers",
+      "COMBO": "POLICY_INCOMPLETE_CONTEXT",
+      "CNT": 5208
+    },
+    {
+      "PRODUCT": "Money transfers",
+      "COMBO": "POLICY_INCOMPLETE_CONTEXT|POLICY_UNTIMELY_RESPONSE",
+      "CNT": 146
+    },
+    {
+      "PRODUCT": "Mortgage",
+      "COMBO": "POLICY_INCOMPLETE_CONTEXT",
+      "CNT": 285977
+    },
+    {
+      "PRODUCT": "Mortgage",
+      "COMBO": "POLICY_EMERGING_ISSUE|POLICY_INCOMPLETE_CONTEXT",
+      "CNT": 84814
+    },
+    {
+      "PRODUCT": "Mortgage",
+      "COMBO": "POLICY_STABLE_PATTERN",
+      "CNT": 60733
+    },
+    {
+      "PRODUCT": "Mortgage",
+      "COMBO": "POLICY_EMERGING_ISSUE",
+      "CNT": 12774
+    },
+    {
+      "PRODUCT": "Mortgage",
+      "COMBO": "POLICY_INCOMPLETE_CONTEXT|POLICY_UNTIMELY_RESPONSE",
+      "CNT": 5364
+    },
+    {
+      "PRODUCT": "Mortgage",
+      "COMBO": "POLICY_PUBLICATION_LAG",
+      "CNT": 4070
+    },
+    {
+      "PRODUCT": "Mortgage",
+      "COMBO": "POLICY_EMERGING_ISSUE|POLICY_INCOMPLETE_CONTEXT|POLICY_UNTIMELY_RESPONSE",
+      "CNT": 1683
+    },
+    {
+      "PRODUCT": "Mortgage",
+      "COMBO": "POLICY_UNTIMELY_RESPONSE",
+      "CNT": 999
+    },
+    {
+      "PRODUCT": "Mortgage",
+      "COMBO": "POLICY_EMERGING_ISSUE|POLICY_PUBLICATION_LAG",
+      "CNT": 472
+    },
+    {
+      "PRODUCT": "Mortgage",
+      "COMBO": "POLICY_CRITICAL_COMBINATION|POLICY_EMERGING_ISSUE|POLICY_UNTIMELY_RESPONSE",
+      "CNT": 230
+    },
+    {
+      "PRODUCT": "Mortgage",
+      "COMBO": "POLICY_PUBLICATION_LAG|POLICY_UNTIMELY_RESPONSE",
+      "CNT": 54
+    },
+    {
+      "PRODUCT": "Mortgage",
+      "COMBO": "POLICY_EMERGING_ISSUE|POLICY_PUBLICATION_LAG|POLICY_UNTIMELY_RESPONSE",
+      "CNT": 7
+    },
+    {
+      "PRODUCT": "Mortgage",
+      "COMBO": "POLICY_INCOMPLETE_CONTEXT|POLICY_PUBLICATION_LAG",
+      "CNT": 4
+    },
+    {
+      "PRODUCT": "Other financial service",
+      "COMBO": "POLICY_INCOMPLETE_CONTEXT",
+      "CNT": 946
+    },
+    {
+      "PRODUCT": "Other financial service",
+      "COMBO": "POLICY_INCOMPLETE_CONTEXT|POLICY_UNTIMELY_RESPONSE",
+      "CNT": 110
+    },
+    {
+      "PRODUCT": "Payday loan",
+      "COMBO": "POLICY_INCOMPLETE_CONTEXT",
+      "CNT": 4944
+    },
+    {
+      "PRODUCT": "Payday loan",
+      "COMBO": "POLICY_INCOMPLETE_CONTEXT|POLICY_UNTIMELY_RESPONSE",
+      "CNT": 584
+    },
+    {
+      "PRODUCT": "Payday loan, title loan, or personal loan",
+      "COMBO": "POLICY_INCOMPLETE_CONTEXT",
+      "CNT": 26397
+    },
+    {
+      "PRODUCT": "Payday loan, title loan, or personal loan",
+      "COMBO": "POLICY_STABLE_PATTERN",
+      "CNT": 2642
+    },
+    {
+      "PRODUCT": "Payday loan, title loan, or personal loan",
+      "COMBO": "POLICY_INCOMPLETE_CONTEXT|POLICY_UNTIMELY_RESPONSE",
+      "CNT": 1449
+    },
+    {
+      "PRODUCT": "Payday loan, title loan, or personal loan",
+      "COMBO": "POLICY_UNTIMELY_RESPONSE",
+      "CNT": 126
+    },
+    {
+      "PRODUCT": "Payday loan, title loan, personal loan, or advance loan",
+      "COMBO": "POLICY_INCOMPLETE_CONTEXT",
+      "CNT": 26167
+    },
+    {
+      "PRODUCT": "Payday loan, title loan, personal loan, or advance loan",
+      "COMBO": "POLICY_STABLE_PATTERN",
+      "CNT": 3728
+    },
+    {
+      "PRODUCT": "Payday loan, title loan, personal loan, or advance loan",
+      "COMBO": "POLICY_INCOMPLETE_CONTEXT|POLICY_PUBLICATION_LAG",
+      "CNT": 2119
+    },
+    {
+      "PRODUCT": "Payday loan, title loan, personal loan, or advance loan",
+      "COMBO": "POLICY_EMERGING_ISSUE|POLICY_INCOMPLETE_CONTEXT",
+      "CNT": 1647
+    },
+    {
+      "PRODUCT": "Payday loan, title loan, personal loan, or advance loan",
+      "COMBO": "POLICY_INCOMPLETE_CONTEXT|POLICY_UNTIMELY_RESPONSE",
+      "CNT": 1325
+    },
+    {
+      "PRODUCT": "Payday loan, title loan, personal loan, or advance loan",
+      "COMBO": "POLICY_PUBLICATION_LAG",
+      "CNT": 240
+    },
+    {
+      "PRODUCT": "Payday loan, title loan, personal loan, or advance loan",
+      "COMBO": "POLICY_EMERGING_ISSUE|POLICY_INCOMPLETE_CONTEXT|POLICY_PUBLICATION_LAG",
+      "CNT": 220
+    },
+    {
+      "PRODUCT": "Payday loan, title loan, personal loan, or advance loan",
+      "COMBO": "POLICY_EMERGING_ISSUE|POLICY_INCOMPLETE_CONTEXT|POLICY_UNTIMELY_RESPONSE",
+      "CNT": 96
+    },
+    {
+      "PRODUCT": "Payday loan, title loan, personal loan, or advance loan",
+      "COMBO": "POLICY_UNTIMELY_RESPONSE",
+      "CNT": 96
+    },
+    {
+      "PRODUCT": "Payday loan, title loan, personal loan, or advance loan",
+      "COMBO": "POLICY_INCOMPLETE_CONTEXT|POLICY_PUBLICATION_LAG|POLICY_UNTIMELY_RESPONSE",
+      "CNT": 62
+    },
+    {
+      "PRODUCT": "Payday loan, title loan, personal loan, or advance loan",
+      "COMBO": "POLICY_EMERGING_ISSUE|POLICY_INCOMPLETE_CONTEXT|POLICY_PUBLICATION_LAG|POLICY_UNTIMELY_RESPONSE",
+      "CNT": 15
+    },
+    {
+      "PRODUCT": "Payday loan, title loan, personal loan, or advance loan",
+      "COMBO": "POLICY_PUBLICATION_LAG|POLICY_UNTIMELY_RESPONSE",
+      "CNT": 9
+    },
+    {
+      "PRODUCT": "Prepaid card",
+      "COMBO": "POLICY_STABLE_PATTERN",
+      "CNT": 13659
+    },
+    {
+      "PRODUCT": "Prepaid card",
+      "COMBO": "POLICY_INCOMPLETE_CONTEXT",
+      "CNT": 5615
+    },
+    {
+      "PRODUCT": "Prepaid card",
+      "COMBO": "POLICY_EMERGING_ISSUE",
+      "CNT": 1407
+    },
+    {
+      "PRODUCT": "Prepaid card",
+      "COMBO": "POLICY_UNTIMELY_RESPONSE",
+      "CNT": 790
+    },
+    {
+      "PRODUCT": "Prepaid card",
+      "COMBO": "POLICY_PUBLICATION_LAG",
+      "CNT": 659
+    },
+    {
+      "PRODUCT": "Prepaid card",
+      "COMBO": "POLICY_INCOMPLETE_CONTEXT|POLICY_UNTIMELY_RESPONSE",
+      "CNT": 153
+    },
+    {
+      "PRODUCT": "Prepaid card",
+      "COMBO": "POLICY_CRITICAL_COMBINATION|POLICY_EMERGING_ISSUE|POLICY_UNTIMELY_RESPONSE",
+      "CNT": 111
+    },
+    {
+      "PRODUCT": "Prepaid card",
+      "COMBO": "POLICY_INCOMPLETE_CONTEXT|POLICY_PUBLICATION_LAG",
+      "CNT": 83
+    },
+    {
+      "PRODUCT": "Prepaid card",
+      "COMBO": "POLICY_PUBLICATION_LAG|POLICY_UNTIMELY_RESPONSE",
+      "CNT": 40
+    },
+    {
+      "PRODUCT": "Prepaid card",
+      "COMBO": "POLICY_INCOMPLETE_CONTEXT|POLICY_PUBLICATION_LAG|POLICY_UNTIMELY_RESPONSE",
+      "CNT": 7
+    },
+    {
+      "PRODUCT": "Student loan",
+      "COMBO": "POLICY_STABLE_PATTERN",
+      "CNT": 83995
+    },
+    {
+      "PRODUCT": "Student loan",
+      "COMBO": "POLICY_EMERGING_ISSUE",
+      "CNT": 26110
+    },
+    {
+      "PRODUCT": "Student loan",
+      "COMBO": "POLICY_UNTIMELY_RESPONSE",
+      "CNT": 9010
+    },
+    {
+      "PRODUCT": "Student loan",
+      "COMBO": "POLICY_INCOMPLETE_CONTEXT",
+      "CNT": 5672
+    },
+    {
+      "PRODUCT": "Student loan",
+      "COMBO": "POLICY_CRITICAL_COMBINATION|POLICY_EMERGING_ISSUE|POLICY_UNTIMELY_RESPONSE",
+      "CNT": 3899
+    },
+    {
+      "PRODUCT": "Student loan",
+      "COMBO": "POLICY_PUBLICATION_LAG",
+      "CNT": 2259
+    },
+    {
+      "PRODUCT": "Student loan",
+      "COMBO": "POLICY_EMERGING_ISSUE|POLICY_PUBLICATION_LAG",
+      "CNT": 623
+    },
+    {
+      "PRODUCT": "Student loan",
+      "COMBO": "POLICY_EMERGING_ISSUE|POLICY_INCOMPLETE_CONTEXT",
+      "CNT": 102
+    },
+    {
+      "PRODUCT": "Student loan",
+      "COMBO": "POLICY_PUBLICATION_LAG|POLICY_UNTIMELY_RESPONSE",
+      "CNT": 99
+    },
+    {
+      "PRODUCT": "Student loan",
+      "COMBO": "POLICY_INCOMPLETE_CONTEXT|POLICY_UNTIMELY_RESPONSE",
+      "CNT": 93
+    },
+    {
+      "PRODUCT": "Student loan",
+      "COMBO": "POLICY_EMERGING_ISSUE|POLICY_PUBLICATION_LAG|POLICY_UNTIMELY_RESPONSE",
+      "CNT": 41
+    },
+    {
+      "PRODUCT": "Student loan",
+      "COMBO": "POLICY_INCOMPLETE_CONTEXT|POLICY_PUBLICATION_LAG",
+      "CNT": 8
+    },
+    {
+      "PRODUCT": "Student loan",
+      "COMBO": "POLICY_EMERGING_ISSUE|POLICY_INCOMPLETE_CONTEXT|POLICY_UNTIMELY_RESPONSE",
+      "CNT": 4
+    },
+    {
+      "PRODUCT": "Vehicle loan or lease",
+      "COMBO": "POLICY_STABLE_PATTERN",
+      "CNT": 84762
+    },
+    {
+      "PRODUCT": "Vehicle loan or lease",
+      "COMBO": "POLICY_EMERGING_ISSUE",
+      "CNT": 10718
+    },
+    {
+      "PRODUCT": "Vehicle loan or lease",
+      "COMBO": "POLICY_PUBLICATION_LAG",
+      "CNT": 2725
+    },
+    {
+      "PRODUCT": "Vehicle loan or lease",
+      "COMBO": "POLICY_UNTIMELY_RESPONSE",
+      "CNT": 1656
+    },
+    {
+      "PRODUCT": "Vehicle loan or lease",
+      "COMBO": "POLICY_EMERGING_ISSUE|POLICY_PUBLICATION_LAG",
+      "CNT": 539
+    },
+    {
+      "PRODUCT": "Vehicle loan or lease",
+      "COMBO": "POLICY_CRITICAL_COMBINATION|POLICY_EMERGING_ISSUE|POLICY_UNTIMELY_RESPONSE",
+      "CNT": 152
+    },
+    {
+      "PRODUCT": "Vehicle loan or lease",
+      "COMBO": "POLICY_INCOMPLETE_CONTEXT",
+      "CNT": 51
+    },
+    {
+      "PRODUCT": "Vehicle loan or lease",
+      "COMBO": "POLICY_PUBLICATION_LAG|POLICY_UNTIMELY_RESPONSE",
+      "CNT": 34
+    },
+    {
+      "PRODUCT": "Vehicle loan or lease",
+      "COMBO": "POLICY_EMERGING_ISSUE|POLICY_PUBLICATION_LAG|POLICY_UNTIMELY_RESPONSE",
+      "CNT": 7
+    },
+    {
+      "PRODUCT": "Vehicle loan or lease",
+      "COMBO": "POLICY_INCOMPLETE_CONTEXT|POLICY_PUBLICATION_LAG",
+      "CNT": 2
+    },
+    {
+      "PRODUCT": "Vehicle loan or lease",
+      "COMBO": "POLICY_INCOMPLETE_CONTEXT|POLICY_UNTIMELY_RESPONSE",
+      "CNT": 2
+    },
+    {
+      "PRODUCT": "Virtual currency",
+      "COMBO": "POLICY_INCOMPLETE_CONTEXT",
+      "CNT": 16
+    },
+    {
+      "PRODUCT": "Virtual currency",
+      "COMBO": "POLICY_INCOMPLETE_CONTEXT|POLICY_UNTIMELY_RESPONSE",
+      "CNT": 2
+    }
+  ],
+  "weekday_rhythm": [
+    {
+      "DOW": 0,
+      "DAY_NAME": "Sun",
+      "AVG_TOTAL": "6126.346154"
+    },
+    {
+      "DOW": 1,
+      "DAY_NAME": "Mon",
+      "AVG_TOTAL": "19791.865385"
+    },
+    {
+      "DOW": 2,
+      "DAY_NAME": "Tue",
+      "AVG_TOTAL": "24011.096154"
+    },
+    {
+      "DOW": 3,
+      "DAY_NAME": "Wed",
+      "AVG_TOTAL": "23604.250000"
+    },
+    {
+      "DOW": 4,
+      "DAY_NAME": "Thu",
+      "AVG_TOTAL": "23053.980769"
+    },
+    {
+      "DOW": 5,
+      "DAY_NAME": "Fri",
+      "AVG_TOTAL": "22249.283019"
+    },
+    {
+      "DOW": 6,
+      "DAY_NAME": "Sat",
+      "AVG_TOTAL": "10407.115385"
     }
   ]
 }

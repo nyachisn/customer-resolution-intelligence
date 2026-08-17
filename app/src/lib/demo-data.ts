@@ -316,5 +316,16 @@ export async function loadArchiveExplorer(): Promise<ArchiveExplorer | null> {
       triggeredCount: Number(r.triggered_count ?? 0),
       evaluatedCount: Number(r.evaluated_count ?? 0),
     })),
+    policyCombinations: rows("policy_combinations").map((r) => ({
+      product: String(r.product ?? ""),
+      policies: String(r.combo ?? "")
+        .split("|")
+        .filter((p) => p && p !== "POLICY_STABLE_PATTERN"),
+      count: Number(r.cnt ?? 0),
+    })),
+    weekdayRhythm: rows("weekday_rhythm").map((r) => ({
+      dayName: String(r.day_name ?? ""),
+      average: Number(r.avg_total ?? 0),
+    })),
   };
 }

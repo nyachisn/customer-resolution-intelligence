@@ -249,9 +249,33 @@ export interface ProductPolicyRate {
  * Matches archive_explorer.json. Every row is a GROUP BY aggregate over the
  * published population — no complaint_id, no per-record field.
  */
+/**
+ * One exact policy-set membership count.
+ *
+ * policy_ids partitions the population — the distinct combinations sum to
+ * 17,119,581 — so the number of records tripping any of a chosen set of
+ * rules is a sum over the combinations that intersect it. Summing
+ * per-policy totals instead inflates the answer by every record that trips
+ * two rules, which is what made the old rules panel read as nonsense.
+ */
+export interface PolicyCombination {
+  product: string;
+  /** Sorted policy ids, or the empty set for records that trip nothing. */
+  policies: string[];
+  count: number;
+}
+
+/** Average published volume for one weekday. */
+export interface WeekdayRhythm {
+  dayName: string;
+  average: number;
+}
+
 export interface ArchiveExplorer {
   generatedAtUtc: string;
   monthlyProductVolume: ArchiveMonthProduct[];
   productIssueMovement: IssueMovement[];
   policyByProduct: ProductPolicyRate[];
+  policyCombinations: PolicyCombination[];
+  weekdayRhythm: WeekdayRhythm[];
 }

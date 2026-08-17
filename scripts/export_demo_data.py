@@ -411,11 +411,45 @@ def main() -> int:
         f"ORDER BY tr.PRODUCT, tr.POLICY_ID;",
     )
 
+    # Exact policy-set membership, so the rules panel can answer "how many
+    # records trip at least one of THESE rules" without double counting.
+    # policy_ids partitions the population — the 16 distinct combinations sum
+    # to 17,119,581 — so a union over any subset is a sum over the
+    # combinations that intersect it. Summing per-policy counts instead, as
+    # this dashboard did, inflates the answer by every record that trips two.
+    print("Querying policy combinations via CRI_APP_READER...")
+    policy_combinations = run_query(
+        args.connection,
+        role_prefix +
+        f"SELECT PRODUCT, ARRAY_TO_STRING(ARRAY_SORT(POLICY_IDS), '|') AS COMBO, COUNT(*) AS CNT "
+        f"FROM {schema}.AGENT_CASE_CONTEXT GROUP BY 1, 2 ORDER BY 1, 3 DESC;",
+    )
+
+    # Average published volume by weekday. This is the tile that explains why
+    # nothing on this dashboard is drawn at daily grain: weekends run at
+    # roughly a third of a weekday, so a daily line is mostly a picture of
+    # the publishing calendar rather than of complaint behaviour.
+    print("Querying publication rhythm via CRI_APP_READER...")
+    weekday_rhythm = run_query(
+        args.connection,
+        role_prefix +
+        f"WITH daily AS ("
+        f"  SELECT METRIC_DATE, SUM(DAILY_COMPLAINT_COUNT) AS TOTAL "
+        f"  FROM {schema}.FCT_ISSUE_DAILY_METRICS "
+        f"  WHERE METRIC_DATE >= DATEADD(day, -365, DATE_TRUNC('month', CURRENT_DATE())) "
+        f"    AND METRIC_DATE < DATE_TRUNC('month', CURRENT_DATE()) "
+        f"  GROUP BY 1"
+        f") SELECT DAYOFWEEK(METRIC_DATE) AS DOW, DAYNAME(METRIC_DATE) AS DAY_NAME, "
+        f"AVG(TOTAL) AS AVG_TOTAL FROM daily GROUP BY 1, 2 ORDER BY 1;",
+    )
+
     archive = {
         "generated_at_utc": meta["generated_at_utc"],
         "monthly_product_volume": monthly_product,
         "product_issue_movement": issue_movement,
         "policy_by_product": policy_by_product,
+        "policy_combinations": policy_combinations,
+        "weekday_rhythm": weekday_rhythm,
     }
 
     ledger = {

@@ -14,7 +14,11 @@ import type {
   ComplaintRecordContext,
   DemoExportMeta,
   LedgerExhibits,
+  MetricBundle,
+  MetricSeries,
   OperationsMetric,
+  PolicyTriggerRate,
+  SampleRecordIndexRow,
 } from "./types";
 
 const DATA_DIR = path.join(process.cwd(), "src", "data");
@@ -102,6 +106,90 @@ export async function loadOperationsMetrics(): Promise<OperationsMetric[]> {
   });
 }
 
+/**
+ * Pivot the long-format metric rows into aligned per-dimension series.
+ *
+ * Runs on the server so the 15,023-row array never reaches the browser. Only
+ * metrics spanning more than one date are included: a single-date row is a
+ * snapshot of a standing distribution, and putting it on a time axis would
+ * imply a movement the data does not contain.
+ */
+export function buildMetricBundle(metrics: OperationsMetric[]): MetricBundle {
+  const byMetric = new Map<string, OperationsMetric[]>();
+  for (const m of metrics) {
+    const list = byMetric.get(m.metricName);
+    if (list) list.push(m);
+    else byMetric.set(m.metricName, [m]);
+  }
+
+  const bundle: MetricBundle = {};
+  for (const [metricName, rows] of byMetric) {
+    const dates = [...new Set(rows.map((r) => r.metricDate))].sort();
+    if (dates.length < 2) continue;
+
+    const dateIndex = new Map(dates.map((d, i) => [d, i]));
+    const values: Record<string, number[]> = {};
+    const totals = new Array<number>(dates.length).fill(0);
+    const dimensionTotals = new Map<string, number>();
+
+    for (const r of rows) {
+      const i = dateIndex.get(r.metricDate);
+      if (i == null) continue;
+      const series = (values[r.dashboardDimension] ??= new Array<number>(dates.length).fill(0));
+      series[i] += r.metricValue;
+      totals[i] += r.metricValue;
+      dimensionTotals.set(
+        r.dashboardDimension,
+        (dimensionTotals.get(r.dashboardDimension) ?? 0) + r.metricValue,
+      );
+    }
+
+    const dimensions = [...dimensionTotals.entries()]
+      .sort((a, b) => b[1] - a[1])
+      .map(([d]) => d);
+
+    const series: MetricSeries = { metricName, dates, dimensions, values, totals };
+    bundle[metricName] = series;
+  }
+
+  return bundle;
+}
+
+export async function loadMetricBundle(): Promise<MetricBundle> {
+  return buildMetricBundle(await loadOperationsMetrics());
+}
+
+/**
+ * The list projection of the illustrative record sample.
+ *
+ * This is a stratified 300-row demonstration sample, not a population ranking
+ * — see docs/15_explore_workspace.md §3. Nothing derived from it may be
+ * presented as a population count, priority mix, or ranking.
+ */
+export async function loadSampleRecordIndex(): Promise<SampleRecordIndexRow[]> {
+  const records = await loadDemoRecords();
+  return records.map((r) => ({
+    id: r.complaintId,
+    product: r.product,
+    issue: r.issue,
+    priority: r.priority,
+    recommendedAction: r.recommendedAction,
+    signalConfidence: r.signalConfidence,
+    policyIds: r.policyIds,
+  }));
+}
+
+/**
+ * One full record, read server-side when the `item` URL parameter names it.
+ *
+ * The file read is cheap and the whole point is that the other 299 records
+ * never cross the wire.
+ */
+export async function loadSampleRecord(id: string): Promise<ComplaintRecordContext | null> {
+  const records = await loadDemoRecords();
+  return records.find((r) => r.complaintId === id) ?? null;
+}
+
 function titleCase(raw: string, stripPrefix?: string): string {
   const s = stripPrefix && raw.startsWith(stripPrefix) ? raw.slice(stripPrefix.length) : raw;
   return s
@@ -144,8 +232,23 @@ export async function loadLedgerExhibits(): Promise<LedgerExhibits | null> {
     };
   });
 
+  const policyTriggerRates: PolicyTriggerRate[] = (
+    (raw.policy_triggers as Record<string, unknown>[]) ?? []
+  ).map((r) => {
+    const row = lower(r);
+    const triggeredCount = Number(row.triggered_cnt ?? 0);
+    const evaluatedCount = Number(row.evaluated_cnt ?? 0);
+    return {
+      policyId: String(row.policy_id ?? ""),
+      triggeredCount,
+      evaluatedCount,
+      triggerRate: evaluatedCount > 0 ? triggeredCount / evaluatedCount : null,
+    };
+  });
+
   return {
     generatedAtUtc: String(raw.generated_at_utc ?? ""),
+    policyTriggerRates,
     totalRecords: Number(totals.total ?? totals.TOTAL ?? 0),
     minDate: String(totals.min_date ?? totals.MIN_DATE ?? ""),
     maxDate: String(totals.max_date ?? totals.MAX_DATE ?? ""),

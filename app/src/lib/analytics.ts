@@ -8,7 +8,7 @@
  * shows nothing rather than a guess.
  */
 
-import type { ComplaintRecordContext, OperationsMetric } from "./types";
+import type { MetricSeries, OperationsMetric } from "./types";
 
 export interface SeriesPoint {
   date: string;
@@ -24,14 +24,6 @@ export interface PeriodComparison {
   currentEnd: string;
   previousStart: string;
   previousEnd: string;
-}
-
-export interface Mover {
-  dimension: string;
-  current: number;
-  previous: number;
-  changePct: number | null;
-  share: number;
 }
 
 export const METRIC_LABELS: Record<string, string> = {
@@ -59,23 +51,6 @@ export function dimensionsFor(metrics: OperationsMetric[], metricName: string): 
   return [...totals.entries()].sort((a, b) => b[1] - a[1]).map(([d]) => d);
 }
 
-/** Daily totals for a metric, optionally restricted to one dimension. */
-export function dailySeries(
-  metrics: OperationsMetric[],
-  metricName: string,
-  dimension?: string | null,
-): SeriesPoint[] {
-  const byDate = new Map<string, number>();
-  for (const m of metrics) {
-    if (m.metricName !== metricName) continue;
-    if (dimension && m.dashboardDimension !== dimension) continue;
-    byDate.set(m.metricDate, (byDate.get(m.metricDate) ?? 0) + m.metricValue);
-  }
-  return [...byDate.entries()]
-    .sort((a, b) => (a[0] < b[0] ? -1 : 1))
-    .map(([date, value]) => ({ date, value }));
-}
-
 /**
  * Compare the trailing `windowDays` against the equally-sized window
  * immediately before it. Returns null when the series is too short to
@@ -100,56 +75,6 @@ export function comparePeriods(series: SeriesPoint[], windowDays: number): Perio
   };
 }
 
-/** Per-dimension period-over-period movement, ranked by absolute change. */
-export function topMovers(
-  metrics: OperationsMetric[],
-  metricName: string,
-  windowDays: number,
-  opts: { minCurrent?: number; limit?: number } = {},
-): Mover[] {
-  const { minCurrent = 0, limit = 5 } = opts;
-  const dims = dimensionsFor(metrics, metricName);
-  const grandTotal = dailySeries(metrics, metricName)
-    .slice(-windowDays)
-    .reduce((s, p) => s + p.value, 0);
-
-  const movers: Mover[] = [];
-  for (const dim of dims) {
-    const cmp = comparePeriods(dailySeries(metrics, metricName, dim), windowDays);
-    if (!cmp) continue;
-    if (cmp.current < minCurrent) continue;
-    movers.push({
-      dimension: dim,
-      current: cmp.current,
-      previous: cmp.previous,
-      changePct: cmp.changePct,
-      share: grandTotal > 0 ? cmp.current / grandTotal : 0,
-    });
-  }
-  return movers
-    .filter((m) => m.changePct != null)
-    .sort((a, b) => Math.abs(b.changePct ?? 0) - Math.abs(a.changePct ?? 0))
-    .slice(0, limit);
-}
-
-/** Totals per dimension over the trailing window. */
-export function totalsByDimension(
-  metrics: OperationsMetric[],
-  metricName: string,
-  windowDays?: number,
-): { dimension: string; value: number }[] {
-  const cutoff = windowDays ? datesFor(metrics, metricName).slice(-windowDays)[0] : null;
-  const totals = new Map<string, number>();
-  for (const m of metrics) {
-    if (m.metricName !== metricName) continue;
-    if (cutoff && m.metricDate < cutoff) continue;
-    totals.set(m.dashboardDimension, (totals.get(m.dashboardDimension) ?? 0) + m.metricValue);
-  }
-  return [...totals.entries()]
-    .map(([dimension, value]) => ({ dimension, value }))
-    .sort((a, b) => b.value - a.value);
-}
-
 export function formatPct(v: number | null, opts: { signed?: boolean } = {}): string {
   if (v == null) return "—";
   const pct = v * 100;
@@ -170,6 +95,24 @@ export function formatDate(iso: string): string {
   return `${months[parseInt(m, 10) - 1]} ${parseInt(d, 10)}, ${y}`;
 }
 
+/** "Jan 2020" — for series indexed by month rather than day. */
+export function formatMonth(iso: string): string {
+  const [y, m] = iso.slice(0, 7).split("-");
+  const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+  return `${months[parseInt(m, 10) - 1]} ${y}`;
+}
+
+/**
+ * "May 5 – Jun 1, 2026" — the year is stated once when both ends share it,
+ * which keeps the range inside a dashboard tile without truncating.
+ */
+export function formatRange(fromIso: string, toIso: string): string {
+  const to = formatDate(toIso);
+  const from = formatDate(fromIso);
+  const sameYear = fromIso.slice(0, 4) === toIso.slice(0, 4);
+  return `${sameYear ? from.replace(/, \d{4}$/, "") : from} – ${to}`;
+}
+
 export function titleize(raw: string): string {
   return raw
     .toLowerCase()
@@ -179,70 +122,8 @@ export function titleize(raw: string): string {
 }
 
 /* ------------------------------------------------------------------ */
-/* Record-level rollups for the Decisions surface                      */
+/* Record-level context for the illustrative sample                     */
 /* ------------------------------------------------------------------ */
-
-export interface AttentionItem {
-  key: string;
-  product: string;
-  issue: string;
-  priority: ComplaintRecordContext["priority"];
-  recommendedAction: ComplaintRecordContext["recommendedAction"];
-  confidence: ComplaintRecordContext["signalConfidence"];
-  patternStatus: ComplaintRecordContext["issuePatternStatus"];
-  volumeChangePct: number | null;
-  observedSharePct: number;
-  recordCount: number;
-  reasonCodes: string[];
-  limitation: string | null;
-}
-
-const PRIORITY_RANK: Record<string, number> = { CRITICAL: 0, HIGH: 1, MEDIUM: 2, LOW: 3 };
-
-/**
- * Group records to product x issue and keep the highest-priority
- * representative of each group. The queue is what needs attention at the
- * pattern level, not a list of individual published rows.
- */
-export function buildAttentionQueue(records: ComplaintRecordContext[]): AttentionItem[] {
-  const groups = new Map<string, ComplaintRecordContext[]>();
-  for (const r of records) {
-    const key = `${r.product}::${r.issue}`;
-    const list = groups.get(key);
-    if (list) list.push(r);
-    else groups.set(key, [r]);
-  }
-
-  const items: AttentionItem[] = [];
-  for (const [key, group] of groups) {
-    const lead = [...group].sort((a, b) => {
-      const p = (PRIORITY_RANK[a.priority] ?? 9) - (PRIORITY_RANK[b.priority] ?? 9);
-      if (p !== 0) return p;
-      return (b.volumeChangePct ?? 0) - (a.volumeChangePct ?? 0);
-    })[0];
-
-    items.push({
-      key,
-      product: lead.product,
-      issue: lead.issue,
-      priority: lead.priority,
-      recommendedAction: lead.recommendedAction,
-      confidence: lead.signalConfidence,
-      patternStatus: lead.issuePatternStatus,
-      volumeChangePct: lead.volumeChangePct,
-      observedSharePct: lead.observedSharePct,
-      recordCount: group.length,
-      reasonCodes: lead.reasonCodes,
-      limitation: lead.interpretationLimitation,
-    });
-  }
-
-  return items.sort((a, b) => {
-    const p = (PRIORITY_RANK[a.priority] ?? 9) - (PRIORITY_RANK[b.priority] ?? 9);
-    if (p !== 0) return p;
-    return (b.volumeChangePct ?? 0) - (a.volumeChangePct ?? 0);
-  });
-}
 
 const REASON_TEXT: Record<string, string> = {
   EMERGING_ISSUE_SIGNAL:
@@ -275,8 +156,147 @@ export function nextStepFor(action: string): string {
   return ACTION_NEXT_STEP[action] ?? titleize(action);
 }
 
+
 /* ------------------------------------------------------------------ */
-/* Readout — plain-language interpretation of the current selection     */
+/* Series views over the pivoted metric bundle                          */
+/* ------------------------------------------------------------------ */
+
+/** One product's totals for the current window and the one before it. */
+export interface DimensionMovement {
+  dimension: string;
+  current: number;
+  previous: number | null;
+  changePct: number | null;
+  share: number;
+}
+
+/** The window a view is actually showing, after lag and period trimming. */
+export interface WindowView {
+  points: SeriesPoint[];
+  /** The prior window, re-dated onto the current one so they overlay. */
+  priorAligned: SeriesPoint[] | null;
+  comparison: PeriodComparison | null;
+  total: number;
+  dailyAverage: number;
+  peak: SeriesPoint | null;
+  /** Index bounds of this window inside the lag-trimmed series. */
+  from: number;
+  to: number;
+}
+
+/** Points for one dimension, or the all-dimension total when null. */
+export function seriesPoints(
+  series: MetricSeries | undefined,
+  dimension: string | null,
+): SeriesPoint[] {
+  if (!series) return [];
+  const values = dimension ? series.values[dimension] : series.totals;
+  if (!values) return [];
+  return series.dates.map((date, i) => ({ date, value: values[i] ?? 0 }));
+}
+
+/**
+ * Trim the publication-lag tail, take the trailing window, and derive
+ * everything a metric panel needs from that one slice.
+ *
+ * Recently received complaints publish before their record is complete, so
+ * the tail of any volume series tapers as an artifact of publication rather
+ * than a real decline (docs/02_data_provenance.md §9). Dropping it before
+ * the window is taken is what keeps a "decline" from being manufactured.
+ */
+export function buildWindowView(
+  points: SeriesPoint[],
+  opts: { periodDays: number; lagDays: number; hideLag: boolean; compare: boolean },
+): WindowView {
+  const { periodDays, lagDays, hideLag, compare } = opts;
+  const trimmed = hideLag && lagDays > 0 ? points.slice(0, -lagDays) : points;
+  const windowed = periodDays > 0 ? trimmed.slice(-periodDays) : trimmed;
+
+  let priorAligned: SeriesPoint[] | null = null;
+  if (compare && periodDays > 0 && trimmed.length >= periodDays * 2) {
+    const prior = trimmed.slice(-periodDays * 2, -periodDays);
+    priorAligned = prior.map((p, i) => ({ date: windowed[i]?.date ?? p.date, value: p.value }));
+  }
+
+  const total = windowed.reduce((s, p) => s + p.value, 0);
+  const peak =
+    windowed.length > 0
+      ? windowed.reduce((best, p) => (p.value > best.value ? p : best), windowed[0])
+      : null;
+
+  return {
+    points: windowed,
+    priorAligned,
+    comparison: periodDays > 0 ? comparePeriods(trimmed, periodDays) : null,
+    total,
+    dailyAverage: windowed.length > 0 ? total / windowed.length : 0,
+    peak,
+    from: Math.max(trimmed.length - (periodDays > 0 ? periodDays : trimmed.length), 0),
+    to: trimmed.length,
+  };
+}
+
+/**
+ * Per-dimension totals for the window, with the equivalent prior window.
+ *
+ * Both windows are cut from the same lag-trimmed axis as the chart, so a
+ * share here always sums to the total shown above it — the two cannot drift
+ * apart the way they do when a day count is recomputed independently.
+ */
+export function dimensionMovements(
+  series: MetricSeries | undefined,
+  opts: { periodDays: number; lagDays: number; hideLag: boolean },
+): DimensionMovement[] {
+  if (!series) return [];
+  const { periodDays, lagDays, hideLag } = opts;
+
+  const end = hideLag && lagDays > 0 ? Math.max(series.dates.length - lagDays, 0) : series.dates.length;
+  const span = periodDays > 0 ? Math.min(periodDays, end) : end;
+  const curStart = end - span;
+  const prevStart = curStart - span;
+  const hasPrevious = prevStart >= 0 && span > 0;
+
+  const sum = (arr: number[] | undefined, a: number, b: number) => {
+    if (!arr) return 0;
+    let t = 0;
+    for (let i = a; i < b; i += 1) t += arr[i] ?? 0;
+    return t;
+  };
+
+  const grandTotal = sum(series.totals, curStart, end);
+
+  return series.dimensions
+    .map((dimension) => {
+      const values = series.values[dimension];
+      const current = sum(values, curStart, end);
+      const previous = hasPrevious ? sum(values, prevStart, curStart) : null;
+      return {
+        dimension,
+        current,
+        previous,
+        changePct: previous != null && previous > 0 ? (current - previous) / previous : null,
+        share: grandTotal > 0 ? current / grandTotal : 0,
+      };
+    })
+    .filter((m) => m.current > 0)
+    .sort((a, b) => b.current - a.current);
+}
+
+/** The value of one dimension on one date, for the focused-date readout. */
+export function valueOn(
+  series: MetricSeries | undefined,
+  dimension: string | null,
+  date: string,
+): number | null {
+  if (!series) return null;
+  const i = series.dates.indexOf(date);
+  if (i < 0) return null;
+  const values = dimension ? series.values[dimension] : series.totals;
+  return values?.[i] ?? null;
+}
+
+/* ------------------------------------------------------------------ */
+/* Readout — plain-language interpretation of the metric selection      */
 /* ------------------------------------------------------------------ */
 
 export interface Readout {
@@ -286,40 +306,40 @@ export interface Readout {
 }
 
 /**
- * Turns the current dashboard state into an explanation and a set of
- * suggested next steps.
+ * Turns the current metric selection into an explanation and next steps.
  *
- * Every sentence is derived from a number already on screen — nothing here
- * asserts a cause, a forecast, or anything the source data cannot support.
+ * Every sentence is derived from a number already on screen, and every one
+ * of those numbers comes from operations_overview_metrics — the six-month
+ * product-level aggregate. Nothing here draws on the illustrative record
+ * sample: 300 stratified rows cannot support a count, a ranking or a
+ * priority mix, so they are not allowed to reach this text.
  */
 export function buildReadout(input: {
   measureLabel: string;
   product: string | null;
+  productCount: number;
   windowDays: number;
   total: number;
   changePct: number | null;
   hasComparison: boolean;
   topShare: { label: string; share: number } | null;
-  peak: { date: string; value: number } | null;
+  peak: SeriesPoint | null;
   dailyAverage: number;
-  queueCount: number;
-  criticalCount: number;
-  rulesOn: number;
-  rulesTotal: number;
+  focus: { date: string; value: number | null } | null;
+  signalDays: number | null;
 }): Readout {
   const {
-    measureLabel, product, windowDays, total, changePct, hasComparison,
-    topShare, peak, dailyAverage, queueCount, criticalCount, rulesOn, rulesTotal,
+    measureLabel, product, productCount, windowDays, total, changePct, hasComparison,
+    topShare, peak, dailyAverage, focus, signalDays,
   } = input;
 
-  const scope = product ?? "all products";
+  const scope = product ?? `all ${productCount} products`;
   const observations: string[] = [];
   const actions: string[] = [];
 
-  // --- headline -----------------------------------------------------
   let headline: string;
   if (!hasComparison || changePct == null) {
-    headline = `${measureLabel.toLowerCase()} across ${scope} totals ${Math.round(total).toLocaleString()} over the last ${windowDays} days. There is not enough history behind this window to compare it with the period before, so read it as a level rather than a movement.`;
+    headline = `${measureLabel} across ${scope} totals ${Math.round(total).toLocaleString()} over the last ${windowDays} days. There is not enough history behind this window to compare it with the period before, so read it as a level rather than a movement.`;
   } else if (Math.abs(changePct) < 0.02) {
     headline = `${measureLabel} across ${scope} is essentially flat — ${formatPct(changePct, { signed: true })} against the previous ${windowDays} days. When the total holds steady, movement worth acting on is usually hiding inside individual products rather than showing up here.`;
   } else if (changePct > 0) {
@@ -328,12 +348,11 @@ export function buildReadout(input: {
     headline = `${measureLabel} across ${scope} is down ${formatPct(Math.abs(changePct))} against the previous ${windowDays} days, at ${Math.round(total).toLocaleString()} in total. A fall means less was reported in this window, which can reflect reporting conditions as much as customer experience.`;
   }
 
-  // --- observations -------------------------------------------------
   observations.push(
     `Averaging ${Math.round(dailyAverage).toLocaleString()} per day across the window.`,
   );
 
-  if (peak && peak.date) {
+  if (peak) {
     observations.push(
       `The busiest single day was ${formatDate(peak.date)} at ${Math.round(peak.value).toLocaleString()} — roughly ${dailyAverage > 0 ? (peak.value / dailyAverage).toFixed(1) : "?"}× the daily average.`,
     );
@@ -345,38 +364,37 @@ export function buildReadout(input: {
     );
   }
 
-  if (queueCount > 0) {
+  if (signalDays != null && signalDays > 0) {
     observations.push(
-      `${queueCount} pattern${queueCount === 1 ? "" : "s"} currently qualify for review under the ${rulesOn} rule${rulesOn === 1 ? "" : "s"} switched on${criticalCount > 0 ? `, ${criticalCount} of them at critical priority` : ""}.`,
+      `${signalDays.toLocaleString()} issue-days in this window cleared the emerging-pattern threshold against their own baseline.`,
     );
   }
 
-  // --- suggested actions --------------------------------------------
+  if (focus) {
+    observations.push(
+      focus.value != null
+        ? `${formatDate(focus.date)} is focused: ${Math.round(focus.value).toLocaleString()}, ${dailyAverage > 0 ? `${(focus.value / dailyAverage).toFixed(2)}× the window average` : "no average to compare against"}.`
+        : `${formatDate(focus.date)} is focused, but this selection has no value on that date.`,
+    );
+  }
+
   if (!product && topShare && topShare.share > 0.5) {
     actions.push(
       `Filter to ${topShare.label} to see whether the headline is being set by that category alone, then check the others separately.`,
     );
   }
 
-  if (criticalCount > 0) {
-    actions.push(
-      `Start with the ${criticalCount} critical-priority pattern${criticalCount === 1 ? "" : "s"} below — those are the ones where two independent signals agreed.`,
-    );
-  } else if (queueCount > 0) {
-    actions.push(`Work the queue below in the order shown; it is already ranked by priority.`);
-  }
+  actions.push(
+    hasComparison
+      ? `Open the slope view to see which products moved against the previous period rather than with it — a total that barely moves can hide offsetting products.`
+      : `Widen the period so two complete windows are available, then compare like for like.`,
+  );
 
-  if (rulesOn < rulesTotal) {
+  if (!product) {
     actions.push(
-      `${rulesTotal - rulesOn} rule${rulesTotal - rulesOn === 1 ? " is" : "s are"} switched off, so the queue is narrower than the full policy set would produce. Switch them back on to see everything that would normally be flagged.`,
+      `Use small multiples to scan every product on one scale before committing to a single one.`,
     );
-  } else if (queueCount > 0) {
-    actions.push(
-      `Switch individual rules off to see which ones are actually driving the queue — a rule that changes nothing is not earning its place.`,
-    );
-  }
-
-  if (product) {
+  } else {
     actions.push(
       `Compare this against another product before drawing a conclusion — a change only means something relative to that product's own history.`,
     );

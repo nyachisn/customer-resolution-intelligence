@@ -9,10 +9,15 @@
 import Link from "next/link";
 import { MetricCell } from "@/components/ui/Primitives";
 import { PipelineDiagram } from "@/components/ui/PipelineDiagram";
-import { loadDemoMeta, loadLedgerExhibits, loadOperationsMetrics } from "@/lib/demo-data";
+import {
+  loadDemoMeta,
+  loadLedgerExhibits,
+  loadMetricBundle,
+  loadOperationsMetrics,
+} from "@/lib/demo-data";
 import {
   comparePeriods,
-  dailySeries,
+  seriesPoints,
   datesFor,
   dimensionsFor,
   formatCompact,
@@ -21,14 +26,16 @@ import {
 } from "@/lib/analytics";
 
 export default async function OverviewPage() {
-  const [meta, ledger, metrics] = await Promise.all([
+  const [meta, ledger, metrics, bundle] = await Promise.all([
     loadDemoMeta(),
     loadLedgerExhibits(),
     loadOperationsMetrics(),
+    loadMetricBundle(),
   ]);
 
   const lag = meta.publication_lag_window_days;
-  const analysed = lag > 0 ? dailySeries(metrics, "complaint_volume").slice(0, -lag) : dailySeries(metrics, "complaint_volume");
+  const volume = seriesPoints(bundle.complaint_volume, null);
+  const analysed = lag > 0 ? volume.slice(0, -lag) : volume;
   const comparison = comparePeriods(analysed, 28);
   const issueCount = dimensionsFor(metrics, "emerging_issue_count").length;
   const dates = datesFor(metrics, "complaint_volume");

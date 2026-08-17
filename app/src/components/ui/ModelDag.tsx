@@ -19,11 +19,11 @@ import { DAG, type DagNode, dagDepths } from "@/lib/pipeline";
 // Model names run to 31 characters, and at the interface's 1rem floor that
 // needs ~300px on one line — which would make the graph 3,000px wide. The
 // name wraps to two lines instead and the node grows in height.
-const NODE_W = 210;
-const NODE_H = 66;
-const COL_GAP = 66;
-const ROW_GAP = 16;
-const PAD = 16;
+const NODE_W = 214;
+const NODE_H = 70;
+const COL_GAP = 62;
+const ROW_GAP = 26;
+const PAD = 22;
 
 const LAYER_CLASS: Record<DagNode["layer"], string> = {
   staging: "is-staging",
@@ -85,9 +85,12 @@ export function ModelDag() {
     return { positions, edges, width, height };
   }, []);
 
+  const hovered = DAG.find((n) => n.name === active) ?? null;
+
   return (
-    <div className="dag-scroll">
-      <div className="dag" style={{ width: layout.width, height: layout.height }}>
+    <>
+      <div className="dag-scroll">
+        <div className="dag" style={{ width: layout.width, height: layout.height }}>
         <svg
           className="dag-edges"
           width={layout.width}
@@ -132,13 +135,25 @@ export function ModelDag() {
                   ? `table · ${node.rows?.toLocaleString() ?? "—"} rows`
                   : "view"}
               </span>
-              <span className="dag-tip" role="tooltip">
-                {node.role}
-              </span>
             </div>
           );
         })}
+        </div>
       </div>
-    </div>
+
+      <div className="dag-caption" aria-live="polite">
+        {hovered ? (
+          <>
+            <code className="dag-caption-name">{hovered.name}</code>
+            <span className="dag-caption-grain">{hovered.grain}</span>
+            <span className="dag-caption-role">{hovered.role}</span>
+          </>
+        ) : (
+          <span className="dag-caption-rest">
+            Hover any model to see its grain, what it does, and which dependencies it sits between.
+          </span>
+        )}
+      </div>
+    </>
   );
 }

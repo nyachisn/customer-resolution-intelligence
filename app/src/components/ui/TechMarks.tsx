@@ -22,25 +22,25 @@ export function SnowflakeMark() {
 }
 
 export function DbtMark() {
+  // dbt's mark is a four-armed x with a diamond centre.
   return (
     <svg width="30" height="30" viewBox="0 0 32 32" aria-hidden="true" fill="none">
-      <circle cx="16" cy="16" r="12" stroke="currentColor" strokeWidth="1.4" />
       <path
-        d="M11 21 L21 11"
+        d="M6.5 6.5 L13.2 13.2 M25.5 6.5 L18.8 13.2 M6.5 25.5 L13.2 18.8 M25.5 25.5 L18.8 18.8"
         stroke="currentColor"
-        strokeWidth="1.4"
+        strokeWidth="3.2"
         strokeLinecap="round"
       />
-      <circle cx="11" cy="21" r="2.6" fill="currentColor" />
-      <circle cx="21" cy="11" r="2.6" fill="currentColor" />
+      <path d="M16 13.4 L18.6 16 L16 18.6 L13.4 16 Z" fill="currentColor" />
     </svg>
   );
 }
 
 export function VercelMark() {
+  // The exact triangle from Vercel's own mark, scaled into a 32px box.
   return (
-    <svg width="30" height="30" viewBox="0 0 32 32" aria-hidden="true" fill="none">
-      <path d="M16 6 L28 26 L4 26 Z" stroke="currentColor" strokeWidth="1.4" strokeLinejoin="round" />
+    <svg width="30" height="30" viewBox="0 0 468 407" aria-hidden="true">
+      <path d="M467.444 406.664L233.722 0.190918L0 406.664H467.444Z" fill="currentColor" />
     </svg>
   );
 }

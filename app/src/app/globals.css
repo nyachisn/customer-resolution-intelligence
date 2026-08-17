@@ -356,7 +356,9 @@ a.card:hover .card-cta::after { transform: translateX(3px); }
   z-index: 6; box-shadow: var(--shadow); line-height: 1.5;
   display: grid;
 }
-.viz-tooltip.is-flipped { transform: translate(calc(-100% - 10px), -50%); }
+.viz-tooltip.is-flipped-y { transform: translate(-50%, 16px); }
+.viz-tooltip.is-flipped-x { transform: translate(calc(-100% - 12px), -50%); }
+.viz-tooltip.is-flipped-x.is-flipped-y { transform: translate(calc(-100% - 12px), 16px); }
 .viz-tooltip .tt-title { font-weight: 500; }
 .viz-tooltip .tt-value { font-variant-numeric: tabular-nums; color: rgba(255, 255, 255, .82); }
 
@@ -448,6 +450,9 @@ main:has(.dash-shell) ~ .site-footer { display: none; }
    holds, while the rails and the decision queue stay pinned. */
 .dash-center { grid-template-rows: auto auto auto auto; overflow-y: auto; align-content: start; }
 .dash-center > .dpanel { min-height: 320px; }
+/* The growth table is the board's index: all eleven categories should be
+   readable without scrolling inside the panel. */
+.dash-center > .dpanel:last-child { min-height: 745px; }
 .dash-center > .tile-pair > .dpanel { min-height: 240px; }
 .tile-pair { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: var(--dash-gap); }
 /* Fixed proportions rather than `auto` for the readout: its text length
@@ -619,6 +624,25 @@ main:has(.dash-shell) ~ .site-footer { display: none; }
   font-variant-numeric: tabular-nums;
 }
 
+/* ---------- ranked mix list (geography, outcome, channel) ---------- */
+
+.mix-list { display: grid; gap: .3rem; }
+.mix-row {
+  display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(50px, .85fr) 3.6rem 3rem;
+  align-items: center; gap: .55rem;
+}
+.mix-label {
+  font-size: var(--fs-min); color: var(--text-2); font-weight: 300;
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.mix-track { display: block; height: 8px; background: var(--viz-track); border-radius: 3px; overflow: hidden; }
+.mix-fill { display: block; height: 100%; background: var(--viz-1); border-radius: 3px; }
+.mix-count, .mix-share {
+  font-size: var(--fs-min); text-align: right; font-variant-numeric: tabular-nums;
+}
+.mix-count { color: var(--text); }
+.mix-share { color: var(--text-3); }
+
 /* ---------- policy overlap matrix ---------- */
 
 .overlap-grid { display: grid; gap: 2px; align-items: stretch; }
@@ -677,8 +701,8 @@ main:has(.dash-shell) ~ .site-footer { display: none; }
 .fam-table { display: flex; flex-direction: column; height: 100%; min-height: 0; }
 .fam-head, .fam-row {
   display: grid;
-  grid-template-columns: minmax(0, 1.35fr) minmax(88px, .9fr) minmax(80px, .9fr) 4.5rem 4.5rem 4.5rem 6.5rem;
-  align-items: center; gap: .7rem;
+  grid-template-columns: minmax(0, 1.6fr) minmax(96px, .85fr) minmax(90px, 1fr) 4.6rem 4.6rem 4.6rem 7rem;
+  align-items: center; gap: .8rem;
 }
 .fam-head {
   flex: none; padding: 0 .45rem .45rem; border-bottom: 1px solid var(--line);
@@ -688,16 +712,17 @@ main:has(.dash-shell) ~ .site-footer { display: none; }
 .fam-body { flex: 1 1 auto; min-height: 0; overflow-y: auto; }
 .fam-row {
   width: 100%; text-align: left; background: none; border: none;
-  font-family: inherit; padding: .3rem .45rem; border-radius: 8px; cursor: pointer;
+  font-family: inherit; padding: .42rem .5rem; border-radius: 8px; cursor: pointer;
 }
 .fam-row:hover { background: var(--bg-tint); }
 .fam-row.is-selected { background: var(--blue-soft); }
 .fam-name {
   font-size: var(--fs-min); color: var(--text); font-weight: 400;
-  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  display: flex; align-items: center; gap: .4rem; min-width: 0;
 }
+.fam-name > span:first-child { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .fam-flag {
-  display: inline-block; margin-left: .4rem; padding: 0 .35rem;
+  display: inline-block; flex: none; padding: 0 .4rem;
   font-size: var(--fs-min); font-weight: 300; color: var(--caution);
   background: var(--caution-soft); border-radius: 4px; cursor: help;
 }
@@ -733,11 +758,11 @@ main:has(.dash-shell) ~ .site-footer { display: none; }
 .contrib-row {
   display: grid; grid-template-columns: minmax(0, 1fr) 4.5rem;
   grid-template-areas: "issue num" "bar num";
-  align-items: center; column-gap: .7rem;
+  align-items: center; column-gap: .7rem; padding: .15rem 0;
 }
 .contrib-issue {
   grid-area: issue; font-size: var(--fs-min); color: var(--text-2); font-weight: 300;
-  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  line-height: 1.35;
 }
 .contrib-bar {
   grid-area: bar; display: block; margin-top: .25rem;
@@ -874,7 +899,7 @@ main:has(.dash-shell) ~ .site-footer { display: none; }
    with its scroll offset. The text below is clamped to hold that contract. */
 .sample-list { flex: 1 1 auto; min-height: 0; overflow-y: auto; }
 .sample-row {
-  display: grid; gap: .15rem; width: 100%; height: 112px; text-align: left;
+  display: grid; gap: .18rem; width: 100%; height: 118px; text-align: left;
   background: none; border: none; border-bottom: 1px solid var(--line);
   font-family: inherit; padding: .55rem .45rem; cursor: pointer;
   align-content: start; overflow: hidden;
@@ -893,7 +918,7 @@ main:has(.dash-shell) ~ .site-footer { display: none; }
 }
 .sample-issue {
   font-size: var(--fs-min); color: var(--text); font-weight: 400; line-height: 1.3;
-  display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical; overflow: hidden;
+  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
 }
 .sample-product {
   font-size: var(--fs-min); color: var(--text-3); font-weight: 300; line-height: 1.3;
@@ -919,9 +944,12 @@ main:has(.dash-shell) ~ .site-footer { display: none; }
 }
 .lens-row:hover { background: var(--bg-tint); }
 .lens-row.is-active { background: var(--blue-soft); }
-.lens-row > span { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.lens-row > span { min-width: 0; }
 .lens-name { font-size: var(--fs-min); color: var(--text); font-weight: 400; line-height: 1.35; white-space: normal; }
-.lens-model { font-size: var(--fs-min); color: var(--text-3); font-weight: 300; font-family: var(--mono); }
+.lens-model {
+  font-size: var(--fs-min); color: var(--text-3); font-weight: 300; font-family: var(--mono);
+  white-space: normal; overflow-wrap: anywhere;
+}
 .lens-surfaces { font-size: var(--fs-min); color: var(--blue); font-weight: 300; }
 
 .rail-link {
@@ -957,18 +985,18 @@ main:has(.dash-shell) ~ .site-footer { display: none; }
   padding: .35rem .5rem; cursor: pointer;
 }
 .drawer-close:hover { background: var(--bg-tint); color: var(--text); }
-.drawer-body { flex: 1 1 auto; min-height: 0; overflow-y: auto; padding: .8rem .9rem 1rem; }
+.drawer-body { flex: 1 1 auto; min-height: 0; overflow-y: auto; padding: .9rem 1rem 1.2rem; }
 .drawer-chips { display: flex; gap: .4rem; flex-wrap: wrap; margin-bottom: .8rem; }
 .drawer-section {
   font-size: var(--fs-min); font-weight: 500; color: var(--text);
   margin: 1.1rem 0 .4rem; padding-top: .7rem; border-top: 1px solid var(--line);
 }
-.drawer-fields { margin: 0; display: grid; gap: .4rem; }
-.drawer-field { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: .8rem; align-items: baseline; }
+.drawer-fields { margin: 0; display: grid; gap: .5rem; }
+.drawer-field { display: grid; grid-template-columns: minmax(0, .85fr) minmax(0, 1.15fr); gap: .8rem; align-items: baseline; }
 .drawer-field dt { font-size: var(--fs-min); color: var(--text-3); font-weight: 300; }
 .drawer-field dd {
   margin: 0; font-size: var(--fs-min); color: var(--text); font-weight: 300;
-  text-align: right; min-width: 0; overflow-wrap: anywhere;
+  text-align: right; min-width: 0; overflow-wrap: anywhere; line-height: 1.4;
 }
 .drawer-fields.is-numeric dd { font-variant-numeric: tabular-nums; }
 .drawer-prose { margin: 0; font-size: var(--fs-min); color: var(--text-2); font-weight: 300; line-height: 1.6; }
@@ -984,16 +1012,7 @@ main:has(.dash-shell) ~ .site-footer { display: none; }
 .drawer-surfaces li {
   font-size: var(--fs-min); color: var(--text-2); font-weight: 300; line-height: 1.55;
 }
-.drawer-limit {
-  margin: 1rem 0 0; padding: .6rem .7rem;
-  background: var(--caution-soft); border-radius: 8px;
-  font-size: var(--fs-min); color: var(--caution); font-weight: 300; line-height: 1.5;
-}
-.drawer-limit strong { font-weight: 500; }
-.drawer-scope {
-  margin: 1.1rem 0 0; padding-top: .7rem; border-top: 1px solid var(--line);
-  font-size: var(--fs-min); color: var(--text-3); font-weight: 300; line-height: 1.5;
-}
+
 
 /* ---------- skeletons ---------- */
 

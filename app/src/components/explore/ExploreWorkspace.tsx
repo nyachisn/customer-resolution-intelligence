@@ -21,7 +21,7 @@
  * displayed, never counted, ranked or prioritized from.
  */
 
-import { Fragment, useMemo } from "react";
+import { useMemo } from "react";
 import { TrendChart } from "@/components/ui/TrendChart";
 import { Chip, ConfidenceChip, PriorityChip } from "@/components/ui/Primitives";
 import { FamilyGrowthTable, FamilyMultiples } from "./FamilyViews";
@@ -50,8 +50,8 @@ import {
   cumulative,
   familySeries,
   inflections,
+  dimensionMix,
   issueContributions,
-  policyOverlap,
   ruleCoverage,
 } from "@/lib/archive-analytics";
 import { formatCompact, formatMonth, formatPct, nextStepFor } from "@/lib/analytics";
@@ -72,15 +72,45 @@ const POLICY_NOTE: Record<RuleId, string> = {
   POLICY_CRITICAL_COMBINATION: "Two independent signals agreed",
 };
 
-const POLICY_SHORT: Record<RuleId, string> = {
-  POLICY_UNTIMELY_RESPONSE: "Untimely",
-  POLICY_EMERGING_ISSUE: "Emerging",
-  POLICY_PUBLICATION_LAG: "Pub lag",
-  POLICY_INCOMPLETE_CONTEXT: "Incomplete",
-  POLICY_CRITICAL_COMBINATION: "Critical",
+/** The published outcome strings, shortened to fit without clipping. */
+const RESPONSE_LABEL: Record<string, string> = {
+  "Closed with explanation": "Explanation given",
+  "Closed with monetary relief": "Money returned",
+  "Closed with non-monetary relief": "Non-monetary fix",
+  "Closed without relief": "Closed, no relief",
+  "Closed with relief": "Relief given",
+  "Untimely response": "Missed the standard",
+  "In progress": "Still open",
+  Closed: "Closed",
 };
 
-const SAMPLE_ROW_HEIGHT = 112;
+const SAMPLE_ROW_HEIGHT = 118;
+
+/** A ranked count list with a share bar. Every value carries its own total. */
+function MixList({
+  rows,
+  format,
+}: {
+  rows: { value: string; count: number; share: number }[];
+  format: (v: string) => string;
+}) {
+  if (rows.length === 0) return <p className="dpanel-sub">No breakdown available here.</p>;
+  const max = Math.max(...rows.map((r) => r.count), 1);
+  return (
+    <div className="mix-list">
+      {rows.map((r) => (
+        <div className="mix-row" key={r.value} title={`${format(r.value)} — ${r.count.toLocaleString()}`}>
+          <span className="mix-label">{format(r.value)}</span>
+          <span className="mix-track">
+            <span className="mix-fill" style={{ width: `${(r.count / max) * 100}%` }} />
+          </span>
+          <span className="mix-count">{formatCompact(r.count)}</span>
+          <span className="mix-share">{formatPct(r.share)}</span>
+        </div>
+      ))}
+    </div>
+  );
+}
 
 /**
  * The dbt model a tile's numbers come from. Clicking opens that model in the
@@ -216,11 +246,6 @@ export function ExploreWorkspace({
     [archive, activeFamily, selectedRules],
   );
 
-  const overlap = useMemo(
-    () => policyOverlap(archive?.policyCombinations ?? [], activeFamily, RULE_IDS),
-    [archive, activeFamily],
-  );
-
   /* ---------------- illustrative sample (display only) ------------- */
 
   const sampleRows = useMemo(() => {
@@ -256,6 +281,19 @@ export function ExploreWorkspace({
         : [...selectedRules, id],
     });
   }
+
+  const stateMix = useMemo(
+    () => dimensionMix(archive?.stateByProduct ?? [], activeFamily, 8),
+    [archive, activeFamily],
+  );
+  const responseMix = useMemo(
+    () => dimensionMix(archive?.responseByProduct ?? [], activeFamily, 6),
+    [archive, activeFamily],
+  );
+  const channelMix = useMemo(
+    () => dimensionMix(archive?.channelByProduct ?? [], activeFamily, 6),
+    [archive, activeFamily],
+  );
 
   const rhythm = archive?.weekdayRhythm ?? [];
   const rhythmMax = Math.max(...rhythm.map((d) => d.average), 1);
@@ -363,9 +401,8 @@ export function ExploreWorkspace({
                   {coverage.selected.toLocaleString()}
                 </div>
                 <div className="rule-headline-label">
-                  records in {scopeLabel} are pulled out by the rules you have on —{" "}
-                  {coverage.evaluated > 0 ? formatPct(coverage.selected / coverage.evaluated) : "—"} of{" "}
-                  {formatCompact(coverage.evaluated)}
+                  of {coverage.evaluated.toLocaleString()} records in {scopeLabel} reach review —{" "}
+                  {coverage.evaluated > 0 ? formatPct(coverage.selected / coverage.evaluated) : "—"}
                 </div>
                 <div className="rule-split" aria-hidden="true">
                   <span
@@ -376,11 +413,8 @@ export function ExploreWorkspace({
                   />
                 </div>
                 <div className="rule-headline-note">
-                  Turning every rule on reaches {formatCompact(coverage.anyRule)}, not the full{" "}
-                  {formatCompact(coverage.evaluated)}: {formatCompact(coverage.noRule)} records
-                  ({formatPct(coverage.evaluated > 0 ? coverage.noRule / coverage.evaluated : 0)}) trip
-                  nothing at all and go to standard handling. That selectivity is the point of the
-                  policy layer.
+                  The remaining {formatCompact(coverage.noRule)} are handled as standard. These
+                  switches scope the example records below; the charts always show all volume.
                 </div>
               </div>
 
@@ -483,8 +517,8 @@ export function ExploreWorkspace({
                 {activeFamily?.note && <p className="chart-caveat">{activeFamily.note}</p>}
                 {moves.map((m) => (
                   <p key={m.date} className="chart-move">
-                    <strong>{formatMonth(m.date)}</strong> {m.label} — {m.previous.toLocaleString()} to{" "}
-                    {m.value.toLocaleString()}. The archive records what moved, not why.
+                    Biggest single move: <strong>{formatMonth(m.date)}</strong>, {m.label} —{" "}
+                    {m.previous.toLocaleString()} to {m.value.toLocaleString()}.
                   </p>
                 ))}
               </div>
@@ -523,46 +557,44 @@ export function ExploreWorkspace({
               </div>
             </section>
 
-            <section className={`dpanel${surfaceClass("overlap")}`} data-surface="overlap">
+            <section className={`dpanel${surfaceClass("geography")}`} data-surface="geography">
               <div className="dpanel-head">
                 <div>
-                  <h2 className="dpanel-title">Where the rules overlap</h2>
-                  <p className="dpanel-sub">Share of the row rule&rsquo;s records that also trip the column rule</p>
+                  <h2 className="dpanel-title">Where complaints come from</h2>
+                  <p className="dpanel-sub">Top states in {scopeLabel}</p>
                 </div>
-                <ModelBadge name="int_priority_policy_application" onOpen={openLens} />
+                <ModelBadge name="fct_complaints" onOpen={openLens} />
               </div>
               <div className="dpanel-body">
-                <div className="overlap-grid" style={{ gridTemplateColumns: `minmax(0,1.5fr) repeat(${RULE_IDS.length}, minmax(0,1fr))` }}>
-                  <span className="overlap-corner" />
-                  {RULE_IDS.map((id) => (
-                    <span className="overlap-col" key={id}>
-                      {POLICY_SHORT[id]}
-                    </span>
-                  ))}
-                  {overlap.map((row) => (
-                    <Fragment key={row.rowId}>
-                      <span className="overlap-row-name">{POLICY_SHORT[row.rowId as RuleId]}</span>
-                      {row.cells.map((c) => (
-                        <span
-                          key={c.colId}
-                          className="overlap-cell"
-                          style={{
-                            background:
-                              c.share == null ? "transparent" : `rgba(21, 83, 212, ${Math.min(c.share, 1) * 0.55})`,
-                            color: c.share != null && c.share > 0.6 ? "#fff" : undefined,
-                          }}
-                          title={`${POLICY_SHORT[row.rowId as RuleId]} → ${POLICY_SHORT[c.colId as RuleId]}`}
-                        >
-                          {c.share == null ? "·" : formatPct(c.share)}
-                        </span>
-                      ))}
-                    </Fragment>
-                  ))}
+                <MixList rows={stateMix} format={(v) => v} />
+              </div>
+            </section>
+          </div>
+
+          <div className="tile-pair">
+            <section className={`dpanel${surfaceClass("outcome")}`} data-surface="outcome">
+              <div className="dpanel-head">
+                <div>
+                  <h2 className="dpanel-title">How companies closed them</h2>
+                  <p className="dpanel-sub">Published outcome in {scopeLabel}</p>
                 </div>
-                <p className="chart-note">
-                  Read across a row. Critical combination is the most specific signal on the board
-                  precisely because it sits almost entirely inside the other two.
-                </p>
+                <ModelBadge name="fct_complaints" onOpen={openLens} />
+              </div>
+              <div className="dpanel-body">
+                <MixList rows={responseMix} format={(v) => RESPONSE_LABEL[v] ?? v} />
+              </div>
+            </section>
+
+            <section className={`dpanel${surfaceClass("channel")}`} data-surface="channel">
+              <div className="dpanel-head">
+                <div>
+                  <h2 className="dpanel-title">How people got in touch</h2>
+                  <p className="dpanel-sub">Intake channel in {scopeLabel}</p>
+                </div>
+                <ModelBadge name="fct_complaints" onOpen={openLens} />
+              </div>
+              <div className="dpanel-body">
+                <MixList rows={channelMix} format={(v) => v} />
               </div>
             </section>
           </div>
@@ -629,8 +661,7 @@ export function ExploreWorkspace({
                 ))}
               </div>
               <p className="scope-note is-foot">
-                A decomposition, not an explanation. The archive holds no data on why volume moved —
-                no awareness, marketing or company-side inputs exist in it.
+                Which issues moved. The archive does not record why.
               </p>
             </div>
           </section>
@@ -639,10 +670,7 @@ export function ExploreWorkspace({
             <div className="dpanel-head">
               <div>
                 <h2 className="dpanel-title">Example records</h2>
-                <p className="dpanel-sub">
-                  A 300-row sample, picked to include every outcome. Nothing on this board is
-                  counted from it.
-                </p>
+                <p className="dpanel-sub">Individual records, for context only</p>
               </div>
               <ModelBadge name="agent_case_context" onOpen={openLens} />
             </div>
@@ -676,8 +704,7 @@ export function ExploreWorkspace({
                 />
               )}
               <p className="scope-note is-foot">
-                {sampleRows.length} of {sampleIndex.length} sampled records · the mix is by
-                construction, not by measurement
+                Showing {sampleRows.length} of {sampleIndex.length} examples
               </p>
             </div>
           </section>
@@ -694,10 +721,8 @@ export function ExploreWorkspace({
       </div>
 
       <p className="dash-foot">
-        Every figure above is the whole published archive: {archiveTotal.toLocaleString()} complaints
-        across {months.length} complete months and {families.length} product families. Record context
-        is a separate {sampleIndex.length}-row demonstration sample and is never counted into these
-        totals.
+        {archiveTotal.toLocaleString()} complaints · {months.length} complete months ·{" "}
+        {families.length} categories
         {focusPoint && (
           <span className="dash-foot-compact">
             {formatMonth(focusPoint.date)}: {focusPoint.value.toLocaleString()}

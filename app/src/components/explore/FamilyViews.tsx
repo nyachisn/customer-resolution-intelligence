@@ -79,7 +79,7 @@ export function FamilyGrowthTable({
                 {s.family.label}
                 {s.family.note && (
                   <span className="fam-flag" title={s.family.note}>
-                    caveat
+                    naming change
                   </span>
                 )}
               </span>
@@ -105,11 +105,12 @@ export function FamilyGrowthTable({
           );
         })}
       </div>
-      <p className="chart-note">
-        Each sparkline is scaled to its own category so a small one still shows its shape — size
-        is in the share bar and the totals. Direction compares the last 12 complete months with
-        the 12 before. &ldquo;Retired&rdquo; and &ldquo;New&rdquo; mean the CFPB added or removed
-        the category, not that complaints stopped or started.
+      <p
+        className="chart-note"
+        title="Each sparkline is scaled to its own category, so a small category still shows its shape; absolute size is in the share bar and the totals column. Direction compares the last 12 complete months with the 12 before them. Retired and New mean the CFPB removed or added the category."
+      >
+        Sparklines use each category&rsquo;s own scale — size is in the share bar. Direction
+        compares the last 12 months with the 12 before.
       </p>
     </div>
   );

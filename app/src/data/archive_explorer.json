@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-08-17T16:36:22Z",
+  "generated_at_utc": "2026-08-17T16:56:13Z",
   "monthly_product_volume": [
     {
       "MONTH": "2011-12-01",
@@ -10575,6 +10575,2387 @@
       "DOW": 6,
       "DAY_NAME": "Sat",
       "AVG_TOTAL": "10407.115385"
+    }
+  ],
+  "state_by_product": [
+    {
+      "PRODUCT": "Bank account or service",
+      "STATE": "CA",
+      "CNT": 12163
+    },
+    {
+      "PRODUCT": "Bank account or service",
+      "STATE": "FL",
+      "CNT": 7899
+    },
+    {
+      "PRODUCT": "Bank account or service",
+      "STATE": "NY",
+      "CNT": 7608
+    },
+    {
+      "PRODUCT": "Bank account or service",
+      "STATE": "TX",
+      "CNT": 5177
+    },
+    {
+      "PRODUCT": "Bank account or service",
+      "STATE": "NJ",
+      "CNT": 4074
+    },
+    {
+      "PRODUCT": "Bank account or service",
+      "STATE": "PA",
+      "CNT": 3698
+    },
+    {
+      "PRODUCT": "Bank account or service",
+      "STATE": "IL",
+      "CNT": 3611
+    },
+    {
+      "PRODUCT": "Bank account or service",
+      "STATE": "GA",
+      "CNT": 3522
+    },
+    {
+      "PRODUCT": "Bank account or service",
+      "STATE": "MD",
+      "CNT": 2799
+    },
+    {
+      "PRODUCT": "Bank account or service",
+      "STATE": "OH",
+      "CNT": 2682
+    },
+    {
+      "PRODUCT": "Bank account or service",
+      "STATE": "VA",
+      "CNT": 2485
+    },
+    {
+      "PRODUCT": "Bank account or service",
+      "STATE": "NC",
+      "CNT": 2327
+    },
+    {
+      "PRODUCT": "Checking or savings account",
+      "STATE": "CA",
+      "CNT": 55011
+    },
+    {
+      "PRODUCT": "Checking or savings account",
+      "STATE": "FL",
+      "CNT": 36561
+    },
+    {
+      "PRODUCT": "Checking or savings account",
+      "STATE": "TX",
+      "CNT": 32712
+    },
+    {
+      "PRODUCT": "Checking or savings account",
+      "STATE": "NY",
+      "CNT": 31527
+    },
+    {
+      "PRODUCT": "Checking or savings account",
+      "STATE": "GA",
+      "CNT": 19110
+    },
+    {
+      "PRODUCT": "Checking or savings account",
+      "STATE": "IL",
+      "CNT": 15948
+    },
+    {
+      "PRODUCT": "Checking or savings account",
+      "STATE": "PA",
+      "CNT": 14690
+    },
+    {
+      "PRODUCT": "Checking or savings account",
+      "STATE": "NJ",
+      "CNT": 13901
+    },
+    {
+      "PRODUCT": "Checking or savings account",
+      "STATE": "NC",
+      "CNT": 11569
+    },
+    {
+      "PRODUCT": "Checking or savings account",
+      "STATE": "OH",
+      "CNT": 10679
+    },
+    {
+      "PRODUCT": "Checking or savings account",
+      "STATE": "VA",
+      "CNT": 10647
+    },
+    {
+      "PRODUCT": "Checking or savings account",
+      "STATE": "MD",
+      "CNT": 10100
+    },
+    {
+      "PRODUCT": "Consumer Loan",
+      "STATE": "CA",
+      "CNT": 3784
+    },
+    {
+      "PRODUCT": "Consumer Loan",
+      "STATE": "TX",
+      "CNT": 2803
+    },
+    {
+      "PRODUCT": "Consumer Loan",
+      "STATE": "FL",
+      "CNT": 2526
+    },
+    {
+      "PRODUCT": "Consumer Loan",
+      "STATE": "NY",
+      "CNT": 1612
+    },
+    {
+      "PRODUCT": "Consumer Loan",
+      "STATE": "GA",
+      "CNT": 1595
+    },
+    {
+      "PRODUCT": "Consumer Loan",
+      "STATE": "OH",
+      "CNT": 1227
+    },
+    {
+      "PRODUCT": "Consumer Loan",
+      "STATE": "NJ",
+      "CNT": 1214
+    },
+    {
+      "PRODUCT": "Consumer Loan",
+      "STATE": "PA",
+      "CNT": 1152
+    },
+    {
+      "PRODUCT": "Consumer Loan",
+      "STATE": "NC",
+      "CNT": 1136
+    },
+    {
+      "PRODUCT": "Consumer Loan",
+      "STATE": "VA",
+      "CNT": 1116
+    },
+    {
+      "PRODUCT": "Consumer Loan",
+      "STATE": "MD",
+      "CNT": 1041
+    },
+    {
+      "PRODUCT": "Consumer Loan",
+      "STATE": "IL",
+      "CNT": 1024
+    },
+    {
+      "PRODUCT": "Credit card",
+      "STATE": "CA",
+      "CNT": 45275
+    },
+    {
+      "PRODUCT": "Credit card",
+      "STATE": "TX",
+      "CNT": 35627
+    },
+    {
+      "PRODUCT": "Credit card",
+      "STATE": "FL",
+      "CNT": 31713
+    },
+    {
+      "PRODUCT": "Credit card",
+      "STATE": "NY",
+      "CNT": 26548
+    },
+    {
+      "PRODUCT": "Credit card",
+      "STATE": "IL",
+      "CNT": 15071
+    },
+    {
+      "PRODUCT": "Credit card",
+      "STATE": "GA",
+      "CNT": 13343
+    },
+    {
+      "PRODUCT": "Credit card",
+      "STATE": "NJ",
+      "CNT": 12737
+    },
+    {
+      "PRODUCT": "Credit card",
+      "STATE": "PA",
+      "CNT": 12523
+    },
+    {
+      "PRODUCT": "Credit card",
+      "STATE": "VA",
+      "CNT": 10841
+    },
+    {
+      "PRODUCT": "Credit card",
+      "STATE": "NC",
+      "CNT": 9671
+    },
+    {
+      "PRODUCT": "Credit card",
+      "STATE": "OH",
+      "CNT": 8565
+    },
+    {
+      "PRODUCT": "Credit card",
+      "STATE": "MD",
+      "CNT": 8054
+    },
+    {
+      "PRODUCT": "Credit card or prepaid card",
+      "STATE": "CA",
+      "CNT": 29756
+    },
+    {
+      "PRODUCT": "Credit card or prepaid card",
+      "STATE": "FL",
+      "CNT": 18075
+    },
+    {
+      "PRODUCT": "Credit card or prepaid card",
+      "STATE": "NY",
+      "CNT": 17637
+    },
+    {
+      "PRODUCT": "Credit card or prepaid card",
+      "STATE": "TX",
+      "CNT": 14855
+    },
+    {
+      "PRODUCT": "Credit card or prepaid card",
+      "STATE": "IL",
+      "CNT": 8555
+    },
+    {
+      "PRODUCT": "Credit card or prepaid card",
+      "STATE": "PA",
+      "CNT": 8380
+    },
+    {
+      "PRODUCT": "Credit card or prepaid card",
+      "STATE": "NJ",
+      "CNT": 8045
+    },
+    {
+      "PRODUCT": "Credit card or prepaid card",
+      "STATE": "GA",
+      "CNT": 8019
+    },
+    {
+      "PRODUCT": "Credit card or prepaid card",
+      "STATE": "OH",
+      "CNT": 6455
+    },
+    {
+      "PRODUCT": "Credit card or prepaid card",
+      "STATE": "VA",
+      "CNT": 5814
+    },
+    {
+      "PRODUCT": "Credit card or prepaid card",
+      "STATE": "NC",
+      "CNT": 5429
+    },
+    {
+      "PRODUCT": "Credit card or prepaid card",
+      "STATE": "MA",
+      "CNT": 5156
+    },
+    {
+      "PRODUCT": "Credit reporting",
+      "STATE": "CA",
+      "CNT": 18118
+    },
+    {
+      "PRODUCT": "Credit reporting",
+      "STATE": "TX",
+      "CNT": 16212
+    },
+    {
+      "PRODUCT": "Credit reporting",
+      "STATE": "FL",
+      "CNT": 14436
+    },
+    {
+      "PRODUCT": "Credit reporting",
+      "STATE": "NY",
+      "CNT": 8848
+    },
+    {
+      "PRODUCT": "Credit reporting",
+      "STATE": "GA",
+      "CNT": 7841
+    },
+    {
+      "PRODUCT": "Credit reporting",
+      "STATE": "IL",
+      "CNT": 5636
+    },
+    {
+      "PRODUCT": "Credit reporting",
+      "STATE": "VA",
+      "CNT": 4970
+    },
+    {
+      "PRODUCT": "Credit reporting",
+      "STATE": "PA",
+      "CNT": 4446
+    },
+    {
+      "PRODUCT": "Credit reporting",
+      "STATE": "NC",
+      "CNT": 4208
+    },
+    {
+      "PRODUCT": "Credit reporting",
+      "STATE": "NJ",
+      "CNT": 4195
+    },
+    {
+      "PRODUCT": "Credit reporting",
+      "STATE": "MD",
+      "CNT": 3882
+    },
+    {
+      "PRODUCT": "Credit reporting",
+      "STATE": "OH",
+      "CNT": 3642
+    },
+    {
+      "PRODUCT": "Credit reporting or other personal consumer reports",
+      "STATE": "TX",
+      "CNT": 1730223
+    },
+    {
+      "PRODUCT": "Credit reporting or other personal consumer reports",
+      "STATE": "FL",
+      "CNT": 1726237
+    },
+    {
+      "PRODUCT": "Credit reporting or other personal consumer reports",
+      "STATE": "CA",
+      "CNT": 1071364
+    },
+    {
+      "PRODUCT": "Credit reporting or other personal consumer reports",
+      "STATE": "GA",
+      "CNT": 897467
+    },
+    {
+      "PRODUCT": "Credit reporting or other personal consumer reports",
+      "STATE": "NY",
+      "CNT": 654604
+    },
+    {
+      "PRODUCT": "Credit reporting or other personal consumer reports",
+      "STATE": "IL",
+      "CNT": 509646
+    },
+    {
+      "PRODUCT": "Credit reporting or other personal consumer reports",
+      "STATE": "PA",
+      "CNT": 431075
+    },
+    {
+      "PRODUCT": "Credit reporting or other personal consumer reports",
+      "STATE": "NC",
+      "CNT": 403995
+    },
+    {
+      "PRODUCT": "Credit reporting or other personal consumer reports",
+      "STATE": "NJ",
+      "CNT": 367699
+    },
+    {
+      "PRODUCT": "Credit reporting or other personal consumer reports",
+      "STATE": "AL",
+      "CNT": 308214
+    },
+    {
+      "PRODUCT": "Credit reporting or other personal consumer reports",
+      "STATE": "LA",
+      "CNT": 281499
+    },
+    {
+      "PRODUCT": "Credit reporting or other personal consumer reports",
+      "STATE": "MD",
+      "CNT": 280018
+    },
+    {
+      "PRODUCT": "Credit reporting, credit repair services, or other personal consumer reports",
+      "STATE": "FL",
+      "CNT": 283934
+    },
+    {
+      "PRODUCT": "Credit reporting, credit repair services, or other personal consumer reports",
+      "STATE": "TX",
+      "CNT": 251561
+    },
+    {
+      "PRODUCT": "Credit reporting, credit repair services, or other personal consumer reports",
+      "STATE": "CA",
+      "CNT": 221287
+    },
+    {
+      "PRODUCT": "Credit reporting, credit repair services, or other personal consumer reports",
+      "STATE": "GA",
+      "CNT": 172414
+    },
+    {
+      "PRODUCT": "Credit reporting, credit repair services, or other personal consumer reports",
+      "STATE": "NY",
+      "CNT": 132842
+    },
+    {
+      "PRODUCT": "Credit reporting, credit repair services, or other personal consumer reports",
+      "STATE": "PA",
+      "CNT": 119525
+    },
+    {
+      "PRODUCT": "Credit reporting, credit repair services, or other personal consumer reports",
+      "STATE": "IL",
+      "CNT": 90920
+    },
+    {
+      "PRODUCT": "Credit reporting, credit repair services, or other personal consumer reports",
+      "STATE": "NC",
+      "CNT": 78638
+    },
+    {
+      "PRODUCT": "Credit reporting, credit repair services, or other personal consumer reports",
+      "STATE": "NJ",
+      "CNT": 66158
+    },
+    {
+      "PRODUCT": "Credit reporting, credit repair services, or other personal consumer reports",
+      "STATE": "AL",
+      "CNT": 54701
+    },
+    {
+      "PRODUCT": "Credit reporting, credit repair services, or other personal consumer reports",
+      "STATE": "MD",
+      "CNT": 53919
+    },
+    {
+      "PRODUCT": "Credit reporting, credit repair services, or other personal consumer reports",
+      "STATE": "OH",
+      "CNT": 48567
+    },
+    {
+      "PRODUCT": "Debt collection",
+      "STATE": "TX",
+      "CNT": 177884
+    },
+    {
+      "PRODUCT": "Debt collection",
+      "STATE": "FL",
+      "CNT": 127853
+    },
+    {
+      "PRODUCT": "Debt collection",
+      "STATE": "CA",
+      "CNT": 114452
+    },
+    {
+      "PRODUCT": "Debt collection",
+      "STATE": "GA",
+      "CNT": 87883
+    },
+    {
+      "PRODUCT": "Debt collection",
+      "STATE": "NY",
+      "CNT": 54988
+    },
+    {
+      "PRODUCT": "Debt collection",
+      "STATE": "IL",
+      "CNT": 42948
+    },
+    {
+      "PRODUCT": "Debt collection",
+      "STATE": "PA",
+      "CNT": 41068
+    },
+    {
+      "PRODUCT": "Debt collection",
+      "STATE": "NC",
+      "CNT": 39542
+    },
+    {
+      "PRODUCT": "Debt collection",
+      "STATE": "NJ",
+      "CNT": 31548
+    },
+    {
+      "PRODUCT": "Debt collection",
+      "STATE": "OH",
+      "CNT": 30905
+    },
+    {
+      "PRODUCT": "Debt collection",
+      "STATE": "SC",
+      "CNT": 29186
+    },
+    {
+      "PRODUCT": "Debt collection",
+      "STATE": "VA",
+      "CNT": 28463
+    },
+    {
+      "PRODUCT": "Debt or credit management",
+      "STATE": "FL",
+      "CNT": 1126
+    },
+    {
+      "PRODUCT": "Debt or credit management",
+      "STATE": "TX",
+      "CNT": 1030
+    },
+    {
+      "PRODUCT": "Debt or credit management",
+      "STATE": "CA",
+      "CNT": 979
+    },
+    {
+      "PRODUCT": "Debt or credit management",
+      "STATE": "GA",
+      "CNT": 614
+    },
+    {
+      "PRODUCT": "Debt or credit management",
+      "STATE": "NY",
+      "CNT": 490
+    },
+    {
+      "PRODUCT": "Debt or credit management",
+      "STATE": "PA",
+      "CNT": 373
+    },
+    {
+      "PRODUCT": "Debt or credit management",
+      "STATE": "NC",
+      "CNT": 339
+    },
+    {
+      "PRODUCT": "Debt or credit management",
+      "STATE": "IL",
+      "CNT": 302
+    },
+    {
+      "PRODUCT": "Debt or credit management",
+      "STATE": "MI",
+      "CNT": 289
+    },
+    {
+      "PRODUCT": "Debt or credit management",
+      "STATE": "NJ",
+      "CNT": 273
+    },
+    {
+      "PRODUCT": "Debt or credit management",
+      "STATE": "SC",
+      "CNT": 265
+    },
+    {
+      "PRODUCT": "Debt or credit management",
+      "STATE": "OH",
+      "CNT": 255
+    },
+    {
+      "PRODUCT": "Money transfer, virtual currency, or money service",
+      "STATE": "CA",
+      "CNT": 22293
+    },
+    {
+      "PRODUCT": "Money transfer, virtual currency, or money service",
+      "STATE": "TX",
+      "CNT": 17090
+    },
+    {
+      "PRODUCT": "Money transfer, virtual currency, or money service",
+      "STATE": "FL",
+      "CNT": 14988
+    },
+    {
+      "PRODUCT": "Money transfer, virtual currency, or money service",
+      "STATE": "NY",
+      "CNT": 12774
+    },
+    {
+      "PRODUCT": "Money transfer, virtual currency, or money service",
+      "STATE": "IL",
+      "CNT": 10051
+    },
+    {
+      "PRODUCT": "Money transfer, virtual currency, or money service",
+      "STATE": "GA",
+      "CNT": 9522
+    },
+    {
+      "PRODUCT": "Money transfer, virtual currency, or money service",
+      "STATE": "NC",
+      "CNT": 5968
+    },
+    {
+      "PRODUCT": "Money transfer, virtual currency, or money service",
+      "STATE": "PA",
+      "CNT": 5919
+    },
+    {
+      "PRODUCT": "Money transfer, virtual currency, or money service",
+      "STATE": "NJ",
+      "CNT": 5553
+    },
+    {
+      "PRODUCT": "Money transfer, virtual currency, or money service",
+      "STATE": "OH",
+      "CNT": 4950
+    },
+    {
+      "PRODUCT": "Money transfer, virtual currency, or money service",
+      "STATE": "VA",
+      "CNT": 4902
+    },
+    {
+      "PRODUCT": "Money transfer, virtual currency, or money service",
+      "STATE": "MI",
+      "CNT": 4801
+    },
+    {
+      "PRODUCT": "Money transfers",
+      "STATE": "CA",
+      "CNT": 768
+    },
+    {
+      "PRODUCT": "Money transfers",
+      "STATE": "NY",
+      "CNT": 440
+    },
+    {
+      "PRODUCT": "Money transfers",
+      "STATE": "FL",
+      "CNT": 406
+    },
+    {
+      "PRODUCT": "Money transfers",
+      "STATE": "TX",
+      "CNT": 401
+    },
+    {
+      "PRODUCT": "Money transfers",
+      "STATE": "GA",
+      "CNT": 207
+    },
+    {
+      "PRODUCT": "Money transfers",
+      "STATE": "NJ",
+      "CNT": 201
+    },
+    {
+      "PRODUCT": "Money transfers",
+      "STATE": "PA",
+      "CNT": 193
+    },
+    {
+      "PRODUCT": "Money transfers",
+      "STATE": "IL",
+      "CNT": 189
+    },
+    {
+      "PRODUCT": "Money transfers",
+      "STATE": "VA",
+      "CNT": 188
+    },
+    {
+      "PRODUCT": "Money transfers",
+      "STATE": "MD",
+      "CNT": 169
+    },
+    {
+      "PRODUCT": "Money transfers",
+      "STATE": "MA",
+      "CNT": 151
+    },
+    {
+      "PRODUCT": "Money transfers",
+      "STATE": "OH",
+      "CNT": 143
+    },
+    {
+      "PRODUCT": "Mortgage",
+      "STATE": "CA",
+      "CNT": 70904
+    },
+    {
+      "PRODUCT": "Mortgage",
+      "STATE": "FL",
+      "CNT": 47854
+    },
+    {
+      "PRODUCT": "Mortgage",
+      "STATE": "TX",
+      "CNT": 28832
+    },
+    {
+      "PRODUCT": "Mortgage",
+      "STATE": "NY",
+      "CNT": 27118
+    },
+    {
+      "PRODUCT": "Mortgage",
+      "STATE": "GA",
+      "CNT": 22989
+    },
+    {
+      "PRODUCT": "Mortgage",
+      "STATE": "NJ",
+      "CNT": 20165
+    },
+    {
+      "PRODUCT": "Mortgage",
+      "STATE": "MD",
+      "CNT": 16731
+    },
+    {
+      "PRODUCT": "Mortgage",
+      "STATE": "IL",
+      "CNT": 15994
+    },
+    {
+      "PRODUCT": "Mortgage",
+      "STATE": "PA",
+      "CNT": 15885
+    },
+    {
+      "PRODUCT": "Mortgage",
+      "STATE": "VA",
+      "CNT": 14486
+    },
+    {
+      "PRODUCT": "Mortgage",
+      "STATE": "NC",
+      "CNT": 13793
+    },
+    {
+      "PRODUCT": "Mortgage",
+      "STATE": "OH",
+      "CNT": 11669
+    },
+    {
+      "PRODUCT": "Other financial service",
+      "STATE": "CA",
+      "CNT": 132
+    },
+    {
+      "PRODUCT": "Other financial service",
+      "STATE": "NY",
+      "CNT": 94
+    },
+    {
+      "PRODUCT": "Other financial service",
+      "STATE": "FL",
+      "CNT": 74
+    },
+    {
+      "PRODUCT": "Other financial service",
+      "STATE": "TX",
+      "CNT": 64
+    },
+    {
+      "PRODUCT": "Other financial service",
+      "STATE": "VA",
+      "CNT": 48
+    },
+    {
+      "PRODUCT": "Other financial service",
+      "STATE": "PA",
+      "CNT": 45
+    },
+    {
+      "PRODUCT": "Other financial service",
+      "STATE": "NC",
+      "CNT": 42
+    },
+    {
+      "PRODUCT": "Other financial service",
+      "STATE": "OH",
+      "CNT": 38
+    },
+    {
+      "PRODUCT": "Other financial service",
+      "STATE": "GA",
+      "CNT": 38
+    },
+    {
+      "PRODUCT": "Other financial service",
+      "STATE": "NJ",
+      "CNT": 35
+    },
+    {
+      "PRODUCT": "Other financial service",
+      "STATE": "IL",
+      "CNT": 33
+    },
+    {
+      "PRODUCT": "Other financial service",
+      "STATE": "MA",
+      "CNT": 29
+    },
+    {
+      "PRODUCT": "Payday loan",
+      "STATE": "TX",
+      "CNT": 697
+    },
+    {
+      "PRODUCT": "Payday loan",
+      "STATE": "CA",
+      "CNT": 691
+    },
+    {
+      "PRODUCT": "Payday loan",
+      "STATE": "OH",
+      "CNT": 314
+    },
+    {
+      "PRODUCT": "Payday loan",
+      "STATE": "FL",
+      "CNT": 312
+    },
+    {
+      "PRODUCT": "Payday loan",
+      "STATE": "VA",
+      "CNT": 210
+    },
+    {
+      "PRODUCT": "Payday loan",
+      "STATE": "TN",
+      "CNT": 195
+    },
+    {
+      "PRODUCT": "Payday loan",
+      "STATE": "GA",
+      "CNT": 181
+    },
+    {
+      "PRODUCT": "Payday loan",
+      "STATE": "IL",
+      "CNT": 167
+    },
+    {
+      "PRODUCT": "Payday loan",
+      "STATE": "PA",
+      "CNT": 163
+    },
+    {
+      "PRODUCT": "Payday loan",
+      "STATE": "NJ",
+      "CNT": 163
+    },
+    {
+      "PRODUCT": "Payday loan",
+      "STATE": "MI",
+      "CNT": 159
+    },
+    {
+      "PRODUCT": "Payday loan",
+      "STATE": "MD",
+      "CNT": 152
+    },
+    {
+      "PRODUCT": "Payday loan, title loan, or personal loan",
+      "STATE": "CA",
+      "CNT": 3730
+    },
+    {
+      "PRODUCT": "Payday loan, title loan, or personal loan",
+      "STATE": "TX",
+      "CNT": 3089
+    },
+    {
+      "PRODUCT": "Payday loan, title loan, or personal loan",
+      "STATE": "FL",
+      "CNT": 2299
+    },
+    {
+      "PRODUCT": "Payday loan, title loan, or personal loan",
+      "STATE": "GA",
+      "CNT": 1675
+    },
+    {
+      "PRODUCT": "Payday loan, title loan, or personal loan",
+      "STATE": "OH",
+      "CNT": 1198
+    },
+    {
+      "PRODUCT": "Payday loan, title loan, or personal loan",
+      "STATE": "IL",
+      "CNT": 1143
+    },
+    {
+      "PRODUCT": "Payday loan, title loan, or personal loan",
+      "STATE": "NY",
+      "CNT": 1098
+    },
+    {
+      "PRODUCT": "Payday loan, title loan, or personal loan",
+      "STATE": "VA",
+      "CNT": 1015
+    },
+    {
+      "PRODUCT": "Payday loan, title loan, or personal loan",
+      "STATE": "PA",
+      "CNT": 945
+    },
+    {
+      "PRODUCT": "Payday loan, title loan, or personal loan",
+      "STATE": "NC",
+      "CNT": 928
+    },
+    {
+      "PRODUCT": "Payday loan, title loan, or personal loan",
+      "STATE": "TN",
+      "CNT": 897
+    },
+    {
+      "PRODUCT": "Payday loan, title loan, or personal loan",
+      "STATE": "SC",
+      "CNT": 825
+    },
+    {
+      "PRODUCT": "Payday loan, title loan, personal loan, or advance loan",
+      "STATE": "TX",
+      "CNT": 4205
+    },
+    {
+      "PRODUCT": "Payday loan, title loan, personal loan, or advance loan",
+      "STATE": "CA",
+      "CNT": 3898
+    },
+    {
+      "PRODUCT": "Payday loan, title loan, personal loan, or advance loan",
+      "STATE": "FL",
+      "CNT": 3613
+    },
+    {
+      "PRODUCT": "Payday loan, title loan, personal loan, or advance loan",
+      "STATE": "GA",
+      "CNT": 2011
+    },
+    {
+      "PRODUCT": "Payday loan, title loan, personal loan, or advance loan",
+      "STATE": "NY",
+      "CNT": 1442
+    },
+    {
+      "PRODUCT": "Payday loan, title loan, personal loan, or advance loan",
+      "STATE": "OH",
+      "CNT": 1222
+    },
+    {
+      "PRODUCT": "Payday loan, title loan, personal loan, or advance loan",
+      "STATE": "NC",
+      "CNT": 1157
+    },
+    {
+      "PRODUCT": "Payday loan, title loan, personal loan, or advance loan",
+      "STATE": "IL",
+      "CNT": 1141
+    },
+    {
+      "PRODUCT": "Payday loan, title loan, personal loan, or advance loan",
+      "STATE": "PA",
+      "CNT": 1064
+    },
+    {
+      "PRODUCT": "Payday loan, title loan, personal loan, or advance loan",
+      "STATE": "NJ",
+      "CNT": 1002
+    },
+    {
+      "PRODUCT": "Payday loan, title loan, personal loan, or advance loan",
+      "STATE": "VA",
+      "CNT": 996
+    },
+    {
+      "PRODUCT": "Payday loan, title loan, personal loan, or advance loan",
+      "STATE": "TN",
+      "CNT": 931
+    },
+    {
+      "PRODUCT": "Prepaid card",
+      "STATE": "CA",
+      "CNT": 4455
+    },
+    {
+      "PRODUCT": "Prepaid card",
+      "STATE": "TX",
+      "CNT": 1642
+    },
+    {
+      "PRODUCT": "Prepaid card",
+      "STATE": "NY",
+      "CNT": 1610
+    },
+    {
+      "PRODUCT": "Prepaid card",
+      "STATE": "FL",
+      "CNT": 1314
+    },
+    {
+      "PRODUCT": "Prepaid card",
+      "STATE": "GA",
+      "CNT": 865
+    },
+    {
+      "PRODUCT": "Prepaid card",
+      "STATE": "NJ",
+      "CNT": 792
+    },
+    {
+      "PRODUCT": "Prepaid card",
+      "STATE": "IL",
+      "CNT": 759
+    },
+    {
+      "PRODUCT": "Prepaid card",
+      "STATE": "OH",
+      "CNT": 675
+    },
+    {
+      "PRODUCT": "Prepaid card",
+      "STATE": "PA",
+      "CNT": 669
+    },
+    {
+      "PRODUCT": "Prepaid card",
+      "STATE": "MI",
+      "CNT": 619
+    },
+    {
+      "PRODUCT": "Prepaid card",
+      "STATE": "NC",
+      "CNT": 575
+    },
+    {
+      "PRODUCT": "Prepaid card",
+      "STATE": "VA",
+      "CNT": 554
+    },
+    {
+      "PRODUCT": "Student loan",
+      "STATE": "CA",
+      "CNT": 13351
+    },
+    {
+      "PRODUCT": "Student loan",
+      "STATE": "NY",
+      "CNT": 9273
+    },
+    {
+      "PRODUCT": "Student loan",
+      "STATE": "TX",
+      "CNT": 9109
+    },
+    {
+      "PRODUCT": "Student loan",
+      "STATE": "FL",
+      "CNT": 8792
+    },
+    {
+      "PRODUCT": "Student loan",
+      "STATE": "PA",
+      "CNT": 6632
+    },
+    {
+      "PRODUCT": "Student loan",
+      "STATE": "GA",
+      "CNT": 6054
+    },
+    {
+      "PRODUCT": "Student loan",
+      "STATE": "IL",
+      "CNT": 5399
+    },
+    {
+      "PRODUCT": "Student loan",
+      "STATE": "OH",
+      "CNT": 4922
+    },
+    {
+      "PRODUCT": "Student loan",
+      "STATE": "NJ",
+      "CNT": 4529
+    },
+    {
+      "PRODUCT": "Student loan",
+      "STATE": "VA",
+      "CNT": 4224
+    },
+    {
+      "PRODUCT": "Student loan",
+      "STATE": "MI",
+      "CNT": 4044
+    },
+    {
+      "PRODUCT": "Student loan",
+      "STATE": "NC",
+      "CNT": 3936
+    },
+    {
+      "PRODUCT": "Vehicle loan or lease",
+      "STATE": "FL",
+      "CNT": 11094
+    },
+    {
+      "PRODUCT": "Vehicle loan or lease",
+      "STATE": "CA",
+      "CNT": 10767
+    },
+    {
+      "PRODUCT": "Vehicle loan or lease",
+      "STATE": "TX",
+      "CNT": 9660
+    },
+    {
+      "PRODUCT": "Vehicle loan or lease",
+      "STATE": "GA",
+      "CNT": 7009
+    },
+    {
+      "PRODUCT": "Vehicle loan or lease",
+      "STATE": "NY",
+      "CNT": 5295
+    },
+    {
+      "PRODUCT": "Vehicle loan or lease",
+      "STATE": "IL",
+      "CNT": 3823
+    },
+    {
+      "PRODUCT": "Vehicle loan or lease",
+      "STATE": "NC",
+      "CNT": 3622
+    },
+    {
+      "PRODUCT": "Vehicle loan or lease",
+      "STATE": "PA",
+      "CNT": 3599
+    },
+    {
+      "PRODUCT": "Vehicle loan or lease",
+      "STATE": "NJ",
+      "CNT": 3598
+    },
+    {
+      "PRODUCT": "Vehicle loan or lease",
+      "STATE": "OH",
+      "CNT": 3169
+    },
+    {
+      "PRODUCT": "Vehicle loan or lease",
+      "STATE": "MD",
+      "CNT": 2870
+    },
+    {
+      "PRODUCT": "Vehicle loan or lease",
+      "STATE": "VA",
+      "CNT": 2769
+    },
+    {
+      "PRODUCT": "Virtual currency",
+      "STATE": "MN",
+      "CNT": 6
+    },
+    {
+      "PRODUCT": "Virtual currency",
+      "STATE": "PA",
+      "CNT": 2
+    },
+    {
+      "PRODUCT": "Virtual currency",
+      "STATE": "NJ",
+      "CNT": 2
+    },
+    {
+      "PRODUCT": "Virtual currency",
+      "STATE": "IA",
+      "CNT": 1
+    },
+    {
+      "PRODUCT": "Virtual currency",
+      "STATE": "MA",
+      "CNT": 1
+    },
+    {
+      "PRODUCT": "Virtual currency",
+      "STATE": "AL",
+      "CNT": 1
+    },
+    {
+      "PRODUCT": "Virtual currency",
+      "STATE": "MD",
+      "CNT": 1
+    },
+    {
+      "PRODUCT": "Virtual currency",
+      "STATE": "FL",
+      "CNT": 1
+    },
+    {
+      "PRODUCT": "Virtual currency",
+      "STATE": "WA",
+      "CNT": 1
+    },
+    {
+      "PRODUCT": "Virtual currency",
+      "STATE": "VA",
+      "CNT": 1
+    }
+  ],
+  "response_by_product": [
+    {
+      "PRODUCT": "Bank account or service",
+      "COMPANY_RESPONSE": "Closed with explanation",
+      "CNT": 57057
+    },
+    {
+      "PRODUCT": "Bank account or service",
+      "COMPANY_RESPONSE": "Closed with monetary relief",
+      "CNT": 18200
+    },
+    {
+      "PRODUCT": "Bank account or service",
+      "COMPANY_RESPONSE": "Closed with non-monetary relief",
+      "CNT": 5317
+    },
+    {
+      "PRODUCT": "Bank account or service",
+      "COMPANY_RESPONSE": "Closed",
+      "CNT": 2392
+    },
+    {
+      "PRODUCT": "Bank account or service",
+      "COMPANY_RESPONSE": "Closed without relief",
+      "CNT": 1987
+    },
+    {
+      "PRODUCT": "Bank account or service",
+      "COMPANY_RESPONSE": "Closed with relief",
+      "CNT": 1216
+    },
+    {
+      "PRODUCT": "Bank account or service",
+      "COMPANY_RESPONSE": "Untimely response",
+      "CNT": 29
+    },
+    {
+      "PRODUCT": "Checking or savings account",
+      "COMPANY_RESPONSE": "Closed with explanation",
+      "CNT": 306052
+    },
+    {
+      "PRODUCT": "Checking or savings account",
+      "COMPANY_RESPONSE": "Closed with monetary relief",
+      "CNT": 57318
+    },
+    {
+      "PRODUCT": "Checking or savings account",
+      "COMPANY_RESPONSE": "Closed with non-monetary relief",
+      "CNT": 20136
+    },
+    {
+      "PRODUCT": "Checking or savings account",
+      "COMPANY_RESPONSE": "In progress",
+      "CNT": 3755
+    },
+    {
+      "PRODUCT": "Checking or savings account",
+      "COMPANY_RESPONSE": "Untimely response",
+      "CNT": 270
+    },
+    {
+      "PRODUCT": "Consumer Loan",
+      "COMPANY_RESPONSE": "Closed with explanation",
+      "CNT": 25606
+    },
+    {
+      "PRODUCT": "Consumer Loan",
+      "COMPANY_RESPONSE": "Closed with non-monetary relief",
+      "CNT": 2685
+    },
+    {
+      "PRODUCT": "Consumer Loan",
+      "COMPANY_RESPONSE": "Closed with monetary relief",
+      "CNT": 2092
+    },
+    {
+      "PRODUCT": "Consumer Loan",
+      "COMPANY_RESPONSE": "Closed",
+      "CNT": 682
+    },
+    {
+      "PRODUCT": "Consumer Loan",
+      "COMPANY_RESPONSE": "Closed without relief",
+      "CNT": 294
+    },
+    {
+      "PRODUCT": "Consumer Loan",
+      "COMPANY_RESPONSE": "Untimely response",
+      "CNT": 112
+    },
+    {
+      "PRODUCT": "Consumer Loan",
+      "COMPANY_RESPONSE": "Closed with relief",
+      "CNT": 88
+    },
+    {
+      "PRODUCT": "Credit card",
+      "COMPANY_RESPONSE": "Closed with explanation",
+      "CNT": 213389
+    },
+    {
+      "PRODUCT": "Credit card",
+      "COMPANY_RESPONSE": "Closed with non-monetary relief",
+      "CNT": 58450
+    },
+    {
+      "PRODUCT": "Credit card",
+      "COMPANY_RESPONSE": "Closed with monetary relief",
+      "CNT": 51426
+    },
+    {
+      "PRODUCT": "Credit card",
+      "COMPANY_RESPONSE": "Closed without relief",
+      "CNT": 4308
+    },
+    {
+      "PRODUCT": "Credit card",
+      "COMPANY_RESPONSE": "In progress",
+      "CNT": 3634
+    },
+    {
+      "PRODUCT": "Credit card",
+      "COMPANY_RESPONSE": "Closed with relief",
+      "CNT": 2528
+    },
+    {
+      "PRODUCT": "Credit card",
+      "COMPANY_RESPONSE": "Closed",
+      "CNT": 694
+    },
+    {
+      "PRODUCT": "Credit card",
+      "COMPANY_RESPONSE": "Untimely response",
+      "CNT": 297
+    },
+    {
+      "PRODUCT": "Credit card or prepaid card",
+      "COMPANY_RESPONSE": "Closed with explanation",
+      "CNT": 145713
+    },
+    {
+      "PRODUCT": "Credit card or prepaid card",
+      "COMPANY_RESPONSE": "Closed with monetary relief",
+      "CNT": 35719
+    },
+    {
+      "PRODUCT": "Credit card or prepaid card",
+      "COMPANY_RESPONSE": "Closed with non-monetary relief",
+      "CNT": 24800
+    },
+    {
+      "PRODUCT": "Credit card or prepaid card",
+      "COMPANY_RESPONSE": "Untimely response",
+      "CNT": 124
+    },
+    {
+      "PRODUCT": "Credit reporting",
+      "COMPANY_RESPONSE": "Closed with explanation",
+      "CNT": 100362
+    },
+    {
+      "PRODUCT": "Credit reporting",
+      "COMPANY_RESPONSE": "Closed with non-monetary relief",
+      "CNT": 38848
+    },
+    {
+      "PRODUCT": "Credit reporting",
+      "COMPANY_RESPONSE": "Closed with monetary relief",
+      "CNT": 758
+    },
+    {
+      "PRODUCT": "Credit reporting",
+      "COMPANY_RESPONSE": "Closed",
+      "CNT": 435
+    },
+    {
+      "PRODUCT": "Credit reporting",
+      "COMPANY_RESPONSE": "Untimely response",
+      "CNT": 23
+    },
+    {
+      "PRODUCT": "Credit reporting or other personal consumer reports",
+      "COMPANY_RESPONSE": "Closed with explanation",
+      "CNT": 6364640
+    },
+    {
+      "PRODUCT": "Credit reporting or other personal consumer reports",
+      "COMPANY_RESPONSE": "Closed with non-monetary relief",
+      "CNT": 4650219
+    },
+    {
+      "PRODUCT": "Credit reporting or other personal consumer reports",
+      "COMPANY_RESPONSE": "In progress",
+      "CNT": 587177
+    },
+    {
+      "PRODUCT": "Credit reporting or other personal consumer reports",
+      "COMPANY_RESPONSE": "Untimely response",
+      "CNT": 5781
+    },
+    {
+      "PRODUCT": "Credit reporting or other personal consumer reports",
+      "COMPANY_RESPONSE": "Closed with monetary relief",
+      "CNT": 2507
+    },
+    {
+      "PRODUCT": "Credit reporting, credit repair services, or other personal consumer reports",
+      "COMPANY_RESPONSE": "Closed with explanation",
+      "CNT": 1507051
+    },
+    {
+      "PRODUCT": "Credit reporting, credit repair services, or other personal consumer reports",
+      "COMPANY_RESPONSE": "Closed with non-monetary relief",
+      "CNT": 652125
+    },
+    {
+      "PRODUCT": "Credit reporting, credit repair services, or other personal consumer reports",
+      "COMPANY_RESPONSE": "Closed with monetary relief",
+      "CNT": 3279
+    },
+    {
+      "PRODUCT": "Credit reporting, credit repair services, or other personal consumer reports",
+      "COMPANY_RESPONSE": "Untimely response",
+      "CNT": 1312
+    },
+    {
+      "PRODUCT": "Debt collection",
+      "COMPANY_RESPONSE": "Closed with explanation",
+      "CNT": 910156
+    },
+    {
+      "PRODUCT": "Debt collection",
+      "COMPANY_RESPONSE": "Closed with non-monetary relief",
+      "CNT": 227559
+    },
+    {
+      "PRODUCT": "Debt collection",
+      "COMPANY_RESPONSE": "Untimely response",
+      "CNT": 12725
+    },
+    {
+      "PRODUCT": "Debt collection",
+      "COMPANY_RESPONSE": "In progress",
+      "CNT": 7565
+    },
+    {
+      "PRODUCT": "Debt collection",
+      "COMPANY_RESPONSE": "Closed",
+      "CNT": 7169
+    },
+    {
+      "PRODUCT": "Debt collection",
+      "COMPANY_RESPONSE": "Closed with monetary relief",
+      "CNT": 5497
+    },
+    {
+      "PRODUCT": "Debt or credit management",
+      "COMPANY_RESPONSE": "Closed with explanation",
+      "CNT": 7893
+    },
+    {
+      "PRODUCT": "Debt or credit management",
+      "COMPANY_RESPONSE": "Closed with non-monetary relief",
+      "CNT": 1022
+    },
+    {
+      "PRODUCT": "Debt or credit management",
+      "COMPANY_RESPONSE": "Untimely response",
+      "CNT": 390
+    },
+    {
+      "PRODUCT": "Debt or credit management",
+      "COMPANY_RESPONSE": "Closed with monetary relief",
+      "CNT": 353
+    },
+    {
+      "PRODUCT": "Debt or credit management",
+      "COMPANY_RESPONSE": "In progress",
+      "CNT": 194
+    },
+    {
+      "PRODUCT": "Money transfer, virtual currency, or money service",
+      "COMPANY_RESPONSE": "Closed with explanation",
+      "CNT": 168314
+    },
+    {
+      "PRODUCT": "Money transfer, virtual currency, or money service",
+      "COMPANY_RESPONSE": "Closed with monetary relief",
+      "CNT": 11134
+    },
+    {
+      "PRODUCT": "Money transfer, virtual currency, or money service",
+      "COMPANY_RESPONSE": "Closed with non-monetary relief",
+      "CNT": 6903
+    },
+    {
+      "PRODUCT": "Money transfer, virtual currency, or money service",
+      "COMPANY_RESPONSE": "In progress",
+      "CNT": 805
+    },
+    {
+      "PRODUCT": "Money transfer, virtual currency, or money service",
+      "COMPANY_RESPONSE": "Untimely response",
+      "CNT": 433
+    },
+    {
+      "PRODUCT": "Money transfers",
+      "COMPANY_RESPONSE": "Closed with explanation",
+      "CNT": 4397
+    },
+    {
+      "PRODUCT": "Money transfers",
+      "COMPANY_RESPONSE": "Closed with monetary relief",
+      "CNT": 664
+    },
+    {
+      "PRODUCT": "Money transfers",
+      "COMPANY_RESPONSE": "Closed with non-monetary relief",
+      "CNT": 232
+    },
+    {
+      "PRODUCT": "Money transfers",
+      "COMPANY_RESPONSE": "Closed",
+      "CNT": 61
+    },
+    {
+      "PRODUCT": "Mortgage",
+      "COMPANY_RESPONSE": "Closed with explanation",
+      "CNT": 402992
+    },
+    {
+      "PRODUCT": "Mortgage",
+      "COMPANY_RESPONSE": "Closed with non-monetary relief",
+      "CNT": 20842
+    },
+    {
+      "PRODUCT": "Mortgage",
+      "COMPANY_RESPONSE": "Closed with monetary relief",
+      "CNT": 12994
+    },
+    {
+      "PRODUCT": "Mortgage",
+      "COMPANY_RESPONSE": "Closed without relief",
+      "CNT": 10630
+    },
+    {
+      "PRODUCT": "Mortgage",
+      "COMPANY_RESPONSE": "Closed",
+      "CNT": 5686
+    },
+    {
+      "PRODUCT": "Mortgage",
+      "COMPANY_RESPONSE": "In progress",
+      "CNT": 1474
+    },
+    {
+      "PRODUCT": "Mortgage",
+      "COMPANY_RESPONSE": "Closed with relief",
+      "CNT": 1397
+    },
+    {
+      "PRODUCT": "Mortgage",
+      "COMPANY_RESPONSE": "Untimely response",
+      "CNT": 1165
+    },
+    {
+      "PRODUCT": "Other financial service",
+      "COMPANY_RESPONSE": "Closed with explanation",
+      "CNT": 840
+    },
+    {
+      "PRODUCT": "Other financial service",
+      "COMPANY_RESPONSE": "Closed with monetary relief",
+      "CNT": 121
+    },
+    {
+      "PRODUCT": "Other financial service",
+      "COMPANY_RESPONSE": "Closed with non-monetary relief",
+      "CNT": 40
+    },
+    {
+      "PRODUCT": "Other financial service",
+      "COMPANY_RESPONSE": "Closed",
+      "CNT": 39
+    },
+    {
+      "PRODUCT": "Other financial service",
+      "COMPANY_RESPONSE": "Untimely response",
+      "CNT": 16
+    },
+    {
+      "PRODUCT": "Payday loan",
+      "COMPANY_RESPONSE": "Closed with explanation",
+      "CNT": 4630
+    },
+    {
+      "PRODUCT": "Payday loan",
+      "COMPANY_RESPONSE": "Closed with monetary relief",
+      "CNT": 272
+    },
+    {
+      "PRODUCT": "Payday loan",
+      "COMPANY_RESPONSE": "Untimely response",
+      "CNT": 217
+    },
+    {
+      "PRODUCT": "Payday loan",
+      "COMPANY_RESPONSE": "Closed with non-monetary relief",
+      "CNT": 213
+    },
+    {
+      "PRODUCT": "Payday loan",
+      "COMPANY_RESPONSE": "Closed",
+      "CNT": 196
+    },
+    {
+      "PRODUCT": "Payday loan, title loan, or personal loan",
+      "COMPANY_RESPONSE": "Closed with explanation",
+      "CNT": 27208
+    },
+    {
+      "PRODUCT": "Payday loan, title loan, or personal loan",
+      "COMPANY_RESPONSE": "Closed with monetary relief",
+      "CNT": 1547
+    },
+    {
+      "PRODUCT": "Payday loan, title loan, or personal loan",
+      "COMPANY_RESPONSE": "Closed with non-monetary relief",
+      "CNT": 1521
+    },
+    {
+      "PRODUCT": "Payday loan, title loan, or personal loan",
+      "COMPANY_RESPONSE": "Untimely response",
+      "CNT": 338
+    },
+    {
+      "PRODUCT": "Payday loan, title loan, personal loan, or advance loan",
+      "COMPANY_RESPONSE": "Closed with explanation",
+      "CNT": 32275
+    },
+    {
+      "PRODUCT": "Payday loan, title loan, personal loan, or advance loan",
+      "COMPANY_RESPONSE": "Closed with non-monetary relief",
+      "CNT": 1345
+    },
+    {
+      "PRODUCT": "Payday loan, title loan, personal loan, or advance loan",
+      "COMPANY_RESPONSE": "Closed with monetary relief",
+      "CNT": 1179
+    },
+    {
+      "PRODUCT": "Payday loan, title loan, personal loan, or advance loan",
+      "COMPANY_RESPONSE": "Untimely response",
+      "CNT": 475
+    },
+    {
+      "PRODUCT": "Payday loan, title loan, personal loan, or advance loan",
+      "COMPANY_RESPONSE": "In progress",
+      "CNT": 450
+    },
+    {
+      "PRODUCT": "Prepaid card",
+      "COMPANY_RESPONSE": "Closed with explanation",
+      "CNT": 15685
+    },
+    {
+      "PRODUCT": "Prepaid card",
+      "COMPANY_RESPONSE": "Closed with monetary relief",
+      "CNT": 5034
+    },
+    {
+      "PRODUCT": "Prepaid card",
+      "COMPANY_RESPONSE": "Closed with non-monetary relief",
+      "CNT": 1603
+    },
+    {
+      "PRODUCT": "Prepaid card",
+      "COMPANY_RESPONSE": "In progress",
+      "CNT": 83
+    },
+    {
+      "PRODUCT": "Prepaid card",
+      "COMPANY_RESPONSE": "Untimely response",
+      "CNT": 79
+    },
+    {
+      "PRODUCT": "Prepaid card",
+      "COMPANY_RESPONSE": "Closed",
+      "CNT": 40
+    },
+    {
+      "PRODUCT": "Student loan",
+      "COMPANY_RESPONSE": "Closed with explanation",
+      "CNT": 113141
+    },
+    {
+      "PRODUCT": "Student loan",
+      "COMPANY_RESPONSE": "Untimely response",
+      "CNT": 7398
+    },
+    {
+      "PRODUCT": "Student loan",
+      "COMPANY_RESPONSE": "Closed with non-monetary relief",
+      "CNT": 6724
+    },
+    {
+      "PRODUCT": "Student loan",
+      "COMPANY_RESPONSE": "Closed with monetary relief",
+      "CNT": 2440
+    },
+    {
+      "PRODUCT": "Student loan",
+      "COMPANY_RESPONSE": "In progress",
+      "CNT": 1273
+    },
+    {
+      "PRODUCT": "Student loan",
+      "COMPANY_RESPONSE": "Closed without relief",
+      "CNT": 648
+    },
+    {
+      "PRODUCT": "Student loan",
+      "COMPANY_RESPONSE": "Closed",
+      "CNT": 216
+    },
+    {
+      "PRODUCT": "Student loan",
+      "COMPANY_RESPONSE": "Closed with relief",
+      "CNT": 75
+    },
+    {
+      "PRODUCT": "Vehicle loan or lease",
+      "COMPANY_RESPONSE": "Closed with explanation",
+      "CNT": 89982
+    },
+    {
+      "PRODUCT": "Vehicle loan or lease",
+      "COMPANY_RESPONSE": "Closed with non-monetary relief",
+      "CNT": 6486
+    },
+    {
+      "PRODUCT": "Vehicle loan or lease",
+      "COMPANY_RESPONSE": "Closed with monetary relief",
+      "CNT": 2940
+    },
+    {
+      "PRODUCT": "Vehicle loan or lease",
+      "COMPANY_RESPONSE": "In progress",
+      "CNT": 747
+    },
+    {
+      "PRODUCT": "Vehicle loan or lease",
+      "COMPANY_RESPONSE": "Untimely response",
+      "CNT": 493
+    },
+    {
+      "PRODUCT": "Virtual currency",
+      "COMPANY_RESPONSE": "Closed with explanation",
+      "CNT": 17
+    },
+    {
+      "PRODUCT": "Virtual currency",
+      "COMPANY_RESPONSE": "Closed",
+      "CNT": 1
+    }
+  ],
+  "channel_by_product": [
+    {
+      "PRODUCT": "Bank account or service",
+      "SUBMITTED_VIA": "Web",
+      "CNT": 40810
+    },
+    {
+      "PRODUCT": "Bank account or service",
+      "SUBMITTED_VIA": "Referral",
+      "CNT": 28656
+    },
+    {
+      "PRODUCT": "Bank account or service",
+      "SUBMITTED_VIA": "Phone",
+      "CNT": 11757
+    },
+    {
+      "PRODUCT": "Bank account or service",
+      "SUBMITTED_VIA": "Postal mail",
+      "CNT": 3725
+    },
+    {
+      "PRODUCT": "Bank account or service",
+      "SUBMITTED_VIA": "Fax",
+      "CNT": 1183
+    },
+    {
+      "PRODUCT": "Bank account or service",
+      "SUBMITTED_VIA": "Email",
+      "CNT": 67
+    },
+    {
+      "PRODUCT": "Checking or savings account",
+      "SUBMITTED_VIA": "Web",
+      "CNT": 296329
+    },
+    {
+      "PRODUCT": "Checking or savings account",
+      "SUBMITTED_VIA": "Referral",
+      "CNT": 55971
+    },
+    {
+      "PRODUCT": "Checking or savings account",
+      "SUBMITTED_VIA": "Phone",
+      "CNT": 29987
+    },
+    {
+      "PRODUCT": "Checking or savings account",
+      "SUBMITTED_VIA": "Postal mail",
+      "CNT": 4666
+    },
+    {
+      "PRODUCT": "Checking or savings account",
+      "SUBMITTED_VIA": "Fax",
+      "CNT": 569
+    },
+    {
+      "PRODUCT": "Checking or savings account",
+      "SUBMITTED_VIA": "Email",
+      "CNT": 9
+    },
+    {
+      "PRODUCT": "Consumer Loan",
+      "SUBMITTED_VIA": "Web",
+      "CNT": 23601
+    },
+    {
+      "PRODUCT": "Consumer Loan",
+      "SUBMITTED_VIA": "Referral",
+      "CNT": 3479
+    },
+    {
+      "PRODUCT": "Consumer Loan",
+      "SUBMITTED_VIA": "Phone",
+      "CNT": 2789
+    },
+    {
+      "PRODUCT": "Consumer Loan",
+      "SUBMITTED_VIA": "Postal mail",
+      "CNT": 1309
+    },
+    {
+      "PRODUCT": "Consumer Loan",
+      "SUBMITTED_VIA": "Fax",
+      "CNT": 359
+    },
+    {
+      "PRODUCT": "Consumer Loan",
+      "SUBMITTED_VIA": "Email",
+      "CNT": 22
+    },
+    {
+      "PRODUCT": "Credit card",
+      "SUBMITTED_VIA": "Web",
+      "CNT": 288488
+    },
+    {
+      "PRODUCT": "Credit card",
+      "SUBMITTED_VIA": "Referral",
+      "CNT": 23139
+    },
+    {
+      "PRODUCT": "Credit card",
+      "SUBMITTED_VIA": "Phone",
+      "CNT": 14421
+    },
+    {
+      "PRODUCT": "Credit card",
+      "SUBMITTED_VIA": "Postal mail",
+      "CNT": 7734
+    },
+    {
+      "PRODUCT": "Credit card",
+      "SUBMITTED_VIA": "Fax",
+      "CNT": 901
+    },
+    {
+      "PRODUCT": "Credit card",
+      "SUBMITTED_VIA": "Email",
+      "CNT": 43
+    },
+    {
+      "PRODUCT": "Credit card or prepaid card",
+      "SUBMITTED_VIA": "Web",
+      "CNT": 163480
+    },
+    {
+      "PRODUCT": "Credit card or prepaid card",
+      "SUBMITTED_VIA": "Referral",
+      "CNT": 18532
+    },
+    {
+      "PRODUCT": "Credit card or prepaid card",
+      "SUBMITTED_VIA": "Phone",
+      "CNT": 18272
+    },
+    {
+      "PRODUCT": "Credit card or prepaid card",
+      "SUBMITTED_VIA": "Postal mail",
+      "CNT": 5312
+    },
+    {
+      "PRODUCT": "Credit card or prepaid card",
+      "SUBMITTED_VIA": "Fax",
+      "CNT": 748
+    },
+    {
+      "PRODUCT": "Credit card or prepaid card",
+      "SUBMITTED_VIA": "Email",
+      "CNT": 12
+    },
+    {
+      "PRODUCT": "Credit reporting",
+      "SUBMITTED_VIA": "Web",
+      "CNT": 107504
+    },
+    {
+      "PRODUCT": "Credit reporting",
+      "SUBMITTED_VIA": "Postal mail",
+      "CNT": 18123
+    },
+    {
+      "PRODUCT": "Credit reporting",
+      "SUBMITTED_VIA": "Referral",
+      "CNT": 9604
+    },
+    {
+      "PRODUCT": "Credit reporting",
+      "SUBMITTED_VIA": "Phone",
+      "CNT": 3088
+    },
+    {
+      "PRODUCT": "Credit reporting",
+      "SUBMITTED_VIA": "Fax",
+      "CNT": 2085
+    },
+    {
+      "PRODUCT": "Credit reporting",
+      "SUBMITTED_VIA": "Email",
+      "CNT": 22
+    },
+    {
+      "PRODUCT": "Credit reporting or other personal consumer reports",
+      "SUBMITTED_VIA": "Web",
+      "CNT": 11577208
+    },
+    {
+      "PRODUCT": "Credit reporting or other personal consumer reports",
+      "SUBMITTED_VIA": "Phone",
+      "CNT": 17255
+    },
+    {
+      "PRODUCT": "Credit reporting or other personal consumer reports",
+      "SUBMITTED_VIA": "Postal mail",
+      "CNT": 11817
+    },
+    {
+      "PRODUCT": "Credit reporting or other personal consumer reports",
+      "SUBMITTED_VIA": "Referral",
+      "CNT": 4058
+    },
+    {
+      "PRODUCT": "Credit reporting, credit repair services, or other personal consumer reports",
+      "SUBMITTED_VIA": "Web",
+      "CNT": 2087815
+    },
+    {
+      "PRODUCT": "Credit reporting, credit repair services, or other personal consumer reports",
+      "SUBMITTED_VIA": "Phone",
+      "CNT": 36292
+    },
+    {
+      "PRODUCT": "Credit reporting, credit repair services, or other personal consumer reports",
+      "SUBMITTED_VIA": "Postal mail",
+      "CNT": 18596
+    },
+    {
+      "PRODUCT": "Credit reporting, credit repair services, or other personal consumer reports",
+      "SUBMITTED_VIA": "Referral",
+      "CNT": 12430
+    },
+    {
+      "PRODUCT": "Credit reporting, credit repair services, or other personal consumer reports",
+      "SUBMITTED_VIA": "Fax",
+      "CNT": 8602
+    },
+    {
+      "PRODUCT": "Credit reporting, credit repair services, or other personal consumer reports",
+      "SUBMITTED_VIA": "Email",
+      "CNT": 35
+    },
+    {
+      "PRODUCT": "Debt collection",
+      "SUBMITTED_VIA": "Web",
+      "CNT": 1108102
+    },
+    {
+      "PRODUCT": "Debt collection",
+      "SUBMITTED_VIA": "Phone",
+      "CNT": 26150
+    },
+    {
+      "PRODUCT": "Debt collection",
+      "SUBMITTED_VIA": "Referral",
+      "CNT": 17885
+    },
+    {
+      "PRODUCT": "Debt collection",
+      "SUBMITTED_VIA": "Postal mail",
+      "CNT": 14127
+    },
+    {
+      "PRODUCT": "Debt collection",
+      "SUBMITTED_VIA": "Fax",
+      "CNT": 4396
+    },
+    {
+      "PRODUCT": "Debt collection",
+      "SUBMITTED_VIA": "Email",
+      "CNT": 14
+    },
+    {
+      "PRODUCT": "Debt or credit management",
+      "SUBMITTED_VIA": "Web",
+      "CNT": 9470
+    },
+    {
+      "PRODUCT": "Debt or credit management",
+      "SUBMITTED_VIA": "Phone",
+      "CNT": 263
+    },
+    {
+      "PRODUCT": "Debt or credit management",
+      "SUBMITTED_VIA": "Postal mail",
+      "CNT": 61
+    },
+    {
+      "PRODUCT": "Debt or credit management",
+      "SUBMITTED_VIA": "Referral",
+      "CNT": 58
+    },
+    {
+      "PRODUCT": "Money transfer, virtual currency, or money service",
+      "SUBMITTED_VIA": "Web",
+      "CNT": 176161
+    },
+    {
+      "PRODUCT": "Money transfer, virtual currency, or money service",
+      "SUBMITTED_VIA": "Phone",
+      "CNT": 7719
+    },
+    {
+      "PRODUCT": "Money transfer, virtual currency, or money service",
+      "SUBMITTED_VIA": "Referral",
+      "CNT": 2859
+    },
+    {
+      "PRODUCT": "Money transfer, virtual currency, or money service",
+      "SUBMITTED_VIA": "Postal mail",
+      "CNT": 772
+    },
+    {
+      "PRODUCT": "Money transfer, virtual currency, or money service",
+      "SUBMITTED_VIA": "Fax",
+      "CNT": 76
+    },
+    {
+      "PRODUCT": "Money transfer, virtual currency, or money service",
+      "SUBMITTED_VIA": "Email",
+      "CNT": 2
+    },
+    {
+      "PRODUCT": "Money transfers",
+      "SUBMITTED_VIA": "Web",
+      "CNT": 3639
+    },
+    {
+      "PRODUCT": "Money transfers",
+      "SUBMITTED_VIA": "Phone",
+      "CNT": 1328
+    },
+    {
+      "PRODUCT": "Money transfers",
+      "SUBMITTED_VIA": "Referral",
+      "CNT": 199
+    },
+    {
+      "PRODUCT": "Money transfers",
+      "SUBMITTED_VIA": "Postal mail",
+      "CNT": 134
+    },
+    {
+      "PRODUCT": "Money transfers",
+      "SUBMITTED_VIA": "Fax",
+      "CNT": 54
+    },
+    {
+      "PRODUCT": "Mortgage",
+      "SUBMITTED_VIA": "Web",
+      "CNT": 311319
+    },
+    {
+      "PRODUCT": "Mortgage",
+      "SUBMITTED_VIA": "Referral",
+      "CNT": 87643
+    },
+    {
+      "PRODUCT": "Mortgage",
+      "SUBMITTED_VIA": "Phone",
+      "CNT": 32881
+    },
+    {
+      "PRODUCT": "Mortgage",
+      "SUBMITTED_VIA": "Postal mail",
+      "CNT": 19255
+    },
+    {
+      "PRODUCT": "Mortgage",
+      "SUBMITTED_VIA": "Fax",
+      "CNT": 5902
+    },
+    {
+      "PRODUCT": "Mortgage",
+      "SUBMITTED_VIA": "Email",
+      "CNT": 181
+    },
+    {
+      "PRODUCT": "Other financial service",
+      "SUBMITTED_VIA": "Web",
+      "CNT": 591
+    },
+    {
+      "PRODUCT": "Other financial service",
+      "SUBMITTED_VIA": "Referral",
+      "CNT": 178
+    },
+    {
+      "PRODUCT": "Other financial service",
+      "SUBMITTED_VIA": "Phone",
+      "CNT": 162
+    },
+    {
+      "PRODUCT": "Other financial service",
+      "SUBMITTED_VIA": "Postal mail",
+      "CNT": 102
+    },
+    {
+      "PRODUCT": "Other financial service",
+      "SUBMITTED_VIA": "Fax",
+      "CNT": 22
+    },
+    {
+      "PRODUCT": "Other financial service",
+      "SUBMITTED_VIA": "Email",
+      "CNT": 1
+    },
+    {
+      "PRODUCT": "Payday loan",
+      "SUBMITTED_VIA": "Web",
+      "CNT": 4977
+    },
+    {
+      "PRODUCT": "Payday loan",
+      "SUBMITTED_VIA": "Phone",
+      "CNT": 309
+    },
+    {
+      "PRODUCT": "Payday loan",
+      "SUBMITTED_VIA": "Referral",
+      "CNT": 142
+    },
+    {
+      "PRODUCT": "Payday loan",
+      "SUBMITTED_VIA": "Postal mail",
+      "CNT": 73
+    },
+    {
+      "PRODUCT": "Payday loan",
+      "SUBMITTED_VIA": "Fax",
+      "CNT": 27
+    },
+    {
+      "PRODUCT": "Payday loan, title loan, or personal loan",
+      "SUBMITTED_VIA": "Web",
+      "CNT": 24932
+    },
+    {
+      "PRODUCT": "Payday loan, title loan, or personal loan",
+      "SUBMITTED_VIA": "Phone",
+      "CNT": 2684
+    },
+    {
+      "PRODUCT": "Payday loan, title loan, or personal loan",
+      "SUBMITTED_VIA": "Referral",
+      "CNT": 2209
+    },
+    {
+      "PRODUCT": "Payday loan, title loan, or personal loan",
+      "SUBMITTED_VIA": "Postal mail",
+      "CNT": 576
+    },
+    {
+      "PRODUCT": "Payday loan, title loan, or personal loan",
+      "SUBMITTED_VIA": "Fax",
+      "CNT": 211
+    },
+    {
+      "PRODUCT": "Payday loan, title loan, or personal loan",
+      "SUBMITTED_VIA": "Email",
+      "CNT": 2
+    },
+    {
+      "PRODUCT": "Payday loan, title loan, personal loan, or advance loan",
+      "SUBMITTED_VIA": "Web",
+      "CNT": 32574
+    },
+    {
+      "PRODUCT": "Payday loan, title loan, personal loan, or advance loan",
+      "SUBMITTED_VIA": "Phone",
+      "CNT": 1890
+    },
+    {
+      "PRODUCT": "Payday loan, title loan, personal loan, or advance loan",
+      "SUBMITTED_VIA": "Referral",
+      "CNT": 898
+    },
+    {
+      "PRODUCT": "Payday loan, title loan, personal loan, or advance loan",
+      "SUBMITTED_VIA": "Postal mail",
+      "CNT": 362
+    },
+    {
+      "PRODUCT": "Prepaid card",
+      "SUBMITTED_VIA": "Web",
+      "CNT": 19155
+    },
+    {
+      "PRODUCT": "Prepaid card",
+      "SUBMITTED_VIA": "Phone",
+      "CNT": 2254
+    },
+    {
+      "PRODUCT": "Prepaid card",
+      "SUBMITTED_VIA": "Referral",
+      "CNT": 863
+    },
+    {
+      "PRODUCT": "Prepaid card",
+      "SUBMITTED_VIA": "Postal mail",
+      "CNT": 234
+    },
+    {
+      "PRODUCT": "Prepaid card",
+      "SUBMITTED_VIA": "Fax",
+      "CNT": 18
+    },
+    {
+      "PRODUCT": "Student loan",
+      "SUBMITTED_VIA": "Web",
+      "CNT": 121832
+    },
+    {
+      "PRODUCT": "Student loan",
+      "SUBMITTED_VIA": "Referral",
+      "CNT": 4148
+    },
+    {
+      "PRODUCT": "Student loan",
+      "SUBMITTED_VIA": "Phone",
+      "CNT": 4028
+    },
+    {
+      "PRODUCT": "Student loan",
+      "SUBMITTED_VIA": "Postal mail",
+      "CNT": 1616
+    },
+    {
+      "PRODUCT": "Student loan",
+      "SUBMITTED_VIA": "Fax",
+      "CNT": 280
+    },
+    {
+      "PRODUCT": "Student loan",
+      "SUBMITTED_VIA": "Email",
+      "CNT": 11
+    },
+    {
+      "PRODUCT": "Vehicle loan or lease",
+      "SUBMITTED_VIA": "Web",
+      "CNT": 88478
+    },
+    {
+      "PRODUCT": "Vehicle loan or lease",
+      "SUBMITTED_VIA": "Phone",
+      "CNT": 5973
+    },
+    {
+      "PRODUCT": "Vehicle loan or lease",
+      "SUBMITTED_VIA": "Referral",
+      "CNT": 4602
+    },
+    {
+      "PRODUCT": "Vehicle loan or lease",
+      "SUBMITTED_VIA": "Postal mail",
+      "CNT": 1382
+    },
+    {
+      "PRODUCT": "Vehicle loan or lease",
+      "SUBMITTED_VIA": "Fax",
+      "CNT": 211
+    },
+    {
+      "PRODUCT": "Vehicle loan or lease",
+      "SUBMITTED_VIA": "Email",
+      "CNT": 2
+    },
+    {
+      "PRODUCT": "Virtual currency",
+      "SUBMITTED_VIA": "Web",
+      "CNT": 18
     }
   ]
 }

@@ -341,6 +341,83 @@ def main() -> int:
         f"GROUP BY 1 ORDER BY 2 DESC LIMIT 8;",
     )
 
+    # ------------------------------------------------------------------
+    # Archive explorer — the full published history at month grain.
+    #
+    # The monthly_volume query above collapses fct_issue_daily_metrics to a
+    # single total per month, discarding product and issue. That left the
+    # application able to show 15 years of growth OR a product breakdown,
+    # never both, so the one chart with a story had nothing to drill into.
+    # These three queries keep the dimensions.
+    #
+    # Every row is a GROUP BY aggregate over the published population. No
+    # complaint_id, no per-record field.
+    # ------------------------------------------------------------------
+
+    # 1,667 rows at the time of writing (176 months x 21 product labels,
+    # sparse). Starts at the archive's true beginning rather than 2020:
+    # the whole point is the scale of the rise.
+    print("Querying monthly volume by product via CRI_APP_READER...")
+    monthly_product = run_query(
+        args.connection,
+        role_prefix +
+        f"SELECT DATE_TRUNC('month', METRIC_DATE)::DATE AS MONTH, PRODUCT, "
+        f"SUM(DAILY_COMPLAINT_COUNT) AS TOTAL "
+        f"FROM {schema}.FCT_ISSUE_DAILY_METRICS "
+        f"WHERE METRIC_DATE < DATE_TRUNC('month', CURRENT_DATE()) "
+        f"GROUP BY 1, 2 ORDER BY 1, 2;",
+    )
+
+    # Trailing 12 complete months against the 12 before them, per product x
+    # issue. This is what answers "what drove this product's change" without
+    # exporting a monthly series for all 346 product x issue pairs.
+    print("Querying product x issue movement via CRI_APP_READER...")
+    issue_movement = run_query(
+        args.connection,
+        role_prefix +
+        f"WITH bounds AS (SELECT DATE_TRUNC('month', CURRENT_DATE()) AS M0) "
+        f"SELECT PRODUCT, ISSUE, "
+        f"  SUM(CASE WHEN METRIC_DATE >= DATEADD(month, -12, M0) THEN DAILY_COMPLAINT_COUNT ELSE 0 END) AS CURRENT_12M, "
+        f"  SUM(CASE WHEN METRIC_DATE >= DATEADD(month, -24, M0) "
+        f"            AND METRIC_DATE <  DATEADD(month, -12, M0) THEN DAILY_COMPLAINT_COUNT ELSE 0 END) AS PRIOR_12M "
+        f"FROM {schema}.FCT_ISSUE_DAILY_METRICS, bounds "
+        f"WHERE METRIC_DATE < M0 "
+        f"GROUP BY 1, 2 "
+        f"HAVING CURRENT_12M > 0 OR PRIOR_12M > 0 "
+        f"ORDER BY CURRENT_12M DESC;",
+    )
+
+    # Policy trigger rates per product, so switching a rule off moves a
+    # population number rather than only re-filtering a demonstration sample.
+    # evaluated_count is the product's whole record count: every record is
+    # evaluated against every policy, and only the triggered ones land in
+    # policy_ids. Sourced from agent_case_context because it is the one mart
+    # carrying product, issue and policy_ids on the same row —
+    # int_priority_policy_application and resolution_action_queue are both
+    # keyed on complaint_id alone.
+    print("Querying policy trigger rates by product via CRI_APP_READER...")
+    policy_by_product = run_query(
+        args.connection,
+        role_prefix +
+        f"WITH ev AS ("
+        f"  SELECT PRODUCT, COUNT(*) AS EVALUATED_COUNT "
+        f"  FROM {schema}.AGENT_CASE_CONTEXT GROUP BY 1"
+        f"), tr AS ("
+        f"  SELECT a.PRODUCT, f.VALUE::string AS POLICY_ID, COUNT(*) AS TRIGGERED_COUNT "
+        f"  FROM {schema}.AGENT_CASE_CONTEXT a, LATERAL FLATTEN(input => a.POLICY_IDS) f "
+        f"  GROUP BY 1, 2"
+        f") SELECT tr.PRODUCT, tr.POLICY_ID, tr.TRIGGERED_COUNT, ev.EVALUATED_COUNT "
+        f"FROM tr JOIN ev ON ev.PRODUCT = tr.PRODUCT "
+        f"ORDER BY tr.PRODUCT, tr.POLICY_ID;",
+    )
+
+    archive = {
+        "generated_at_utc": meta["generated_at_utc"],
+        "monthly_product_volume": monthly_product,
+        "product_issue_movement": issue_movement,
+        "policy_by_product": policy_by_product,
+    }
+
     ledger = {
         "generated_at_utc": meta["generated_at_utc"],
         "totals": totals[0] if totals else None,
@@ -360,10 +437,13 @@ def main() -> int:
     (out_dir / "operations_overview_metrics.json").write_text(json.dumps(metrics, indent=2, default=str))
     (out_dir / "export_meta.json").write_text(json.dumps(meta, indent=2))
     (out_dir / "ledger_exhibits.json").write_text(json.dumps(ledger, indent=2, default=str))
+    (out_dir / "archive_explorer.json").write_text(json.dumps(archive, indent=2, default=str))
 
     print()
     print(f"Wrote {len(case_context)} case-context rows, {len(metrics)} metric rows, "
-          f"and the ledger exhibits to {out_dir}")
+          f"the ledger exhibits, and the archive explorer "
+          f"({len(monthly_product)} month x product, {len(issue_movement)} product x issue, "
+          f"{len(policy_by_product)} product x policy) to {out_dir}")
     print()
     print("=" * 70)
     print("MANUAL REVIEW REQUIRED — read every column name below against")

@@ -1,48 +1,39 @@
 "use client";
 
 /**
- * Explore — a connected, URL-addressable decision workspace.
+ * Explore — the published archive, drilled.
  *
- * One screen, no page scroll. Every surface reads the same typed filter
- * state, and that state lives in the address bar, so a click and a pasted
- * link produce the same view by the same route.
+ * The surface leads with the population that actually has a story: 176
+ * months, 2011-12 to 2026-07, ~16.9M published complaints. Everything else
+ * on the screen drills into that curve rather than switching to a separate,
+ * thinner view.
  *
- * Three populations share this screen and are never blended:
+ * Why monthly and why families: the daily product series this page used to
+ * lead with is dominated by the working week (Sunday averages 6,328 against
+ * 26,571 on a Wednesday), so a daily line mostly draws the calendar. And the
+ * CFPB renamed its product taxonomy in 2017 and 2023, so a 15-year chart on
+ * raw labels shows every category dying and being reborn. Month grain plus
+ * the families in product-families.ts fix both.
  *
- *   Archive        17.1M records, 2020–2026, from ledger_exhibits.
- *                  Monthly totals only. Powers the growth curve and the
- *                  population trigger rates.
- *   Metric views   operations_overview_metrics: daily × product across six
- *                  months. Powers the KPIs, every chart mode, the readout.
- *                  This is the only population that cross-filters.
- *   Sample         300 stratified records for illustration. Displayed, never
- *                  counted, ranked, or prioritized from.
- *
- * `product` is the only dimension the metric series and the record sample
- * share, so it is the only cross-filtering key. `focus` names a date on the
- * metric series and deliberately does not reach the sample: those records
- * land on two received dates, so a date filter over them would be a
- * interaction that looks like filtering and is not.
+ * The rules rail is a real population instrument here: switching a rule off
+ * changes how many of the archive's records reach a rule, per family, from
+ * policy_by_product. The 300-row sample remains illustration only — it is
+ * displayed, never counted, ranked or prioritized from.
  */
 
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
 import { TrendChart } from "@/components/ui/TrendChart";
 import { Chip, ConfidenceChip, PriorityChip } from "@/components/ui/Primitives";
-import { RankedBars, Slopegraph, SmallMultiples } from "./MetricCharts";
+import { FamilyGrowthTable, FamilyMultiples } from "./FamilyViews";
 import { ModelLensRail } from "./ModelLens";
 import { VirtualList } from "./VirtualList";
 import { ModelDrawer, RecordDrawer, RecordDrawerSkeleton } from "./EvidenceDrawer";
-import type {
-  ComplaintRecordContext,
-  LedgerExhibits,
-  MetricBundle,
-  SampleRecordIndexRow,
-} from "@/lib/types";
+import type { ArchiveExplorer, ComplaintRecordContext, SampleRecordIndexRow } from "@/lib/types";
 import {
+  ARCHIVE_VIEWS,
   CHART_MODES,
   type DashboardFilters,
   DEFAULT_FILTERS,
-  PERIODS,
   RULE_IDS,
   type RuleId,
   isDefaultFilters,
@@ -52,28 +43,17 @@ import {
 import { useDashboardFilters } from "@/lib/use-filters";
 import { findModel } from "@/lib/model-registry";
 import type { SurfaceId } from "@/lib/model-registry";
+import { TAXONOMY_CHANGES, familyById } from "@/lib/product-families";
 import {
-  METRIC_LABELS,
-  buildReadout,
-  buildWindowView,
-  dimensionMovements,
-  formatCompact,
-  formatDate,
-  formatMonth,
-  formatPct,
-  formatRange,
-  nextStepFor,
-  seriesPoints,
-  titleize,
-  valueOn,
-} from "@/lib/analytics";
-
-const GROWTH_SPANS = [
-  { months: 12, label: "1y" },
-  { months: 36, label: "3y" },
-  { months: 60, label: "5y" },
-  { months: 0, label: "All" },
-];
+  archiveMonths,
+  archiveTotals,
+  cumulative,
+  familySeries,
+  inflections,
+  issueContributions,
+  policyRatesFor,
+} from "@/lib/archive-analytics";
+import { formatCompact, formatMonth, formatPct, nextStepFor } from "@/lib/analytics";
 
 const POLICY_LABEL: Record<RuleId, string> = {
   POLICY_UNTIMELY_RESPONSE: "Untimely response",
@@ -91,10 +71,6 @@ const POLICY_NOTE: Record<RuleId, string> = {
   POLICY_CRITICAL_COMBINATION: "Two independent signals agreed",
 };
 
-/** Products shown at once in ranked, slope and small-multiple modes. */
-const TOP_N = 8;
-
-/** Must match the .sample-row height in globals.css — see VirtualList. */
 const SAMPLE_ROW_HEIGHT = 104;
 
 function Switch({
@@ -124,13 +100,13 @@ function Switch({
   );
 }
 
-function Segmented<T extends string | number>({
+function Segmented<T extends string>({
   options,
   value,
   onChange,
   label,
 }: {
-  options: { value: T; label: string; title?: string }[];
+  options: { value: T; label: string; help?: string }[];
   value: T;
   onChange: (v: T) => void;
   label: string;
@@ -139,10 +115,10 @@ function Segmented<T extends string | number>({
     <div className="segmented" role="group" aria-label={label}>
       {options.map((o) => (
         <button
-          key={String(o.value)}
+          key={o.value}
           type="button"
           aria-pressed={value === o.value}
-          title={o.title}
+          title={o.help}
           onClick={() => onChange(o.value)}
         >
           {o.label}
@@ -152,149 +128,88 @@ function Segmented<T extends string | number>({
   );
 }
 
+/** Trailing 12 months of a curve, allowing for the cumulative view's carry. */
+function lastTwelve(points: { value: number }[], view: string): number {
+  if (points.length === 0) return 0;
+  if (view === "cumulative") {
+    const end = points[points.length - 1].value;
+    const start = points[Math.max(points.length - 13, 0)].value;
+    return end - start;
+  }
+  return points.slice(-12).reduce((s, p) => s + p.value, 0);
+}
+
 export function ExploreWorkspace({
   initialFilters,
-  bundle,
-  ledger,
+  archive,
   sampleIndex,
   sampleRecord,
-  lagDays,
 }: {
   initialFilters: DashboardFilters;
-  bundle: MetricBundle;
-  ledger: LedgerExhibits | null;
+  archive: ArchiveExplorer | null;
   sampleIndex: SampleRecordIndexRow[];
   sampleRecord: ComplaintRecordContext | null;
-  lagDays: number;
 }) {
   const { filters, set, reset, pending } = useDashboardFilters(initialFilters, DEFAULT_FILTERS);
-  const {
-    product, measure, period, compare, hideRecentIncompleteDays, selectedRules, chartMode, focus, item,
-  } = filters;
+  const { family: familyId, view, selectedRules, chartMode, focus, item } = filters;
 
-  const measureNames = useMemo(() => Object.keys(bundle), [bundle]);
-  const series = bundle[measure] ?? bundle[DEFAULT_FILTERS.measure];
-  const products = series?.dimensions ?? [];
-  const activeProduct = product && products.includes(product) ? product : null;
-  const measureLabel = METRIC_LABELS[measure] ?? titleize(measure);
+  const rows = useMemo(() => archive?.monthlyProductVolume ?? [], [archive]);
+  const months = useMemo(() => archiveMonths(rows), [rows]);
+  const families = useMemo(() => familySeries(rows, months), [rows, months]);
+  const activeFamily = familyById(familyId);
+  const activeSeries = families.find((f) => f.family.id === familyId) ?? null;
 
-  /* ---------------- metric views ---------------------------------- */
+  /* ---------------- the archive curve ------------------------------ */
 
-  const view = useMemo(
-    () =>
-      buildWindowView(seriesPoints(series, activeProduct), {
-        periodDays: period,
-        lagDays,
-        hideLag: hideRecentIncompleteDays,
-        compare,
-      }),
-    [series, activeProduct, period, lagDays, hideRecentIncompleteDays, compare],
+  const baseCurve = useMemo(
+    () => (activeSeries ? activeSeries.points : archiveTotals(rows, months)),
+    [activeSeries, rows, months],
+  );
+  const curve = useMemo(
+    () => (view === "cumulative" ? cumulative(baseCurve) : baseCurve),
+    [baseCurve, view],
+  );
+  const moves = useMemo(() => (view === "volume" ? inflections(baseCurve) : []), [view, baseCurve]);
+
+  const archiveTotal = useMemo(() => rows.reduce((s, r) => s + r.total, 0), [rows]);
+  const scopeTotal = activeSeries ? activeSeries.total : archiveTotal;
+  const peak = useMemo(
+    () => (baseCurve.length > 0 ? baseCurve.reduce((b, p) => (p.value > b.value ? p : b), baseCurve[0]) : null),
+    [baseCurve],
   );
 
-  const movements = useMemo(
-    () =>
-      dimensionMovements(series, {
-        periodDays: period,
-        lagDays,
-        hideLag: hideRecentIncompleteDays,
-      }),
-    [series, period, lagDays, hideRecentIncompleteDays],
+  const focusPoint = focus ? (curve.find((p) => p.date.slice(0, 7) === focus) ?? null) : null;
+
+  /* ---------------- what drove the change -------------------------- */
+
+  const contributions = useMemo(
+    () => issueContributions(archive?.productIssueMovement ?? [], activeFamily),
+    [archive, activeFamily],
   );
 
-  const topMovements = movements.slice(0, TOP_N);
+  /* ---------------- rules as a population instrument --------------- */
 
-  const multiples = useMemo(
-    () =>
-      topMovements.map((m) => {
-        const v = buildWindowView(seriesPoints(series, m.dimension), {
-          periodDays: period,
-          lagDays,
-          hideLag: hideRecentIncompleteDays,
-          compare: false,
-        });
-        return {
-          dimension: m.dimension,
-          points: v.points,
-          total: m.current,
-          changePct: m.changePct,
-        };
-      }),
-    [topMovements, series, period, lagDays, hideRecentIncompleteDays],
+  const policyRates = useMemo(
+    () => policyRatesFor(archive?.policyByProduct ?? [], activeFamily),
+    [archive, activeFamily],
   );
 
-  /** The other measure's total for the same window — never the sample's. */
-  const companionMeasure = measure === "complaint_volume" ? "emerging_issue_count" : "complaint_volume";
-  const companion = useMemo(() => {
-    const other = bundle[companionMeasure];
-    if (!other) return null;
-    const v = buildWindowView(seriesPoints(other, activeProduct), {
-      periodDays: period,
-      lagDays,
-      hideLag: hideRecentIncompleteDays,
-      compare: false,
-    });
-    return { total: v.total, label: METRIC_LABELS[companionMeasure] ?? titleize(companionMeasure) };
-  }, [bundle, companionMeasure, activeProduct, period, lagDays, hideRecentIncompleteDays]);
+  const rateById = useMemo(() => new Map(policyRates.map((r) => [r.policyId, r])), [policyRates]);
+  const evaluated = policyRates[0]?.evaluated ?? 0;
 
-  const focusValue = focus ? valueOn(series, activeProduct, focus) : null;
+  // The headline the switches move. Summing triggers would double-count a
+  // record that fired two policies, so this is an upper bound and says so.
+  const flaggedUpperBound = selectedRules.reduce((s, id) => s + (rateById.get(id)?.triggered ?? 0), 0);
 
-  const windowLabel =
-    view.points.length > 0
-      ? formatRange(view.points[0].date, view.points[view.points.length - 1].date)
-      : "No data in this selection";
-
-  const readout = useMemo(
-    () =>
-      buildReadout({
-        measureLabel,
-        product: activeProduct,
-        productCount: products.length,
-        windowDays: period > 0 ? period : view.points.length,
-        total: view.total,
-        changePct: view.comparison?.changePct ?? null,
-        hasComparison: Boolean(view.comparison),
-        topShare:
-          !activeProduct && movements.length > 0
-            ? { label: movements[0].dimension, share: movements[0].share }
-            : null,
-        peak: view.peak,
-        dailyAverage: view.dailyAverage,
-        focus: focus ? { date: focus, value: focusValue } : null,
-        signalDays: measure === "complaint_volume" ? (companion?.total ?? null) : null,
-      }),
-    [measureLabel, activeProduct, products.length, period, view, movements, focus, focusValue, measure, companion],
-  );
-
-  /* ---------------- archive growth (population) -------------------- */
-
-  const [span, setSpan] = useState(0);
-  const growth = useMemo(() => {
-    const months = ledger?.monthlyVolume ?? [];
-    if (months.length === 0) return null;
-    const points = months.map((m) => ({ date: `${m.month}-01`, value: m.total }));
-    return {
-      points: span > 0 ? points.slice(-span) : points,
-      first: months[0],
-      last: months[months.length - 1],
-      multiple: months[0].total > 0 ? months[months.length - 1].total / months[0].total : null,
-    };
-  }, [ledger, span]);
-
-  /* ---------------- illustrative sample (never counted) ------------ */
-
-  const ruleRates = useMemo(() => {
-    const byId = new Map((ledger?.policyTriggerRates ?? []).map((r) => [r.policyId, r]));
-    return RULE_IDS.map((id) => ({ id, rate: byId.get(id) ?? null }));
-  }, [ledger]);
+  /* ---------------- illustrative sample (display only) ------------- */
 
   const sampleRows = useMemo(() => {
     const on = new Set(selectedRules);
+    const members = activeFamily ? new Set(activeFamily.members) : null;
     return sampleIndex.filter(
-      (r) =>
-        r.policyIds.some((p) => on.has(p as RuleId)) &&
-        (!activeProduct || r.product === activeProduct),
+      (r) => r.policyIds.some((p) => on.has(p as RuleId)) && (!members || members.has(r.product)),
     );
-  }, [sampleIndex, selectedRules, activeProduct]);
+  }, [sampleIndex, selectedRules, activeFamily]);
 
   /* ---------------- model lens ------------------------------------- */
 
@@ -316,62 +231,51 @@ export function ExploreWorkspace({
     });
   }
 
-  const changeDir =
-    view.comparison?.changePct == null || Math.abs(view.comparison.changePct) < 0.02
-      ? "flat"
-      : view.comparison.changePct > 0
-        ? "up"
-        : "down";
+  const scopeLabel = activeFamily ? activeFamily.label : "every product";
+  const first = months[0];
+  const last = months[months.length - 1];
+
+  // Deliberately not "last month over first month". The archive's first
+  // month holds 2,536 records because the programme had just launched, so
+  // that ratio reports the launch, not the growth. The share of the whole
+  // archive that arrived in the last twelve months needs no baseline at all.
+  const recent12m = activeSeries ? activeSeries.recent12m : lastTwelve(baseCurve, "volume");
+  const recentShare = scopeTotal > 0 ? recent12m / scopeTotal : null;
 
   return (
     <div className={`dash-shell${item ? " has-drawer" : ""}`}>
       {/* ===================== filter bar ===================== */}
       <div className="dash-bar">
         <label className="db-field">
-          <span>Measure</span>
-          <select value={measure} onChange={(e) => set({ measure: e.target.value, focus: null })}>
-            {measureNames.map((n) => (
-              <option key={n} value={n}>
-                {METRIC_LABELS[n] ?? titleize(n)}
-              </option>
-            ))}
-          </select>
-        </label>
-
-        <label className="db-field">
-          <span>Product</span>
-          <select
-            value={activeProduct ?? ""}
-            onChange={(e) => set({ product: e.target.value || null })}
-          >
-            <option value="">All {products.length} products</option>
-            {products.map((d) => (
-              <option key={d} value={d}>
-                {d}
+          <span>Product family</span>
+          <select value={familyId ?? ""} onChange={(e) => set({ family: e.target.value || null })}>
+            <option value="">Every product ({families.length} families)</option>
+            {families.map((f) => (
+              <option key={f.family.id} value={f.family.id}>
+                {f.family.label}
               </option>
             ))}
           </select>
         </label>
 
         <div className="db-field">
-          <span>Period</span>
-          <Segmented
-            label="Time period"
-            options={PERIODS.map((d) => ({ value: d, label: d === 0 ? "All" : `${d}d` }))}
-            value={period}
-            onChange={(d) => set({ period: d, focus: null })}
-          />
+          <span>Curve</span>
+          <Segmented label="Archive view" options={ARCHIVE_VIEWS} value={view} onChange={(v) => set({ view: v })} />
         </div>
 
         <span className="db-spacer" />
 
         <div className="db-chips">
           {focus && (
-            <button type="button" className="chip chip-accent is-clearable" onClick={() => set({ focus: null })}>
-              Focus {formatDate(focus)} ✕
+            <button
+              type="button"
+              className="chip chip-accent is-clearable"
+              onClick={() => set({ focus: null })}
+            >
+              {formatMonth(`${focus}-01`)} ✕
             </button>
           )}
-          {!hideRecentIncompleteDays && <Chip tone="caution">Incomplete days included</Chip>}
+          {activeFamily?.note && <Chip tone="caution">Taxonomy caveat</Chip>}
           {selectedRules.length < RULE_IDS.length && (
             <Chip tone="caution">
               {selectedRules.length} of {RULE_IDS.length} rules on
@@ -393,53 +297,53 @@ export function ExploreWorkspace({
             onSelect={(name) => set({ item: name ? `model:${name}` : null })}
           />
         ) : (
-          <aside className={`dpanel dash-rail${surfaceClass("rules")}`} aria-label="Rules and options">
+          <aside className={`dpanel dash-rail${surfaceClass("rules")}`} aria-label="Decision rules">
             <div className="dpanel-head">
               <div>
-                <h2 className="dpanel-title">Rules in this view</h2>
-                <p className="dpanel-sub">Trigger rates across all 17.1M published records</p>
+                <h2 className="dpanel-title">Decision rules</h2>
+                <p className="dpanel-sub">Trigger rates within {scopeLabel}</p>
               </div>
             </div>
             <div className="dpanel-body">
-              {ruleRates.map(({ id, rate }) => (
-                <Switch
-                  key={id}
-                  checked={selectedRules.includes(id)}
-                  onChange={() => toggleRule(id)}
-                  name={POLICY_LABEL[id]}
-                  meta={
-                    <>
-                      {POLICY_NOTE[id]}
-                      {rate?.triggerRate != null && (
-                        <>
-                          {" · fires on "}
-                          <span className="switch-count">{formatPct(rate.triggerRate)}</span>
-                          {" of the archive"}
-                        </>
-                      )}
-                    </>
-                  }
-                />
-              ))}
+              <div className="rule-headline">
+                <div className="rule-headline-value">{formatCompact(flaggedUpperBound)}</div>
+                <div className="rule-headline-label">
+                  records reach a rule that is switched on, out of {formatCompact(evaluated)} in{" "}
+                  {scopeLabel}
+                </div>
+                <div className="rule-headline-note">
+                  Upper bound — a record triggering two rules is counted under both.
+                </div>
+              </div>
 
-              <h3 className="rail-head">Chart options</h3>
-              <Switch
-                checked={compare}
-                onChange={() => set({ compare: !compare })}
-                name="Compare with previous period"
-                meta="Adds the previous window to trend, ranked and slope"
-              />
-              <Switch
-                checked={hideRecentIncompleteDays}
-                onChange={() => set({ hideRecentIncompleteDays: !hideRecentIncompleteDays })}
-                name="Hide incomplete recent days"
-                meta={`Last ${lagDays} days are still publishing`}
-              />
+              {RULE_IDS.map((id) => {
+                const rate = rateById.get(id);
+                return (
+                  <Switch
+                    key={id}
+                    checked={selectedRules.includes(id)}
+                    onChange={() => toggleRule(id)}
+                    name={POLICY_LABEL[id]}
+                    meta={
+                      <>
+                        {POLICY_NOTE[id]}
+                        {rate?.rate != null && (
+                          <>
+                            {" · "}
+                            <span className="switch-count">{formatPct(rate.rate)}</span>
+                            {` (${formatCompact(rate.triggered)})`}
+                          </>
+                        )}
+                      </>
+                    }
+                  />
+                );
+              })}
 
               <button
                 type="button"
                 className="rail-link"
-                onClick={() => set({ item: "model:operations_overview_metrics" })}
+                onClick={() => set({ item: "model:fct_issue_daily_metrics" })}
               >
                 Open Model Lens
               </button>
@@ -451,128 +355,101 @@ export function ExploreWorkspace({
         <div className="dash-col dash-center">
           <div className={`dash-kpis${surfaceClass("kpis")}`}>
             <div className="dkpi">
-              <div className="dkpi-label">{measureLabel}</div>
-              <div className="dkpi-value">{Math.round(view.total).toLocaleString()}</div>
-              <div className="dkpi-foot" title={windowLabel}>{windowLabel}</div>
-            </div>
-            <div className="dkpi">
-              <div className="dkpi-label">Daily average</div>
-              <div className="dkpi-value">{Math.round(view.dailyAverage).toLocaleString()}</div>
-              <div className="dkpi-foot">Across {view.points.length} days</div>
-            </div>
-            <div className="dkpi">
-              <div className="dkpi-label">vs previous period</div>
-              <div className={`dkpi-value is-${changeDir}`}>
-                {view.comparison ? formatPct(view.comparison.changePct, { signed: true }) : "—"}
-              </div>
+              <div className="dkpi-label">Complaints published</div>
+              <div className="dkpi-value">{scopeTotal.toLocaleString()}</div>
               <div className="dkpi-foot">
-                {view.comparison ? "Like-for-like windows" : "Too little history to compare"}
+                {first && last ? `${formatMonth(`${first}-01`)} – ${formatMonth(`${last}-01`)}` : "—"}
               </div>
             </div>
             <div className="dkpi">
-              <div className="dkpi-label">{focus ? "Focused day" : (companion?.label ?? "Products")}</div>
+              <div className="dkpi-label">Last 12 months</div>
               <div className="dkpi-value">
-                {focus
-                  ? focusValue == null
-                    ? "—"
-                    : Math.round(focusValue).toLocaleString()
-                  : Math.round(companion?.total ?? products.length).toLocaleString()}
+                {formatCompact(recent12m)}
               </div>
               <div className="dkpi-foot">
-                {focus ? formatDate(focus) : "Same window and product"}
+                {activeSeries?.changePct != null
+                  ? `${formatPct(activeSeries.changePct, { signed: true })} vs the 12 before`
+                  : "Complete months only"}
+              </div>
+            </div>
+            <div className="dkpi">
+              <div className="dkpi-label">Busiest month</div>
+              <div className="dkpi-value">{peak ? formatCompact(peak.value) : "—"}</div>
+              <div className="dkpi-foot">{peak ? formatMonth(peak.date) : "—"}</div>
+            </div>
+            <div className="dkpi">
+              <div className="dkpi-label">Arrived in the last year</div>
+              <div className="dkpi-value">{recentShare == null ? "—" : formatPct(recentShare)}</div>
+              <div className="dkpi-foot">
+                {activeSeries
+                  ? `${formatPct(activeSeries.share)} of the whole archive is ${activeFamily?.label ?? ""}`
+                  : "of everything published since 2011"}
               </div>
             </div>
           </div>
 
-          <section className={`dpanel${surfaceClass("metric-chart")}`} data-surface="metric-chart">
+          <section className={`dpanel${surfaceClass("archive-growth")}`} data-surface="archive-growth">
             <div className="dpanel-head">
               <div>
                 <h2 className="dpanel-title">
-                  {measureLabel}
-                  {activeProduct ? ` · ${activeProduct}` : " · all products"}
+                  {activeFamily ? activeFamily.label : "Every complaint ever published"}
+                  {view === "cumulative" ? " · running total" : " · per month"}
                 </h2>
                 <p className="dpanel-sub">
-                  {view.points.length === 0
-                    ? "No data in this selection"
-                    : chartMode === "trend"
-                      ? `${windowLabel}${view.priorAligned ? ", against the period before it" : ""}. Click a point to focus it.`
-                      : `${windowLabel} · top ${Math.min(TOP_N, movements.length)} products · click to filter everything`}
+                  {first && last
+                    ? `${formatMonth(`${first}-01`)} to ${formatMonth(`${last}-01`)} · ${scopeTotal.toLocaleString()} records · click a month to pin it`
+                    : "No archive data in this build"}
+                </p>
+              </div>
+            </div>
+            <div className="dpanel-body is-chart">
+              <TrendChart
+                points={curve}
+                seriesLabel={view === "cumulative" ? "Published to date" : "Published that month"}
+                labelMode="month"
+                showPeak={view === "volume"}
+                focusDate={focusPoint?.date ?? null}
+                onSelectPoint={(date) => set({ focus: date.slice(0, 7) === focus ? null : date.slice(0, 7) })}
+                markers={TAXONOMY_CHANGES.map((t) => ({ date: `${t.month}-01`, label: t.label }))}
+                emptyMessage="The archive export has not been generated in this build."
+              />
+            </div>
+            {(moves.length > 0 || activeFamily?.note) && (
+              <div className="chart-annotations">
+                {activeFamily?.note && <p className="chart-caveat">{activeFamily.note}</p>}
+                {moves.map((m) => (
+                  <p key={m.date} className="chart-move">
+                    <strong>{formatMonth(m.date)}</strong> {m.label} — {m.previous.toLocaleString()} to{" "}
+                    {m.value.toLocaleString()}. The archive records what moved, not why.
+                  </p>
+                ))}
+              </div>
+            )}
+          </section>
+
+          <section className={`dpanel${surfaceClass("metric-chart")}`} data-surface="metric-chart">
+            <div className="dpanel-head">
+              <div>
+                <h2 className="dpanel-title">Which categories are growing</h2>
+                <p className="dpanel-sub">
+                  All {families.length} families across the same 15 years · click one to filter everything
                 </p>
               </div>
               <div className="dpanel-tools">
                 <Segmented
-                  label="Chart mode"
-                  options={CHART_MODES.map((m) => ({ value: m.value, label: m.label, title: m.help }))}
+                  label="Comparison mode"
+                  options={CHART_MODES}
                   value={chartMode}
                   onChange={(v) => set({ chartMode: v })}
                 />
               </div>
             </div>
-            <div className={`dpanel-body${chartMode === "trend" ? " is-chart" : ""}`}>
-              {chartMode === "trend" && (
-                <TrendChart
-                  points={view.points}
-                  comparePoints={view.priorAligned ?? undefined}
-                  compareLabel="Previous period"
-                  seriesLabel={measureLabel}
-                  focusDate={focus}
-                  onSelectPoint={(date) => set({ focus: date === focus ? null : date })}
-                />
+            <div className="dpanel-body">
+              {chartMode === "growth" ? (
+                <FamilyGrowthTable series={families} selected={familyId} onSelect={(id) => set({ family: id })} />
+              ) : (
+                <FamilyMultiples series={families} selected={familyId} onSelect={(id) => set({ family: id })} />
               )}
-              {chartMode === "ranked" && (
-                <RankedBars
-                  rows={topMovements}
-                  selected={activeProduct}
-                  onSelect={(p) => set({ product: p })}
-                  valueLabel={measureLabel}
-                />
-              )}
-              {chartMode === "slope" && (
-                <Slopegraph
-                  rows={topMovements}
-                  selected={activeProduct}
-                  onSelect={(p) => set({ product: p })}
-                  periodDays={period > 0 ? period : view.points.length}
-                />
-              )}
-              {chartMode === "multiples" && (
-                <SmallMultiples
-                  series={multiples}
-                  selected={activeProduct}
-                  onSelect={(p) => set({ product: p })}
-                />
-              )}
-            </div>
-          </section>
-
-          <section className={`dpanel${surfaceClass("archive-growth")}`} data-surface="archive-growth">
-            <div className="dpanel-head">
-              <div>
-                <h2 className="dpanel-title">How the complaint archive grew</h2>
-                <p className="dpanel-sub">
-                  {growth
-                    ? `Whole archive, all products · ${growth.first.total.toLocaleString()} published in ${formatMonth(growth.first.month)} · ${growth.last.total.toLocaleString()} in ${formatMonth(growth.last.month)}${
-                        growth.multiple ? ` · ${growth.multiple.toFixed(1)}× more per month` : ""
-                      }`
-                    : "Monthly totals across every published complaint"}
-                </p>
-              </div>
-              <div className="dpanel-tools">
-                <Segmented
-                  label="Growth span"
-                  options={GROWTH_SPANS.map((g) => ({ value: g.months, label: g.label }))}
-                  value={span}
-                  onChange={setSpan}
-                />
-              </div>
-            </div>
-            <div className="dpanel-body is-chart">
-              <TrendChart
-                points={growth?.points ?? []}
-                seriesLabel="Published that month"
-                labelMode="month"
-                emptyMessage="The archive summary has not been exported into this build."
-              />
             </div>
           </section>
         </div>
@@ -581,22 +458,37 @@ export function ExploreWorkspace({
         <div className="dash-col dash-right">
           <section className={`dpanel dpanel-accent${surfaceClass("readout")}`} data-surface="readout">
             <div className="dpanel-head">
-              <h2 className="dpanel-title">What this is showing</h2>
+              <h2 className="dpanel-title">What drove the change</h2>
             </div>
             <div className="dpanel-body">
-              <p className="readout-lede">{readout.headline}</p>
-              <h3 className="rail-head">What stands out</h3>
-              <ul className="readout-list">
-                {readout.observations.map((o) => (
-                  <li key={o}>{o}</li>
+              <p className="readout-lede">
+                {contributions.rows.length === 0
+                  ? "No issue-level movement is available for this selection."
+                  : `Across ${scopeLabel}, the last 12 complete months ran ${
+                      contributions.totalDelta >= 0 ? "up" : "down"
+                    } ${Math.abs(contributions.totalDelta).toLocaleString()} against the 12 before. These issues account for most of it.`}
+              </p>
+              <div className="contrib-list">
+                {contributions.rows.map((c) => (
+                  <div className="contrib-row" key={c.issue}>
+                    <span className="contrib-issue">{c.issue}</span>
+                    <span className="contrib-bar">
+                      <span
+                        className={`contrib-fill${c.delta < 0 ? " is-negative" : ""}`}
+                        style={{ width: `${Math.min(Math.abs(c.contribution) * 100, 100)}%` }}
+                      />
+                    </span>
+                    <span className="contrib-num">
+                      {c.delta >= 0 ? "+" : "−"}
+                      {formatCompact(Math.abs(c.delta))}
+                    </span>
+                  </div>
                 ))}
-              </ul>
-              <h3 className="rail-head">Suggested next steps</h3>
-              <ul className="readout-list is-action">
-                {readout.actions.map((a) => (
-                  <li key={a}>{a}</li>
-                ))}
-              </ul>
+              </div>
+              <p className="scope-note is-foot">
+                A decomposition, not an explanation. The archive holds no data on why volume moved —
+                no awareness, marketing or company-side inputs exist in it.
+              </p>
             </div>
           </section>
 
@@ -610,16 +502,10 @@ export function ExploreWorkspace({
               </div>
             </div>
             <div className="dpanel-body is-stacked">
-              {focus && (
-                <p className="scope-note">
-                  The focused date applies to the metric views above. These records are a
-                  fixed sample and are not date-scoped.
-                </p>
-              )}
               {sampleRows.length === 0 ? (
                 <p className="dpanel-sub">
                   No record in the sample matches the rules currently switched on
-                  {activeProduct ? ` for ${activeProduct}` : ""}.
+                  {activeFamily ? ` for ${activeFamily.label}` : ""}.
                 </p>
               ) : (
                 <VirtualList
@@ -631,9 +517,7 @@ export function ExploreWorkspace({
                     <button
                       type="button"
                       className={`sample-row${openRecordId === r.id ? " is-open" : ""}`}
-                      onClick={() =>
-                        set({ item: openRecordId === r.id ? null : `rec:${r.id}` })
-                      }
+                      onClick={() => set({ item: openRecordId === r.id ? null : `rec:${r.id}` })}
                     >
                       <span className="sample-top">
                         <PriorityChip priority={r.priority} />
@@ -665,11 +549,15 @@ export function ExploreWorkspace({
       </div>
 
       <p className="dash-foot">
-        Archive figures cover all {ledger ? ledger.totalRecords.toLocaleString() : "17.1M"}{" "}
-        published records. Metric views cover {series?.dates.length ?? 0} days across{" "}
-        {products.length} products. Record context is a {sampleIndex.length}-row
-        demonstration sample. The three are never combined.{" "}
-        <span className="dash-foot-compact">{formatCompact(view.total)} in view</span>
+        Every figure above is the whole published archive: {archiveTotal.toLocaleString()} complaints
+        across {months.length} complete months and {families.length} product families. Record context
+        is a separate {sampleIndex.length}-row demonstration sample and is never counted into these
+        totals.
+        {focusPoint && (
+          <span className="dash-foot-compact">
+            {formatMonth(focusPoint.date)}: {focusPoint.value.toLocaleString()}
+          </span>
+        )}
       </p>
     </div>
   );

@@ -20,6 +20,7 @@ import type {
   PolicyTriggerRate,
   SampleRecordIndexRow,
 } from "./types";
+import type { ArchiveExplorer } from "./types";
 
 const DATA_DIR = path.join(process.cwd(), "src", "data");
 
@@ -282,4 +283,38 @@ export async function loadDemoMeta(): Promise<DemoExportMeta> {
     source_total_records: null,
     source_retrieval_date: null,
   });
+}
+
+/**
+ * The full published history at month grain, with product and issue intact.
+ *
+ * Aggregate-only by construction: every row is a GROUP BY over the
+ * population. See docs/15_explore_workspace.md.
+ */
+export async function loadArchiveExplorer(): Promise<ArchiveExplorer | null> {
+  const raw = await readJson<Record<string, unknown> | null>("archive_explorer.json", null);
+  if (!raw) return null;
+
+  const rows = (key: string) => ((raw[key] as Record<string, unknown>[]) ?? []).map(lower);
+
+  return {
+    generatedAtUtc: String(raw.generated_at_utc ?? ""),
+    monthlyProductVolume: rows("monthly_product_volume").map((r) => ({
+      month: String(r.month ?? "").slice(0, 7),
+      product: String(r.product ?? ""),
+      total: Number(r.total ?? 0),
+    })),
+    productIssueMovement: rows("product_issue_movement").map((r) => ({
+      product: String(r.product ?? ""),
+      issue: String(r.issue ?? ""),
+      current12m: Number(r.current_12m ?? 0),
+      prior12m: Number(r.prior_12m ?? 0),
+    })),
+    policyByProduct: rows("policy_by_product").map((r) => ({
+      product: String(r.product ?? ""),
+      policyId: String(r.policy_id ?? ""),
+      triggeredCount: Number(r.triggered_count ?? 0),
+      evaluatedCount: Number(r.evaluated_count ?? 0),
+    })),
+  };
 }

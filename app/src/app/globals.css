@@ -335,7 +335,13 @@ a.card:hover .card-cta::after { transform: translateX(3px); }
 .chart-fill { position: relative; width: 100%; height: 100%; min-height: 0; }
 .viz-svg { display: block; overflow: visible; }
 .viz-grid-line { stroke: var(--viz-grid); stroke-width: 1; }
-.viz-axis-label { fill: var(--text-3); font-family: var(--sans); font-size: 12px; font-weight: 300; }
+/* The 1rem type floor applies to charts as well. Axis text used to render
+   at 12px, which is the one place the interface quietly opted out of its
+   own minimum. Tick density in TrendChart thinned out to make room. */
+.viz-axis-label { fill: var(--text-3); font-family: var(--sans); font-size: 1rem; font-weight: 300; }
+.viz-peak-label { fill: var(--text-2); font-family: var(--sans); font-size: 1rem; font-weight: 400; }
+.viz-marker-line { stroke: var(--line-strong); stroke-width: 1; stroke-dasharray: 2 4; }
+.viz-marker-label { fill: var(--text-3); font-family: var(--sans); font-size: 1rem; font-weight: 300; }
 .viz-line { fill: none; stroke: var(--viz-1); stroke-width: 1.75; stroke-linejoin: round; stroke-linecap: round; }
 .viz-line-compare { fill: none; stroke: var(--text-3); stroke-width: 1; stroke-dasharray: 3 3; opacity: .7; }
 .viz-dot { fill: var(--viz-1); }
@@ -438,7 +444,7 @@ main:has(.dash-shell) ~ .site-footer { display: none; }
   .dash-shell.has-drawer .dash-right { display: none; }
 }
 .dash-col { display: grid; gap: var(--dash-gap); min-height: 0; }
-.dash-center { grid-template-rows: auto minmax(0, 1.15fr) minmax(0, 1fr); }
+.dash-center { grid-template-rows: auto minmax(0, 0.85fr) minmax(0, 1.45fr); }
 /* Fixed proportions rather than `auto` for the readout: its text length
    swings with the selection, and an auto row would starve the queue. */
 .dash-right { grid-template-rows: minmax(0, 0.8fr) minmax(0, 1.2fr); }
@@ -564,6 +570,109 @@ main:has(.dash-shell) ~ .site-footer { display: none; }
 .viz-focus-line { stroke: var(--blue); stroke-width: 1; stroke-dasharray: 2 3; opacity: .8; }
 .viz-focus-dot { fill: var(--blue); stroke: var(--surface); stroke-width: 2; }
 
+/* ---------- rules as a population instrument ---------- */
+
+.rule-headline {
+  padding: .7rem .75rem .75rem; margin-bottom: .5rem;
+  background: var(--blue-soft); border: 1px solid var(--blue-line); border-radius: 10px;
+}
+.rule-headline-value {
+  font-size: 1.75rem; font-weight: 300; letter-spacing: -.04em;
+  line-height: 1.1; color: var(--blue); font-variant-numeric: tabular-nums;
+}
+.rule-headline-label {
+  font-size: var(--fs-min); color: var(--text-2); font-weight: 300;
+  line-height: 1.4; margin-top: .2rem;
+}
+.rule-headline-note {
+  font-size: var(--fs-min); color: var(--text-3); font-weight: 300;
+  line-height: 1.35; margin-top: .35rem;
+}
+
+/* ---------- archive annotations ---------- */
+
+.chart-annotations {
+  flex: none; padding: .5rem .9rem .7rem; border-top: 1px solid var(--line);
+  display: grid; gap: .3rem;
+}
+.chart-move, .chart-caveat {
+  margin: 0; font-size: var(--fs-min); color: var(--text-2);
+  font-weight: 300; line-height: 1.45;
+}
+.chart-move strong { color: var(--text); font-weight: 500; }
+.chart-caveat { color: var(--caution); }
+
+/* ---------- family growth table ---------- */
+
+.fam-table { display: flex; flex-direction: column; height: 100%; min-height: 0; }
+.fam-head, .fam-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1.5fr) minmax(90px, 1.1fr) 4.5rem 4.5rem 5rem 7.5rem;
+  align-items: center; gap: .8rem;
+}
+.fam-head {
+  flex: none; padding: 0 .45rem .45rem; border-bottom: 1px solid var(--line);
+  font-size: var(--fs-min); color: var(--text-3); font-weight: 300;
+}
+.fam-head .num, .fam-row .num { text-align: right; }
+.fam-body { flex: 1 1 auto; min-height: 0; overflow-y: auto; }
+.fam-row {
+  width: 100%; text-align: left; background: none; border: none;
+  font-family: inherit; padding: .3rem .45rem; border-radius: 8px; cursor: pointer;
+}
+.fam-row:hover { background: var(--bg-tint); }
+.fam-row.is-selected { background: var(--blue-soft); }
+.fam-name {
+  font-size: var(--fs-min); color: var(--text); font-weight: 400;
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.fam-flag {
+  display: inline-block; margin-left: .4rem; padding: 0 .35rem;
+  font-size: var(--fs-min); font-weight: 300; color: var(--caution);
+  background: var(--caution-soft); border-radius: 4px; cursor: help;
+}
+.fam-spark { display: block; height: 26px; }
+.fam-spark svg { width: 100%; height: 100%; display: block; }
+.fam-spark-area { fill: var(--viz-1); opacity: .10; }
+.fam-spark-line { fill: none; stroke: var(--viz-1); stroke-width: 1.5; }
+.fam-total, .fam-recent, .fam-change {
+  font-size: var(--fs-min); font-variant-numeric: tabular-nums; color: var(--text);
+}
+.fam-change { font-weight: 300; }
+.fam-change.is-up { color: var(--negative); }
+.fam-change.is-down { color: var(--positive); }
+.fam-trend {
+  font-size: var(--fs-min); font-weight: 300; color: var(--text-2);
+  padding: .1rem .5rem; border-radius: 5px; background: var(--bg-tint);
+  justify-self: start; white-space: nowrap;
+}
+.fam-trend.is-growing { background: var(--negative-soft); color: var(--negative); }
+.fam-trend.is-declining { background: var(--positive-soft); color: var(--positive); }
+.fam-trend.is-ended, .fam-trend.is-new { background: var(--caution-soft); color: var(--caution); }
+
+/* ---------- issue contribution ---------- */
+
+.contrib-list { display: grid; gap: .35rem; margin-top: .8rem; }
+.contrib-row {
+  display: grid; grid-template-columns: minmax(0, 1fr) 4.5rem;
+  grid-template-areas: "issue num" "bar num";
+  align-items: center; column-gap: .7rem;
+}
+.contrib-issue {
+  grid-area: issue; font-size: var(--fs-min); color: var(--text-2); font-weight: 300;
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.contrib-bar {
+  grid-area: bar; display: block; margin-top: .25rem;
+  height: 5px; background: var(--viz-track); border-radius: 3px; overflow: hidden;
+}
+.contrib-fill { display: block; height: 100%; background: var(--viz-1); border-radius: 3px; }
+.contrib-fill.is-negative { background: var(--positive); }
+.contrib-num {
+  grid-area: num; align-self: center; text-align: right;
+  font-size: var(--fs-min); color: var(--text); font-variant-numeric: tabular-nums;
+}
+
 /* ---------- chart mode: ranked bars ---------- */
 
 .ranked { display: flex; flex-direction: column; height: 100%; min-height: 0; }
@@ -611,7 +720,7 @@ main:has(.dash-shell) ~ .site-footer { display: none; }
 .ranked-change.is-up { color: var(--negative); }
 .ranked-change.is-down { color: var(--positive); }
 .chart-note {
-  flex: none; margin: .5rem 0 0; padding-top: .5rem; border-top: 1px solid var(--line);
+  flex: none; margin: .4rem 0 0; padding-top: .4rem; border-top: 1px solid var(--line);
   font-size: var(--fs-min); color: var(--text-3); font-weight: 300; line-height: 1.45;
 }
 

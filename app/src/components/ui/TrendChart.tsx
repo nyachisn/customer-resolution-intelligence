@@ -67,6 +67,7 @@ export function TrendChart({
   showPeak = true,
   focusDate = null,
   onSelectPoint,
+  markers = [],
   emptyMessage = "Widen the date range or clear a filter to see the trend.",
 }: {
   points: TrendPoint[];
@@ -82,6 +83,8 @@ export function TrendChart({
   focusDate?: string | null;
   /** Clicking a point publishes it as the focused date. */
   onSelectPoint?: (date: string) => void;
+  /** Vertical rules at fixed dates — taxonomy changes, not data points. */
+  markers?: { date: string; label: string }[];
   emptyMessage?: string;
 }) {
   const gradientId = useId().replace(/:/g, "");
@@ -90,10 +93,13 @@ export function TrendChart({
 
   const fmtDate = labelMode === "month" ? monthLabel : shortDate;
 
-  const padL = 46;
-  const padR = 14;
-  const padT = 14;
-  const padB = 24;
+  // Axis text renders at the interface's 1rem floor rather than the 12px
+  // charts usually get away with, so the padding has to make room for it and
+  // the tick spacing below has to thin out to match.
+  const padL = 62;
+  const padR = 18;
+  const padT = 22;
+  const padB = 30;
   const plotW = Math.max(w - padL - padR, 10);
   const plotH = Math.max(h - padT - padB, 10);
 
@@ -115,11 +121,15 @@ export function TrendChart({
         ? `${linePath} L ${x(points.length - 1, points.length).toFixed(1)} ${baseline} L ${x(0, points.length).toFixed(1)} ${baseline} Z`
         : "";
 
-    const gridValues = Array.from({ length: 5 }, (_, i) => (max * i) / 4);
+    // Grid density follows the available height. At the 1rem type floor,
+    // five labels need about 150px of plot to sit apart; in a short panel
+    // they overlap into an unreadable stack.
+    const gridSteps = plotH >= 190 ? 4 : plotH >= 110 ? 3 : 2;
+    const gridValues = Array.from({ length: gridSteps + 1 }, (_, i) => (max * i) / gridSteps);
 
     // One tick per ~110px of plot width, always including both ends, so the
     // axis thins out gracefully as the panel narrows.
-    const tickCount = Math.max(2, Math.min(Math.floor(plotW / 110), points.length));
+    const tickCount = Math.max(2, Math.min(Math.floor(plotW / 150), points.length));
     const tickIdx =
       points.length <= 1
         ? [0]
@@ -206,7 +216,7 @@ export function TrendChart({
           {gridValues.map((v, i) => (
             <g key={i}>
               <line x1={padL} x2={w - padR} y1={y(v)} y2={y(v)} className="viz-grid-line" />
-              <text x={padL - 8} y={y(v) + 4} className="viz-axis-label" textAnchor="end">
+              <text x={padL - 10} y={y(v) + 5} className="viz-axis-label" textAnchor="end">
                 {compact(v)}
               </text>
             </g>
@@ -216,13 +226,27 @@ export function TrendChart({
             <text
               key={i}
               x={x(i, points.length)}
-              y={h - 7}
+              y={h - 9}
               className="viz-axis-label"
               textAnchor={i === 0 ? "start" : i === lastIdx ? "end" : "middle"}
             >
               {fmtDate(points[i].date)}
             </text>
           ))}
+
+          {markers.map((m) => {
+            const i = points.findIndex((p) => p.date.slice(0, 7) === m.date.slice(0, 7));
+            if (i < 0) return null;
+            const mx = x(i, points.length);
+            return (
+              <g key={m.date}>
+                <line x1={mx} x2={mx} y1={padT} y2={padT + plotH} className="viz-marker-line" />
+                <text x={mx} y={padT - 6} className="viz-marker-label" textAnchor="middle">
+                  {m.label}
+                </text>
+              </g>
+            );
+          })}
 
           {fill && <path d={areaPath} fill={`url(#${gradientId})`} />}
           {comparePath && <path d={comparePath} className="viz-line-compare" />}
@@ -233,9 +257,9 @@ export function TrendChart({
               <circle cx={x(peakIdx, points.length)} cy={y(points[peakIdx].value)} r={3} className="viz-dot" />
               <text
                 x={x(peakIdx, points.length)}
-                y={y(points[peakIdx].value) - 9}
-                className="viz-axis-label"
-                textAnchor={peakIdx === lastIdx ? "end" : "middle"}
+                y={y(points[peakIdx].value) - 12}
+                className="viz-peak-label"
+                textAnchor={peakIdx === lastIdx ? "end" : peakIdx === 0 ? "start" : "middle"}
               >
                 peak {compact(points[peakIdx].value)}
               </text>

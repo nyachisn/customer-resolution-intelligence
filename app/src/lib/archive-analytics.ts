@@ -13,7 +13,12 @@
  * integrates out and real movement becomes visible.
  */
 
-import type { ArchiveMonthProduct, IssueMovement, ProductPolicyRate } from "./types";
+import type {
+  ArchiveMonthProduct,
+  IssueMovement,
+  PolicyCombination,
+  ProductPolicyRate,
+} from "./types";
 import { PRODUCT_FAMILIES, type ProductFamily, familyFor } from "./product-families";
 import { formatMonth } from "./analytics";
 
@@ -258,4 +263,102 @@ export function policyRatesFor(
       rate: evaluated > 0 ? v.triggered / evaluated : null,
     }))
     .sort((a, b) => b.triggered - a.triggered);
+}
+
+/* ------------------------------------------------------------------ */
+/* Exact policy-set arithmetic                                          */
+/* ------------------------------------------------------------------ */
+
+export interface RuleCoverage {
+  /** Records tripping at least one of the selected rules. Exact. */
+  selected: number;
+  /** Records tripping at least one rule, with every rule switched on. */
+  anyRule: number;
+  /** Records tripping no rule at all — standard handling. */
+  noRule: number;
+  /** Every record evaluated in scope. */
+  evaluated: number;
+  /** Exact count per individual rule, for the per-rule readouts. */
+  perRule: Record<string, number>;
+}
+
+/**
+ * How many records a chosen set of rules actually pulls out.
+ *
+ * A union, not a sum. The combinations partition the population, so a record
+ * tripping both "emerging issue" and "incomplete context" is counted once
+ * here and twice by any approach that adds per-policy totals. That
+ * double-count is what made the previous panel claim 5.5M against a true
+ * 5,017,782, and it is why switching every rule on never approached the
+ * population total the way a reader would reasonably expect.
+ */
+export function ruleCoverage(
+  combinations: PolicyCombination[],
+  family: ProductFamily | null,
+  selected: readonly string[],
+): RuleCoverage {
+  const members = family ? new Set(family.members) : null;
+  const on = new Set(selected);
+
+  let evaluated = 0;
+  let selectedCount = 0;
+  let anyRule = 0;
+  let noRule = 0;
+  const perRule: Record<string, number> = {};
+
+  for (const combo of combinations) {
+    if (members && !members.has(combo.product)) continue;
+    evaluated += combo.count;
+
+    if (combo.policies.length === 0) {
+      noRule += combo.count;
+      continue;
+    }
+    anyRule += combo.count;
+    if (combo.policies.some((p) => on.has(p))) selectedCount += combo.count;
+    for (const p of combo.policies) perRule[p] = (perRule[p] ?? 0) + combo.count;
+  }
+
+  return { selected: selectedCount, anyRule, noRule, evaluated, perRule };
+}
+
+/**
+ * How often each pair of rules fires on the same record.
+ *
+ * Read across a row: the share of that rule's records which also trip the
+ * column's rule. Derived from the same combinations, so it needs no
+ * additional export.
+ */
+export function policyOverlap(
+  combinations: PolicyCombination[],
+  family: ProductFamily | null,
+  ids: readonly string[],
+): { rowId: string; total: number; cells: { colId: string; share: number | null }[] }[] {
+  const members = family ? new Set(family.members) : null;
+  const totals = new Map<string, number>();
+  const pairs = new Map<string, number>();
+
+  for (const combo of combinations) {
+    if (members && !members.has(combo.product)) continue;
+    for (const a of combo.policies) {
+      totals.set(a, (totals.get(a) ?? 0) + combo.count);
+      for (const b of combo.policies) {
+        if (a === b) continue;
+        const key = `${a}>${b}`;
+        pairs.set(key, (pairs.get(key) ?? 0) + combo.count);
+      }
+    }
+  }
+
+  return ids.map((rowId) => {
+    const total = totals.get(rowId) ?? 0;
+    return {
+      rowId,
+      total,
+      cells: ids.map((colId) => ({
+        colId,
+        share: colId === rowId || total === 0 ? null : (pairs.get(`${rowId}>${colId}`) ?? 0) / total,
+      })),
+    };
+  });
 }

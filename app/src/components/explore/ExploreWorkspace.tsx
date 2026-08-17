@@ -21,7 +21,7 @@
  * displayed, never counted, ranked or prioritized from.
  */
 
-import { useMemo } from "react";
+import { Fragment, useMemo } from "react";
 import { TrendChart } from "@/components/ui/TrendChart";
 import { Chip, ConfidenceChip, PriorityChip } from "@/components/ui/Primitives";
 import { FamilyGrowthTable, FamilyMultiples } from "./FamilyViews";
@@ -51,7 +51,8 @@ import {
   familySeries,
   inflections,
   issueContributions,
-  policyRatesFor,
+  policyOverlap,
+  ruleCoverage,
 } from "@/lib/archive-analytics";
 import { formatCompact, formatMonth, formatPct, nextStepFor } from "@/lib/analytics";
 
@@ -71,7 +72,28 @@ const POLICY_NOTE: Record<RuleId, string> = {
   POLICY_CRITICAL_COMBINATION: "Two independent signals agreed",
 };
 
-const SAMPLE_ROW_HEIGHT = 104;
+const POLICY_SHORT: Record<RuleId, string> = {
+  POLICY_UNTIMELY_RESPONSE: "Untimely",
+  POLICY_EMERGING_ISSUE: "Emerging",
+  POLICY_PUBLICATION_LAG: "Pub lag",
+  POLICY_INCOMPLETE_CONTEXT: "Incomplete",
+  POLICY_CRITICAL_COMBINATION: "Critical",
+};
+
+const SAMPLE_ROW_HEIGHT = 112;
+
+/**
+ * The dbt model a tile's numbers come from. Clicking opens that model in the
+ * lens, so any figure on the board can be traced back to the query that
+ * produced it without leaving the page.
+ */
+function ModelBadge({ name, onOpen }: { name: string; onOpen: (name: string) => void }) {
+  return (
+    <button type="button" className="model-badge" onClick={() => onOpen(name)} title={`Open ${name} in Model Lens`}>
+      {name}
+    </button>
+  );
+}
 
 function Switch({
   checked,
@@ -189,17 +211,15 @@ export function ExploreWorkspace({
 
   /* ---------------- rules as a population instrument --------------- */
 
-  const policyRates = useMemo(
-    () => policyRatesFor(archive?.policyByProduct ?? [], activeFamily),
-    [archive, activeFamily],
+  const coverage = useMemo(
+    () => ruleCoverage(archive?.policyCombinations ?? [], activeFamily, selectedRules),
+    [archive, activeFamily, selectedRules],
   );
 
-  const rateById = useMemo(() => new Map(policyRates.map((r) => [r.policyId, r])), [policyRates]);
-  const evaluated = policyRates[0]?.evaluated ?? 0;
-
-  // The headline the switches move. Summing triggers would double-count a
-  // record that fired two policies, so this is an upper bound and says so.
-  const flaggedUpperBound = selectedRules.reduce((s, id) => s + (rateById.get(id)?.triggered ?? 0), 0);
+  const overlap = useMemo(
+    () => policyOverlap(archive?.policyCombinations ?? [], activeFamily, RULE_IDS),
+    [archive, activeFamily],
+  );
 
   /* ---------------- illustrative sample (display only) ------------- */
 
@@ -218,9 +238,15 @@ export function ExploreWorkspace({
   const highlighted = new Set<SurfaceId>(openModel?.surfaces ?? []);
   const lensOn = Boolean(openModel);
 
+  // Selecting a model outlines the tiles it feeds. It deliberately does not
+  // dim the others: filtering is what changes the board, and a model choice
+  // is a question about provenance, not a filter.
   function surfaceClass(id: SurfaceId): string {
-    if (!lensOn) return "";
-    return highlighted.has(id) ? " is-lit" : " is-dimmed";
+    return lensOn && highlighted.has(id) ? " is-lit" : "";
+  }
+
+  function openLens(name: string) {
+    set({ item: `model:${name}` });
   }
 
   function toggleRule(id: RuleId) {
@@ -231,7 +257,18 @@ export function ExploreWorkspace({
     });
   }
 
-  const scopeLabel = activeFamily ? activeFamily.label : "every product";
+  const rhythm = archive?.weekdayRhythm ?? [];
+  const rhythmMax = Math.max(...rhythm.map((d) => d.average), 1);
+  const weekend = rhythm.filter((d) => d.dayName === "Sat" || d.dayName === "Sun");
+  const weekdays = rhythm.filter((d) => !["Sat", "Sun"].includes(d.dayName));
+  const rhythmWeekendShare =
+    weekdays.length > 0 && weekend.length > 0
+      ? weekend.reduce((s2, d) => s2 + d.average, 0) /
+        weekend.length /
+        (weekdays.reduce((s2, d) => s2 + d.average, 0) / weekdays.length)
+      : 0;
+
+  const scopeLabel = activeFamily ? activeFamily.label : "all categories";
   const first = months[0];
   const last = months[months.length - 1];
 
@@ -247,9 +284,9 @@ export function ExploreWorkspace({
       {/* ===================== filter bar ===================== */}
       <div className="dash-bar">
         <label className="db-field">
-          <span>Product family</span>
+          <span>Category</span>
           <select value={familyId ?? ""} onChange={(e) => set({ family: e.target.value || null })}>
-            <option value="">Every product ({families.length} families)</option>
+            <option value="">All {families.length} categories</option>
             {families.map((f) => (
               <option key={f.family.id} value={f.family.id}>
                 {f.family.label}
@@ -275,7 +312,7 @@ export function ExploreWorkspace({
               {formatMonth(`${focus}-01`)} ✕
             </button>
           )}
-          {activeFamily?.note && <Chip tone="caution">Taxonomy caveat</Chip>}
+          {activeFamily?.note && <Chip tone="caution">Renaming caveat</Chip>}
           {selectedRules.length < RULE_IDS.length && (
             <Chip tone="caution">
               {selectedRules.length} of {RULE_IDS.length} rules on
@@ -288,6 +325,21 @@ export function ExploreWorkspace({
         </button>
       </div>
 
+      <p className="dash-scope">
+        Showing <strong>{activeFamily ? activeFamily.label : `all ${families.length} categories`}</strong>
+        {" · "}
+        <strong>{scopeTotal.toLocaleString()}</strong> complaints
+        {first && last ? ` · ${formatMonth(`${first}-01`)} to ${formatMonth(`${last}-01`)}` : ""}
+        {selectedRules.length < RULE_IDS.length
+          ? ` · ${selectedRules.length} of ${RULE_IDS.length} escalation rules on`
+          : " · every escalation rule on"}
+        {activeFamily && (
+          <button type="button" className="dash-scope-clear" onClick={() => set({ family: null })}>
+            Clear category
+          </button>
+        )}
+      </p>
+
       {/* ===================== body ===================== */}
       <div className="dash-body">
         {/* ---------- left rail ---------- */}
@@ -297,27 +349,43 @@ export function ExploreWorkspace({
             onSelect={(name) => set({ item: name ? `model:${name}` : null })}
           />
         ) : (
-          <aside className={`dpanel dash-rail${surfaceClass("rules")}`} aria-label="Decision rules">
+          <aside className={`dpanel dash-rail${surfaceClass("rules")}`} aria-label="Escalation rules">
             <div className="dpanel-head">
               <div>
-                <h2 className="dpanel-title">Decision rules</h2>
-                <p className="dpanel-sub">Trigger rates within {scopeLabel}</p>
+                <h2 className="dpanel-title">Escalation rules</h2>
+                <p className="dpanel-sub">How many records each rule pulls out for review</p>
               </div>
+              <ModelBadge name="int_priority_policy_application" onOpen={openLens} />
             </div>
             <div className="dpanel-body">
               <div className="rule-headline">
-                <div className="rule-headline-value">{formatCompact(flaggedUpperBound)}</div>
+                <div className="rule-headline-value">
+                  {coverage.selected.toLocaleString()}
+                </div>
                 <div className="rule-headline-label">
-                  records reach a rule that is switched on, out of {formatCompact(evaluated)} in{" "}
-                  {scopeLabel}
+                  records in {scopeLabel} are pulled out by the rules you have on —{" "}
+                  {coverage.evaluated > 0 ? formatPct(coverage.selected / coverage.evaluated) : "—"} of{" "}
+                  {formatCompact(coverage.evaluated)}
+                </div>
+                <div className="rule-split" aria-hidden="true">
+                  <span
+                    className="rule-split-on"
+                    style={{
+                      width: `${coverage.evaluated > 0 ? (coverage.selected / coverage.evaluated) * 100 : 0}%`,
+                    }}
+                  />
                 </div>
                 <div className="rule-headline-note">
-                  Upper bound — a record triggering two rules is counted under both.
+                  Turning every rule on reaches {formatCompact(coverage.anyRule)}, not the full{" "}
+                  {formatCompact(coverage.evaluated)}: {formatCompact(coverage.noRule)} records
+                  ({formatPct(coverage.evaluated > 0 ? coverage.noRule / coverage.evaluated : 0)}) trip
+                  nothing at all and go to standard handling. That selectivity is the point of the
+                  policy layer.
                 </div>
               </div>
 
               {RULE_IDS.map((id) => {
-                const rate = rateById.get(id);
+                const fires = coverage.perRule[id] ?? 0;
                 return (
                   <Switch
                     key={id}
@@ -326,14 +394,9 @@ export function ExploreWorkspace({
                     name={POLICY_LABEL[id]}
                     meta={
                       <>
-                        {POLICY_NOTE[id]}
-                        {rate?.rate != null && (
-                          <>
-                            {" · "}
-                            <span className="switch-count">{formatPct(rate.rate)}</span>
-                            {` (${formatCompact(rate.triggered)})`}
-                          </>
-                        )}
+                        {POLICY_NOTE[id]} · fires on{" "}
+                        <span className="switch-count">{fires.toLocaleString()}</span>
+                        {coverage.evaluated > 0 && ` (${formatPct(fires / coverage.evaluated)})`}
                       </>
                     }
                   />
@@ -382,7 +445,7 @@ export function ExploreWorkspace({
               <div className="dkpi-value">{recentShare == null ? "—" : formatPct(recentShare)}</div>
               <div className="dkpi-foot">
                 {activeSeries
-                  ? `${formatPct(activeSeries.share)} of the whole archive is ${activeFamily?.label ?? ""}`
+                  ? `${formatPct(activeSeries.share)} of the whole archive`
                   : "of everything published since 2011"}
               </div>
             </div>
@@ -401,6 +464,7 @@ export function ExploreWorkspace({
                     : "No archive data in this build"}
                 </p>
               </div>
+              <ModelBadge name="fct_issue_daily_metrics" onOpen={openLens} />
             </div>
             <div className="dpanel-body is-chart">
               <TrendChart
@@ -427,12 +491,89 @@ export function ExploreWorkspace({
             )}
           </section>
 
+          <div className="tile-pair">
+            <section className={`dpanel${surfaceClass("rhythm")}`} data-surface="rhythm">
+              <div className="dpanel-head">
+                <div>
+                  <h2 className="dpanel-title">Why this board is monthly</h2>
+                  <p className="dpanel-sub">Average complaints published per weekday, last 12 months</p>
+                </div>
+                <ModelBadge name="fct_issue_daily_metrics" onOpen={openLens} />
+              </div>
+              <div className="dpanel-body">
+                <div className="dow-list">
+                  {rhythm.map((d) => (
+                    <div className="dow-row" key={d.dayName}>
+                      <span className="dow-name">{d.dayName}</span>
+                      <span className="dow-track">
+                        <span
+                          className={`dow-fill${d.average < rhythmMax * 0.6 ? " is-low" : ""}`}
+                          style={{ width: `${(d.average / rhythmMax) * 100}%` }}
+                        />
+                      </span>
+                      <span className="dow-value">{Math.round(d.average).toLocaleString()}</span>
+                    </div>
+                  ))}
+                </div>
+                <p className="chart-note">
+                  Weekends run at {formatPct(rhythmWeekendShare)} of a weekday. A daily line therefore
+                  draws the publishing calendar more than it draws complaint behaviour, which is why
+                  every trend here is at month grain.
+                </p>
+              </div>
+            </section>
+
+            <section className={`dpanel${surfaceClass("overlap")}`} data-surface="overlap">
+              <div className="dpanel-head">
+                <div>
+                  <h2 className="dpanel-title">Where the rules overlap</h2>
+                  <p className="dpanel-sub">Share of the row rule&rsquo;s records that also trip the column rule</p>
+                </div>
+                <ModelBadge name="int_priority_policy_application" onOpen={openLens} />
+              </div>
+              <div className="dpanel-body">
+                <div className="overlap-grid" style={{ gridTemplateColumns: `minmax(0,1.5fr) repeat(${RULE_IDS.length}, minmax(0,1fr))` }}>
+                  <span className="overlap-corner" />
+                  {RULE_IDS.map((id) => (
+                    <span className="overlap-col" key={id}>
+                      {POLICY_SHORT[id]}
+                    </span>
+                  ))}
+                  {overlap.map((row) => (
+                    <Fragment key={row.rowId}>
+                      <span className="overlap-row-name">{POLICY_SHORT[row.rowId as RuleId]}</span>
+                      {row.cells.map((c) => (
+                        <span
+                          key={c.colId}
+                          className="overlap-cell"
+                          style={{
+                            background:
+                              c.share == null ? "transparent" : `rgba(21, 83, 212, ${Math.min(c.share, 1) * 0.55})`,
+                            color: c.share != null && c.share > 0.6 ? "#fff" : undefined,
+                          }}
+                          title={`${POLICY_SHORT[row.rowId as RuleId]} → ${POLICY_SHORT[c.colId as RuleId]}`}
+                        >
+                          {c.share == null ? "·" : formatPct(c.share)}
+                        </span>
+                      ))}
+                    </Fragment>
+                  ))}
+                </div>
+                <p className="chart-note">
+                  Read across a row. Critical combination is the most specific signal on the board
+                  precisely because it sits almost entirely inside the other two.
+                </p>
+              </div>
+            </section>
+          </div>
+
           <section className={`dpanel${surfaceClass("metric-chart")}`} data-surface="metric-chart">
             <div className="dpanel-head">
               <div>
                 <h2 className="dpanel-title">Which categories are growing</h2>
                 <p className="dpanel-sub">
-                  All {families.length} families across the same 15 years · click one to filter everything
+                  All {families.length} categories over the same 15 years · click one to filter the
+                  whole board
                 </p>
               </div>
               <div className="dpanel-tools">
@@ -442,6 +583,7 @@ export function ExploreWorkspace({
                   value={chartMode}
                   onChange={(v) => set({ chartMode: v })}
                 />
+                <ModelBadge name="fct_issue_daily_metrics" onOpen={openLens} />
               </div>
             </div>
             <div className="dpanel-body">
@@ -459,6 +601,7 @@ export function ExploreWorkspace({
           <section className={`dpanel dpanel-accent${surfaceClass("readout")}`} data-surface="readout">
             <div className="dpanel-head">
               <h2 className="dpanel-title">What drove the change</h2>
+              <ModelBadge name="fct_issue_daily_metrics" onOpen={openLens} />
             </div>
             <div className="dpanel-body">
               <p className="readout-lede">
@@ -495,11 +638,13 @@ export function ExploreWorkspace({
           <section className={`dpanel${surfaceClass("sample")}`} data-surface="sample">
             <div className="dpanel-head">
               <div>
-                <h2 className="dpanel-title">Illustrative record context</h2>
+                <h2 className="dpanel-title">Example records</h2>
                 <p className="dpanel-sub">
-                  Stratified 300-row demonstration sample · not a ranking or a population count
+                  A 300-row sample, picked to include every outcome. Nothing on this board is
+                  counted from it.
                 </p>
               </div>
+              <ModelBadge name="agent_case_context" onOpen={openLens} />
             </div>
             <div className="dpanel-body is-stacked">
               {sampleRows.length === 0 ? (

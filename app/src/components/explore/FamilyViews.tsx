@@ -13,10 +13,19 @@ import type { FamilySeries } from "@/lib/archive-analytics";
 import { TREND_LABEL } from "@/lib/archive-analytics";
 import { formatCompact, formatMonth, formatPct } from "@/lib/analytics";
 
-/** Sparkline path for a family, scaled against a shared maximum. */
-function sparkPath(series: FamilySeries, max: number): string {
+/**
+ * Sparkline path for a family.
+ *
+ * Scaled to the row's own maximum, not a shared one. On a shared scale
+ * Credit reporting's 13.7M flattens every other category into a straight
+ * line at the axis — which reads as "nothing happened here" when Debt
+ * collection actually grew 45% last year. Magnitude is carried by the share
+ * bar and the totals column instead, where it can be read exactly.
+ */
+function sparkPath(series: FamilySeries): string {
   const pts = series.points;
   if (pts.length === 0) return "";
+  const max = Math.max(...pts.map((p) => p.value), 1);
   return pts
     .map((p, i) => {
       const x = pts.length <= 1 ? 50 : (i / (pts.length - 1)) * 100;
@@ -35,18 +44,17 @@ export function FamilyGrowthTable({
   selected: string | null;
   onSelect: (familyId: string | null) => void;
 }) {
-  // Shared scale across every row: per-row scaling would make a 9,852-record
-  // category look exactly as large as an 11.6M one.
-  const max = Math.max(...series.flatMap((s) => s.points.map((p) => p.value)), 1);
+  const maxTotal = Math.max(...series.map((s) => s.total), 1);
 
   return (
     <div className="fam-table">
       <div className="fam-head">
-        <span>Product family</span>
-        <span>2011 → 2026</span>
+        <span>Category</span>
+        <span>Share of archive</span>
+        <span>Its own shape, 2011 → 2026</span>
         <span className="num">Total</span>
         <span className="num">Last 12m</span>
-        <span className="num">vs prior 12m</span>
+        <span className="num">vs prior</span>
         <span>Direction</span>
       </div>
       <div className="fam-body">
@@ -75,10 +83,16 @@ export function FamilyGrowthTable({
                   </span>
                 )}
               </span>
+              <span className="fam-share">
+                <span className="fam-share-bar">
+                  <span className="fam-share-fill" style={{ width: `${(s.total / maxTotal) * 100}%` }} />
+                </span>
+                <span className="fam-share-pct">{formatPct(s.share)}</span>
+              </span>
               <span className="fam-spark">
                 <svg viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
-                  <path d={`${sparkPath(s, max)} L 100 100 L 0 100 Z`} className="fam-spark-area" />
-                  <path d={sparkPath(s, max)} className="fam-spark-line" vectorEffect="non-scaling-stroke" />
+                  <path d={`${sparkPath(s)} L 100 100 L 0 100 Z`} className="fam-spark-area" />
+                  <path d={sparkPath(s)} className="fam-spark-line" vectorEffect="non-scaling-stroke" />
                 </svg>
               </span>
               <span className="num fam-total">{formatCompact(s.total)}</span>
@@ -92,9 +106,10 @@ export function FamilyGrowthTable({
         })}
       </div>
       <p className="chart-note">
-        Shared scale, so sparklines compare. Direction is the last 12 complete months against
-        the 12 before. &ldquo;Category retired&rdquo; and &ldquo;New category&rdquo; are
-        taxonomy changes, not falls or rises.
+        Each sparkline is scaled to its own category so a small one still shows its shape — size
+        is in the share bar and the totals. Direction compares the last 12 complete months with
+        the 12 before. &ldquo;Retired&rdquo; and &ldquo;New&rdquo; mean the CFPB added or removed
+        the category, not that complaints stopped or started.
       </p>
     </div>
   );
@@ -109,8 +124,6 @@ export function FamilyMultiples({
   selected: string | null;
   onSelect: (familyId: string | null) => void;
 }) {
-  const max = Math.max(...series.flatMap((s) => s.points.map((p) => p.value)), 1);
-
   return (
     <div className="multiples">
       {series.map((s) => {
@@ -134,8 +147,8 @@ export function FamilyMultiples({
               </span>
             </span>
             <svg viewBox="0 0 100 100" preserveAspectRatio="none" className="multiple-svg" aria-hidden="true">
-              <path d={`${sparkPath(s, max)} L 100 100 L 0 100 Z`} className="multiple-area" />
-              <path d={sparkPath(s, max)} className="multiple-line" vectorEffect="non-scaling-stroke" />
+              <path d={`${sparkPath(s)} L 100 100 L 0 100 Z`} className="multiple-area" />
+              <path d={sparkPath(s)} className="multiple-line" vectorEffect="non-scaling-stroke" />
             </svg>
           </button>
         );

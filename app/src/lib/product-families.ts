@@ -109,10 +109,15 @@ export const PRODUCT_FAMILIES: ProductFamily[] = [
   },
 ];
 
-/** The two dates the CFPB changed its product taxonomy. */
+/**
+ * The two dates the CFPB changed its category names.
+ *
+ * Marked on every long series rather than smoothed over: a step at one of
+ * these dates may be a renaming rather than a change in complaints.
+ */
 export const TAXONOMY_CHANGES = [
-  { month: "2017-04", label: "Taxonomy change" },
-  { month: "2023-08", label: "Taxonomy change" },
+  { month: "2017-04", label: "CFPB renamed categories" },
+  { month: "2023-08", label: "CFPB renamed categories" },
 ];
 
 const BY_MEMBER = new Map<string, ProductFamily>();

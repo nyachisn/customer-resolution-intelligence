@@ -24,7 +24,9 @@ export type SurfaceId =
   | "archive-growth"
   | "rules"
   | "sample"
-  | "readout";
+  | "readout"
+  | "rhythm"
+  | "overlap";
 
 export const SURFACE_LABELS: Record<SurfaceId, string> = {
   kpis: "Metric summary",
@@ -32,7 +34,9 @@ export const SURFACE_LABELS: Record<SurfaceId, string> = {
   "archive-growth": "Archive growth curve",
   rules: "Rules in this view",
   sample: "Illustrative record context",
-  readout: "What this is showing",
+  readout: "What drove the change",
+  rhythm: "Why this board is monthly",
+  overlap: "Where the rules overlap",
 };
 
 export interface ModelEntry {
@@ -125,7 +129,7 @@ export const MODEL_REGISTRY: ModelEntry[] = [
     outputs: "policy_id, triggered, reason_code, evidence fields, signal_confidence.",
     limitations:
       "A triggered policy is a prompt to investigate, never a confirmed cause or a judgment about a company.",
-    surfaces: ["rules", "sample"],
+    surfaces: ["rules", "sample", "overlap"],
   },
   {
     displayName: "Company pattern context",
@@ -172,7 +176,7 @@ export const MODEL_REGISTRY: ModelEntry[] = [
     outputs: "daily_complaint_count, issue_pattern_status, observed_share_pct.",
     limitations:
       "Observed counts only. Every row carries observed_share_pct so a count is never read without its denominator.",
-    surfaces: ["metric-chart", "kpis", "archive-growth"],
+    surfaces: ["metric-chart", "kpis", "archive-growth", "rhythm", "readout"],
   },
   {
     displayName: "Decision queue",

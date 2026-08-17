@@ -1,6 +1,6 @@
 {
   "export_version": "2026-08-17",
-  "generated_at_utc": "2026-08-17T15:57:36Z",
+  "generated_at_utc": "2026-08-17T16:36:22Z",
   "publication_lag_window_days": 60,
   "case_context_window_days": 180,
   "case_context_row_count": 300,

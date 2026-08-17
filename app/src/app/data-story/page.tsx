@@ -16,62 +16,10 @@ import {
   VercelMark,
 } from "@/components/ui/TechMarks";
 import { loadDemoMeta, loadLedgerExhibits, loadOperationsMetrics } from "@/lib/demo-data";
+import { MODEL_REGISTRY } from "@/lib/model-registry";
 import { datesFor, dimensionsFor } from "@/lib/analytics";
 
 export const metadata = { title: "Data Story" };
-
-const MODELS = [
-  {
-    layer: "Staging",
-    name: "stg_cfpb_complaints",
-    why: "Renames and types every field once, normalizes the string \"None\" to a real null, and drops rows missing anything decision-critical. Everything downstream can then assume clean required fields.",
-  },
-  {
-    layer: "Intermediate",
-    name: "int_complaint_status_context",
-    why: "Assigns one data-completeness label per record, so a later model never has to re-derive whether a row is safe to interpret.",
-  },
-  {
-    layer: "Intermediate",
-    name: "int_issue_daily_volume",
-    why: "Counts complaints per day per product and issue. This is the grain every trend is computed from.",
-  },
-  {
-    layer: "Intermediate",
-    name: "int_issue_trends",
-    why: "Computes the rolling window, the baseline, the percentage change and the observed share — then decides whether a pattern qualifies as emerging.",
-  },
-  {
-    layer: "Intermediate",
-    name: "int_resolution_signals",
-    why: "Joins each complaint to the trend context for its own date, product and issue, so a record carries the pattern it belongs to.",
-  },
-  {
-    layer: "Intermediate",
-    name: "int_priority_policy_application",
-    why: "Evaluates all six policy rules against every record and keeps each trigger state — not just the ones that fired — so the full evaluation stays auditable.",
-  },
-  {
-    layer: "Mart",
-    name: "fct_complaints",
-    why: "The canonical fact table: one row per published complaint, carrying its provenance and completeness.",
-  },
-  {
-    layer: "Mart",
-    name: "fct_issue_daily_metrics",
-    why: "The trusted daily metric layer. Its daily_complaint_count is the only field safe to sum across dates.",
-  },
-  {
-    layer: "Mart",
-    name: "resolution_action_queue",
-    why: "Applies precedence across triggered policies and lands one recommended action per record, with reason codes and confidence attached.",
-  },
-  {
-    layer: "Mart",
-    name: "agent_case_context",
-    why: "The agent-safe surface: factual context per record with no narrative text and no consumer identifiers.",
-  },
-];
 
 export default async function DataStoryPage() {
   const [meta, ledger, metrics] = await Promise.all([
@@ -250,11 +198,11 @@ export default async function DataStoryPage() {
                 </tr>
               </thead>
               <tbody>
-                {MODELS.map((m) => (
+                {MODEL_REGISTRY.map((m) => (
                   <tr key={m.name}>
                     <td>{m.layer}</td>
                     <td style={{ fontFamily: "var(--mono)", whiteSpace: "nowrap" }}>{m.name}</td>
-                    <td>{m.why}</td>
+                    <td>{m.purpose}</td>
                   </tr>
                 ))}
               </tbody>

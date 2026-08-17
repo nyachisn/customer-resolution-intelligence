@@ -80,6 +80,69 @@ export interface OperationsMetric {
   metricValue: number;
 }
 
+/**
+ * One metric reshaped into aligned series, one array per dimension.
+ *
+ * operations_overview_metrics is 15,023 long-format rows, and every one of
+ * them repeats its metric name and its (up to 52-character) product string.
+ * Handing that array to a client component serializes all of it into the RSC
+ * payload — about 1.8 MB of mostly repeated keys. Pivoting to shared axes
+ * with numeric arrays carries the same numbers in roughly 50 KB.
+ *
+ * `dates` is this metric's own date axis: complaint_volume and
+ * emerging_issue_count do not cover identical ranges, so they must not share
+ * one. Missing days are zero-filled against that axis, which is correct here
+ * because a day with no published complaints for a product genuinely
+ * contributed nothing to the total.
+ */
+export interface MetricSeries {
+  metricName: string;
+  dates: string[];
+  /** Dimensions ordered by total volume descending. */
+  dimensions: string[];
+  /** dimension -> one value per entry in `dates`. */
+  values: Record<string, number[]>;
+  /** Sum across every dimension, per entry in `dates`. */
+  totals: number[];
+}
+
+/**
+ * Every metric that forms a real time series, keyed by metric name.
+ *
+ * action_count is deliberately absent: it is a single-date snapshot of the
+ * standing action distribution, not a series, and presenting it on a time
+ * axis would imply a trend that the row does not contain.
+ */
+export type MetricBundle = Record<string, MetricSeries>;
+
+/** One policy's population-level trigger rate, over the whole archive. */
+export interface PolicyTriggerRate {
+  policyId: string;
+  triggeredCount: number;
+  evaluatedCount: number;
+  /** triggeredCount / evaluatedCount, or null when nothing was evaluated. */
+  triggerRate: number | null;
+}
+
+/**
+ * The minimum needed to list and filter the illustrative record sample.
+ *
+ * Deliberately excludes context_summary, sub_issue, company_response and the
+ * received date: those are only needed once a single record is opened, and
+ * keeping them out drops the default client payload for this file from about
+ * 520 KB to about 35 KB. The full record is loaded server-side, one at a
+ * time, by the `item` URL parameter.
+ */
+export interface SampleRecordIndexRow {
+  id: string;
+  product: string;
+  issue: string;
+  priority: Priority;
+  recommendedAction: RecommendedAction;
+  signalConfidence: SignalConfidence;
+  policyIds: string[];
+}
+
 /** One aggregate row: a category label paired with its count. */
 export interface LedgerCount {
   label: string;
@@ -119,6 +182,12 @@ export interface LedgerExhibits {
   confidence: LedgerCount[];
   action: LedgerCount[];
   policyTriggers: LedgerCount[];
+  /**
+   * The same policy rows carrying their denominator. `policyTriggers` keeps
+   * only the triggered count for the ledger's count-vs-count exhibits; a
+   * trigger *rate* needs evaluated_count, which the export already writes.
+   */
+  policyTriggerRates: PolicyTriggerRate[];
   completeness: LedgerCount[];
   timely: LedgerCount[];
   emergingSignals: LedgerSignal[];

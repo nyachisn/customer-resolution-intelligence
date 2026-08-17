@@ -65,6 +65,8 @@ export function TrendChart({
   labelMode = "day",
   fill = true,
   showPeak = true,
+  focusDate = null,
+  onSelectPoint,
   emptyMessage = "Widen the date range or clear a filter to see the trend.",
 }: {
   points: TrendPoint[];
@@ -76,6 +78,10 @@ export function TrendChart({
   fill?: boolean;
   /** Off for monotonic series, where "peak" is always the last point. */
   showPeak?: boolean;
+  /** ISO date pinned by the shared filter state. Metric views only. */
+  focusDate?: string | null;
+  /** Clicking a point publishes it as the focused date. */
+  onSelectPoint?: (date: string) => void;
   emptyMessage?: string;
 }) {
   const gradientId = useId().replace(/:/g, "");
@@ -154,14 +160,19 @@ export function TrendChart({
   const { x, y, linePath, areaPath, comparePath, gridValues, tickIdx, peakIdx } = geometry;
   const ready = w > 60 && h > 60;
 
-  function handleMove(e: React.MouseEvent<SVGSVGElement>) {
+  /** Nearest point index under a pointer position. */
+  function indexAt(e: React.MouseEvent<SVGSVGElement>): number {
     const rect = e.currentTarget.getBoundingClientRect();
     const mx = e.clientX - rect.left;
-    let i = Math.round(((mx - padL) / plotW) * (points.length - 1));
-    i = Math.max(0, Math.min(points.length - 1, i));
-    setHoverIdx(i);
+    const i = Math.round(((mx - padL) / plotW) * (points.length - 1));
+    return Math.max(0, Math.min(points.length - 1, i));
   }
 
+  function handleMove(e: React.MouseEvent<SVGSVGElement>) {
+    setHoverIdx(indexAt(e));
+  }
+
+  const focusIdx = focusDate ? points.findIndex((p) => p.date === focusDate) : -1;
   const hovered = hoverIdx != null ? points[hoverIdx] : null;
   const hoveredCompare = hoverIdx != null && comparePoints ? comparePoints[hoverIdx] : null;
   const lastIdx = points.length - 1;
@@ -178,11 +189,12 @@ export function TrendChart({
           width={w}
           height={h}
           viewBox={`0 0 ${w} ${h}`}
-          className="viz-svg"
+          className={`viz-svg${onSelectPoint ? " is-selectable" : ""}`}
           role="img"
           aria-label={`${seriesLabel} from ${fmtDate(points[0].date)} to ${fmtDate(points[lastIdx].date)}`}
           onMouseMove={handleMove}
           onMouseLeave={() => setHoverIdx(null)}
+          onClick={onSelectPoint ? (e) => onSelectPoint(points[indexAt(e)].date) : undefined}
         >
           <defs>
             <linearGradient id={gradientId} x1="0" y1="0" x2="0" y2="1">
@@ -227,6 +239,24 @@ export function TrendChart({
               >
                 peak {compact(points[peakIdx].value)}
               </text>
+            </>
+          )}
+
+          {focusIdx >= 0 && (
+            <>
+              <line
+                x1={x(focusIdx, points.length)}
+                x2={x(focusIdx, points.length)}
+                y1={padT}
+                y2={padT + plotH}
+                className="viz-focus-line"
+              />
+              <circle
+                cx={x(focusIdx, points.length)}
+                cy={y(points[focusIdx].value)}
+                r={4.5}
+                className="viz-focus-dot"
+              />
             </>
           )}
 

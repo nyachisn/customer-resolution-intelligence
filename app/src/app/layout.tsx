@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { NavLinks } from "@/components/ui/NavLinks";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -12,8 +13,8 @@ export const metadata: Metadata = {
 };
 
 const NAV = [
-  { href: "/", label: "Overview" },
-  { href: "/data-story", label: "How it's built" },
+  { href: "/", label: "What" },
+  { href: "/data-story", label: "How" },
   { href: "/explore", label: "Explore" },
 ];
 
@@ -33,13 +34,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               </span>
               Customer Resolution Intelligence
             </Link>
-            <div className="nav-links">
-              {NAV.map((item) => (
-                <Link key={item.href} href={item.href}>
-                  {item.label}
-                </Link>
-              ))}
-            </div>
+            <NavLinks items={NAV} />
           </nav>
         </header>
 

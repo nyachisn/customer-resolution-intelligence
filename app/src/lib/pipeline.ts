@@ -182,7 +182,6 @@ export const LAYER_LABEL: Record<Layer, string> = {
 /** One stage of the pipeline, as drawn on the How it's built page. */
 export interface Stage {
   id: string;
-  index: string;
   name: string;
   system: string;
   summary: string;
@@ -190,13 +189,12 @@ export interface Stage {
   tone: "source" | "ingest" | "transform" | "warehouse" | "serve" | "users";
   items: string[];
   /** Sub-blocks, used by the transform stage to show its four layers. */
-  blocks?: { name: string; detail: string }[];
+  blocks?: { name: string; detail: string; models?: string[] }[];
 }
 
 export const STAGES: Stage[] = [
   {
     id: "source",
-    index: "01",
     name: "Source",
     system: "CFPB",
     summary: "Structured public complaint data",
@@ -210,7 +208,6 @@ export const STAGES: Stage[] = [
   },
   {
     id: "ingest",
-    index: "02",
     name: "Ingest",
     system: "Batch ingestion",
     summary: "Source-preserving load into Snowflake RAW",
@@ -223,28 +220,48 @@ export const STAGES: Stage[] = [
   },
   {
     id: "transform",
-    index: "03",
     name: "Transform",
     system: "dbt",
     summary: "A dependency-driven model DAG, executed inside Snowflake",
     tone: "transform",
     items: [],
     blocks: [
-      { name: "Staging", detail: "Clean and standardize source fields" },
+      {
+        name: "Staging",
+        detail: "Clean and standardize source fields",
+        models: ["stg_cfpb_complaints"],
+      },
       {
         name: "Intermediate",
         detail: "Join records, calculate metrics, derive analytical context, evaluate business logic",
+        models: [
+          "int_complaint_status_context",
+          "int_issue_daily_volume",
+          "int_issue_trends",
+          "int_resolution_signals",
+          "int_company_issue_patterns",
+        ],
       },
-      { name: "Marts", detail: "Publish reusable analytical datasets" },
+      {
+        name: "Marts",
+        detail: "Publish reusable analytical datasets",
+        models: [
+          "dim_issue_taxonomy",
+          "fct_complaints",
+          "fct_issue_daily_metrics",
+          "operations_overview_metrics",
+          "agent_case_context",
+        ],
+      },
       {
         name: "Decisioning",
         detail: "Apply policy precedence; produce priorities, reason codes and confidence",
+        models: ["int_priority_policy_application", "resolution_action_queue"],
       },
     ],
   },
   {
     id: "analytics",
-    index: "04",
     name: "Analytics",
     system: "Snowflake",
     summary: "Where dbt models are materialized and served",
@@ -259,7 +276,6 @@ export const STAGES: Stage[] = [
   },
   {
     id: "export",
-    index: "05",
     name: "Application data",
     system: "Curated export",
     summary: "The analytical fields the product needs, and nothing else",
@@ -273,7 +289,6 @@ export const STAGES: Stage[] = [
   },
   {
     id: "experience",
-    index: "06",
     name: "Experience",
     system: "Next.js on Vercel",
     summary: "Two consumption surfaces on one analytical platform",

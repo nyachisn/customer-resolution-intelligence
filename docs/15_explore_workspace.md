@@ -4,6 +4,31 @@ The Explore surface is a connected, URL-addressable decision workspace built
 entirely on the curated static export. There is no API layer, no client access
 to Snowflake, and no raw-record delivery as an analytical mechanism.
 
+## 0. Why the surface was rebuilt around the archive
+
+The first version led with `operations_overview_metrics`: daily volume by
+product across 165 days. Two measured problems made that unreadable as a
+story.
+
+**The daily series draws the calendar.** Sunday averages 6,328 complaints
+against 26,571 on a Wednesday — weekends run at 34% of a weekday. A daily line
+is therefore mostly a picture of the working week, and real movement hides
+underneath it. Month grain integrates the artifact out.
+
+**The export had discarded the dimensions.** `fct_issue_daily_metrics` holds
+date x product x issue across the whole archive, but the `monthly_volume`
+query collapsed it with `DATE_TRUNC('month') ... GROUP BY 1`, dropping product
+and issue. The result: the 15-year growth curve and the product breakdown
+lived in two different exports and could never be crossed, so the one chart
+with a story had nothing to drill into. `archive_explorer.json` fixes that at
+source.
+
+**The CFPB renamed its product taxonomy twice** — April 2017 and August 2023.
+Plotted on raw labels, a 15-year per-product chart shows nearly every category
+dying and being reborn on those dates; credit reporting alone appears as three
+unrelated products. `app/src/lib/product-families.ts` maps the lineages, and
+the chart marks both change dates rather than smoothing over them.
+
 ---
 
 ## 1. Three populations, never blended

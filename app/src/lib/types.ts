@@ -217,3 +217,41 @@ export interface DemoExportMeta {
   source_total_records: number | null;
   source_retrieval_date: string | null;
 }
+
+/* ------------------------------------------------------------------ */
+/* Archive explorer — the full published history at month grain         */
+/* ------------------------------------------------------------------ */
+
+/** One month's volume for one published product label. */
+export interface ArchiveMonthProduct {
+  month: string;
+  product: string;
+  total: number;
+}
+
+/** Trailing 12 complete months against the 12 before, per product x issue. */
+export interface IssueMovement {
+  product: string;
+  issue: string;
+  current12m: number;
+  prior12m: number;
+}
+
+/** One policy's trigger rate within one published product label. */
+export interface ProductPolicyRate {
+  product: string;
+  policyId: string;
+  triggeredCount: number;
+  evaluatedCount: number;
+}
+
+/**
+ * Matches archive_explorer.json. Every row is a GROUP BY aggregate over the
+ * published population — no complaint_id, no per-record field.
+ */
+export interface ArchiveExplorer {
+  generatedAtUtc: string;
+  monthlyProductVolume: ArchiveMonthProduct[];
+  productIssueMovement: IssueMovement[];
+  policyByProduct: ProductPolicyRate[];
+}

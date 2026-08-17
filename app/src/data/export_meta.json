@@ -1,10 +1,10 @@
 {
-  "export_version": "2026-08-16",
-  "generated_at_utc": "2026-08-16T23:52:10Z",
+  "export_version": "2026-08-17",
+  "generated_at_utc": "2026-08-17T15:57:36Z",
   "publication_lag_window_days": 60,
   "case_context_window_days": 180,
   "case_context_row_count": 300,
-  "metrics_row_count": 15023,
+  "metrics_row_count": 14930,
   "source_total_records": 17119590,
   "source_retrieval_date": "2026-08-16T00:38:17Z"
 }

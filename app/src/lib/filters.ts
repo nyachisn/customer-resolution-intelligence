@@ -22,13 +22,18 @@
  * a clean URL and a shared one carries only what was actually changed.
  */
 
-export type ChartMode = "trend" | "ranked" | "slope" | "multiples";
+export type ChartMode = "growth" | "multiples";
 
 export const CHART_MODES: { value: ChartMode; label: string; help: string }[] = [
-  { value: "trend", label: "Trend", help: "Daily volume over the selected period" },
-  { value: "ranked", label: "Ranked", help: "Products by volume, with period change" },
-  { value: "slope", label: "Slope", help: "Previous period against current, per product" },
-  { value: "multiples", label: "Small multiples", help: "One trend per product, same scale" },
+  { value: "growth", label: "Growth table", help: "Every product family ranked, with its 15-year shape" },
+  { value: "multiples", label: "Small multiples", help: "One curve per family, all on the same scale" },
+];
+
+export type ArchiveView = "volume" | "cumulative";
+
+export const ARCHIVE_VIEWS: { value: ArchiveView; label: string; help: string }[] = [
+  { value: "volume", label: "Per month", help: "Complaints published in each month" },
+  { value: "cumulative", label: "Running total", help: "Everything published up to that month" },
 ];
 
 /** The five policies whose switches scope the illustrative sample. */
@@ -55,33 +60,28 @@ const CODE_RULE: Record<string, RuleId> = Object.fromEntries(
   Object.entries(RULE_CODE).map(([id, code]) => [code, id as RuleId]),
 ) as Record<string, RuleId>;
 
-export const PERIODS = [28, 56, 90, 0] as const;
-
 export interface DashboardFilters {
-  /** Exact product string, or null for every product. */
-  product: string | null;
-  /** A metric name present in the metric bundle. */
-  measure: string;
-  /** Trailing days; 0 means the whole series. */
-  period: number;
-  compare: boolean;
-  hideRecentIncompleteDays: boolean;
+  /**
+   * A product-family id from product-families.ts, or null for the whole
+   * archive. Families rather than raw labels: the CFPB renamed its product
+   * taxonomy in 2017 and 2023, so a raw label cannot address a continuous
+   * 15-year series.
+   */
+  family: string | null;
+  view: ArchiveView;
   selectedRules: RuleId[];
   chartMode: ChartMode;
-  /** ISO date focused on the metric series. Never filters record data. */
+  /** A month (YYYY-MM) pinned on the archive curve. */
   focus: string | null;
   /** "rec:<complaint id>" or "model:<dbt model name>". */
   item: string | null;
 }
 
 export const DEFAULT_FILTERS: DashboardFilters = {
-  product: null,
-  measure: "complaint_volume",
-  period: 28,
-  compare: true,
-  hideRecentIncompleteDays: true,
+  family: null,
+  view: "volume",
   selectedRules: [...RULE_IDS],
-  chartMode: "trend",
+  chartMode: "growth",
   focus: null,
   item: null,
 };
@@ -93,13 +93,7 @@ function one(raw: RawParams, key: string): string | undefined {
   return Array.isArray(v) ? v[0] : v;
 }
 
-function bool(value: string | undefined, fallback: boolean): boolean {
-  if (value === "1" || value === "true") return true;
-  if (value === "0" || value === "false") return false;
-  return fallback;
-}
-
-const ISO_DATE = /^\d{4}-\d{2}-\d{2}$/;
+const ISO_MONTH = /^\d{4}-\d{2}$/;
 const ITEM_REF = /^(rec|model):[A-Za-z0-9_.-]{1,64}$/;
 
 /**
@@ -108,9 +102,8 @@ const ITEM_REF = /^(rec|model):[A-Za-z0-9_.-]{1,64}$/;
  * a working dashboard, not an error page.
  */
 export function parseFilters(raw: RawParams): DashboardFilters {
-  const period = Number(one(raw, "period"));
-  const measure = one(raw, "measure");
   const chartMode = one(raw, "chartMode");
+  const view = one(raw, "view");
   const focus = one(raw, "focus");
   const item = one(raw, "item");
 
@@ -126,19 +119,13 @@ export function parseFilters(raw: RawParams): DashboardFilters {
   }
 
   return {
-    product: one(raw, "product")?.trim() || null,
-    measure: measure && /^[a-z_]{1,64}$/.test(measure) ? measure : DEFAULT_FILTERS.measure,
-    period: (PERIODS as readonly number[]).includes(period) ? period : DEFAULT_FILTERS.period,
-    compare: bool(one(raw, "compare"), DEFAULT_FILTERS.compare),
-    hideRecentIncompleteDays: bool(
-      one(raw, "hideRecentIncompleteDays"),
-      DEFAULT_FILTERS.hideRecentIncompleteDays,
-    ),
+    family: one(raw, "family")?.trim() || null,
+    view: ARCHIVE_VIEWS.some((v) => v.value === view) ? (view as ArchiveView) : DEFAULT_FILTERS.view,
     selectedRules,
     chartMode: CHART_MODES.some((m) => m.value === chartMode)
       ? (chartMode as ChartMode)
       : DEFAULT_FILTERS.chartMode,
-    focus: focus && ISO_DATE.test(focus) ? focus : null,
+    focus: focus && ISO_MONTH.test(focus) ? focus : null,
     item: item && ITEM_REF.test(item) ? item : null,
   };
 }
@@ -147,13 +134,8 @@ export function parseFilters(raw: RawParams): DashboardFilters {
 export function filtersToQuery(f: DashboardFilters): string {
   const q = new URLSearchParams();
 
-  if (f.product) q.set("product", f.product);
-  if (f.measure !== DEFAULT_FILTERS.measure) q.set("measure", f.measure);
-  if (f.period !== DEFAULT_FILTERS.period) q.set("period", String(f.period));
-  if (f.compare !== DEFAULT_FILTERS.compare) q.set("compare", f.compare ? "1" : "0");
-  if (f.hideRecentIncompleteDays !== DEFAULT_FILTERS.hideRecentIncompleteDays) {
-    q.set("hideRecentIncompleteDays", f.hideRecentIncompleteDays ? "1" : "0");
-  }
+  if (f.family) q.set("family", f.family);
+  if (f.view !== DEFAULT_FILTERS.view) q.set("view", f.view);
   if (!sameRules(f.selectedRules, DEFAULT_FILTERS.selectedRules)) {
     q.set("selectedRules", f.selectedRules.map((id) => RULE_CODE[id]).join(","));
   }

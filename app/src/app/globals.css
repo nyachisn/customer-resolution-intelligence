@@ -1329,55 +1329,75 @@ input, select, textarea {
 
 /* ---------- lineage graph ---------- */
 
+/* Only the x axis scrolls. Setting overflow on one axis forces the other to
+   `auto`, so anything that spilled vertically — the old per-node tooltip —
+   silently added a second scrollbar. The node detail now sits in a caption
+   below the graph instead. */
 .dag-scroll {
-  overflow-x: auto; padding-bottom: .5rem;
-  background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-lg);
+  overflow-x: auto; overflow-y: hidden;
+  background: var(--surface); border: 1px solid var(--line);
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0; border-bottom: none;
 }
 .dag { position: relative; }
 .dag-edges { position: absolute; inset: 0; overflow: visible; pointer-events: none; }
 .dag-edge {
-  fill: none; stroke: var(--line-strong); stroke-width: 1;
+  fill: none; stroke: var(--line-strong); stroke-width: 1.2;
   transition: stroke .16s ease, opacity .16s ease;
 }
-.dag-edge.is-lit { stroke: var(--blue); stroke-width: 1.6; }
-.dag-edge.is-muted { opacity: .25; }
+.dag-edge.is-lit { stroke: var(--blue); stroke-width: 2; }
+.dag-edge.is-muted { opacity: .2; }
 
 .dag-node {
   position: absolute; box-sizing: border-box;
-  display: flex; flex-direction: column; justify-content: center; gap: .1rem;
-  padding: .45rem .65rem; border-radius: 9px;
+  display: flex; flex-direction: column; justify-content: center; gap: .15rem;
+  padding: .5rem .7rem; border-radius: 10px;
   background: var(--surface); border: 1px solid var(--line-strong);
-  cursor: default; transition: opacity .16s ease, border-color .16s ease;
+  cursor: default; transition: opacity .16s ease, border-color .16s ease, box-shadow .16s ease;
 }
-.dag-node.is-staging, .dag-node.is-intermediate,
-.dag-node.is-mart, .dag-node.is-decisioning { border-color: var(--line-strong); }
-.dag-node.is-lit { border-color: var(--blue); box-shadow: var(--shadow); z-index: 3; }
-.dag-node.is-muted { opacity: .32; }
+/* Contrast comes from a tinted ground per layer rather than a rule down one
+   edge — the tint reads at a glance without adding a decorative stripe. */
+.dag-node.is-staging { background: var(--bg-tint); }
+.dag-node.is-intermediate { background: #f2f7ff; }
+.dag-node.is-mart { background: var(--blue-soft); }
+.dag-node.is-decisioning { background: #eef0f4; border-color: var(--text-3); }
+.dag-node.is-lit {
+  border-color: var(--blue); box-shadow: 0 0 0 2px var(--blue-glow), var(--shadow); z-index: 3;
+}
+.dag-node.is-muted { opacity: .3; }
 .dag-name {
   font-family: var(--mono); font-size: var(--fs-min); color: var(--text);
   line-height: 1.25; overflow-wrap: anywhere;
 }
-.dag-meta { font-size: var(--fs-min); color: var(--text-3); font-weight: 300; }
+.dag-meta { font-size: var(--fs-min); color: var(--text-2); font-weight: 300; }
 
-/* Held inside the node until hover so the graph stays readable at rest. */
-.dag-tip {
-  position: absolute; left: 0; top: calc(100% + 8px); width: 250px; z-index: 6;
-  background: var(--text); color: #fff; border-radius: 8px; padding: .5rem .7rem;
-  font-size: var(--fs-min); font-weight: 300; line-height: 1.45;
-  opacity: 0; visibility: hidden; transition: opacity .14s ease; box-shadow: var(--shadow);
+/* The hovered model's detail, in fixed space under the graph. */
+.dag-caption {
+  display: flex; align-items: baseline; gap: .9rem; flex-wrap: wrap;
+  min-height: 3.4rem; padding: .8rem 1rem;
+  background: var(--bg-tint); border: 1px solid var(--line);
+  border-radius: 0 0 var(--radius-lg) var(--radius-lg);
 }
-.dag-node:hover .dag-tip, .dag-node:focus-visible .dag-tip { opacity: 1; visibility: visible; }
+.dag-caption-name { font-family: var(--mono); font-size: var(--fs-min); color: var(--blue); }
+.dag-caption-grain {
+  font-size: var(--fs-min); color: var(--text-3); font-weight: 300;
+  padding-right: .9rem; border-right: 1px solid var(--line-strong);
+}
+.dag-caption-role {
+  font-size: var(--fs-min); color: var(--text-2); font-weight: 300;
+  flex: 1 1 20rem; min-width: 0; line-height: 1.5;
+}
+.dag-caption-rest { font-size: var(--fs-min); color: var(--text-3); font-weight: 300; }
 
 .dag-key {
   display: flex; gap: 1.5rem; flex-wrap: wrap; align-items: baseline;
   margin-top: 1rem; font-size: var(--fs-min); color: var(--text-3); font-weight: 300;
 }
 .dag-key-item { display: inline-flex; align-items: center; gap: .5rem; }
-.dag-swatch { width: 3px; height: 15px; border-radius: 2px; display: inline-block; }
-.dag-swatch.is-staging { background: var(--text-3); }
-.dag-swatch.is-intermediate { background: var(--viz-2); }
-.dag-swatch.is-mart { background: var(--blue); }
-.dag-swatch.is-decisioning { background: var(--text); }
+.dag-swatch { width: 12px; height: 12px; border-radius: 3px; display: inline-block; border: 1px solid var(--line-strong); }
+.dag-swatch.is-staging { background: var(--bg-tint); }
+.dag-swatch.is-intermediate { background: #f2f7ff; }
+.dag-swatch.is-mart { background: var(--blue-soft); }
+.dag-swatch.is-decisioning { background: #eef0f4; border-color: var(--text-3); }
 .dag-key-note { flex: 1 1 22rem; min-width: 0; }
 
 /* ---------- layer chain ---------- */

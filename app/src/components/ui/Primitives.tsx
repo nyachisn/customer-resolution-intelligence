@@ -15,12 +15,10 @@ type Tone = "neutral" | "accent" | "positive" | "caution" | "negative";
  * first, then their own `.container` sections beneath it.
  */
 export function PageHeader({
-  eyebrow,
   title,
   lede,
   aside,
 }: {
-  eyebrow: string;
   title: string;
   lede?: string;
   aside?: ReactNode;
@@ -32,8 +30,7 @@ export function PageHeader({
       <div className="container" style={{ paddingTop: "3.5rem", paddingBottom: "3rem" }}>
         <div className="section-head-row" style={{ marginBottom: 0 }}>
           <div className="section-head" style={{ marginBottom: 0 }}>
-            <div className="eyebrow">{eyebrow}</div>
-            <h2 style={{ fontSize: "clamp(1.9rem, 3.4vw, 2.6rem)" }}>{title}</h2>
+            <h2 style={{ fontSize: "clamp(2.1rem, 3.8vw, 3rem)" }}>{title}</h2>
             {lede && <p>{lede}</p>}
           </div>
           {aside}
@@ -44,19 +41,16 @@ export function PageHeader({
 }
 
 export function SectionHead({
-  eyebrow,
   title,
   description,
   aside,
 }: {
-  eyebrow?: string;
   title: string;
   description?: string;
   aside?: ReactNode;
 }) {
   const head = (
     <div className="section-head">
-      {eyebrow && <div className="eyebrow">{eyebrow}</div>}
       <h2>{title}</h2>
       {description && <p>{description}</p>}
     </div>

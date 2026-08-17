@@ -15,10 +15,8 @@ export const metadata: Metadata = {
 
 const NAV = [
   { href: "/", label: "Overview" },
-  { href: "/data-story", label: "Data Story" },
-  { href: "/insights", label: "Insights" },
+  { href: "/data-story", label: "How it's built" },
   { href: "/explore", label: "Explore" },
-  { href: "/decisions", label: "Decisions" },
 ];
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {

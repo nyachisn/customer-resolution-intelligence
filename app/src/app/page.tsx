@@ -10,7 +10,7 @@
 
 import Link from "next/link";
 import { Sparkline } from "@/components/ui/Sparkline";
-import { loadArchiveExplorer, loadDemoMeta, loadLedgerExhibits } from "@/lib/demo-data";
+import { loadArchiveExplorer, loadLedgerExhibits } from "@/lib/demo-data";
 import { archiveMonths, archiveTotals, familySeries } from "@/lib/archive-analytics";
 import { formatCompact, formatMonth, formatPct } from "@/lib/analytics";
 import { WAREHOUSE } from "@/lib/pipeline";
@@ -19,32 +19,13 @@ const PIPELINE_STEPS = [
   { name: "Source", detail: "A published CFPB complaint" },
   { name: "Clean", detail: "Standardize and validate" },
   { name: "Measure", detail: "Daily volume by product and issue" },
-  { name: "Detect", detail: "Compare with the issue's own baseline" },
-  { name: "Prioritize", detail: "Evaluate the decision policies" },
-  { name: "Explore", detail: "Investigate the resulting signals" },
-];
-
-const INVESTIGATIONS = [
-  {
-    name: "Trends",
-    detail: "See which products and issues are changing, over 15 years or the last twelve months.",
-  },
-  {
-    name: "Signals",
-    detail: "Identify patterns that cleared their own baseline by enough to qualify.",
-  },
-  {
-    name: "Decisions",
-    detail: "Review the priority and recommended action the decisioning layer produced.",
-  },
+  { name: "Compare", detail: "Measure against the issue's own history" },
+  { name: "Prioritize", detail: "Apply the decision policies" },
+  { name: "Review", detail: "Investigate what stands out" },
 ];
 
 export default async function OverviewPage() {
-  const [meta, ledger, archive] = await Promise.all([
-    loadDemoMeta(),
-    loadLedgerExhibits(),
-    loadArchiveExplorer(),
-  ]);
+  const [ledger, archive] = await Promise.all([loadLedgerExhibits(), loadArchiveExplorer()]);
 
   const rows = archive?.monthlyProductVolume ?? [];
   const months = archiveMonths(rows);
@@ -71,11 +52,6 @@ export default async function OverviewPage() {
               Math.abs((a.changePct ?? 0) - overall.changePct!),
           )[0];
 
-  // One real qualifying signal, with its baseline recovered from the change
-  // the trends model recorded against it.
-  const signal = ledger?.emergingSignals?.[0] ?? null;
-  const baseline = signal ? signal.issueVolumeCurrent / (1 + signal.volumeChangePct) : null;
-
   return (
     <>
       {/* ---------------- hero ---------------- */}
@@ -101,7 +77,12 @@ export default async function OverviewPage() {
       <section className="band section">
         <div className="container">
           <div className="section-head">
-            <h2>A large public dataset with very different signals inside it</h2>
+            <h2>What you are looking at</h2>
+            <p>
+              Every complaint the CFPB has published since December 2011, modeled so that a
+              category, an issue or a month can be compared against its own history rather than
+              against the total.
+            </p>
           </div>
           <div className="figures">
             <div className="figure">
@@ -151,6 +132,7 @@ export default async function OverviewPage() {
                 <h3>Every category</h3>
                 <p className="compare-figure">
                   {formatCompact(overall.recent)}
+                  <span className="compare-unit">complaints</span>
                   <span className={`compare-delta is-${overall.dir}`}>
                     {formatPct(overall.changePct, { signed: true })}
                   </span>
@@ -165,6 +147,7 @@ export default async function OverviewPage() {
                 <h3>{hidden.family.label}</h3>
                 <p className="compare-figure">
                   {formatCompact(hidden.recent12m)}
+                  <span className="compare-unit">complaints</span>
                   <span
                     className={`compare-delta is-${
                       (hidden.changePct ?? 0) > 0.02 ? "up" : (hidden.changePct ?? 0) < -0.02 ? "down" : "flat"
@@ -191,13 +174,12 @@ export default async function OverviewPage() {
       <section className="band section">
         <div className="container">
           <div className="section-head">
-            <h2>From record to signal</h2>
+            <h2>What the pipeline does with each complaint</h2>
           </div>
           <Link href="/data-story" className="steps-link">
             <ol className="steps">
-              {PIPELINE_STEPS.map((step, i) => (
+              {PIPELINE_STEPS.map((step) => (
                 <li className="step" key={step.name}>
-                  <span className="step-index">{String(i + 1).padStart(2, "0")}</span>
                   <span className="step-name">{step.name}</span>
                   <span className="step-detail">{step.detail}</span>
                 </li>
@@ -208,93 +190,11 @@ export default async function OverviewPage() {
         </div>
       </section>
 
-      {/* ---------------- one real example ---------------- */}
-      {signal && baseline != null && (
-        <section className="band band-tint section">
-          <div className="container">
-            <div className="section-head">
-              <h2>One signal, end to end</h2>
-              <p>
-                A pattern the decisioning layer flagged, with the evidence behind it and the action
-                it produced.
-              </p>
-            </div>
-            <div className="example">
-              <div className="example-head">
-                <h3>{signal.issue}</h3>
-                <p>{signal.product}</p>
-              </div>
-              <dl className="example-figures">
-                <div>
-                  <dt>Current volume</dt>
-                  <dd>{signal.issueVolumeCurrent.toLocaleString()}</dd>
-                </div>
-                <div>
-                  <dt>Its own baseline</dt>
-                  <dd>{Math.round(baseline).toLocaleString()}</dd>
-                </div>
-                <div>
-                  <dt>Change</dt>
-                  <dd className="is-up">{formatPct(signal.volumeChangePct, { signed: true })}</dd>
-                </div>
-                <div>
-                  <dt>Measured</dt>
-                  <dd>{signal.metricDate}</dd>
-                </div>
-              </dl>
-              <div className="example-why">
-                <div>
-                  <h4>Why it was flagged</h4>
-                  <p>
-                    Volume for this product and issue cleared the emerging-signal thresholds
-                    against its own baseline, so <code>int_issue_trends</code> marked the pattern
-                    qualified and <code>int_priority_policy_application</code> recorded the trigger.
-                  </p>
-                </div>
-                <div>
-                  <h4>Recommended action</h4>
-                  <p>
-                    Investigate this trend. Precedence in <code>resolution_action_queue</code>{" "}
-                    lands one action per record, and an emerging signal on its own resolves here
-                    rather than to escalation.
-                  </p>
-                </div>
-              </div>
-              <Link href="/explore" className="example-cta">
-                Open this in Explore →
-              </Link>
-            </div>
-          </div>
-        </section>
-      )}
-
-      {/* ---------------- what you can investigate ---------------- */}
-      <section className="band section">
-        <div className="container">
-          <div className="section-head">
-            <h2>What can you investigate?</h2>
-          </div>
-          <div className="card-grid">
-            {INVESTIGATIONS.map((c) => (
-              <div className="card" key={c.name}>
-                <h3>{c.name}</h3>
-                <p>{c.detail}</p>
-              </div>
-            ))}
-          </div>
-          <div className="hero-actions" style={{ marginTop: "2rem" }}>
-            <Link href="/explore" className="btn">
-              Explore the data
-            </Link>
-          </div>
-        </div>
-      </section>
-
       {/* ---------------- foundation ---------------- */}
       <section className="band band-tint section">
         <div className="container">
           <div className="section-head">
-            <h2>Built on a tested analytical foundation</h2>
+            <h2>What it runs on</h2>
           </div>
           <dl className="stack-roles">
             <div className="stack-role">
@@ -321,27 +221,6 @@ export default async function OverviewPage() {
         </div>
       </section>
 
-      {/* ---------------- final ---------------- */}
-      <section className="band section">
-        <div className="container">
-          <div className="section-head">
-            <h2>Start with a question</h2>
-            <p>
-              Explore the data, investigate a signal, and trace it back to the models that produced
-              it. Comparisons exclude the trailing {meta.publication_lag_window_days} days, where
-              records are still arriving.
-            </p>
-          </div>
-          <div className="hero-actions">
-            <Link href="/explore" className="btn">
-              Explore the data
-            </Link>
-            <Link href="/data-story" className="btn btn-ghost">
-              See how it&rsquo;s built
-            </Link>
-          </div>
-        </div>
-      </section>
     </>
   );
 }

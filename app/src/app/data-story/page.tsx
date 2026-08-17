@@ -7,10 +7,9 @@
  * curated export instead, so the page cannot quietly go stale.
  */
 
-import Link from "next/link";
 import { ModelDag } from "@/components/ui/ModelDag";
 import { PipelineStages } from "@/components/ui/PipelineStages";
-import { loadDemoMeta, loadLedgerExhibits } from "@/lib/demo-data";
+import { loadLedgerExhibits } from "@/lib/demo-data";
 import {
   DAG,
   DECISIONS,
@@ -25,7 +24,7 @@ import {
 export const metadata = { title: "How it's built" };
 
 export default async function DataStoryPage() {
-  const [meta, ledger] = await Promise.all([loadDemoMeta(), loadLedgerExhibits()]);
+  const ledger = await loadLedgerExhibits();
 
   const total = ledger?.totalRecords ?? WAREHOUSE.modelledRows;
   const byLayer = (layer: Layer) => DAG.filter((m) => m.layer === layer);
@@ -241,33 +240,6 @@ export default async function DataStoryPage() {
         </div>
       </section>
 
-      {/* ---------------- reading the numbers ---------------- */}
-      <section className="band band-tint section">
-        <div className="container">
-          <div className="section-head">
-            <h2>Reading the numbers</h2>
-          </div>
-          <div className="note">
-            <p>
-              <strong>Volume is what was reported and published</strong>, which is not the same as
-              what customers experienced. A comparison holds within one category, where reporting
-              conditions are alike.
-            </p>
-            <p>
-              <strong>The most recent records are still arriving.</strong> The trailing{" "}
-              {meta.publication_lag_window_days} days sit outside every period comparison and the
-              current month is excluded entirely, because counting a partial month reads as a
-              decline that is only timing.
-            </p>
-            <p>
-              <strong>A signal is a prompt.</strong> An emerging pattern means something moved
-              enough to be worth a look. What it means is for whoever investigates it to establish
-              — and <Link href="/methodology">the methodology</Link> sets out what this data cannot
-              answer.
-            </p>
-          </div>
-        </div>
-      </section>
     </>
   );
 }

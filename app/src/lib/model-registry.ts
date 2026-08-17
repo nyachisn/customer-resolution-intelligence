@@ -26,7 +26,9 @@ export type SurfaceId =
   | "sample"
   | "readout"
   | "rhythm"
-  | "overlap";
+  | "geography"
+  | "outcome"
+  | "channel";
 
 export const SURFACE_LABELS: Record<SurfaceId, string> = {
   kpis: "Metric summary",
@@ -36,7 +38,9 @@ export const SURFACE_LABELS: Record<SurfaceId, string> = {
   sample: "Illustrative record context",
   readout: "What drove the change",
   rhythm: "Why this board is monthly",
-  overlap: "Where the rules overlap",
+  geography: "Where complaints come from",
+  outcome: "How companies closed them",
+  channel: "How people got in touch",
 };
 
 export interface ModelEntry {
@@ -129,7 +133,7 @@ export const MODEL_REGISTRY: ModelEntry[] = [
     outputs: "policy_id, triggered, reason_code, evidence fields, signal_confidence.",
     limitations:
       "A triggered policy is a prompt to investigate, never a confirmed cause or a judgment about a company.",
-    surfaces: ["rules", "sample", "overlap"],
+    surfaces: ["rules", "sample"],
   },
   {
     displayName: "Company pattern context",
@@ -164,7 +168,7 @@ export const MODEL_REGISTRY: ModelEntry[] = [
     outputs: "The 17.1M-record spine every population aggregate is counted from.",
     limitations:
       "One row is a complaint record, never a customer, a consumer profile, or an identified person.",
-    surfaces: ["archive-growth"],
+    surfaces: ["archive-growth", "geography", "outcome", "channel"],
   },
   {
     displayName: "Daily metric layer",

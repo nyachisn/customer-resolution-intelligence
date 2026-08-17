@@ -187,10 +187,14 @@ export function TrendChart({
   const hoveredCompare = hoverIdx != null && comparePoints ? comparePoints[hoverIdx] : null;
   const lastIdx = points.length - 1;
 
-  // Flip the tooltip to the left of the crosshair near the right edge so it
-  // never gets clipped by the panel it lives in.
+  // The panel that hosts this chart clips its overflow, so the tooltip has
+  // to stay inside the plot box rather than relying on the browser to let it
+  // escape. It flips below the point near the top edge and to the left of
+  // the crosshair near the right edge.
   const hoverX = hoverIdx != null ? x(hoverIdx, points.length) : 0;
-  const flip = hoverX > w - 150;
+  const hoverY = hoverIdx != null ? y(points[hoverIdx].value) : 0;
+  const flipX = hoverX > w - 170;
+  const flipY = hoverY < 86;
 
   return (
     <div className="chart-fill" ref={wrapRef}>
@@ -295,8 +299,11 @@ export function TrendChart({
 
       {ready && hovered && hoverIdx != null && (
         <div
-          className={`viz-tooltip${flip ? " is-flipped" : ""}`}
-          style={{ left: `${hoverX}px`, top: `${y(hovered.value)}px` }}
+          className={`viz-tooltip${flipX ? " is-flipped-x" : ""}${flipY ? " is-flipped-y" : ""}`}
+          style={{
+            left: `${Math.min(Math.max(hoverX, 8), Math.max(w - 8, 8))}px`,
+            top: `${hoverY}px`,
+          }}
         >
           <span className="tt-title">{fmtDate(hovered.date)}</span>
           <span className="tt-value">

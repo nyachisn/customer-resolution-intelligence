@@ -15,6 +15,7 @@
 
 import type {
   ArchiveMonthProduct,
+  DimensionCount,
   IssueMovement,
   PolicyCombination,
   ProductPolicyRate,
@@ -361,4 +362,30 @@ export function policyOverlap(
       })),
     };
   });
+}
+
+/**
+ * Roll a per-product dimension up to the selected category.
+ *
+ * Used for geography, published outcome and intake channel — each of which
+ * is a plain count that re-answers itself whenever the category changes.
+ */
+export function dimensionMix(
+  rows: DimensionCount[],
+  family: ProductFamily | null,
+  limit = 8,
+): { value: string; count: number; share: number }[] {
+  const members = family ? new Set(family.members) : null;
+  const totals = new Map<string, number>();
+
+  for (const r of rows) {
+    if (members && !members.has(r.product)) continue;
+    totals.set(r.value, (totals.get(r.value) ?? 0) + r.count);
+  }
+
+  const grand = [...totals.values()].reduce((s, v) => s + v, 0);
+  return [...totals.entries()]
+    .sort((a, b) => b[1] - a[1])
+    .slice(0, limit)
+    .map(([value, count]) => ({ value, count, share: grand > 0 ? count / grand : 0 }));
 }

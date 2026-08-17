@@ -78,7 +78,7 @@ function Field({ label, children }: { label: string; children: React.ReactNode }
 
 export function RecordDrawerSkeleton({ onClose }: { onClose: () => void }) {
   return (
-    <Shell title="Loading record" eyebrow="Illustrative record context" onClose={onClose}>
+    <Shell title="Loading record" eyebrow="Example record" onClose={onClose}>
       <div className="skeleton-stack" aria-live="polite" aria-busy="true">
         <span className="skeleton is-line" style={{ width: "70%" }} />
         <span className="skeleton is-line" style={{ width: "45%" }} />
@@ -98,7 +98,7 @@ export function RecordDrawer({
   onClose: () => void;
 }) {
   return (
-    <Shell title={record.issue} eyebrow="Illustrative record context" onClose={onClose}>
+    <Shell title={record.issue} eyebrow="Example record" onClose={onClose}>
       <div className="drawer-chips">
         <PriorityChip priority={record.priority} />
         <ConfidenceChip confidence={record.signalConfidence} />
@@ -124,7 +124,7 @@ export function RecordDrawer({
         <Field label="Observed share of window">{formatPct(record.observedSharePct)}</Field>
       </dl>
 
-      <h3 className="drawer-section">Why it qualified</h3>
+      <h3 className="drawer-section">Why it was flagged</h3>
       <div className="drawer-chips">
         {record.policyIds.length > 0 ? (
           record.policyIds.map((p) => (
@@ -138,9 +138,7 @@ export function RecordDrawer({
       </div>
       <p className="drawer-prose">{explainReasons(record.reasonCodes)}</p>
       {record.reasonCodes.length > 0 && (
-        <p className="drawer-codes">
-          Reason codes: {record.reasonCodes.join(", ")}
-        </p>
+        <p className="drawer-codes">{record.reasonCodes.join(" · ")}</p>
       )}
 
       <h3 className="drawer-section">Published context</h3>
@@ -148,21 +146,10 @@ export function RecordDrawer({
         <Field label="Received">{formatDate(record.complaintReceivedDate)}</Field>
         <Field label="Submitted via">{record.submittedVia}</Field>
         <Field label="Company response">{record.companyResponse}</Field>
-        <Field label="Timeliness (published assessment)">{record.timelyResponseStatus}</Field>
+        <Field label="Met the reporting standard">{record.timelyResponseStatus === "YES" ? "Yes" : record.timelyResponseStatus === "NO" ? "No" : "Not stated"}</Field>
         <Field label="Data completeness">{titleize(record.dataCompletenessStatus)}</Field>
       </dl>
 
-      {record.interpretationLimitation && (
-        <p className="drawer-limit">
-          <strong>Interpretation limit:</strong> {record.interpretationLimitation}
-        </p>
-      )}
-
-      <p className="drawer-scope">
-        One record from a stratified 300-row demonstration sample, drawn to cover every
-        decisioning outcome so rare ones stay visible. It is not representative of the
-        17.1M-record archive and nothing on this dashboard is counted from it.
-      </p>
     </Shell>
   );
 }
@@ -204,11 +191,6 @@ export function ModelDrawer({
         </p>
       )}
 
-      <p className="drawer-scope">
-        Transcribed from this project&rsquo;s own model headers and schema files. It
-        describes how the transformation layer is written, not the state of any
-        particular dbt run.
-      </p>
     </Shell>
   );
 }

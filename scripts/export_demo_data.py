@@ -443,6 +443,37 @@ def main() -> int:
         f"AVG(TOTAL) AS AVG_TOTAL FROM daily GROUP BY 1, 2 ORDER BY 1;",
     )
 
+    # Consumer geography and published outcome, per product. Both are
+    # dimensions the board can actually explore against a category filter,
+    # and both are plain GROUP BY counts over fct_complaints.
+    #
+    # State is the consumer's state as published by the CFPB, aggregated to a
+    # count. It is never joined to anything else and never resolved further:
+    # zip_code exists in the mart and is deliberately not selected here.
+    print("Querying state and outcome mix via CRI_APP_READER...")
+    state_by_product = run_query(
+        args.connection,
+        role_prefix +
+        f"SELECT PRODUCT, STATE, COUNT(*) AS CNT FROM {schema}.FCT_COMPLAINTS "
+        f"WHERE STATE IS NOT NULL AND LENGTH(STATE) = 2 "
+        f"GROUP BY 1, 2 QUALIFY ROW_NUMBER() OVER (PARTITION BY PRODUCT ORDER BY COUNT(*) DESC) <= 12 "
+        f"ORDER BY 1, 3 DESC;",
+    )
+
+    response_by_product = run_query(
+        args.connection,
+        role_prefix +
+        f"SELECT PRODUCT, COMPANY_RESPONSE, COUNT(*) AS CNT FROM {schema}.FCT_COMPLAINTS "
+        f"WHERE COMPANY_RESPONSE IS NOT NULL GROUP BY 1, 2 ORDER BY 1, 3 DESC;",
+    )
+
+    channel_by_product = run_query(
+        args.connection,
+        role_prefix +
+        f"SELECT PRODUCT, SUBMITTED_VIA, COUNT(*) AS CNT FROM {schema}.FCT_COMPLAINTS "
+        f"WHERE SUBMITTED_VIA IS NOT NULL GROUP BY 1, 2 ORDER BY 1, 3 DESC;",
+    )
+
     archive = {
         "generated_at_utc": meta["generated_at_utc"],
         "monthly_product_volume": monthly_product,
@@ -450,6 +481,9 @@ def main() -> int:
         "policy_by_product": policy_by_product,
         "policy_combinations": policy_combinations,
         "weekday_rhythm": weekday_rhythm,
+        "state_by_product": state_by_product,
+        "response_by_product": response_by_product,
+        "channel_by_product": channel_by_product,
     }
 
     ledger = {

@@ -144,11 +144,11 @@ export function explainReasons(codes: string[]): string {
 }
 
 const ACTION_NEXT_STEP: Record<string, string> = {
-  ESCALATE_REVIEW: "Escalate for review",
-  INVESTIGATE_PATTERN: "Investigate the underlying trend",
-  REQUIRE_HUMAN_REVIEW: "Route to a human reviewer",
+  ESCALATE_REVIEW: "Escalate now",
+  INVESTIGATE_PATTERN: "Investigate this trend",
+  REQUIRE_HUMAN_REVIEW: "Needs a person to check",
   STANDARD_HANDLING: "No action needed",
-  PRIORITIZE_CASE_REVIEW: "Prioritize case review",
+  PRIORITIZE_CASE_REVIEW: "Review sooner than usual",
   UPDATE_AGENT_GUIDANCE: "Update agent guidance",
 };
 

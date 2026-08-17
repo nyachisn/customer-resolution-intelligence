@@ -20,7 +20,7 @@ import type {
   PolicyTriggerRate,
   SampleRecordIndexRow,
 } from "./types";
-import type { ArchiveExplorer } from "./types";
+import type { ArchiveExplorer, DimensionCount } from "./types";
 
 const DATA_DIR = path.join(process.cwd(), "src", "data");
 
@@ -327,5 +327,16 @@ export async function loadArchiveExplorer(): Promise<ArchiveExplorer | null> {
       dayName: String(r.day_name ?? ""),
       average: Number(r.avg_total ?? 0),
     })),
+    stateByProduct: dimensionRows(rows("state_by_product"), "state"),
+    responseByProduct: dimensionRows(rows("response_by_product"), "company_response"),
+    channelByProduct: dimensionRows(rows("channel_by_product"), "submitted_via"),
   };
+}
+
+function dimensionRows(rows: Record<string, unknown>[], key: string): DimensionCount[] {
+  return rows.map((r) => ({
+    product: String(r.product ?? ""),
+    value: String(r[key] ?? ""),
+    count: Number(r.cnt ?? 0),
+  }));
 }

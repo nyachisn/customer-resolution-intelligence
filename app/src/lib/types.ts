@@ -278,4 +278,14 @@ export interface ArchiveExplorer {
   policyByProduct: ProductPolicyRate[];
   policyCombinations: PolicyCombination[];
   weekdayRhythm: WeekdayRhythm[];
+  stateByProduct: DimensionCount[];
+  responseByProduct: DimensionCount[];
+  channelByProduct: DimensionCount[];
+}
+
+/** A published product paired with one value of another dimension. */
+export interface DimensionCount {
+  product: string;
+  value: string;
+  count: number;
 }

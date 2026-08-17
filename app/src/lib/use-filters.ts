@@ -70,8 +70,10 @@ export function useDashboardFilters(
 
       publishedRef.current = query;
 
-      // Only a change in *which* record is open needs the server.
-      if (recordRef(next.item) !== recordRef(current.item)) {
+      // Two changes need the server: which record is open, and which month
+      // is pinned — the month's issue breakdown is reduced from a grid that
+      // deliberately never reaches the browser.
+      if (recordRef(next.item) !== recordRef(current.item) || next.focus !== current.focus) {
         setPending(true);
         router.replace(url, { scroll: false });
         return;

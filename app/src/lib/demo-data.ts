@@ -20,7 +20,7 @@ import type {
   PolicyTriggerRate,
   SampleRecordIndexRow,
 } from "./types";
-import type { ArchiveExplorer, DimensionCount } from "./types";
+import type { ArchiveExplorer, DimensionCount, FocusedMonth } from "./types";
 
 const DATA_DIR = path.join(process.cwd(), "src", "data");
 
@@ -330,7 +330,71 @@ export async function loadArchiveExplorer(): Promise<ArchiveExplorer | null> {
     stateByProduct: dimensionRows(rows("state_by_product"), "state"),
     responseByProduct: dimensionRows(rows("response_by_product"), "company_response"),
     channelByProduct: dimensionRows(rows("channel_by_product"), "submitted_via"),
+    companyByProduct: rows("company_by_product").map((r) => ({
+      product: String(r.product ?? ""),
+      company: String(r.company ?? ""),
+      count: Number(r.cnt ?? 0),
+      explanationCount: Number(r.explanation_cnt ?? 0),
+      monetaryCount: Number(r.monetary_cnt ?? 0),
+      nonMonetaryCount: Number(r.nonmonetary_cnt ?? 0),
+      untimelyCount: Number(r.untimely_cnt ?? 0),
+    })),
   };
+}
+
+/**
+ * Reduce the month x product x issue grid to a single focused month.
+ *
+ * Runs on the server and returns only the chosen month, so the ~18k-row grid
+ * behind "what happened in this month" never reaches the browser. Called
+ * only when the `focus` parameter names a month.
+ */
+export async function loadFocusedMonth(
+  month: string,
+  products: string[] | null,
+): Promise<FocusedMonth | null> {
+  const raw = await readJson<Record<string, unknown>[]>("month_issue_volume.json", []);
+  if (raw.length === 0) return null;
+
+  const scope = products ? new Set(products) : null;
+  const previousMonth = shiftMonth(month, -1);
+  const current = new Map<string, number>();
+  const prior = new Map<string, number>();
+  let total = 0;
+  let previousTotal = 0;
+
+  for (const r of raw) {
+    const row = lower(r);
+    const rowMonth = String(row.month ?? "").slice(0, 7);
+    if (rowMonth !== month && rowMonth !== previousMonth) continue;
+    if (scope && !scope.has(String(row.product ?? ""))) continue;
+
+    const issue = String(row.issue ?? "");
+    const value = Number(row.total ?? 0);
+    if (rowMonth === month) {
+      current.set(issue, (current.get(issue) ?? 0) + value);
+      total += value;
+    } else {
+      prior.set(issue, (prior.get(issue) ?? 0) + value);
+      previousTotal += value;
+    }
+  }
+
+  if (total === 0 && previousTotal === 0) return null;
+
+  const issues = [...current.entries()]
+    .map(([issue, value]) => ({ issue, total: value, previous: prior.get(issue) ?? 0 }))
+    .sort((a, b) => b.total - a.total)
+    .slice(0, 8);
+
+  return { month, total, previousTotal, issues };
+}
+
+/** Month arithmetic on a YYYY-MM string, without a Date round-trip. */
+function shiftMonth(month: string, by: number): string {
+  const [y, m] = month.split("-").map(Number);
+  const index = y * 12 + (m - 1) + by;
+  return `${Math.floor(index / 12)}-${String((index % 12) + 1).padStart(2, "0")}`;
 }
 
 function dimensionRows(rows: Record<string, unknown>[], key: string): DimensionCount[] {

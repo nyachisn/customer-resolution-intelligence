@@ -28,7 +28,8 @@ export type SurfaceId =
   | "rhythm"
   | "geography"
   | "outcome"
-  | "channel";
+  | "channel"
+  | "companies";
 
 export const SURFACE_LABELS: Record<SurfaceId, string> = {
   kpis: "Metric summary",
@@ -41,6 +42,7 @@ export const SURFACE_LABELS: Record<SurfaceId, string> = {
   geography: "Where complaints come from",
   outcome: "How companies closed them",
   channel: "How people got in touch",
+  companies: "Who handled these",
 };
 
 export interface ModelEntry {
@@ -168,7 +170,7 @@ export const MODEL_REGISTRY: ModelEntry[] = [
     outputs: "The 17.1M-record spine every population aggregate is counted from.",
     limitations:
       "One row is a complaint record, never a customer, a consumer profile, or an identified person.",
-    surfaces: ["archive-growth", "geography", "outcome", "channel"],
+    surfaces: ["archive-growth", "geography", "outcome", "channel", "companies"],
   },
   {
     displayName: "Daily metric layer",

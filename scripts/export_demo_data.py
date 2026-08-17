@@ -456,8 +456,7 @@ def main() -> int:
         role_prefix +
         f"SELECT PRODUCT, STATE, COUNT(*) AS CNT FROM {schema}.FCT_COMPLAINTS "
         f"WHERE STATE IS NOT NULL AND LENGTH(STATE) = 2 "
-        f"GROUP BY 1, 2 QUALIFY ROW_NUMBER() OVER (PARTITION BY PRODUCT ORDER BY COUNT(*) DESC) <= 12 "
-        f"ORDER BY 1, 3 DESC;",
+        f"GROUP BY 1, 2 ORDER BY 1, 3 DESC;",
     )
 
     response_by_product = run_query(
@@ -474,6 +473,41 @@ def main() -> int:
         f"WHERE SUBMITTED_VIA IS NOT NULL GROUP BY 1, 2 ORDER BY 1, 3 DESC;",
     )
 
+    # Month x product x issue. This is what makes a peak investigable: click a
+    # month on the archive curve and the board can say which issues moved in
+    # it. Read server-side only and reduced to the focused month before
+    # anything reaches the browser — the full grid is ~18k rows.
+    print("Querying month x issue volume via CRI_APP_READER...")
+    month_issue = run_query(
+        args.connection,
+        role_prefix +
+        f"SELECT DATE_TRUNC('month', METRIC_DATE)::DATE AS MONTH, PRODUCT, ISSUE, "
+        f"SUM(DAILY_COMPLAINT_COUNT) AS TOTAL "
+        f"FROM {schema}.FCT_ISSUE_DAILY_METRICS "
+        f"WHERE METRIC_DATE < DATE_TRUNC('month', CURRENT_DATE()) "
+        f"GROUP BY 1, 2, 3 ORDER BY 1, 2, 4 DESC;",
+    )
+
+    # Who handled the complaints in each product, with the published outcome
+    # split for each. Ordered by volume, which tracks company size and
+    # customer base as much as conduct — see the header on
+    # int_company_issue_patterns. This is "who received these", never a
+    # quality ranking, and no rate is computed across companies.
+    print("Querying handling companies via CRI_APP_READER...")
+    company_by_product = run_query(
+        args.connection,
+        role_prefix +
+        f"SELECT PRODUCT, COMPANY, COUNT(*) AS CNT, "
+        f"  SUM(CASE WHEN COMPANY_RESPONSE = 'Closed with explanation' THEN 1 ELSE 0 END) AS EXPLANATION_CNT, "
+        f"  SUM(CASE WHEN COMPANY_RESPONSE = 'Closed with monetary relief' THEN 1 ELSE 0 END) AS MONETARY_CNT, "
+        f"  SUM(CASE WHEN COMPANY_RESPONSE = 'Closed with non-monetary relief' THEN 1 ELSE 0 END) AS NONMONETARY_CNT, "
+        f"  SUM(CASE WHEN TIMELY_RESPONSE_STATUS = 'NO' THEN 1 ELSE 0 END) AS UNTIMELY_CNT "
+        f"FROM {schema}.FCT_COMPLAINTS WHERE COMPANY IS NOT NULL "
+        f"GROUP BY 1, 2 "
+        f"QUALIFY ROW_NUMBER() OVER (PARTITION BY PRODUCT ORDER BY COUNT(*) DESC) <= 15 "
+        f"ORDER BY 1, 3 DESC;",
+    )
+
     archive = {
         "generated_at_utc": meta["generated_at_utc"],
         "monthly_product_volume": monthly_product,
@@ -484,6 +518,7 @@ def main() -> int:
         "state_by_product": state_by_product,
         "response_by_product": response_by_product,
         "channel_by_product": channel_by_product,
+        "company_by_product": company_by_product,
     }
 
     ledger = {
@@ -506,6 +541,9 @@ def main() -> int:
     (out_dir / "export_meta.json").write_text(json.dumps(meta, indent=2))
     (out_dir / "ledger_exhibits.json").write_text(json.dumps(ledger, indent=2, default=str))
     (out_dir / "archive_explorer.json").write_text(json.dumps(archive, indent=2, default=str))
+    # Kept in its own file: read server-side to answer a focused month and
+    # never shipped to the browser whole.
+    (out_dir / "month_issue_volume.json").write_text(json.dumps(month_issue, indent=2, default=str))
 
     print()
     print(f"Wrote {len(case_context)} case-context rows, {len(metrics)} metric rows, "

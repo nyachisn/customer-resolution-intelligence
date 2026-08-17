@@ -28,7 +28,12 @@ import { FamilyGrowthTable, FamilyMultiples } from "./FamilyViews";
 import { ModelLensRail } from "./ModelLens";
 import { VirtualList } from "./VirtualList";
 import { ModelDrawer, RecordDrawer, RecordDrawerSkeleton } from "./EvidenceDrawer";
-import type { ArchiveExplorer, ComplaintRecordContext, SampleRecordIndexRow } from "@/lib/types";
+import type {
+  ArchiveExplorer,
+  ComplaintRecordContext,
+  FocusedMonth,
+  SampleRecordIndexRow,
+} from "@/lib/types";
 import {
   ARCHIVE_VIEWS,
   CHART_MODES,
@@ -196,11 +201,13 @@ export function ExploreWorkspace({
   archive,
   sampleIndex,
   sampleRecord,
+  focusedMonth,
 }: {
   initialFilters: DashboardFilters;
   archive: ArchiveExplorer | null;
   sampleIndex: SampleRecordIndexRow[];
   sampleRecord: ComplaintRecordContext | null;
+  focusedMonth: FocusedMonth | null;
 }) {
   const { filters, set, reset, pending } = useDashboardFilters(initialFilters, DEFAULT_FILTERS);
   const { family: familyId, view, selectedRules, chartMode, focus, item } = filters;
@@ -283,7 +290,7 @@ export function ExploreWorkspace({
   }
 
   const stateMix = useMemo(
-    () => dimensionMix(archive?.stateByProduct ?? [], activeFamily, 8),
+    () => dimensionMix(archive?.stateByProduct ?? [], activeFamily, 100),
     [archive, activeFamily],
   );
   const responseMix = useMemo(
@@ -294,6 +301,30 @@ export function ExploreWorkspace({
     () => dimensionMix(archive?.channelByProduct ?? [], activeFamily, 6),
     [archive, activeFamily],
   );
+
+  const companies = useMemo(() => {
+    const members = activeFamily ? new Set(activeFamily.members) : null;
+    const byCompany = new Map<
+      string,
+      { count: number; explanation: number; monetary: number; nonMonetary: number; untimely: number }
+    >();
+    for (const r of archive?.companyByProduct ?? []) {
+      if (members && !members.has(r.product)) continue;
+      const acc = byCompany.get(r.company) ?? {
+        count: 0, explanation: 0, monetary: 0, nonMonetary: 0, untimely: 0,
+      };
+      acc.count += r.count;
+      acc.explanation += r.explanationCount;
+      acc.monetary += r.monetaryCount;
+      acc.nonMonetary += r.nonMonetaryCount;
+      acc.untimely += r.untimelyCount;
+      byCompany.set(r.company, acc);
+    }
+    return [...byCompany.entries()]
+      .map(([company, v]) => ({ company, ...v }))
+      .sort((a, b) => b.count - a.count)
+      .slice(0, 12);
+  }, [archive, activeFamily]);
 
   const rhythm = archive?.weekdayRhythm ?? [];
   const rhythmMax = Math.max(...rhythm.map((d) => d.average), 1);
@@ -565,7 +596,7 @@ export function ExploreWorkspace({
                 </div>
                 <ModelBadge name="fct_complaints" onOpen={openLens} />
               </div>
-              <div className="dpanel-body">
+              <div className="dpanel-body is-scroller">
                 <MixList rows={stateMix} format={(v) => v} />
               </div>
             </section>
@@ -599,7 +630,46 @@ export function ExploreWorkspace({
             </section>
           </div>
 
-          <section className={`dpanel${surfaceClass("metric-chart")}`} data-surface="metric-chart">
+          <section className={`dpanel${surfaceClass("companies")}`} data-surface="companies">
+            <div className="dpanel-head">
+              <div>
+                <h2 className="dpanel-title">Who handled these</h2>
+                <p className="dpanel-sub">
+                  By volume, which tracks how many customers a company has
+                </p>
+              </div>
+              <ModelBadge name="fct_complaints" onOpen={openLens} />
+            </div>
+            <div className="dpanel-body">
+              <div className="co-list">
+                <div className="co-head">
+                  <span>Company</span>
+                  <span className="num">Complaints</span>
+                  <span className="num">Explained</span>
+                  <span className="num">Money back</span>
+                  <span className="num">Other fix</span>
+                </div>
+                {companies.map((c) => (
+                  <div className="co-row" key={c.company} title={c.company}>
+                    <span className="co-name">{c.company}</span>
+                    <span className="num co-count">{formatCompact(c.count)}</span>
+                    <span className="num co-cell">{formatPct(c.explanation / Math.max(c.count, 1))}</span>
+                    <span className="num co-cell">{formatPct(c.monetary / Math.max(c.count, 1))}</span>
+                    <span className="num co-cell">{formatPct(c.nonMonetary / Math.max(c.count, 1))}</span>
+                  </div>
+                ))}
+              </div>
+              <p className="chart-note">
+                Percentages are each company&rsquo;s own outcome split, not a comparison between
+                them.
+              </p>
+            </div>
+          </section>
+
+          <section
+            className={`dpanel${chartMode === "multiples" ? " is-multiples" : ""}${surfaceClass("metric-chart")}`}
+            data-surface="metric-chart"
+          >
             <div className="dpanel-head">
               <div>
                 <h2 className="dpanel-title">Which categories are growing</h2>
@@ -632,10 +702,55 @@ export function ExploreWorkspace({
         <div className="dash-col dash-right">
           <section className={`dpanel dpanel-accent${surfaceClass("readout")}`} data-surface="readout">
             <div className="dpanel-head">
-              <h2 className="dpanel-title">What drove the change</h2>
+              <div>
+                <h2 className="dpanel-title">
+                  {focusedMonth ? `Inside ${formatMonth(`${focusedMonth.month}-01`)}` : "What drove the change"}
+                </h2>
+                {focusedMonth && (
+                  <p className="dpanel-sub">
+                    {focusedMonth.total.toLocaleString()} complaints ·{" "}
+                    {focusedMonth.previousTotal > 0
+                      ? `${formatPct((focusedMonth.total - focusedMonth.previousTotal) / focusedMonth.previousTotal, { signed: true })} on the month before`
+                      : "no prior month to compare"}
+                  </p>
+                )}
+              </div>
               <ModelBadge name="fct_issue_daily_metrics" onOpen={openLens} />
             </div>
             <div className="dpanel-body">
+              {focusedMonth ? (
+                <>
+                  <div className="contrib-list">
+                    {focusedMonth.issues.map((i) => {
+                      const delta = i.total - i.previous;
+                      return (
+                        <div className="contrib-row" key={i.issue}>
+                          <span className="contrib-issue">{i.issue}</span>
+                          <span className="contrib-bar">
+                            <span
+                              className="contrib-fill"
+                              style={{
+                                width: `${(i.total / Math.max(focusedMonth.issues[0].total, 1)) * 100}%`,
+                              }}
+                            />
+                          </span>
+                          <span className="contrib-num">
+                            {formatCompact(i.total)}
+                            <span className={`contrib-delta is-${delta >= 0 ? "up" : "down"}`}>
+                              {delta >= 0 ? "+" : "−"}
+                              {formatCompact(Math.abs(delta))}
+                            </span>
+                          </span>
+                        </div>
+                      );
+                    })}
+                  </div>
+                  <button type="button" className="rail-link" onClick={() => set({ focus: null })}>
+                    Back to the 12-month view
+                  </button>
+                </>
+              ) : (
+                <>
               <p className="readout-lede">
                 {contributions.rows.length === 0
                   ? "No issue-level movement is available for this selection."
@@ -660,9 +775,11 @@ export function ExploreWorkspace({
                   </div>
                 ))}
               </div>
-              <p className="scope-note is-foot">
-                Which issues moved. The archive does not record why.
-              </p>
+                  <p className="scope-note is-foot">
+                    Which issues moved. Click a month on the curve to open it.
+                  </p>
+                </>
+              )}
             </div>
           </section>
 

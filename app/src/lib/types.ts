@@ -281,6 +281,39 @@ export interface ArchiveExplorer {
   stateByProduct: DimensionCount[];
   responseByProduct: DimensionCount[];
   channelByProduct: DimensionCount[];
+  companyByProduct: CompanyHandling[];
+}
+
+/**
+ * Who received the complaints in a product, with their published outcome
+ * split. Ordered by volume, which tracks company size and customer base as
+ * much as conduct — this is "who handled these", never a quality ranking,
+ * and no cross-company rate is derived from it.
+ */
+export interface CompanyHandling {
+  product: string;
+  company: string;
+  count: number;
+  explanationCount: number;
+  monetaryCount: number;
+  nonMonetaryCount: number;
+  untimelyCount: number;
+}
+
+/** One issue's contribution to a single focused month. */
+export interface MonthIssueSlice {
+  issue: string;
+  total: number;
+  /** The same issue in the month before, for a like-for-like read. */
+  previous: number;
+}
+
+/** What a focused month contains, reduced server-side from the full grid. */
+export interface FocusedMonth {
+  month: string;
+  total: number;
+  previousTotal: number;
+  issues: MonthIssueSlice[];
 }
 
 /** A published product paired with one value of another dimension. */

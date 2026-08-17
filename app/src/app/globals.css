@@ -448,12 +448,22 @@ main:has(.dash-shell) ~ .site-footer { display: none; }
 .dash-col { display: grid; gap: var(--dash-gap); min-height: 0; }
 /* The centre column scrolls: the board carries more tiles than a viewport
    holds, while the rails and the decision queue stay pinned. */
-.dash-center { grid-template-rows: auto auto auto auto; overflow-y: auto; align-content: start; }
-.dash-center > .dpanel { min-height: 320px; }
+.dash-center { overflow-y: auto; align-content: start; }
+.dash-center > .dpanel { min-height: 300px; }
+/* The archive curve is the board's headline, so it takes the slack rather
+   than leaving it at the bottom of the column. */
+.dash-center > .dpanel:nth-of-type(1) { min-height: 420px; }
+/* The company table is five columns of numbers behind a long legal name, so
+   it takes a full row rather than half of a pair. */
+.dash-center > .dpanel:nth-of-type(2) { min-height: 420px; }
 /* The growth table is the board's index: all eleven categories should be
    readable without scrolling inside the panel. */
 .dash-center > .dpanel:last-child { min-height: 745px; }
-.dash-center > .tile-pair > .dpanel { min-height: 240px; }
+/* Small multiples need a grid, not a table's worth of rows. */
+.dash-center > .dpanel.is-multiples { min-height: 560px; }
+/* Fixed, not min: the geography tile lists every state, and a min-height
+   would let it stretch the row to 1,300px instead of scrolling in place. */
+.dash-center > .tile-pair > .dpanel { height: 360px; }
 .tile-pair { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: var(--dash-gap); }
 /* Fixed proportions rather than `auto` for the readout: its text length
    swings with the selection, and an auto row would starve the queue. */
@@ -487,6 +497,8 @@ main:has(.dash-shell) ~ .site-footer { display: none; }
 /* Owns a scrolling child (the virtual list), so the body itself must not
    scroll or the two would fight over the same gesture. */
 .dpanel-body.is-stacked { overflow: hidden; display: flex; flex-direction: column; }
+/* Long enumerations — every state, not a top-8 — scroll in place. */
+.dpanel-body.is-scroller { overflow-y: auto; max-height: 100%; }
 
 /* Scroll shadows: the `local` layers travel with the content and uncover the
    `scroll` layers only when there is more to see, so a panel that has been
@@ -624,12 +636,39 @@ main:has(.dash-shell) ~ .site-footer { display: none; }
   font-variant-numeric: tabular-nums;
 }
 
+/* ---------- who handled these ---------- */
+
+.co-list { display: grid; gap: .15rem; }
+.co-head, .co-row {
+  display: grid; grid-template-columns: minmax(0, 1fr) 6rem 6rem 6.5rem 6rem;
+  align-items: center; gap: 1rem;
+}
+.co-head {
+  font-size: var(--fs-min); color: var(--text-3); font-weight: 300;
+  padding-bottom: .35rem; border-bottom: 1px solid var(--line); margin-bottom: .2rem;
+}
+.co-head .num, .co-row .num { text-align: right; }
+.co-row { padding: .3rem 0; border-bottom: 1px solid var(--line); }
+.co-row:last-child { border-bottom: none; }
+.co-name {
+  font-size: var(--fs-min); color: var(--text-2); font-weight: 300;
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.co-count { font-size: var(--fs-min); color: var(--text); font-variant-numeric: tabular-nums; }
+.co-cell { font-size: var(--fs-min); color: var(--text-3); font-variant-numeric: tabular-nums; }
+
+/* ---------- focused month delta ---------- */
+
+.contrib-delta { display: block; font-size: var(--fs-min); font-weight: 300; }
+.contrib-delta.is-up { color: var(--negative); }
+.contrib-delta.is-down { color: var(--positive); }
+
 /* ---------- ranked mix list (geography, outcome, channel) ---------- */
 
 .mix-list { display: grid; gap: .3rem; }
 .mix-row {
-  display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(50px, .85fr) 3.6rem 3rem;
-  align-items: center; gap: .55rem;
+  display: grid; grid-template-columns: minmax(0, 1.6fr) minmax(38px, .6fr) 3.5rem 2.8rem;
+  align-items: center; gap: .5rem;
 }
 .mix-label {
   font-size: var(--fs-min); color: var(--text-2); font-weight: 300;

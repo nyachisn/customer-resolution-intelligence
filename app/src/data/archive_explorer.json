@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-08-17T16:56:13Z",
+  "generated_at_utc": "2026-08-17T17:17:27Z",
   "monthly_product_volume": [
     {
       "MONTH": "2011-12-01",
@@ -10639,6 +10639,256 @@
       "CNT": 2327
     },
     {
+      "PRODUCT": "Bank account or service",
+      "STATE": "MA",
+      "CNT": 2304
+    },
+    {
+      "PRODUCT": "Bank account or service",
+      "STATE": "MI",
+      "CNT": 1960
+    },
+    {
+      "PRODUCT": "Bank account or service",
+      "STATE": "AZ",
+      "CNT": 1879
+    },
+    {
+      "PRODUCT": "Bank account or service",
+      "STATE": "WA",
+      "CNT": 1596
+    },
+    {
+      "PRODUCT": "Bank account or service",
+      "STATE": "CO",
+      "CNT": 1338
+    },
+    {
+      "PRODUCT": "Bank account or service",
+      "STATE": "CT",
+      "CNT": 1225
+    },
+    {
+      "PRODUCT": "Bank account or service",
+      "STATE": "TN",
+      "CNT": 1154
+    },
+    {
+      "PRODUCT": "Bank account or service",
+      "STATE": "NV",
+      "CNT": 1064
+    },
+    {
+      "PRODUCT": "Bank account or service",
+      "STATE": "MN",
+      "CNT": 1054
+    },
+    {
+      "PRODUCT": "Bank account or service",
+      "STATE": "OR",
+      "CNT": 1050
+    },
+    {
+      "PRODUCT": "Bank account or service",
+      "STATE": "MO",
+      "CNT": 925
+    },
+    {
+      "PRODUCT": "Bank account or service",
+      "STATE": "SC",
+      "CNT": 871
+    },
+    {
+      "PRODUCT": "Bank account or service",
+      "STATE": "IN",
+      "CNT": 867
+    },
+    {
+      "PRODUCT": "Bank account or service",
+      "STATE": "WI",
+      "CNT": 836
+    },
+    {
+      "PRODUCT": "Bank account or service",
+      "STATE": "AL",
+      "CNT": 804
+    },
+    {
+      "PRODUCT": "Bank account or service",
+      "STATE": "LA",
+      "CNT": 704
+    },
+    {
+      "PRODUCT": "Bank account or service",
+      "STATE": "DC",
+      "CNT": 689
+    },
+    {
+      "PRODUCT": "Bank account or service",
+      "STATE": "KY",
+      "CNT": 537
+    },
+    {
+      "PRODUCT": "Bank account or service",
+      "STATE": "DE",
+      "CNT": 529
+    },
+    {
+      "PRODUCT": "Bank account or service",
+      "STATE": "RI",
+      "CNT": 388
+    },
+    {
+      "PRODUCT": "Bank account or service",
+      "STATE": "KS",
+      "CNT": 373
+    },
+    {
+      "PRODUCT": "Bank account or service",
+      "STATE": "OK",
+      "CNT": 364
+    },
+    {
+      "PRODUCT": "Bank account or service",
+      "STATE": "MS",
+      "CNT": 363
+    },
+    {
+      "PRODUCT": "Bank account or service",
+      "STATE": "NM",
+      "CNT": 356
+    },
+    {
+      "PRODUCT": "Bank account or service",
+      "STATE": "NH",
+      "CNT": 349
+    },
+    {
+      "PRODUCT": "Bank account or service",
+      "STATE": "UT",
+      "CNT": 345
+    },
+    {
+      "PRODUCT": "Bank account or service",
+      "STATE": "AR",
+      "CNT": 342
+    },
+    {
+      "PRODUCT": "Bank account or service",
+      "STATE": "IA",
+      "CNT": 277
+    },
+    {
+      "PRODUCT": "Bank account or service",
+      "STATE": "ME",
+      "CNT": 258
+    },
+    {
+      "PRODUCT": "Bank account or service",
+      "STATE": "NE",
+      "CNT": 253
+    },
+    {
+      "PRODUCT": "Bank account or service",
+      "STATE": "PR",
+      "CNT": 240
+    },
+    {
+      "PRODUCT": "Bank account or service",
+      "STATE": "ID",
+      "CNT": 227
+    },
+    {
+      "PRODUCT": "Bank account or service",
+      "STATE": "HI",
+      "CNT": 195
+    },
+    {
+      "PRODUCT": "Bank account or service",
+      "STATE": "WV",
+      "CNT": 189
+    },
+    {
+      "PRODUCT": "Bank account or service",
+      "STATE": "VT",
+      "CNT": 163
+    },
+    {
+      "PRODUCT": "Bank account or service",
+      "STATE": "SD",
+      "CNT": 103
+    },
+    {
+      "PRODUCT": "Bank account or service",
+      "STATE": "AK",
+      "CNT": 90
+    },
+    {
+      "PRODUCT": "Bank account or service",
+      "STATE": "MT",
+      "CNT": 83
+    },
+    {
+      "PRODUCT": "Bank account or service",
+      "STATE": "ND",
+      "CNT": 66
+    },
+    {
+      "PRODUCT": "Bank account or service",
+      "STATE": "WY",
+      "CNT": 49
+    },
+    {
+      "PRODUCT": "Bank account or service",
+      "STATE": "VI",
+      "CNT": 34
+    },
+    {
+      "PRODUCT": "Bank account or service",
+      "STATE": "AE",
+      "CNT": 33
+    },
+    {
+      "PRODUCT": "Bank account or service",
+      "STATE": "AP",
+      "CNT": 12
+    },
+    {
+      "PRODUCT": "Bank account or service",
+      "STATE": "GU",
+      "CNT": 11
+    },
+    {
+      "PRODUCT": "Bank account or service",
+      "STATE": "AS",
+      "CNT": 6
+    },
+    {
+      "PRODUCT": "Bank account or service",
+      "STATE": "MP",
+      "CNT": 5
+    },
+    {
+      "PRODUCT": "Bank account or service",
+      "STATE": "FM",
+      "CNT": 3
+    },
+    {
+      "PRODUCT": "Bank account or service",
+      "STATE": "MH",
+      "CNT": 3
+    },
+    {
+      "PRODUCT": "Bank account or service",
+      "STATE": "AA",
+      "CNT": 2
+    },
+    {
+      "PRODUCT": "Bank account or service",
+      "STATE": "PW",
+      "CNT": 1
+    },
+    {
       "PRODUCT": "Checking or savings account",
       "STATE": "CA",
       "CNT": 55011
@@ -10697,6 +10947,251 @@
       "PRODUCT": "Checking or savings account",
       "STATE": "MD",
       "CNT": 10100
+    },
+    {
+      "PRODUCT": "Checking or savings account",
+      "STATE": "MI",
+      "CNT": 9021
+    },
+    {
+      "PRODUCT": "Checking or savings account",
+      "STATE": "AZ",
+      "CNT": 8478
+    },
+    {
+      "PRODUCT": "Checking or savings account",
+      "STATE": "MA",
+      "CNT": 7009
+    },
+    {
+      "PRODUCT": "Checking or savings account",
+      "STATE": "WA",
+      "CNT": 6997
+    },
+    {
+      "PRODUCT": "Checking or savings account",
+      "STATE": "TN",
+      "CNT": 5941
+    },
+    {
+      "PRODUCT": "Checking or savings account",
+      "STATE": "CO",
+      "CNT": 5794
+    },
+    {
+      "PRODUCT": "Checking or savings account",
+      "STATE": "NV",
+      "CNT": 5791
+    },
+    {
+      "PRODUCT": "Checking or savings account",
+      "STATE": "SC",
+      "CNT": 5627
+    },
+    {
+      "PRODUCT": "Checking or savings account",
+      "STATE": "CT",
+      "CNT": 5068
+    },
+    {
+      "PRODUCT": "Checking or savings account",
+      "STATE": "AL",
+      "CNT": 4394
+    },
+    {
+      "PRODUCT": "Checking or savings account",
+      "STATE": "IN",
+      "CNT": 4258
+    },
+    {
+      "PRODUCT": "Checking or savings account",
+      "STATE": "MN",
+      "CNT": 4211
+    },
+    {
+      "PRODUCT": "Checking or savings account",
+      "STATE": "MO",
+      "CNT": 4074
+    },
+    {
+      "PRODUCT": "Checking or savings account",
+      "STATE": "LA",
+      "CNT": 4031
+    },
+    {
+      "PRODUCT": "Checking or savings account",
+      "STATE": "OR",
+      "CNT": 3675
+    },
+    {
+      "PRODUCT": "Checking or savings account",
+      "STATE": "WI",
+      "CNT": 3068
+    },
+    {
+      "PRODUCT": "Checking or savings account",
+      "STATE": "KY",
+      "CNT": 2497
+    },
+    {
+      "PRODUCT": "Checking or savings account",
+      "STATE": "DC",
+      "CNT": 2271
+    },
+    {
+      "PRODUCT": "Checking or savings account",
+      "STATE": "OK",
+      "CNT": 2230
+    },
+    {
+      "PRODUCT": "Checking or savings account",
+      "STATE": "MS",
+      "CNT": 2215
+    },
+    {
+      "PRODUCT": "Checking or savings account",
+      "STATE": "AR",
+      "CNT": 2050
+    },
+    {
+      "PRODUCT": "Checking or savings account",
+      "STATE": "UT",
+      "CNT": 1876
+    },
+    {
+      "PRODUCT": "Checking or savings account",
+      "STATE": "DE",
+      "CNT": 1752
+    },
+    {
+      "PRODUCT": "Checking or savings account",
+      "STATE": "KS",
+      "CNT": 1575
+    },
+    {
+      "PRODUCT": "Checking or savings account",
+      "STATE": "IA",
+      "CNT": 1439
+    },
+    {
+      "PRODUCT": "Checking or savings account",
+      "STATE": "NM",
+      "CNT": 1350
+    },
+    {
+      "PRODUCT": "Checking or savings account",
+      "STATE": "WV",
+      "CNT": 1059
+    },
+    {
+      "PRODUCT": "Checking or savings account",
+      "STATE": "RI",
+      "CNT": 1043
+    },
+    {
+      "PRODUCT": "Checking or savings account",
+      "STATE": "NE",
+      "CNT": 1032
+    },
+    {
+      "PRODUCT": "Checking or savings account",
+      "STATE": "ID",
+      "CNT": 952
+    },
+    {
+      "PRODUCT": "Checking or savings account",
+      "STATE": "NH",
+      "CNT": 931
+    },
+    {
+      "PRODUCT": "Checking or savings account",
+      "STATE": "HI",
+      "CNT": 817
+    },
+    {
+      "PRODUCT": "Checking or savings account",
+      "STATE": "ME",
+      "CNT": 619
+    },
+    {
+      "PRODUCT": "Checking or savings account",
+      "STATE": "PR",
+      "CNT": 607
+    },
+    {
+      "PRODUCT": "Checking or savings account",
+      "STATE": "MT",
+      "CNT": 517
+    },
+    {
+      "PRODUCT": "Checking or savings account",
+      "STATE": "WY",
+      "CNT": 477
+    },
+    {
+      "PRODUCT": "Checking or savings account",
+      "STATE": "SD",
+      "CNT": 426
+    },
+    {
+      "PRODUCT": "Checking or savings account",
+      "STATE": "AK",
+      "CNT": 407
+    },
+    {
+      "PRODUCT": "Checking or savings account",
+      "STATE": "VT",
+      "CNT": 356
+    },
+    {
+      "PRODUCT": "Checking or savings account",
+      "STATE": "ND",
+      "CNT": 268
+    },
+    {
+      "PRODUCT": "Checking or savings account",
+      "STATE": "AE",
+      "CNT": 117
+    },
+    {
+      "PRODUCT": "Checking or savings account",
+      "STATE": "AP",
+      "CNT": 85
+    },
+    {
+      "PRODUCT": "Checking or savings account",
+      "STATE": "VI",
+      "CNT": 54
+    },
+    {
+      "PRODUCT": "Checking or savings account",
+      "STATE": "GU",
+      "CNT": 43
+    },
+    {
+      "PRODUCT": "Checking or savings account",
+      "STATE": "FM",
+      "CNT": 8
+    },
+    {
+      "PRODUCT": "Checking or savings account",
+      "STATE": "AA",
+      "CNT": 6
+    },
+    {
+      "PRODUCT": "Checking or savings account",
+      "STATE": "MP",
+      "CNT": 6
+    },
+    {
+      "PRODUCT": "Checking or savings account",
+      "STATE": "AS",
+      "CNT": 2
+    },
+    {
+      "PRODUCT": "Checking or savings account",
+      "STATE": "PW",
+      "CNT": 1
     },
     {
       "PRODUCT": "Consumer Loan",
@@ -10759,6 +11254,246 @@
       "CNT": 1024
     },
     {
+      "PRODUCT": "Consumer Loan",
+      "STATE": "AZ",
+      "CNT": 796
+    },
+    {
+      "PRODUCT": "Consumer Loan",
+      "STATE": "MI",
+      "CNT": 761
+    },
+    {
+      "PRODUCT": "Consumer Loan",
+      "STATE": "TN",
+      "CNT": 688
+    },
+    {
+      "PRODUCT": "Consumer Loan",
+      "STATE": "SC",
+      "CNT": 652
+    },
+    {
+      "PRODUCT": "Consumer Loan",
+      "STATE": "MO",
+      "CNT": 552
+    },
+    {
+      "PRODUCT": "Consumer Loan",
+      "STATE": "CO",
+      "CNT": 531
+    },
+    {
+      "PRODUCT": "Consumer Loan",
+      "STATE": "AL",
+      "CNT": 521
+    },
+    {
+      "PRODUCT": "Consumer Loan",
+      "STATE": "WA",
+      "CNT": 454
+    },
+    {
+      "PRODUCT": "Consumer Loan",
+      "STATE": "MA",
+      "CNT": 449
+    },
+    {
+      "PRODUCT": "Consumer Loan",
+      "STATE": "LA",
+      "CNT": 421
+    },
+    {
+      "PRODUCT": "Consumer Loan",
+      "STATE": "IN",
+      "CNT": 404
+    },
+    {
+      "PRODUCT": "Consumer Loan",
+      "STATE": "NV",
+      "CNT": 396
+    },
+    {
+      "PRODUCT": "Consumer Loan",
+      "STATE": "WI",
+      "CNT": 390
+    },
+    {
+      "PRODUCT": "Consumer Loan",
+      "STATE": "CT",
+      "CNT": 389
+    },
+    {
+      "PRODUCT": "Consumer Loan",
+      "STATE": "OK",
+      "CNT": 301
+    },
+    {
+      "PRODUCT": "Consumer Loan",
+      "STATE": "MN",
+      "CNT": 290
+    },
+    {
+      "PRODUCT": "Consumer Loan",
+      "STATE": "OR",
+      "CNT": 286
+    },
+    {
+      "PRODUCT": "Consumer Loan",
+      "STATE": "MS",
+      "CNT": 279
+    },
+    {
+      "PRODUCT": "Consumer Loan",
+      "STATE": "KY",
+      "CNT": 270
+    },
+    {
+      "PRODUCT": "Consumer Loan",
+      "STATE": "DE",
+      "CNT": 225
+    },
+    {
+      "PRODUCT": "Consumer Loan",
+      "STATE": "KS",
+      "CNT": 191
+    },
+    {
+      "PRODUCT": "Consumer Loan",
+      "STATE": "AR",
+      "CNT": 172
+    },
+    {
+      "PRODUCT": "Consumer Loan",
+      "STATE": "NM",
+      "CNT": 163
+    },
+    {
+      "PRODUCT": "Consumer Loan",
+      "STATE": "DC",
+      "CNT": 157
+    },
+    {
+      "PRODUCT": "Consumer Loan",
+      "STATE": "UT",
+      "CNT": 153
+    },
+    {
+      "PRODUCT": "Consumer Loan",
+      "STATE": "IA",
+      "CNT": 135
+    },
+    {
+      "PRODUCT": "Consumer Loan",
+      "STATE": "NE",
+      "CNT": 117
+    },
+    {
+      "PRODUCT": "Consumer Loan",
+      "STATE": "RI",
+      "CNT": 114
+    },
+    {
+      "PRODUCT": "Consumer Loan",
+      "STATE": "NH",
+      "CNT": 112
+    },
+    {
+      "PRODUCT": "Consumer Loan",
+      "STATE": "ME",
+      "CNT": 104
+    },
+    {
+      "PRODUCT": "Consumer Loan",
+      "STATE": "ID",
+      "CNT": 96
+    },
+    {
+      "PRODUCT": "Consumer Loan",
+      "STATE": "WV",
+      "CNT": 95
+    },
+    {
+      "PRODUCT": "Consumer Loan",
+      "STATE": "HI",
+      "CNT": 81
+    },
+    {
+      "PRODUCT": "Consumer Loan",
+      "STATE": "PR",
+      "CNT": 78
+    },
+    {
+      "PRODUCT": "Consumer Loan",
+      "STATE": "SD",
+      "CNT": 63
+    },
+    {
+      "PRODUCT": "Consumer Loan",
+      "STATE": "VT",
+      "CNT": 56
+    },
+    {
+      "PRODUCT": "Consumer Loan",
+      "STATE": "MT",
+      "CNT": 49
+    },
+    {
+      "PRODUCT": "Consumer Loan",
+      "STATE": "ND",
+      "CNT": 37
+    },
+    {
+      "PRODUCT": "Consumer Loan",
+      "STATE": "WY",
+      "CNT": 33
+    },
+    {
+      "PRODUCT": "Consumer Loan",
+      "STATE": "AK",
+      "CNT": 26
+    },
+    {
+      "PRODUCT": "Consumer Loan",
+      "STATE": "AE",
+      "CNT": 19
+    },
+    {
+      "PRODUCT": "Consumer Loan",
+      "STATE": "AP",
+      "CNT": 13
+    },
+    {
+      "PRODUCT": "Consumer Loan",
+      "STATE": "GU",
+      "CNT": 8
+    },
+    {
+      "PRODUCT": "Consumer Loan",
+      "STATE": "VI",
+      "CNT": 5
+    },
+    {
+      "PRODUCT": "Consumer Loan",
+      "STATE": "MH",
+      "CNT": 1
+    },
+    {
+      "PRODUCT": "Consumer Loan",
+      "STATE": "PW",
+      "CNT": 1
+    },
+    {
+      "PRODUCT": "Consumer Loan",
+      "STATE": "FM",
+      "CNT": 1
+    },
+    {
+      "PRODUCT": "Consumer Loan",
+      "STATE": "AS",
+      "CNT": 1
+    },
+    {
       "PRODUCT": "Credit card",
       "STATE": "CA",
       "CNT": 45275
@@ -10817,6 +11552,256 @@
       "PRODUCT": "Credit card",
       "STATE": "MD",
       "CNT": 8054
+    },
+    {
+      "PRODUCT": "Credit card",
+      "STATE": "AZ",
+      "CNT": 7136
+    },
+    {
+      "PRODUCT": "Credit card",
+      "STATE": "MA",
+      "CNT": 7058
+    },
+    {
+      "PRODUCT": "Credit card",
+      "STATE": "MI",
+      "CNT": 6995
+    },
+    {
+      "PRODUCT": "Credit card",
+      "STATE": "WA",
+      "CNT": 6155
+    },
+    {
+      "PRODUCT": "Credit card",
+      "STATE": "CO",
+      "CNT": 5076
+    },
+    {
+      "PRODUCT": "Credit card",
+      "STATE": "TN",
+      "CNT": 4650
+    },
+    {
+      "PRODUCT": "Credit card",
+      "STATE": "NV",
+      "CNT": 4250
+    },
+    {
+      "PRODUCT": "Credit card",
+      "STATE": "MO",
+      "CNT": 4098
+    },
+    {
+      "PRODUCT": "Credit card",
+      "STATE": "IN",
+      "CNT": 4023
+    },
+    {
+      "PRODUCT": "Credit card",
+      "STATE": "CT",
+      "CNT": 4011
+    },
+    {
+      "PRODUCT": "Credit card",
+      "STATE": "SC",
+      "CNT": 3876
+    },
+    {
+      "PRODUCT": "Credit card",
+      "STATE": "WI",
+      "CNT": 3706
+    },
+    {
+      "PRODUCT": "Credit card",
+      "STATE": "MN",
+      "CNT": 3565
+    },
+    {
+      "PRODUCT": "Credit card",
+      "STATE": "LA",
+      "CNT": 3545
+    },
+    {
+      "PRODUCT": "Credit card",
+      "STATE": "AL",
+      "CNT": 3239
+    },
+    {
+      "PRODUCT": "Credit card",
+      "STATE": "OR",
+      "CNT": 3060
+    },
+    {
+      "PRODUCT": "Credit card",
+      "STATE": "KY",
+      "CNT": 1941
+    },
+    {
+      "PRODUCT": "Credit card",
+      "STATE": "OK",
+      "CNT": 1910
+    },
+    {
+      "PRODUCT": "Credit card",
+      "STATE": "UT",
+      "CNT": 1856
+    },
+    {
+      "PRODUCT": "Credit card",
+      "STATE": "DE",
+      "CNT": 1802
+    },
+    {
+      "PRODUCT": "Credit card",
+      "STATE": "DC",
+      "CNT": 1767
+    },
+    {
+      "PRODUCT": "Credit card",
+      "STATE": "MS",
+      "CNT": 1739
+    },
+    {
+      "PRODUCT": "Credit card",
+      "STATE": "AR",
+      "CNT": 1692
+    },
+    {
+      "PRODUCT": "Credit card",
+      "STATE": "KS",
+      "CNT": 1541
+    },
+    {
+      "PRODUCT": "Credit card",
+      "STATE": "WV",
+      "CNT": 1511
+    },
+    {
+      "PRODUCT": "Credit card",
+      "STATE": "IA",
+      "CNT": 1302
+    },
+    {
+      "PRODUCT": "Credit card",
+      "STATE": "NE",
+      "CNT": 1295
+    },
+    {
+      "PRODUCT": "Credit card",
+      "STATE": "NM",
+      "CNT": 1236
+    },
+    {
+      "PRODUCT": "Credit card",
+      "STATE": "NH",
+      "CNT": 1133
+    },
+    {
+      "PRODUCT": "Credit card",
+      "STATE": "RI",
+      "CNT": 1104
+    },
+    {
+      "PRODUCT": "Credit card",
+      "STATE": "ID",
+      "CNT": 1099
+    },
+    {
+      "PRODUCT": "Credit card",
+      "STATE": "HI",
+      "CNT": 1087
+    },
+    {
+      "PRODUCT": "Credit card",
+      "STATE": "ME",
+      "CNT": 948
+    },
+    {
+      "PRODUCT": "Credit card",
+      "STATE": "PR",
+      "CNT": 909
+    },
+    {
+      "PRODUCT": "Credit card",
+      "STATE": "MT",
+      "CNT": 539
+    },
+    {
+      "PRODUCT": "Credit card",
+      "STATE": "VT",
+      "CNT": 474
+    },
+    {
+      "PRODUCT": "Credit card",
+      "STATE": "SD",
+      "CNT": 431
+    },
+    {
+      "PRODUCT": "Credit card",
+      "STATE": "AK",
+      "CNT": 377
+    },
+    {
+      "PRODUCT": "Credit card",
+      "STATE": "ND",
+      "CNT": 275
+    },
+    {
+      "PRODUCT": "Credit card",
+      "STATE": "WY",
+      "CNT": 264
+    },
+    {
+      "PRODUCT": "Credit card",
+      "STATE": "AE",
+      "CNT": 125
+    },
+    {
+      "PRODUCT": "Credit card",
+      "STATE": "AP",
+      "CNT": 97
+    },
+    {
+      "PRODUCT": "Credit card",
+      "STATE": "VI",
+      "CNT": 67
+    },
+    {
+      "PRODUCT": "Credit card",
+      "STATE": "GU",
+      "CNT": 35
+    },
+    {
+      "PRODUCT": "Credit card",
+      "STATE": "AS",
+      "CNT": 16
+    },
+    {
+      "PRODUCT": "Credit card",
+      "STATE": "FM",
+      "CNT": 11
+    },
+    {
+      "PRODUCT": "Credit card",
+      "STATE": "MP",
+      "CNT": 5
+    },
+    {
+      "PRODUCT": "Credit card",
+      "STATE": "AA",
+      "CNT": 5
+    },
+    {
+      "PRODUCT": "Credit card",
+      "STATE": "MH",
+      "CNT": 4
+    },
+    {
+      "PRODUCT": "Credit card",
+      "STATE": "PW",
+      "CNT": 2
     },
     {
       "PRODUCT": "Credit card or prepaid card",
@@ -10879,6 +11864,246 @@
       "CNT": 5156
     },
     {
+      "PRODUCT": "Credit card or prepaid card",
+      "STATE": "MD",
+      "CNT": 5127
+    },
+    {
+      "PRODUCT": "Credit card or prepaid card",
+      "STATE": "MI",
+      "CNT": 4748
+    },
+    {
+      "PRODUCT": "Credit card or prepaid card",
+      "STATE": "AZ",
+      "CNT": 4399
+    },
+    {
+      "PRODUCT": "Credit card or prepaid card",
+      "STATE": "WA",
+      "CNT": 4057
+    },
+    {
+      "PRODUCT": "Credit card or prepaid card",
+      "STATE": "CO",
+      "CNT": 3588
+    },
+    {
+      "PRODUCT": "Credit card or prepaid card",
+      "STATE": "NV",
+      "CNT": 2813
+    },
+    {
+      "PRODUCT": "Credit card or prepaid card",
+      "STATE": "TN",
+      "CNT": 2626
+    },
+    {
+      "PRODUCT": "Credit card or prepaid card",
+      "STATE": "CT",
+      "CNT": 2624
+    },
+    {
+      "PRODUCT": "Credit card or prepaid card",
+      "STATE": "MN",
+      "CNT": 2513
+    },
+    {
+      "PRODUCT": "Credit card or prepaid card",
+      "STATE": "SC",
+      "CNT": 2447
+    },
+    {
+      "PRODUCT": "Credit card or prepaid card",
+      "STATE": "OR",
+      "CNT": 2429
+    },
+    {
+      "PRODUCT": "Credit card or prepaid card",
+      "STATE": "WI",
+      "CNT": 2352
+    },
+    {
+      "PRODUCT": "Credit card or prepaid card",
+      "STATE": "MO",
+      "CNT": 2336
+    },
+    {
+      "PRODUCT": "Credit card or prepaid card",
+      "STATE": "IN",
+      "CNT": 2209
+    },
+    {
+      "PRODUCT": "Credit card or prepaid card",
+      "STATE": "AL",
+      "CNT": 1898
+    },
+    {
+      "PRODUCT": "Credit card or prepaid card",
+      "STATE": "LA",
+      "CNT": 1797
+    },
+    {
+      "PRODUCT": "Credit card or prepaid card",
+      "STATE": "OK",
+      "CNT": 1354
+    },
+    {
+      "PRODUCT": "Credit card or prepaid card",
+      "STATE": "UT",
+      "CNT": 1323
+    },
+    {
+      "PRODUCT": "Credit card or prepaid card",
+      "STATE": "KY",
+      "CNT": 1210
+    },
+    {
+      "PRODUCT": "Credit card or prepaid card",
+      "STATE": "DE",
+      "CNT": 1201
+    },
+    {
+      "PRODUCT": "Credit card or prepaid card",
+      "STATE": "DC",
+      "CNT": 1129
+    },
+    {
+      "PRODUCT": "Credit card or prepaid card",
+      "STATE": "KS",
+      "CNT": 1007
+    },
+    {
+      "PRODUCT": "Credit card or prepaid card",
+      "STATE": "AR",
+      "CNT": 1005
+    },
+    {
+      "PRODUCT": "Credit card or prepaid card",
+      "STATE": "MS",
+      "CNT": 973
+    },
+    {
+      "PRODUCT": "Credit card or prepaid card",
+      "STATE": "IA",
+      "CNT": 845
+    },
+    {
+      "PRODUCT": "Credit card or prepaid card",
+      "STATE": "NM",
+      "CNT": 801
+    },
+    {
+      "PRODUCT": "Credit card or prepaid card",
+      "STATE": "HI",
+      "CNT": 714
+    },
+    {
+      "PRODUCT": "Credit card or prepaid card",
+      "STATE": "RI",
+      "CNT": 712
+    },
+    {
+      "PRODUCT": "Credit card or prepaid card",
+      "STATE": "NE",
+      "CNT": 687
+    },
+    {
+      "PRODUCT": "Credit card or prepaid card",
+      "STATE": "NH",
+      "CNT": 634
+    },
+    {
+      "PRODUCT": "Credit card or prepaid card",
+      "STATE": "ME",
+      "CNT": 609
+    },
+    {
+      "PRODUCT": "Credit card or prepaid card",
+      "STATE": "ID",
+      "CNT": 586
+    },
+    {
+      "PRODUCT": "Credit card or prepaid card",
+      "STATE": "PR",
+      "CNT": 509
+    },
+    {
+      "PRODUCT": "Credit card or prepaid card",
+      "STATE": "WV",
+      "CNT": 483
+    },
+    {
+      "PRODUCT": "Credit card or prepaid card",
+      "STATE": "MT",
+      "CNT": 341
+    },
+    {
+      "PRODUCT": "Credit card or prepaid card",
+      "STATE": "VT",
+      "CNT": 338
+    },
+    {
+      "PRODUCT": "Credit card or prepaid card",
+      "STATE": "SD",
+      "CNT": 254
+    },
+    {
+      "PRODUCT": "Credit card or prepaid card",
+      "STATE": "AK",
+      "CNT": 228
+    },
+    {
+      "PRODUCT": "Credit card or prepaid card",
+      "STATE": "ND",
+      "CNT": 195
+    },
+    {
+      "PRODUCT": "Credit card or prepaid card",
+      "STATE": "WY",
+      "CNT": 167
+    },
+    {
+      "PRODUCT": "Credit card or prepaid card",
+      "STATE": "AE",
+      "CNT": 72
+    },
+    {
+      "PRODUCT": "Credit card or prepaid card",
+      "STATE": "AP",
+      "CNT": 57
+    },
+    {
+      "PRODUCT": "Credit card or prepaid card",
+      "STATE": "GU",
+      "CNT": 29
+    },
+    {
+      "PRODUCT": "Credit card or prepaid card",
+      "STATE": "VI",
+      "CNT": 24
+    },
+    {
+      "PRODUCT": "Credit card or prepaid card",
+      "STATE": "FM",
+      "CNT": 6
+    },
+    {
+      "PRODUCT": "Credit card or prepaid card",
+      "STATE": "AA",
+      "CNT": 3
+    },
+    {
+      "PRODUCT": "Credit card or prepaid card",
+      "STATE": "MP",
+      "CNT": 3
+    },
+    {
+      "PRODUCT": "Credit card or prepaid card",
+      "STATE": "AS",
+      "CNT": 1
+    },
+    {
       "PRODUCT": "Credit reporting",
       "STATE": "CA",
       "CNT": 18118
@@ -10937,6 +12162,251 @@
       "PRODUCT": "Credit reporting",
       "STATE": "OH",
       "CNT": 3642
+    },
+    {
+      "PRODUCT": "Credit reporting",
+      "STATE": "MI",
+      "CNT": 3099
+    },
+    {
+      "PRODUCT": "Credit reporting",
+      "STATE": "AZ",
+      "CNT": 2805
+    },
+    {
+      "PRODUCT": "Credit reporting",
+      "STATE": "WA",
+      "CNT": 2520
+    },
+    {
+      "PRODUCT": "Credit reporting",
+      "STATE": "CO",
+      "CNT": 2361
+    },
+    {
+      "PRODUCT": "Credit reporting",
+      "STATE": "SC",
+      "CNT": 2225
+    },
+    {
+      "PRODUCT": "Credit reporting",
+      "STATE": "TN",
+      "CNT": 2190
+    },
+    {
+      "PRODUCT": "Credit reporting",
+      "STATE": "MA",
+      "CNT": 1986
+    },
+    {
+      "PRODUCT": "Credit reporting",
+      "STATE": "NV",
+      "CNT": 1916
+    },
+    {
+      "PRODUCT": "Credit reporting",
+      "STATE": "AL",
+      "CNT": 1832
+    },
+    {
+      "PRODUCT": "Credit reporting",
+      "STATE": "MO",
+      "CNT": 1774
+    },
+    {
+      "PRODUCT": "Credit reporting",
+      "STATE": "LA",
+      "CNT": 1735
+    },
+    {
+      "PRODUCT": "Credit reporting",
+      "STATE": "IN",
+      "CNT": 1516
+    },
+    {
+      "PRODUCT": "Credit reporting",
+      "STATE": "CT",
+      "CNT": 1416
+    },
+    {
+      "PRODUCT": "Credit reporting",
+      "STATE": "OR",
+      "CNT": 1368
+    },
+    {
+      "PRODUCT": "Credit reporting",
+      "STATE": "MN",
+      "CNT": 1318
+    },
+    {
+      "PRODUCT": "Credit reporting",
+      "STATE": "WI",
+      "CNT": 1125
+    },
+    {
+      "PRODUCT": "Credit reporting",
+      "STATE": "KY",
+      "CNT": 1085
+    },
+    {
+      "PRODUCT": "Credit reporting",
+      "STATE": "OK",
+      "CNT": 982
+    },
+    {
+      "PRODUCT": "Credit reporting",
+      "STATE": "NM",
+      "CNT": 919
+    },
+    {
+      "PRODUCT": "Credit reporting",
+      "STATE": "MS",
+      "CNT": 788
+    },
+    {
+      "PRODUCT": "Credit reporting",
+      "STATE": "AR",
+      "CNT": 713
+    },
+    {
+      "PRODUCT": "Credit reporting",
+      "STATE": "DC",
+      "CNT": 696
+    },
+    {
+      "PRODUCT": "Credit reporting",
+      "STATE": "IA",
+      "CNT": 687
+    },
+    {
+      "PRODUCT": "Credit reporting",
+      "STATE": "UT",
+      "CNT": 681
+    },
+    {
+      "PRODUCT": "Credit reporting",
+      "STATE": "DE",
+      "CNT": 650
+    },
+    {
+      "PRODUCT": "Credit reporting",
+      "STATE": "KS",
+      "CNT": 596
+    },
+    {
+      "PRODUCT": "Credit reporting",
+      "STATE": "PR",
+      "CNT": 514
+    },
+    {
+      "PRODUCT": "Credit reporting",
+      "STATE": "ID",
+      "CNT": 489
+    },
+    {
+      "PRODUCT": "Credit reporting",
+      "STATE": "NH",
+      "CNT": 450
+    },
+    {
+      "PRODUCT": "Credit reporting",
+      "STATE": "WV",
+      "CNT": 430
+    },
+    {
+      "PRODUCT": "Credit reporting",
+      "STATE": "HI",
+      "CNT": 383
+    },
+    {
+      "PRODUCT": "Credit reporting",
+      "STATE": "NE",
+      "CNT": 307
+    },
+    {
+      "PRODUCT": "Credit reporting",
+      "STATE": "RI",
+      "CNT": 307
+    },
+    {
+      "PRODUCT": "Credit reporting",
+      "STATE": "ME",
+      "CNT": 289
+    },
+    {
+      "PRODUCT": "Credit reporting",
+      "STATE": "MT",
+      "CNT": 205
+    },
+    {
+      "PRODUCT": "Credit reporting",
+      "STATE": "ND",
+      "CNT": 184
+    },
+    {
+      "PRODUCT": "Credit reporting",
+      "STATE": "AK",
+      "CNT": 170
+    },
+    {
+      "PRODUCT": "Credit reporting",
+      "STATE": "WY",
+      "CNT": 163
+    },
+    {
+      "PRODUCT": "Credit reporting",
+      "STATE": "SD",
+      "CNT": 161
+    },
+    {
+      "PRODUCT": "Credit reporting",
+      "STATE": "VT",
+      "CNT": 154
+    },
+    {
+      "PRODUCT": "Credit reporting",
+      "STATE": "AE",
+      "CNT": 65
+    },
+    {
+      "PRODUCT": "Credit reporting",
+      "STATE": "VI",
+      "CNT": 52
+    },
+    {
+      "PRODUCT": "Credit reporting",
+      "STATE": "AP",
+      "CNT": 52
+    },
+    {
+      "PRODUCT": "Credit reporting",
+      "STATE": "GU",
+      "CNT": 22
+    },
+    {
+      "PRODUCT": "Credit reporting",
+      "STATE": "FM",
+      "CNT": 11
+    },
+    {
+      "PRODUCT": "Credit reporting",
+      "STATE": "MP",
+      "CNT": 7
+    },
+    {
+      "PRODUCT": "Credit reporting",
+      "STATE": "MH",
+      "CNT": 4
+    },
+    {
+      "PRODUCT": "Credit reporting",
+      "STATE": "AS",
+      "CNT": 3
+    },
+    {
+      "PRODUCT": "Credit reporting",
+      "STATE": "PW",
+      "CNT": 3
     },
     {
       "PRODUCT": "Credit reporting or other personal consumer reports",
@@ -10999,6 +12469,251 @@
       "CNT": 280018
     },
     {
+      "PRODUCT": "Credit reporting or other personal consumer reports",
+      "STATE": "SC",
+      "CNT": 270796
+    },
+    {
+      "PRODUCT": "Credit reporting or other personal consumer reports",
+      "STATE": "MI",
+      "CNT": 241538
+    },
+    {
+      "PRODUCT": "Credit reporting or other personal consumer reports",
+      "STATE": "MS",
+      "CNT": 234124
+    },
+    {
+      "PRODUCT": "Credit reporting or other personal consumer reports",
+      "STATE": "OH",
+      "CNT": 224715
+    },
+    {
+      "PRODUCT": "Credit reporting or other personal consumer reports",
+      "STATE": "VA",
+      "CNT": 204626
+    },
+    {
+      "PRODUCT": "Credit reporting or other personal consumer reports",
+      "STATE": "AZ",
+      "CNT": 174040
+    },
+    {
+      "PRODUCT": "Credit reporting or other personal consumer reports",
+      "STATE": "TN",
+      "CNT": 164359
+    },
+    {
+      "PRODUCT": "Credit reporting or other personal consumer reports",
+      "STATE": "NV",
+      "CNT": 148951
+    },
+    {
+      "PRODUCT": "Credit reporting or other personal consumer reports",
+      "STATE": "MA",
+      "CNT": 141192
+    },
+    {
+      "PRODUCT": "Credit reporting or other personal consumer reports",
+      "STATE": "IN",
+      "CNT": 130563
+    },
+    {
+      "PRODUCT": "Credit reporting or other personal consumer reports",
+      "STATE": "MO",
+      "CNT": 119236
+    },
+    {
+      "PRODUCT": "Credit reporting or other personal consumer reports",
+      "STATE": "WA",
+      "CNT": 85753
+    },
+    {
+      "PRODUCT": "Credit reporting or other personal consumer reports",
+      "STATE": "WI",
+      "CNT": 81053
+    },
+    {
+      "PRODUCT": "Credit reporting or other personal consumer reports",
+      "STATE": "AR",
+      "CNT": 78747
+    },
+    {
+      "PRODUCT": "Credit reporting or other personal consumer reports",
+      "STATE": "CT",
+      "CNT": 75815
+    },
+    {
+      "PRODUCT": "Credit reporting or other personal consumer reports",
+      "STATE": "CO",
+      "CNT": 60727
+    },
+    {
+      "PRODUCT": "Credit reporting or other personal consumer reports",
+      "STATE": "PR",
+      "CNT": 51479
+    },
+    {
+      "PRODUCT": "Credit reporting or other personal consumer reports",
+      "STATE": "DE",
+      "CNT": 49162
+    },
+    {
+      "PRODUCT": "Credit reporting or other personal consumer reports",
+      "STATE": "MN",
+      "CNT": 46013
+    },
+    {
+      "PRODUCT": "Credit reporting or other personal consumer reports",
+      "STATE": "OK",
+      "CNT": 45010
+    },
+    {
+      "PRODUCT": "Credit reporting or other personal consumer reports",
+      "STATE": "KY",
+      "CNT": 42514
+    },
+    {
+      "PRODUCT": "Credit reporting or other personal consumer reports",
+      "STATE": "DC",
+      "CNT": 35898
+    },
+    {
+      "PRODUCT": "Credit reporting or other personal consumer reports",
+      "STATE": "RI",
+      "CNT": 26394
+    },
+    {
+      "PRODUCT": "Credit reporting or other personal consumer reports",
+      "STATE": "UT",
+      "CNT": 26341
+    },
+    {
+      "PRODUCT": "Credit reporting or other personal consumer reports",
+      "STATE": "KS",
+      "CNT": 23270
+    },
+    {
+      "PRODUCT": "Credit reporting or other personal consumer reports",
+      "STATE": "OR",
+      "CNT": 22972
+    },
+    {
+      "PRODUCT": "Credit reporting or other personal consumer reports",
+      "STATE": "IA",
+      "CNT": 18760
+    },
+    {
+      "PRODUCT": "Credit reporting or other personal consumer reports",
+      "STATE": "HI",
+      "CNT": 17853
+    },
+    {
+      "PRODUCT": "Credit reporting or other personal consumer reports",
+      "STATE": "NM",
+      "CNT": 17387
+    },
+    {
+      "PRODUCT": "Credit reporting or other personal consumer reports",
+      "STATE": "NE",
+      "CNT": 17206
+    },
+    {
+      "PRODUCT": "Credit reporting or other personal consumer reports",
+      "STATE": "WV",
+      "CNT": 9535
+    },
+    {
+      "PRODUCT": "Credit reporting or other personal consumer reports",
+      "STATE": "NH",
+      "CNT": 8636
+    },
+    {
+      "PRODUCT": "Credit reporting or other personal consumer reports",
+      "STATE": "ID",
+      "CNT": 8045
+    },
+    {
+      "PRODUCT": "Credit reporting or other personal consumer reports",
+      "STATE": "ND",
+      "CNT": 6051
+    },
+    {
+      "PRODUCT": "Credit reporting or other personal consumer reports",
+      "STATE": "ME",
+      "CNT": 5131
+    },
+    {
+      "PRODUCT": "Credit reporting or other personal consumer reports",
+      "STATE": "AK",
+      "CNT": 4922
+    },
+    {
+      "PRODUCT": "Credit reporting or other personal consumer reports",
+      "STATE": "VI",
+      "CNT": 3760
+    },
+    {
+      "PRODUCT": "Credit reporting or other personal consumer reports",
+      "STATE": "MT",
+      "CNT": 3569
+    },
+    {
+      "PRODUCT": "Credit reporting or other personal consumer reports",
+      "STATE": "SD",
+      "CNT": 2916
+    },
+    {
+      "PRODUCT": "Credit reporting or other personal consumer reports",
+      "STATE": "WY",
+      "CNT": 2072
+    },
+    {
+      "PRODUCT": "Credit reporting or other personal consumer reports",
+      "STATE": "VT",
+      "CNT": 1746
+    },
+    {
+      "PRODUCT": "Credit reporting or other personal consumer reports",
+      "STATE": "AE",
+      "CNT": 1177
+    },
+    {
+      "PRODUCT": "Credit reporting or other personal consumer reports",
+      "STATE": "AP",
+      "CNT": 525
+    },
+    {
+      "PRODUCT": "Credit reporting or other personal consumer reports",
+      "STATE": "AS",
+      "CNT": 292
+    },
+    {
+      "PRODUCT": "Credit reporting or other personal consumer reports",
+      "STATE": "GU",
+      "CNT": 202
+    },
+    {
+      "PRODUCT": "Credit reporting or other personal consumer reports",
+      "STATE": "AA",
+      "CNT": 81
+    },
+    {
+      "PRODUCT": "Credit reporting or other personal consumer reports",
+      "STATE": "MP",
+      "CNT": 39
+    },
+    {
+      "PRODUCT": "Credit reporting or other personal consumer reports",
+      "STATE": "PW",
+      "CNT": 36
+    },
+    {
+      "PRODUCT": "Credit reporting or other personal consumer reports",
+      "STATE": "FM",
+      "CNT": 1
+    },
+    {
       "PRODUCT": "Credit reporting, credit repair services, or other personal consumer reports",
       "STATE": "FL",
       "CNT": 283934
@@ -11057,6 +12772,246 @@
       "PRODUCT": "Credit reporting, credit repair services, or other personal consumer reports",
       "STATE": "OH",
       "CNT": 48567
+    },
+    {
+      "PRODUCT": "Credit reporting, credit repair services, or other personal consumer reports",
+      "STATE": "MI",
+      "CNT": 47495
+    },
+    {
+      "PRODUCT": "Credit reporting, credit repair services, or other personal consumer reports",
+      "STATE": "LA",
+      "CNT": 47302
+    },
+    {
+      "PRODUCT": "Credit reporting, credit repair services, or other personal consumer reports",
+      "STATE": "VA",
+      "CNT": 46082
+    },
+    {
+      "PRODUCT": "Credit reporting, credit repair services, or other personal consumer reports",
+      "STATE": "TN",
+      "CNT": 45349
+    },
+    {
+      "PRODUCT": "Credit reporting, credit repair services, or other personal consumer reports",
+      "STATE": "SC",
+      "CNT": 45166
+    },
+    {
+      "PRODUCT": "Credit reporting, credit repair services, or other personal consumer reports",
+      "STATE": "NV",
+      "CNT": 33237
+    },
+    {
+      "PRODUCT": "Credit reporting, credit repair services, or other personal consumer reports",
+      "STATE": "AZ",
+      "CNT": 31961
+    },
+    {
+      "PRODUCT": "Credit reporting, credit repair services, or other personal consumer reports",
+      "STATE": "MO",
+      "CNT": 28439
+    },
+    {
+      "PRODUCT": "Credit reporting, credit repair services, or other personal consumer reports",
+      "STATE": "MS",
+      "CNT": 23500
+    },
+    {
+      "PRODUCT": "Credit reporting, credit repair services, or other personal consumer reports",
+      "STATE": "IN",
+      "CNT": 22184
+    },
+    {
+      "PRODUCT": "Credit reporting, credit repair services, or other personal consumer reports",
+      "STATE": "MA",
+      "CNT": 21856
+    },
+    {
+      "PRODUCT": "Credit reporting, credit repair services, or other personal consumer reports",
+      "STATE": "AR",
+      "CNT": 18184
+    },
+    {
+      "PRODUCT": "Credit reporting, credit repair services, or other personal consumer reports",
+      "STATE": "WA",
+      "CNT": 16057
+    },
+    {
+      "PRODUCT": "Credit reporting, credit repair services, or other personal consumer reports",
+      "STATE": "CO",
+      "CNT": 14636
+    },
+    {
+      "PRODUCT": "Credit reporting, credit repair services, or other personal consumer reports",
+      "STATE": "WI",
+      "CNT": 13829
+    },
+    {
+      "PRODUCT": "Credit reporting, credit repair services, or other personal consumer reports",
+      "STATE": "CT",
+      "CNT": 13828
+    },
+    {
+      "PRODUCT": "Credit reporting, credit repair services, or other personal consumer reports",
+      "STATE": "MN",
+      "CNT": 12252
+    },
+    {
+      "PRODUCT": "Credit reporting, credit repair services, or other personal consumer reports",
+      "STATE": "DE",
+      "CNT": 11315
+    },
+    {
+      "PRODUCT": "Credit reporting, credit repair services, or other personal consumer reports",
+      "STATE": "UT",
+      "CNT": 10024
+    },
+    {
+      "PRODUCT": "Credit reporting, credit repair services, or other personal consumer reports",
+      "STATE": "KY",
+      "CNT": 9427
+    },
+    {
+      "PRODUCT": "Credit reporting, credit repair services, or other personal consumer reports",
+      "STATE": "OK",
+      "CNT": 9355
+    },
+    {
+      "PRODUCT": "Credit reporting, credit repair services, or other personal consumer reports",
+      "STATE": "DC",
+      "CNT": 7803
+    },
+    {
+      "PRODUCT": "Credit reporting, credit repair services, or other personal consumer reports",
+      "STATE": "OR",
+      "CNT": 6466
+    },
+    {
+      "PRODUCT": "Credit reporting, credit repair services, or other personal consumer reports",
+      "STATE": "KS",
+      "CNT": 5463
+    },
+    {
+      "PRODUCT": "Credit reporting, credit repair services, or other personal consumer reports",
+      "STATE": "PR",
+      "CNT": 5222
+    },
+    {
+      "PRODUCT": "Credit reporting, credit repair services, or other personal consumer reports",
+      "STATE": "IA",
+      "CNT": 4851
+    },
+    {
+      "PRODUCT": "Credit reporting, credit repair services, or other personal consumer reports",
+      "STATE": "NM",
+      "CNT": 4143
+    },
+    {
+      "PRODUCT": "Credit reporting, credit repair services, or other personal consumer reports",
+      "STATE": "HI",
+      "CNT": 3592
+    },
+    {
+      "PRODUCT": "Credit reporting, credit repair services, or other personal consumer reports",
+      "STATE": "NE",
+      "CNT": 3232
+    },
+    {
+      "PRODUCT": "Credit reporting, credit repair services, or other personal consumer reports",
+      "STATE": "RI",
+      "CNT": 3207
+    },
+    {
+      "PRODUCT": "Credit reporting, credit repair services, or other personal consumer reports",
+      "STATE": "ID",
+      "CNT": 2487
+    },
+    {
+      "PRODUCT": "Credit reporting, credit repair services, or other personal consumer reports",
+      "STATE": "WV",
+      "CNT": 2284
+    },
+    {
+      "PRODUCT": "Credit reporting, credit repair services, or other personal consumer reports",
+      "STATE": "NH",
+      "CNT": 1779
+    },
+    {
+      "PRODUCT": "Credit reporting, credit repair services, or other personal consumer reports",
+      "STATE": "ME",
+      "CNT": 1546
+    },
+    {
+      "PRODUCT": "Credit reporting, credit repair services, or other personal consumer reports",
+      "STATE": "MT",
+      "CNT": 1411
+    },
+    {
+      "PRODUCT": "Credit reporting, credit repair services, or other personal consumer reports",
+      "STATE": "AK",
+      "CNT": 1371
+    },
+    {
+      "PRODUCT": "Credit reporting, credit repair services, or other personal consumer reports",
+      "STATE": "ND",
+      "CNT": 1203
+    },
+    {
+      "PRODUCT": "Credit reporting, credit repair services, or other personal consumer reports",
+      "STATE": "WY",
+      "CNT": 785
+    },
+    {
+      "PRODUCT": "Credit reporting, credit repair services, or other personal consumer reports",
+      "STATE": "SD",
+      "CNT": 724
+    },
+    {
+      "PRODUCT": "Credit reporting, credit repair services, or other personal consumer reports",
+      "STATE": "VT",
+      "CNT": 521
+    },
+    {
+      "PRODUCT": "Credit reporting, credit repair services, or other personal consumer reports",
+      "STATE": "AE",
+      "CNT": 450
+    },
+    {
+      "PRODUCT": "Credit reporting, credit repair services, or other personal consumer reports",
+      "STATE": "VI",
+      "CNT": 369
+    },
+    {
+      "PRODUCT": "Credit reporting, credit repair services, or other personal consumer reports",
+      "STATE": "AP",
+      "CNT": 191
+    },
+    {
+      "PRODUCT": "Credit reporting, credit repair services, or other personal consumer reports",
+      "STATE": "GU",
+      "CNT": 111
+    },
+    {
+      "PRODUCT": "Credit reporting, credit repair services, or other personal consumer reports",
+      "STATE": "FM",
+      "CNT": 27
+    },
+    {
+      "PRODUCT": "Credit reporting, credit repair services, or other personal consumer reports",
+      "STATE": "AA",
+      "CNT": 22
+    },
+    {
+      "PRODUCT": "Credit reporting, credit repair services, or other personal consumer reports",
+      "STATE": "AS",
+      "CNT": 12
+    },
+    {
+      "PRODUCT": "Credit reporting, credit repair services, or other personal consumer reports",
+      "STATE": "MP",
+      "CNT": 10
     },
     {
       "PRODUCT": "Debt collection",
@@ -11119,6 +13074,256 @@
       "CNT": 28463
     },
     {
+      "PRODUCT": "Debt collection",
+      "STATE": "MI",
+      "CNT": 27078
+    },
+    {
+      "PRODUCT": "Debt collection",
+      "STATE": "AZ",
+      "CNT": 26813
+    },
+    {
+      "PRODUCT": "Debt collection",
+      "STATE": "MD",
+      "CNT": 25935
+    },
+    {
+      "PRODUCT": "Debt collection",
+      "STATE": "LA",
+      "CNT": 23528
+    },
+    {
+      "PRODUCT": "Debt collection",
+      "STATE": "TN",
+      "CNT": 22510
+    },
+    {
+      "PRODUCT": "Debt collection",
+      "STATE": "AL",
+      "CNT": 22280
+    },
+    {
+      "PRODUCT": "Debt collection",
+      "STATE": "MO",
+      "CNT": 16815
+    },
+    {
+      "PRODUCT": "Debt collection",
+      "STATE": "NV",
+      "CNT": 15778
+    },
+    {
+      "PRODUCT": "Debt collection",
+      "STATE": "WA",
+      "CNT": 15019
+    },
+    {
+      "PRODUCT": "Debt collection",
+      "STATE": "IN",
+      "CNT": 14769
+    },
+    {
+      "PRODUCT": "Debt collection",
+      "STATE": "MA",
+      "CNT": 13966
+    },
+    {
+      "PRODUCT": "Debt collection",
+      "STATE": "MS",
+      "CNT": 12662
+    },
+    {
+      "PRODUCT": "Debt collection",
+      "STATE": "CO",
+      "CNT": 11594
+    },
+    {
+      "PRODUCT": "Debt collection",
+      "STATE": "WI",
+      "CNT": 9361
+    },
+    {
+      "PRODUCT": "Debt collection",
+      "STATE": "OK",
+      "CNT": 9254
+    },
+    {
+      "PRODUCT": "Debt collection",
+      "STATE": "MN",
+      "CNT": 8636
+    },
+    {
+      "PRODUCT": "Debt collection",
+      "STATE": "AR",
+      "CNT": 8541
+    },
+    {
+      "PRODUCT": "Debt collection",
+      "STATE": "CT",
+      "CNT": 8514
+    },
+    {
+      "PRODUCT": "Debt collection",
+      "STATE": "KY",
+      "CNT": 7307
+    },
+    {
+      "PRODUCT": "Debt collection",
+      "STATE": "OR",
+      "CNT": 6946
+    },
+    {
+      "PRODUCT": "Debt collection",
+      "STATE": "DE",
+      "CNT": 5305
+    },
+    {
+      "PRODUCT": "Debt collection",
+      "STATE": "UT",
+      "CNT": 5221
+    },
+    {
+      "PRODUCT": "Debt collection",
+      "STATE": "KS",
+      "CNT": 4713
+    },
+    {
+      "PRODUCT": "Debt collection",
+      "STATE": "IA",
+      "CNT": 3847
+    },
+    {
+      "PRODUCT": "Debt collection",
+      "STATE": "NM",
+      "CNT": 3637
+    },
+    {
+      "PRODUCT": "Debt collection",
+      "STATE": "DC",
+      "CNT": 3499
+    },
+    {
+      "PRODUCT": "Debt collection",
+      "STATE": "NE",
+      "CNT": 2924
+    },
+    {
+      "PRODUCT": "Debt collection",
+      "STATE": "RI",
+      "CNT": 2678
+    },
+    {
+      "PRODUCT": "Debt collection",
+      "STATE": "WV",
+      "CNT": 2637
+    },
+    {
+      "PRODUCT": "Debt collection",
+      "STATE": "ID",
+      "CNT": 2634
+    },
+    {
+      "PRODUCT": "Debt collection",
+      "STATE": "HI",
+      "CNT": 2159
+    },
+    {
+      "PRODUCT": "Debt collection",
+      "STATE": "NH",
+      "CNT": 1883
+    },
+    {
+      "PRODUCT": "Debt collection",
+      "STATE": "ME",
+      "CNT": 1561
+    },
+    {
+      "PRODUCT": "Debt collection",
+      "STATE": "PR",
+      "CNT": 1488
+    },
+    {
+      "PRODUCT": "Debt collection",
+      "STATE": "ND",
+      "CNT": 1340
+    },
+    {
+      "PRODUCT": "Debt collection",
+      "STATE": "MT",
+      "CNT": 1325
+    },
+    {
+      "PRODUCT": "Debt collection",
+      "STATE": "SD",
+      "CNT": 1000
+    },
+    {
+      "PRODUCT": "Debt collection",
+      "STATE": "AK",
+      "CNT": 997
+    },
+    {
+      "PRODUCT": "Debt collection",
+      "STATE": "WY",
+      "CNT": 852
+    },
+    {
+      "PRODUCT": "Debt collection",
+      "STATE": "VT",
+      "CNT": 519
+    },
+    {
+      "PRODUCT": "Debt collection",
+      "STATE": "AE",
+      "CNT": 255
+    },
+    {
+      "PRODUCT": "Debt collection",
+      "STATE": "AP",
+      "CNT": 179
+    },
+    {
+      "PRODUCT": "Debt collection",
+      "STATE": "VI",
+      "CNT": 164
+    },
+    {
+      "PRODUCT": "Debt collection",
+      "STATE": "GU",
+      "CNT": 54
+    },
+    {
+      "PRODUCT": "Debt collection",
+      "STATE": "FM",
+      "CNT": 26
+    },
+    {
+      "PRODUCT": "Debt collection",
+      "STATE": "AA",
+      "CNT": 14
+    },
+    {
+      "PRODUCT": "Debt collection",
+      "STATE": "MP",
+      "CNT": 13
+    },
+    {
+      "PRODUCT": "Debt collection",
+      "STATE": "AS",
+      "CNT": 9
+    },
+    {
+      "PRODUCT": "Debt collection",
+      "STATE": "MH",
+      "CNT": 7
+    },
+    {
+      "PRODUCT": "Debt collection",
+      "STATE": "PW",
+      "CNT": 1
+    },
+    {
       "PRODUCT": "Debt or credit management",
       "STATE": "FL",
       "CNT": 1126
@@ -11177,6 +13382,221 @@
       "PRODUCT": "Debt or credit management",
       "STATE": "OH",
       "CNT": 255
+    },
+    {
+      "PRODUCT": "Debt or credit management",
+      "STATE": "MD",
+      "CNT": 240
+    },
+    {
+      "PRODUCT": "Debt or credit management",
+      "STATE": "VA",
+      "CNT": 239
+    },
+    {
+      "PRODUCT": "Debt or credit management",
+      "STATE": "TN",
+      "CNT": 227
+    },
+    {
+      "PRODUCT": "Debt or credit management",
+      "STATE": "AZ",
+      "CNT": 207
+    },
+    {
+      "PRODUCT": "Debt or credit management",
+      "STATE": "MA",
+      "CNT": 193
+    },
+    {
+      "PRODUCT": "Debt or credit management",
+      "STATE": "WI",
+      "CNT": 165
+    },
+    {
+      "PRODUCT": "Debt or credit management",
+      "STATE": "AL",
+      "CNT": 163
+    },
+    {
+      "PRODUCT": "Debt or credit management",
+      "STATE": "MO",
+      "CNT": 161
+    },
+    {
+      "PRODUCT": "Debt or credit management",
+      "STATE": "LA",
+      "CNT": 159
+    },
+    {
+      "PRODUCT": "Debt or credit management",
+      "STATE": "MS",
+      "CNT": 155
+    },
+    {
+      "PRODUCT": "Debt or credit management",
+      "STATE": "CO",
+      "CNT": 149
+    },
+    {
+      "PRODUCT": "Debt or credit management",
+      "STATE": "IN",
+      "CNT": 137
+    },
+    {
+      "PRODUCT": "Debt or credit management",
+      "STATE": "NV",
+      "CNT": 134
+    },
+    {
+      "PRODUCT": "Debt or credit management",
+      "STATE": "WA",
+      "CNT": 124
+    },
+    {
+      "PRODUCT": "Debt or credit management",
+      "STATE": "OK",
+      "CNT": 109
+    },
+    {
+      "PRODUCT": "Debt or credit management",
+      "STATE": "MN",
+      "CNT": 99
+    },
+    {
+      "PRODUCT": "Debt or credit management",
+      "STATE": "CT",
+      "CNT": 96
+    },
+    {
+      "PRODUCT": "Debt or credit management",
+      "STATE": "AR",
+      "CNT": 88
+    },
+    {
+      "PRODUCT": "Debt or credit management",
+      "STATE": "KY",
+      "CNT": 83
+    },
+    {
+      "PRODUCT": "Debt or credit management",
+      "STATE": "UT",
+      "CNT": 78
+    },
+    {
+      "PRODUCT": "Debt or credit management",
+      "STATE": "OR",
+      "CNT": 54
+    },
+    {
+      "PRODUCT": "Debt or credit management",
+      "STATE": "NM",
+      "CNT": 43
+    },
+    {
+      "PRODUCT": "Debt or credit management",
+      "STATE": "KS",
+      "CNT": 37
+    },
+    {
+      "PRODUCT": "Debt or credit management",
+      "STATE": "IA",
+      "CNT": 34
+    },
+    {
+      "PRODUCT": "Debt or credit management",
+      "STATE": "DE",
+      "CNT": 33
+    },
+    {
+      "PRODUCT": "Debt or credit management",
+      "STATE": "RI",
+      "CNT": 29
+    },
+    {
+      "PRODUCT": "Debt or credit management",
+      "STATE": "DC",
+      "CNT": 27
+    },
+    {
+      "PRODUCT": "Debt or credit management",
+      "STATE": "NE",
+      "CNT": 25
+    },
+    {
+      "PRODUCT": "Debt or credit management",
+      "STATE": "MT",
+      "CNT": 24
+    },
+    {
+      "PRODUCT": "Debt or credit management",
+      "STATE": "WV",
+      "CNT": 23
+    },
+    {
+      "PRODUCT": "Debt or credit management",
+      "STATE": "HI",
+      "CNT": 21
+    },
+    {
+      "PRODUCT": "Debt or credit management",
+      "STATE": "ID",
+      "CNT": 20
+    },
+    {
+      "PRODUCT": "Debt or credit management",
+      "STATE": "NH",
+      "CNT": 17
+    },
+    {
+      "PRODUCT": "Debt or credit management",
+      "STATE": "AK",
+      "CNT": 16
+    },
+    {
+      "PRODUCT": "Debt or credit management",
+      "STATE": "PR",
+      "CNT": 15
+    },
+    {
+      "PRODUCT": "Debt or credit management",
+      "STATE": "SD",
+      "CNT": 14
+    },
+    {
+      "PRODUCT": "Debt or credit management",
+      "STATE": "ME",
+      "CNT": 10
+    },
+    {
+      "PRODUCT": "Debt or credit management",
+      "STATE": "ND",
+      "CNT": 9
+    },
+    {
+      "PRODUCT": "Debt or credit management",
+      "STATE": "WY",
+      "CNT": 7
+    },
+    {
+      "PRODUCT": "Debt or credit management",
+      "STATE": "VT",
+      "CNT": 6
+    },
+    {
+      "PRODUCT": "Debt or credit management",
+      "STATE": "AE",
+      "CNT": 4
+    },
+    {
+      "PRODUCT": "Debt or credit management",
+      "STATE": "GU",
+      "CNT": 2
+    },
+    {
+      "PRODUCT": "Debt or credit management",
+      "STATE": "AP",
+      "CNT": 2
     },
     {
       "PRODUCT": "Money transfer, virtual currency, or money service",
@@ -11239,6 +13659,251 @@
       "CNT": 4801
     },
     {
+      "PRODUCT": "Money transfer, virtual currency, or money service",
+      "STATE": "MD",
+      "CNT": 4127
+    },
+    {
+      "PRODUCT": "Money transfer, virtual currency, or money service",
+      "STATE": "SC",
+      "CNT": 3479
+    },
+    {
+      "PRODUCT": "Money transfer, virtual currency, or money service",
+      "STATE": "TN",
+      "CNT": 3446
+    },
+    {
+      "PRODUCT": "Money transfer, virtual currency, or money service",
+      "STATE": "AZ",
+      "CNT": 3395
+    },
+    {
+      "PRODUCT": "Money transfer, virtual currency, or money service",
+      "STATE": "WA",
+      "CNT": 3167
+    },
+    {
+      "PRODUCT": "Money transfer, virtual currency, or money service",
+      "STATE": "MA",
+      "CNT": 3023
+    },
+    {
+      "PRODUCT": "Money transfer, virtual currency, or money service",
+      "STATE": "AL",
+      "CNT": 2847
+    },
+    {
+      "PRODUCT": "Money transfer, virtual currency, or money service",
+      "STATE": "IN",
+      "CNT": 2806
+    },
+    {
+      "PRODUCT": "Money transfer, virtual currency, or money service",
+      "STATE": "LA",
+      "CNT": 2656
+    },
+    {
+      "PRODUCT": "Money transfer, virtual currency, or money service",
+      "STATE": "CO",
+      "CNT": 2561
+    },
+    {
+      "PRODUCT": "Money transfer, virtual currency, or money service",
+      "STATE": "MO",
+      "CNT": 2427
+    },
+    {
+      "PRODUCT": "Money transfer, virtual currency, or money service",
+      "STATE": "NV",
+      "CNT": 2417
+    },
+    {
+      "PRODUCT": "Money transfer, virtual currency, or money service",
+      "STATE": "MS",
+      "CNT": 1979
+    },
+    {
+      "PRODUCT": "Money transfer, virtual currency, or money service",
+      "STATE": "MN",
+      "CNT": 1936
+    },
+    {
+      "PRODUCT": "Money transfer, virtual currency, or money service",
+      "STATE": "WI",
+      "CNT": 1864
+    },
+    {
+      "PRODUCT": "Money transfer, virtual currency, or money service",
+      "STATE": "CT",
+      "CNT": 1758
+    },
+    {
+      "PRODUCT": "Money transfer, virtual currency, or money service",
+      "STATE": "OR",
+      "CNT": 1630
+    },
+    {
+      "PRODUCT": "Money transfer, virtual currency, or money service",
+      "STATE": "KY",
+      "CNT": 1446
+    },
+    {
+      "PRODUCT": "Money transfer, virtual currency, or money service",
+      "STATE": "OK",
+      "CNT": 1379
+    },
+    {
+      "PRODUCT": "Money transfer, virtual currency, or money service",
+      "STATE": "AR",
+      "CNT": 1323
+    },
+    {
+      "PRODUCT": "Money transfer, virtual currency, or money service",
+      "STATE": "UT",
+      "CNT": 918
+    },
+    {
+      "PRODUCT": "Money transfer, virtual currency, or money service",
+      "STATE": "KS",
+      "CNT": 819
+    },
+    {
+      "PRODUCT": "Money transfer, virtual currency, or money service",
+      "STATE": "IA",
+      "CNT": 819
+    },
+    {
+      "PRODUCT": "Money transfer, virtual currency, or money service",
+      "STATE": "DC",
+      "CNT": 794
+    },
+    {
+      "PRODUCT": "Money transfer, virtual currency, or money service",
+      "STATE": "DE",
+      "CNT": 768
+    },
+    {
+      "PRODUCT": "Money transfer, virtual currency, or money service",
+      "STATE": "NM",
+      "CNT": 650
+    },
+    {
+      "PRODUCT": "Money transfer, virtual currency, or money service",
+      "STATE": "WV",
+      "CNT": 513
+    },
+    {
+      "PRODUCT": "Money transfer, virtual currency, or money service",
+      "STATE": "NE",
+      "CNT": 505
+    },
+    {
+      "PRODUCT": "Money transfer, virtual currency, or money service",
+      "STATE": "ID",
+      "CNT": 474
+    },
+    {
+      "PRODUCT": "Money transfer, virtual currency, or money service",
+      "STATE": "HI",
+      "CNT": 434
+    },
+    {
+      "PRODUCT": "Money transfer, virtual currency, or money service",
+      "STATE": "RI",
+      "CNT": 409
+    },
+    {
+      "PRODUCT": "Money transfer, virtual currency, or money service",
+      "STATE": "NH",
+      "CNT": 378
+    },
+    {
+      "PRODUCT": "Money transfer, virtual currency, or money service",
+      "STATE": "MT",
+      "CNT": 274
+    },
+    {
+      "PRODUCT": "Money transfer, virtual currency, or money service",
+      "STATE": "ME",
+      "CNT": 274
+    },
+    {
+      "PRODUCT": "Money transfer, virtual currency, or money service",
+      "STATE": "WY",
+      "CNT": 247
+    },
+    {
+      "PRODUCT": "Money transfer, virtual currency, or money service",
+      "STATE": "AK",
+      "CNT": 236
+    },
+    {
+      "PRODUCT": "Money transfer, virtual currency, or money service",
+      "STATE": "PR",
+      "CNT": 226
+    },
+    {
+      "PRODUCT": "Money transfer, virtual currency, or money service",
+      "STATE": "SD",
+      "CNT": 190
+    },
+    {
+      "PRODUCT": "Money transfer, virtual currency, or money service",
+      "STATE": "ND",
+      "CNT": 168
+    },
+    {
+      "PRODUCT": "Money transfer, virtual currency, or money service",
+      "STATE": "VT",
+      "CNT": 125
+    },
+    {
+      "PRODUCT": "Money transfer, virtual currency, or money service",
+      "STATE": "AE",
+      "CNT": 65
+    },
+    {
+      "PRODUCT": "Money transfer, virtual currency, or money service",
+      "STATE": "AP",
+      "CNT": 48
+    },
+    {
+      "PRODUCT": "Money transfer, virtual currency, or money service",
+      "STATE": "GU",
+      "CNT": 29
+    },
+    {
+      "PRODUCT": "Money transfer, virtual currency, or money service",
+      "STATE": "VI",
+      "CNT": 24
+    },
+    {
+      "PRODUCT": "Money transfer, virtual currency, or money service",
+      "STATE": "AA",
+      "CNT": 6
+    },
+    {
+      "PRODUCT": "Money transfer, virtual currency, or money service",
+      "STATE": "AS",
+      "CNT": 5
+    },
+    {
+      "PRODUCT": "Money transfer, virtual currency, or money service",
+      "STATE": "MP",
+      "CNT": 5
+    },
+    {
+      "PRODUCT": "Money transfer, virtual currency, or money service",
+      "STATE": "MH",
+      "CNT": 2
+    },
+    {
+      "PRODUCT": "Money transfer, virtual currency, or money service",
+      "STATE": "FM",
+      "CNT": 1
+    },
+    {
       "PRODUCT": "Money transfers",
       "STATE": "CA",
       "CNT": 768
@@ -11297,6 +13962,241 @@
       "PRODUCT": "Money transfers",
       "STATE": "OH",
       "CNT": 143
+    },
+    {
+      "PRODUCT": "Money transfers",
+      "STATE": "NC",
+      "CNT": 135
+    },
+    {
+      "PRODUCT": "Money transfers",
+      "STATE": "MI",
+      "CNT": 121
+    },
+    {
+      "PRODUCT": "Money transfers",
+      "STATE": "WA",
+      "CNT": 117
+    },
+    {
+      "PRODUCT": "Money transfers",
+      "STATE": "AZ",
+      "CNT": 107
+    },
+    {
+      "PRODUCT": "Money transfers",
+      "STATE": "CO",
+      "CNT": 79
+    },
+    {
+      "PRODUCT": "Money transfers",
+      "STATE": "MO",
+      "CNT": 76
+    },
+    {
+      "PRODUCT": "Money transfers",
+      "STATE": "MN",
+      "CNT": 73
+    },
+    {
+      "PRODUCT": "Money transfers",
+      "STATE": "NV",
+      "CNT": 67
+    },
+    {
+      "PRODUCT": "Money transfers",
+      "STATE": "TN",
+      "CNT": 65
+    },
+    {
+      "PRODUCT": "Money transfers",
+      "STATE": "IN",
+      "CNT": 63
+    },
+    {
+      "PRODUCT": "Money transfers",
+      "STATE": "SC",
+      "CNT": 62
+    },
+    {
+      "PRODUCT": "Money transfers",
+      "STATE": "WI",
+      "CNT": 60
+    },
+    {
+      "PRODUCT": "Money transfers",
+      "STATE": "LA",
+      "CNT": 57
+    },
+    {
+      "PRODUCT": "Money transfers",
+      "STATE": "OR",
+      "CNT": 49
+    },
+    {
+      "PRODUCT": "Money transfers",
+      "STATE": "CT",
+      "CNT": 48
+    },
+    {
+      "PRODUCT": "Money transfers",
+      "STATE": "DC",
+      "CNT": 41
+    },
+    {
+      "PRODUCT": "Money transfers",
+      "STATE": "AL",
+      "CNT": 38
+    },
+    {
+      "PRODUCT": "Money transfers",
+      "STATE": "KY",
+      "CNT": 37
+    },
+    {
+      "PRODUCT": "Money transfers",
+      "STATE": "OK",
+      "CNT": 37
+    },
+    {
+      "PRODUCT": "Money transfers",
+      "STATE": "NM",
+      "CNT": 35
+    },
+    {
+      "PRODUCT": "Money transfers",
+      "STATE": "MS",
+      "CNT": 25
+    },
+    {
+      "PRODUCT": "Money transfers",
+      "STATE": "WV",
+      "CNT": 25
+    },
+    {
+      "PRODUCT": "Money transfers",
+      "STATE": "NE",
+      "CNT": 23
+    },
+    {
+      "PRODUCT": "Money transfers",
+      "STATE": "ID",
+      "CNT": 23
+    },
+    {
+      "PRODUCT": "Money transfers",
+      "STATE": "KS",
+      "CNT": 23
+    },
+    {
+      "PRODUCT": "Money transfers",
+      "STATE": "IA",
+      "CNT": 23
+    },
+    {
+      "PRODUCT": "Money transfers",
+      "STATE": "AR",
+      "CNT": 22
+    },
+    {
+      "PRODUCT": "Money transfers",
+      "STATE": "UT",
+      "CNT": 22
+    },
+    {
+      "PRODUCT": "Money transfers",
+      "STATE": "DE",
+      "CNT": 18
+    },
+    {
+      "PRODUCT": "Money transfers",
+      "STATE": "NH",
+      "CNT": 17
+    },
+    {
+      "PRODUCT": "Money transfers",
+      "STATE": "HI",
+      "CNT": 16
+    },
+    {
+      "PRODUCT": "Money transfers",
+      "STATE": "RI",
+      "CNT": 15
+    },
+    {
+      "PRODUCT": "Money transfers",
+      "STATE": "AK",
+      "CNT": 10
+    },
+    {
+      "PRODUCT": "Money transfers",
+      "STATE": "ME",
+      "CNT": 9
+    },
+    {
+      "PRODUCT": "Money transfers",
+      "STATE": "VT",
+      "CNT": 9
+    },
+    {
+      "PRODUCT": "Money transfers",
+      "STATE": "PR",
+      "CNT": 8
+    },
+    {
+      "PRODUCT": "Money transfers",
+      "STATE": "ND",
+      "CNT": 8
+    },
+    {
+      "PRODUCT": "Money transfers",
+      "STATE": "MT",
+      "CNT": 8
+    },
+    {
+      "PRODUCT": "Money transfers",
+      "STATE": "VI",
+      "CNT": 5
+    },
+    {
+      "PRODUCT": "Money transfers",
+      "STATE": "SD",
+      "CNT": 5
+    },
+    {
+      "PRODUCT": "Money transfers",
+      "STATE": "AE",
+      "CNT": 4
+    },
+    {
+      "PRODUCT": "Money transfers",
+      "STATE": "WY",
+      "CNT": 4
+    },
+    {
+      "PRODUCT": "Money transfers",
+      "STATE": "AP",
+      "CNT": 2
+    },
+    {
+      "PRODUCT": "Money transfers",
+      "STATE": "GU",
+      "CNT": 1
+    },
+    {
+      "PRODUCT": "Money transfers",
+      "STATE": "FM",
+      "CNT": 1
+    },
+    {
+      "PRODUCT": "Money transfers",
+      "STATE": "MP",
+      "CNT": 1
+    },
+    {
+      "PRODUCT": "Money transfers",
+      "STATE": "AS",
+      "CNT": 1
     },
     {
       "PRODUCT": "Mortgage",
@@ -11359,6 +14259,256 @@
       "CNT": 11669
     },
     {
+      "PRODUCT": "Mortgage",
+      "STATE": "MI",
+      "CNT": 11574
+    },
+    {
+      "PRODUCT": "Mortgage",
+      "STATE": "WA",
+      "CNT": 10310
+    },
+    {
+      "PRODUCT": "Mortgage",
+      "STATE": "AZ",
+      "CNT": 10310
+    },
+    {
+      "PRODUCT": "Mortgage",
+      "STATE": "MA",
+      "CNT": 9311
+    },
+    {
+      "PRODUCT": "Mortgage",
+      "STATE": "CO",
+      "CNT": 8566
+    },
+    {
+      "PRODUCT": "Mortgage",
+      "STATE": "TN",
+      "CNT": 6568
+    },
+    {
+      "PRODUCT": "Mortgage",
+      "STATE": "SC",
+      "CNT": 6091
+    },
+    {
+      "PRODUCT": "Mortgage",
+      "STATE": "CT",
+      "CNT": 5848
+    },
+    {
+      "PRODUCT": "Mortgage",
+      "STATE": "MO",
+      "CNT": 5557
+    },
+    {
+      "PRODUCT": "Mortgage",
+      "STATE": "NV",
+      "CNT": 5286
+    },
+    {
+      "PRODUCT": "Mortgage",
+      "STATE": "MN",
+      "CNT": 5162
+    },
+    {
+      "PRODUCT": "Mortgage",
+      "STATE": "OR",
+      "CNT": 5158
+    },
+    {
+      "PRODUCT": "Mortgage",
+      "STATE": "LA",
+      "CNT": 4826
+    },
+    {
+      "PRODUCT": "Mortgage",
+      "STATE": "WI",
+      "CNT": 4636
+    },
+    {
+      "PRODUCT": "Mortgage",
+      "STATE": "IN",
+      "CNT": 4604
+    },
+    {
+      "PRODUCT": "Mortgage",
+      "STATE": "AL",
+      "CNT": 4295
+    },
+    {
+      "PRODUCT": "Mortgage",
+      "STATE": "UT",
+      "CNT": 2847
+    },
+    {
+      "PRODUCT": "Mortgage",
+      "STATE": "OK",
+      "CNT": 2801
+    },
+    {
+      "PRODUCT": "Mortgage",
+      "STATE": "KY",
+      "CNT": 2719
+    },
+    {
+      "PRODUCT": "Mortgage",
+      "STATE": "DC",
+      "CNT": 2364
+    },
+    {
+      "PRODUCT": "Mortgage",
+      "STATE": "NH",
+      "CNT": 2354
+    },
+    {
+      "PRODUCT": "Mortgage",
+      "STATE": "DE",
+      "CNT": 2222
+    },
+    {
+      "PRODUCT": "Mortgage",
+      "STATE": "MS",
+      "CNT": 2017
+    },
+    {
+      "PRODUCT": "Mortgage",
+      "STATE": "NM",
+      "CNT": 1893
+    },
+    {
+      "PRODUCT": "Mortgage",
+      "STATE": "AR",
+      "CNT": 1892
+    },
+    {
+      "PRODUCT": "Mortgage",
+      "STATE": "KS",
+      "CNT": 1776
+    },
+    {
+      "PRODUCT": "Mortgage",
+      "STATE": "HI",
+      "CNT": 1641
+    },
+    {
+      "PRODUCT": "Mortgage",
+      "STATE": "RI",
+      "CNT": 1519
+    },
+    {
+      "PRODUCT": "Mortgage",
+      "STATE": "IA",
+      "CNT": 1488
+    },
+    {
+      "PRODUCT": "Mortgage",
+      "STATE": "ID",
+      "CNT": 1432
+    },
+    {
+      "PRODUCT": "Mortgage",
+      "STATE": "ME",
+      "CNT": 1426
+    },
+    {
+      "PRODUCT": "Mortgage",
+      "STATE": "NE",
+      "CNT": 1216
+    },
+    {
+      "PRODUCT": "Mortgage",
+      "STATE": "WV",
+      "CNT": 1002
+    },
+    {
+      "PRODUCT": "Mortgage",
+      "STATE": "PR",
+      "CNT": 900
+    },
+    {
+      "PRODUCT": "Mortgage",
+      "STATE": "VT",
+      "CNT": 728
+    },
+    {
+      "PRODUCT": "Mortgage",
+      "STATE": "MT",
+      "CNT": 725
+    },
+    {
+      "PRODUCT": "Mortgage",
+      "STATE": "AK",
+      "CNT": 531
+    },
+    {
+      "PRODUCT": "Mortgage",
+      "STATE": "SD",
+      "CNT": 439
+    },
+    {
+      "PRODUCT": "Mortgage",
+      "STATE": "WY",
+      "CNT": 427
+    },
+    {
+      "PRODUCT": "Mortgage",
+      "STATE": "ND",
+      "CNT": 247
+    },
+    {
+      "PRODUCT": "Mortgage",
+      "STATE": "AE",
+      "CNT": 142
+    },
+    {
+      "PRODUCT": "Mortgage",
+      "STATE": "AP",
+      "CNT": 88
+    },
+    {
+      "PRODUCT": "Mortgage",
+      "STATE": "VI",
+      "CNT": 69
+    },
+    {
+      "PRODUCT": "Mortgage",
+      "STATE": "GU",
+      "CNT": 27
+    },
+    {
+      "PRODUCT": "Mortgage",
+      "STATE": "AA",
+      "CNT": 18
+    },
+    {
+      "PRODUCT": "Mortgage",
+      "STATE": "FM",
+      "CNT": 17
+    },
+    {
+      "PRODUCT": "Mortgage",
+      "STATE": "MH",
+      "CNT": 10
+    },
+    {
+      "PRODUCT": "Mortgage",
+      "STATE": "MP",
+      "CNT": 7
+    },
+    {
+      "PRODUCT": "Mortgage",
+      "STATE": "PW",
+      "CNT": 5
+    },
+    {
+      "PRODUCT": "Mortgage",
+      "STATE": "AS",
+      "CNT": 3
+    },
+    {
       "PRODUCT": "Other financial service",
       "STATE": "CA",
       "CNT": 132
@@ -11419,6 +14569,206 @@
       "CNT": 29
     },
     {
+      "PRODUCT": "Other financial service",
+      "STATE": "MD",
+      "CNT": 28
+    },
+    {
+      "PRODUCT": "Other financial service",
+      "STATE": "TN",
+      "CNT": 24
+    },
+    {
+      "PRODUCT": "Other financial service",
+      "STATE": "MI",
+      "CNT": 19
+    },
+    {
+      "PRODUCT": "Other financial service",
+      "STATE": "WA",
+      "CNT": 19
+    },
+    {
+      "PRODUCT": "Other financial service",
+      "STATE": "OR",
+      "CNT": 18
+    },
+    {
+      "PRODUCT": "Other financial service",
+      "STATE": "CO",
+      "CNT": 15
+    },
+    {
+      "PRODUCT": "Other financial service",
+      "STATE": "AZ",
+      "CNT": 15
+    },
+    {
+      "PRODUCT": "Other financial service",
+      "STATE": "AL",
+      "CNT": 14
+    },
+    {
+      "PRODUCT": "Other financial service",
+      "STATE": "SC",
+      "CNT": 14
+    },
+    {
+      "PRODUCT": "Other financial service",
+      "STATE": "MN",
+      "CNT": 13
+    },
+    {
+      "PRODUCT": "Other financial service",
+      "STATE": "IN",
+      "CNT": 13
+    },
+    {
+      "PRODUCT": "Other financial service",
+      "STATE": "WV",
+      "CNT": 13
+    },
+    {
+      "PRODUCT": "Other financial service",
+      "STATE": "MO",
+      "CNT": 13
+    },
+    {
+      "PRODUCT": "Other financial service",
+      "STATE": "DC",
+      "CNT": 12
+    },
+    {
+      "PRODUCT": "Other financial service",
+      "STATE": "LA",
+      "CNT": 11
+    },
+    {
+      "PRODUCT": "Other financial service",
+      "STATE": "WI",
+      "CNT": 10
+    },
+    {
+      "PRODUCT": "Other financial service",
+      "STATE": "NV",
+      "CNT": 9
+    },
+    {
+      "PRODUCT": "Other financial service",
+      "STATE": "NH",
+      "CNT": 9
+    },
+    {
+      "PRODUCT": "Other financial service",
+      "STATE": "RI",
+      "CNT": 8
+    },
+    {
+      "PRODUCT": "Other financial service",
+      "STATE": "KY",
+      "CNT": 8
+    },
+    {
+      "PRODUCT": "Other financial service",
+      "STATE": "MS",
+      "CNT": 8
+    },
+    {
+      "PRODUCT": "Other financial service",
+      "STATE": "CT",
+      "CNT": 8
+    },
+    {
+      "PRODUCT": "Other financial service",
+      "STATE": "DE",
+      "CNT": 7
+    },
+    {
+      "PRODUCT": "Other financial service",
+      "STATE": "OK",
+      "CNT": 7
+    },
+    {
+      "PRODUCT": "Other financial service",
+      "STATE": "ME",
+      "CNT": 7
+    },
+    {
+      "PRODUCT": "Other financial service",
+      "STATE": "AR",
+      "CNT": 7
+    },
+    {
+      "PRODUCT": "Other financial service",
+      "STATE": "NM",
+      "CNT": 5
+    },
+    {
+      "PRODUCT": "Other financial service",
+      "STATE": "KS",
+      "CNT": 5
+    },
+    {
+      "PRODUCT": "Other financial service",
+      "STATE": "UT",
+      "CNT": 4
+    },
+    {
+      "PRODUCT": "Other financial service",
+      "STATE": "IA",
+      "CNT": 4
+    },
+    {
+      "PRODUCT": "Other financial service",
+      "STATE": "WY",
+      "CNT": 3
+    },
+    {
+      "PRODUCT": "Other financial service",
+      "STATE": "PR",
+      "CNT": 3
+    },
+    {
+      "PRODUCT": "Other financial service",
+      "STATE": "SD",
+      "CNT": 2
+    },
+    {
+      "PRODUCT": "Other financial service",
+      "STATE": "VT",
+      "CNT": 2
+    },
+    {
+      "PRODUCT": "Other financial service",
+      "STATE": "ID",
+      "CNT": 1
+    },
+    {
+      "PRODUCT": "Other financial service",
+      "STATE": "HI",
+      "CNT": 1
+    },
+    {
+      "PRODUCT": "Other financial service",
+      "STATE": "ND",
+      "CNT": 1
+    },
+    {
+      "PRODUCT": "Other financial service",
+      "STATE": "NE",
+      "CNT": 1
+    },
+    {
+      "PRODUCT": "Other financial service",
+      "STATE": "AK",
+      "CNT": 1
+    },
+    {
+      "PRODUCT": "Other financial service",
+      "STATE": "FM",
+      "CNT": 1
+    },
+    {
       "PRODUCT": "Payday loan",
       "STATE": "TX",
       "CNT": 697
@@ -11460,12 +14810,12 @@
     },
     {
       "PRODUCT": "Payday loan",
-      "STATE": "PA",
+      "STATE": "NJ",
       "CNT": 163
     },
     {
       "PRODUCT": "Payday loan",
-      "STATE": "NJ",
+      "STATE": "PA",
       "CNT": 163
     },
     {
@@ -11477,6 +14827,216 @@
       "PRODUCT": "Payday loan",
       "STATE": "MD",
       "CNT": 152
+    },
+    {
+      "PRODUCT": "Payday loan",
+      "STATE": "LA",
+      "CNT": 127
+    },
+    {
+      "PRODUCT": "Payday loan",
+      "STATE": "MO",
+      "CNT": 123
+    },
+    {
+      "PRODUCT": "Payday loan",
+      "STATE": "NC",
+      "CNT": 122
+    },
+    {
+      "PRODUCT": "Payday loan",
+      "STATE": "AL",
+      "CNT": 107
+    },
+    {
+      "PRODUCT": "Payday loan",
+      "STATE": "OK",
+      "CNT": 106
+    },
+    {
+      "PRODUCT": "Payday loan",
+      "STATE": "NV",
+      "CNT": 103
+    },
+    {
+      "PRODUCT": "Payday loan",
+      "STATE": "IN",
+      "CNT": 101
+    },
+    {
+      "PRODUCT": "Payday loan",
+      "STATE": "WI",
+      "CNT": 99
+    },
+    {
+      "PRODUCT": "Payday loan",
+      "STATE": "SC",
+      "CNT": 93
+    },
+    {
+      "PRODUCT": "Payday loan",
+      "STATE": "WA",
+      "CNT": 89
+    },
+    {
+      "PRODUCT": "Payday loan",
+      "STATE": "AZ",
+      "CNT": 88
+    },
+    {
+      "PRODUCT": "Payday loan",
+      "STATE": "NY",
+      "CNT": 84
+    },
+    {
+      "PRODUCT": "Payday loan",
+      "STATE": "MN",
+      "CNT": 77
+    },
+    {
+      "PRODUCT": "Payday loan",
+      "STATE": "CO",
+      "CNT": 71
+    },
+    {
+      "PRODUCT": "Payday loan",
+      "STATE": "MA",
+      "CNT": 68
+    },
+    {
+      "PRODUCT": "Payday loan",
+      "STATE": "OR",
+      "CNT": 56
+    },
+    {
+      "PRODUCT": "Payday loan",
+      "STATE": "KS",
+      "CNT": 54
+    },
+    {
+      "PRODUCT": "Payday loan",
+      "STATE": "KY",
+      "CNT": 53
+    },
+    {
+      "PRODUCT": "Payday loan",
+      "STATE": "RI",
+      "CNT": 45
+    },
+    {
+      "PRODUCT": "Payday loan",
+      "STATE": "NM",
+      "CNT": 45
+    },
+    {
+      "PRODUCT": "Payday loan",
+      "STATE": "MS",
+      "CNT": 43
+    },
+    {
+      "PRODUCT": "Payday loan",
+      "STATE": "IA",
+      "CNT": 40
+    },
+    {
+      "PRODUCT": "Payday loan",
+      "STATE": "DC",
+      "CNT": 36
+    },
+    {
+      "PRODUCT": "Payday loan",
+      "STATE": "DE",
+      "CNT": 32
+    },
+    {
+      "PRODUCT": "Payday loan",
+      "STATE": "ID",
+      "CNT": 29
+    },
+    {
+      "PRODUCT": "Payday loan",
+      "STATE": "UT",
+      "CNT": 28
+    },
+    {
+      "PRODUCT": "Payday loan",
+      "STATE": "CT",
+      "CNT": 26
+    },
+    {
+      "PRODUCT": "Payday loan",
+      "STATE": "NE",
+      "CNT": 24
+    },
+    {
+      "PRODUCT": "Payday loan",
+      "STATE": "ME",
+      "CNT": 24
+    },
+    {
+      "PRODUCT": "Payday loan",
+      "STATE": "AR",
+      "CNT": 24
+    },
+    {
+      "PRODUCT": "Payday loan",
+      "STATE": "NH",
+      "CNT": 23
+    },
+    {
+      "PRODUCT": "Payday loan",
+      "STATE": "SD",
+      "CNT": 11
+    },
+    {
+      "PRODUCT": "Payday loan",
+      "STATE": "MT",
+      "CNT": 11
+    },
+    {
+      "PRODUCT": "Payday loan",
+      "STATE": "HI",
+      "CNT": 10
+    },
+    {
+      "PRODUCT": "Payday loan",
+      "STATE": "WY",
+      "CNT": 10
+    },
+    {
+      "PRODUCT": "Payday loan",
+      "STATE": "AK",
+      "CNT": 6
+    },
+    {
+      "PRODUCT": "Payday loan",
+      "STATE": "ND",
+      "CNT": 5
+    },
+    {
+      "PRODUCT": "Payday loan",
+      "STATE": "PR",
+      "CNT": 5
+    },
+    {
+      "PRODUCT": "Payday loan",
+      "STATE": "VT",
+      "CNT": 2
+    },
+    {
+      "PRODUCT": "Payday loan",
+      "STATE": "FM",
+      "CNT": 1
+    },
+    {
+      "PRODUCT": "Payday loan",
+      "STATE": "WV",
+      "CNT": 1
+    },
+    {
+      "PRODUCT": "Payday loan",
+      "STATE": "AP",
+      "CNT": 1
     },
     {
       "PRODUCT": "Payday loan, title loan, or personal loan",
@@ -11539,6 +15099,231 @@
       "CNT": 825
     },
     {
+      "PRODUCT": "Payday loan, title loan, or personal loan",
+      "STATE": "NJ",
+      "CNT": 824
+    },
+    {
+      "PRODUCT": "Payday loan, title loan, or personal loan",
+      "STATE": "MD",
+      "CNT": 777
+    },
+    {
+      "PRODUCT": "Payday loan, title loan, or personal loan",
+      "STATE": "MI",
+      "CNT": 729
+    },
+    {
+      "PRODUCT": "Payday loan, title loan, or personal loan",
+      "STATE": "AZ",
+      "CNT": 710
+    },
+    {
+      "PRODUCT": "Payday loan, title loan, or personal loan",
+      "STATE": "AL",
+      "CNT": 611
+    },
+    {
+      "PRODUCT": "Payday loan, title loan, or personal loan",
+      "STATE": "MO",
+      "CNT": 594
+    },
+    {
+      "PRODUCT": "Payday loan, title loan, or personal loan",
+      "STATE": "WA",
+      "CNT": 531
+    },
+    {
+      "PRODUCT": "Payday loan, title loan, or personal loan",
+      "STATE": "LA",
+      "CNT": 527
+    },
+    {
+      "PRODUCT": "Payday loan, title loan, or personal loan",
+      "STATE": "IN",
+      "CNT": 467
+    },
+    {
+      "PRODUCT": "Payday loan, title loan, or personal loan",
+      "STATE": "NV",
+      "CNT": 452
+    },
+    {
+      "PRODUCT": "Payday loan, title loan, or personal loan",
+      "STATE": "CO",
+      "CNT": 433
+    },
+    {
+      "PRODUCT": "Payday loan, title loan, or personal loan",
+      "STATE": "WI",
+      "CNT": 389
+    },
+    {
+      "PRODUCT": "Payday loan, title loan, or personal loan",
+      "STATE": "MS",
+      "CNT": 354
+    },
+    {
+      "PRODUCT": "Payday loan, title loan, or personal loan",
+      "STATE": "MA",
+      "CNT": 333
+    },
+    {
+      "PRODUCT": "Payday loan, title loan, or personal loan",
+      "STATE": "MN",
+      "CNT": 319
+    },
+    {
+      "PRODUCT": "Payday loan, title loan, or personal loan",
+      "STATE": "KY",
+      "CNT": 273
+    },
+    {
+      "PRODUCT": "Payday loan, title loan, or personal loan",
+      "STATE": "OR",
+      "CNT": 269
+    },
+    {
+      "PRODUCT": "Payday loan, title loan, or personal loan",
+      "STATE": "OK",
+      "CNT": 265
+    },
+    {
+      "PRODUCT": "Payday loan, title loan, or personal loan",
+      "STATE": "CT",
+      "CNT": 258
+    },
+    {
+      "PRODUCT": "Payday loan, title loan, or personal loan",
+      "STATE": "UT",
+      "CNT": 203
+    },
+    {
+      "PRODUCT": "Payday loan, title loan, or personal loan",
+      "STATE": "DE",
+      "CNT": 194
+    },
+    {
+      "PRODUCT": "Payday loan, title loan, or personal loan",
+      "STATE": "KS",
+      "CNT": 194
+    },
+    {
+      "PRODUCT": "Payday loan, title loan, or personal loan",
+      "STATE": "AR",
+      "CNT": 168
+    },
+    {
+      "PRODUCT": "Payday loan, title loan, or personal loan",
+      "STATE": "NM",
+      "CNT": 157
+    },
+    {
+      "PRODUCT": "Payday loan, title loan, or personal loan",
+      "STATE": "IA",
+      "CNT": 134
+    },
+    {
+      "PRODUCT": "Payday loan, title loan, or personal loan",
+      "STATE": "ID",
+      "CNT": 122
+    },
+    {
+      "PRODUCT": "Payday loan, title loan, or personal loan",
+      "STATE": "DC",
+      "CNT": 118
+    },
+    {
+      "PRODUCT": "Payday loan, title loan, or personal loan",
+      "STATE": "NE",
+      "CNT": 100
+    },
+    {
+      "PRODUCT": "Payday loan, title loan, or personal loan",
+      "STATE": "RI",
+      "CNT": 68
+    },
+    {
+      "PRODUCT": "Payday loan, title loan, or personal loan",
+      "STATE": "HI",
+      "CNT": 62
+    },
+    {
+      "PRODUCT": "Payday loan, title loan, or personal loan",
+      "STATE": "NH",
+      "CNT": 61
+    },
+    {
+      "PRODUCT": "Payday loan, title loan, or personal loan",
+      "STATE": "PR",
+      "CNT": 53
+    },
+    {
+      "PRODUCT": "Payday loan, title loan, or personal loan",
+      "STATE": "WV",
+      "CNT": 51
+    },
+    {
+      "PRODUCT": "Payday loan, title loan, or personal loan",
+      "STATE": "ME",
+      "CNT": 50
+    },
+    {
+      "PRODUCT": "Payday loan, title loan, or personal loan",
+      "STATE": "MT",
+      "CNT": 43
+    },
+    {
+      "PRODUCT": "Payday loan, title loan, or personal loan",
+      "STATE": "SD",
+      "CNT": 40
+    },
+    {
+      "PRODUCT": "Payday loan, title loan, or personal loan",
+      "STATE": "ND",
+      "CNT": 33
+    },
+    {
+      "PRODUCT": "Payday loan, title loan, or personal loan",
+      "STATE": "AK",
+      "CNT": 30
+    },
+    {
+      "PRODUCT": "Payday loan, title loan, or personal loan",
+      "STATE": "VT",
+      "CNT": 30
+    },
+    {
+      "PRODUCT": "Payday loan, title loan, or personal loan",
+      "STATE": "WY",
+      "CNT": 22
+    },
+    {
+      "PRODUCT": "Payday loan, title loan, or personal loan",
+      "STATE": "AE",
+      "CNT": 14
+    },
+    {
+      "PRODUCT": "Payday loan, title loan, or personal loan",
+      "STATE": "GU",
+      "CNT": 8
+    },
+    {
+      "PRODUCT": "Payday loan, title loan, or personal loan",
+      "STATE": "VI",
+      "CNT": 4
+    },
+    {
+      "PRODUCT": "Payday loan, title loan, or personal loan",
+      "STATE": "AP",
+      "CNT": 3
+    },
+    {
+      "PRODUCT": "Payday loan, title loan, or personal loan",
+      "STATE": "FM",
+      "CNT": 1
+    },
+    {
       "PRODUCT": "Payday loan, title loan, personal loan, or advance loan",
       "STATE": "TX",
       "CNT": 4205
@@ -11597,6 +15382,236 @@
       "PRODUCT": "Payday loan, title loan, personal loan, or advance loan",
       "STATE": "TN",
       "CNT": 931
+    },
+    {
+      "PRODUCT": "Payday loan, title loan, personal loan, or advance loan",
+      "STATE": "AZ",
+      "CNT": 884
+    },
+    {
+      "PRODUCT": "Payday loan, title loan, personal loan, or advance loan",
+      "STATE": "SC",
+      "CNT": 851
+    },
+    {
+      "PRODUCT": "Payday loan, title loan, personal loan, or advance loan",
+      "STATE": "MI",
+      "CNT": 850
+    },
+    {
+      "PRODUCT": "Payday loan, title loan, personal loan, or advance loan",
+      "STATE": "MD",
+      "CNT": 818
+    },
+    {
+      "PRODUCT": "Payday loan, title loan, personal loan, or advance loan",
+      "STATE": "LA",
+      "CNT": 751
+    },
+    {
+      "PRODUCT": "Payday loan, title loan, personal loan, or advance loan",
+      "STATE": "AL",
+      "CNT": 693
+    },
+    {
+      "PRODUCT": "Payday loan, title loan, personal loan, or advance loan",
+      "STATE": "MO",
+      "CNT": 653
+    },
+    {
+      "PRODUCT": "Payday loan, title loan, personal loan, or advance loan",
+      "STATE": "WA",
+      "CNT": 607
+    },
+    {
+      "PRODUCT": "Payday loan, title loan, personal loan, or advance loan",
+      "STATE": "IN",
+      "CNT": 602
+    },
+    {
+      "PRODUCT": "Payday loan, title loan, personal loan, or advance loan",
+      "STATE": "NV",
+      "CNT": 509
+    },
+    {
+      "PRODUCT": "Payday loan, title loan, personal loan, or advance loan",
+      "STATE": "CO",
+      "CNT": 487
+    },
+    {
+      "PRODUCT": "Payday loan, title loan, personal loan, or advance loan",
+      "STATE": "MS",
+      "CNT": 461
+    },
+    {
+      "PRODUCT": "Payday loan, title loan, personal loan, or advance loan",
+      "STATE": "WI",
+      "CNT": 434
+    },
+    {
+      "PRODUCT": "Payday loan, title loan, personal loan, or advance loan",
+      "STATE": "MA",
+      "CNT": 414
+    },
+    {
+      "PRODUCT": "Payday loan, title loan, personal loan, or advance loan",
+      "STATE": "OK",
+      "CNT": 378
+    },
+    {
+      "PRODUCT": "Payday loan, title loan, personal loan, or advance loan",
+      "STATE": "KY",
+      "CNT": 353
+    },
+    {
+      "PRODUCT": "Payday loan, title loan, personal loan, or advance loan",
+      "STATE": "MN",
+      "CNT": 331
+    },
+    {
+      "PRODUCT": "Payday loan, title loan, personal loan, or advance loan",
+      "STATE": "OR",
+      "CNT": 296
+    },
+    {
+      "PRODUCT": "Payday loan, title loan, personal loan, or advance loan",
+      "STATE": "UT",
+      "CNT": 271
+    },
+    {
+      "PRODUCT": "Payday loan, title loan, personal loan, or advance loan",
+      "STATE": "AR",
+      "CNT": 246
+    },
+    {
+      "PRODUCT": "Payday loan, title loan, personal loan, or advance loan",
+      "STATE": "CT",
+      "CNT": 242
+    },
+    {
+      "PRODUCT": "Payday loan, title loan, personal loan, or advance loan",
+      "STATE": "KS",
+      "CNT": 233
+    },
+    {
+      "PRODUCT": "Payday loan, title loan, personal loan, or advance loan",
+      "STATE": "DE",
+      "CNT": 194
+    },
+    {
+      "PRODUCT": "Payday loan, title loan, personal loan, or advance loan",
+      "STATE": "NM",
+      "CNT": 165
+    },
+    {
+      "PRODUCT": "Payday loan, title loan, personal loan, or advance loan",
+      "STATE": "ID",
+      "CNT": 146
+    },
+    {
+      "PRODUCT": "Payday loan, title loan, personal loan, or advance loan",
+      "STATE": "IA",
+      "CNT": 140
+    },
+    {
+      "PRODUCT": "Payday loan, title loan, personal loan, or advance loan",
+      "STATE": "DC",
+      "CNT": 138
+    },
+    {
+      "PRODUCT": "Payday loan, title loan, personal loan, or advance loan",
+      "STATE": "NE",
+      "CNT": 93
+    },
+    {
+      "PRODUCT": "Payday loan, title loan, personal loan, or advance loan",
+      "STATE": "HI",
+      "CNT": 91
+    },
+    {
+      "PRODUCT": "Payday loan, title loan, personal loan, or advance loan",
+      "STATE": "RI",
+      "CNT": 90
+    },
+    {
+      "PRODUCT": "Payday loan, title loan, personal loan, or advance loan",
+      "STATE": "WV",
+      "CNT": 81
+    },
+    {
+      "PRODUCT": "Payday loan, title loan, personal loan, or advance loan",
+      "STATE": "NH",
+      "CNT": 79
+    },
+    {
+      "PRODUCT": "Payday loan, title loan, personal loan, or advance loan",
+      "STATE": "PR",
+      "CNT": 67
+    },
+    {
+      "PRODUCT": "Payday loan, title loan, personal loan, or advance loan",
+      "STATE": "SD",
+      "CNT": 61
+    },
+    {
+      "PRODUCT": "Payday loan, title loan, personal loan, or advance loan",
+      "STATE": "ME",
+      "CNT": 50
+    },
+    {
+      "PRODUCT": "Payday loan, title loan, personal loan, or advance loan",
+      "STATE": "MT",
+      "CNT": 45
+    },
+    {
+      "PRODUCT": "Payday loan, title loan, personal loan, or advance loan",
+      "STATE": "ND",
+      "CNT": 39
+    },
+    {
+      "PRODUCT": "Payday loan, title loan, personal loan, or advance loan",
+      "STATE": "AK",
+      "CNT": 38
+    },
+    {
+      "PRODUCT": "Payday loan, title loan, personal loan, or advance loan",
+      "STATE": "WY",
+      "CNT": 37
+    },
+    {
+      "PRODUCT": "Payday loan, title loan, personal loan, or advance loan",
+      "STATE": "VT",
+      "CNT": 23
+    },
+    {
+      "PRODUCT": "Payday loan, title loan, personal loan, or advance loan",
+      "STATE": "AE",
+      "CNT": 14
+    },
+    {
+      "PRODUCT": "Payday loan, title loan, personal loan, or advance loan",
+      "STATE": "AP",
+      "CNT": 6
+    },
+    {
+      "PRODUCT": "Payday loan, title loan, personal loan, or advance loan",
+      "STATE": "VI",
+      "CNT": 1
+    },
+    {
+      "PRODUCT": "Payday loan, title loan, personal loan, or advance loan",
+      "STATE": "MP",
+      "CNT": 1
+    },
+    {
+      "PRODUCT": "Payday loan, title loan, personal loan, or advance loan",
+      "STATE": "AS",
+      "CNT": 1
+    },
+    {
+      "PRODUCT": "Payday loan, title loan, personal loan, or advance loan",
+      "STATE": "GU",
+      "CNT": 1
     },
     {
       "PRODUCT": "Prepaid card",
@@ -11659,6 +15674,221 @@
       "CNT": 554
     },
     {
+      "PRODUCT": "Prepaid card",
+      "STATE": "MA",
+      "CNT": 498
+    },
+    {
+      "PRODUCT": "Prepaid card",
+      "STATE": "AZ",
+      "CNT": 490
+    },
+    {
+      "PRODUCT": "Prepaid card",
+      "STATE": "WA",
+      "CNT": 465
+    },
+    {
+      "PRODUCT": "Prepaid card",
+      "STATE": "MD",
+      "CNT": 457
+    },
+    {
+      "PRODUCT": "Prepaid card",
+      "STATE": "TN",
+      "CNT": 403
+    },
+    {
+      "PRODUCT": "Prepaid card",
+      "STATE": "CO",
+      "CNT": 400
+    },
+    {
+      "PRODUCT": "Prepaid card",
+      "STATE": "NV",
+      "CNT": 369
+    },
+    {
+      "PRODUCT": "Prepaid card",
+      "STATE": "MO",
+      "CNT": 351
+    },
+    {
+      "PRODUCT": "Prepaid card",
+      "STATE": "IN",
+      "CNT": 343
+    },
+    {
+      "PRODUCT": "Prepaid card",
+      "STATE": "SC",
+      "CNT": 324
+    },
+    {
+      "PRODUCT": "Prepaid card",
+      "STATE": "OR",
+      "CNT": 274
+    },
+    {
+      "PRODUCT": "Prepaid card",
+      "STATE": "LA",
+      "CNT": 273
+    },
+    {
+      "PRODUCT": "Prepaid card",
+      "STATE": "CT",
+      "CNT": 269
+    },
+    {
+      "PRODUCT": "Prepaid card",
+      "STATE": "AL",
+      "CNT": 266
+    },
+    {
+      "PRODUCT": "Prepaid card",
+      "STATE": "WI",
+      "CNT": 241
+    },
+    {
+      "PRODUCT": "Prepaid card",
+      "STATE": "KY",
+      "CNT": 233
+    },
+    {
+      "PRODUCT": "Prepaid card",
+      "STATE": "MS",
+      "CNT": 232
+    },
+    {
+      "PRODUCT": "Prepaid card",
+      "STATE": "MN",
+      "CNT": 231
+    },
+    {
+      "PRODUCT": "Prepaid card",
+      "STATE": "OK",
+      "CNT": 215
+    },
+    {
+      "PRODUCT": "Prepaid card",
+      "STATE": "AR",
+      "CNT": 194
+    },
+    {
+      "PRODUCT": "Prepaid card",
+      "STATE": "IA",
+      "CNT": 141
+    },
+    {
+      "PRODUCT": "Prepaid card",
+      "STATE": "UT",
+      "CNT": 121
+    },
+    {
+      "PRODUCT": "Prepaid card",
+      "STATE": "KS",
+      "CNT": 113
+    },
+    {
+      "PRODUCT": "Prepaid card",
+      "STATE": "DC",
+      "CNT": 112
+    },
+    {
+      "PRODUCT": "Prepaid card",
+      "STATE": "NE",
+      "CNT": 83
+    },
+    {
+      "PRODUCT": "Prepaid card",
+      "STATE": "NM",
+      "CNT": 81
+    },
+    {
+      "PRODUCT": "Prepaid card",
+      "STATE": "WV",
+      "CNT": 81
+    },
+    {
+      "PRODUCT": "Prepaid card",
+      "STATE": "DE",
+      "CNT": 78
+    },
+    {
+      "PRODUCT": "Prepaid card",
+      "STATE": "NH",
+      "CNT": 76
+    },
+    {
+      "PRODUCT": "Prepaid card",
+      "STATE": "RI",
+      "CNT": 68
+    },
+    {
+      "PRODUCT": "Prepaid card",
+      "STATE": "ID",
+      "CNT": 67
+    },
+    {
+      "PRODUCT": "Prepaid card",
+      "STATE": "HI",
+      "CNT": 44
+    },
+    {
+      "PRODUCT": "Prepaid card",
+      "STATE": "ME",
+      "CNT": 43
+    },
+    {
+      "PRODUCT": "Prepaid card",
+      "STATE": "SD",
+      "CNT": 35
+    },
+    {
+      "PRODUCT": "Prepaid card",
+      "STATE": "MT",
+      "CNT": 30
+    },
+    {
+      "PRODUCT": "Prepaid card",
+      "STATE": "ND",
+      "CNT": 24
+    },
+    {
+      "PRODUCT": "Prepaid card",
+      "STATE": "AK",
+      "CNT": 22
+    },
+    {
+      "PRODUCT": "Prepaid card",
+      "STATE": "VT",
+      "CNT": 20
+    },
+    {
+      "PRODUCT": "Prepaid card",
+      "STATE": "WY",
+      "CNT": 16
+    },
+    {
+      "PRODUCT": "Prepaid card",
+      "STATE": "PR",
+      "CNT": 13
+    },
+    {
+      "PRODUCT": "Prepaid card",
+      "STATE": "AP",
+      "CNT": 7
+    },
+    {
+      "PRODUCT": "Prepaid card",
+      "STATE": "AE",
+      "CNT": 2
+    },
+    {
+      "PRODUCT": "Prepaid card",
+      "STATE": "VI",
+      "CNT": 1
+    },
+    {
       "PRODUCT": "Student loan",
       "STATE": "CA",
       "CNT": 13351
@@ -11717,6 +15947,251 @@
       "PRODUCT": "Student loan",
       "STATE": "NC",
       "CNT": 3936
+    },
+    {
+      "PRODUCT": "Student loan",
+      "STATE": "MD",
+      "CNT": 3860
+    },
+    {
+      "PRODUCT": "Student loan",
+      "STATE": "MA",
+      "CNT": 3808
+    },
+    {
+      "PRODUCT": "Student loan",
+      "STATE": "WA",
+      "CNT": 3144
+    },
+    {
+      "PRODUCT": "Student loan",
+      "STATE": "CO",
+      "CNT": 2548
+    },
+    {
+      "PRODUCT": "Student loan",
+      "STATE": "AZ",
+      "CNT": 2537
+    },
+    {
+      "PRODUCT": "Student loan",
+      "STATE": "IN",
+      "CNT": 2328
+    },
+    {
+      "PRODUCT": "Student loan",
+      "STATE": "TN",
+      "CNT": 2199
+    },
+    {
+      "PRODUCT": "Student loan",
+      "STATE": "MN",
+      "CNT": 2145
+    },
+    {
+      "PRODUCT": "Student loan",
+      "STATE": "MO",
+      "CNT": 2093
+    },
+    {
+      "PRODUCT": "Student loan",
+      "STATE": "SC",
+      "CNT": 2018
+    },
+    {
+      "PRODUCT": "Student loan",
+      "STATE": "OR",
+      "CNT": 1863
+    },
+    {
+      "PRODUCT": "Student loan",
+      "STATE": "CT",
+      "CNT": 1851
+    },
+    {
+      "PRODUCT": "Student loan",
+      "STATE": "WI",
+      "CNT": 1807
+    },
+    {
+      "PRODUCT": "Student loan",
+      "STATE": "AL",
+      "CNT": 1665
+    },
+    {
+      "PRODUCT": "Student loan",
+      "STATE": "LA",
+      "CNT": 1510
+    },
+    {
+      "PRODUCT": "Student loan",
+      "STATE": "KY",
+      "CNT": 1139
+    },
+    {
+      "PRODUCT": "Student loan",
+      "STATE": "NV",
+      "CNT": 1128
+    },
+    {
+      "PRODUCT": "Student loan",
+      "STATE": "DC",
+      "CNT": 1125
+    },
+    {
+      "PRODUCT": "Student loan",
+      "STATE": "MS",
+      "CNT": 931
+    },
+    {
+      "PRODUCT": "Student loan",
+      "STATE": "OK",
+      "CNT": 895
+    },
+    {
+      "PRODUCT": "Student loan",
+      "STATE": "KS",
+      "CNT": 848
+    },
+    {
+      "PRODUCT": "Student loan",
+      "STATE": "IA",
+      "CNT": 840
+    },
+    {
+      "PRODUCT": "Student loan",
+      "STATE": "UT",
+      "CNT": 813
+    },
+    {
+      "PRODUCT": "Student loan",
+      "STATE": "AR",
+      "CNT": 728
+    },
+    {
+      "PRODUCT": "Student loan",
+      "STATE": "NH",
+      "CNT": 717
+    },
+    {
+      "PRODUCT": "Student loan",
+      "STATE": "NE",
+      "CNT": 586
+    },
+    {
+      "PRODUCT": "Student loan",
+      "STATE": "ME",
+      "CNT": 585
+    },
+    {
+      "PRODUCT": "Student loan",
+      "STATE": "WV",
+      "CNT": 545
+    },
+    {
+      "PRODUCT": "Student loan",
+      "STATE": "DE",
+      "CNT": 539
+    },
+    {
+      "PRODUCT": "Student loan",
+      "STATE": "NM",
+      "CNT": 485
+    },
+    {
+      "PRODUCT": "Student loan",
+      "STATE": "ID",
+      "CNT": 471
+    },
+    {
+      "PRODUCT": "Student loan",
+      "STATE": "HI",
+      "CNT": 430
+    },
+    {
+      "PRODUCT": "Student loan",
+      "STATE": "RI",
+      "CNT": 427
+    },
+    {
+      "PRODUCT": "Student loan",
+      "STATE": "MT",
+      "CNT": 326
+    },
+    {
+      "PRODUCT": "Student loan",
+      "STATE": "VT",
+      "CNT": 292
+    },
+    {
+      "PRODUCT": "Student loan",
+      "STATE": "SD",
+      "CNT": 239
+    },
+    {
+      "PRODUCT": "Student loan",
+      "STATE": "PR",
+      "CNT": 234
+    },
+    {
+      "PRODUCT": "Student loan",
+      "STATE": "AK",
+      "CNT": 193
+    },
+    {
+      "PRODUCT": "Student loan",
+      "STATE": "ND",
+      "CNT": 138
+    },
+    {
+      "PRODUCT": "Student loan",
+      "STATE": "WY",
+      "CNT": 132
+    },
+    {
+      "PRODUCT": "Student loan",
+      "STATE": "AE",
+      "CNT": 92
+    },
+    {
+      "PRODUCT": "Student loan",
+      "STATE": "AP",
+      "CNT": 45
+    },
+    {
+      "PRODUCT": "Student loan",
+      "STATE": "VI",
+      "CNT": 28
+    },
+    {
+      "PRODUCT": "Student loan",
+      "STATE": "GU",
+      "CNT": 23
+    },
+    {
+      "PRODUCT": "Student loan",
+      "STATE": "MP",
+      "CNT": 6
+    },
+    {
+      "PRODUCT": "Student loan",
+      "STATE": "AA",
+      "CNT": 4
+    },
+    {
+      "PRODUCT": "Student loan",
+      "STATE": "AS",
+      "CNT": 2
+    },
+    {
+      "PRODUCT": "Student loan",
+      "STATE": "MH",
+      "CNT": 2
+    },
+    {
+      "PRODUCT": "Student loan",
+      "STATE": "PW",
+      "CNT": 1
     },
     {
       "PRODUCT": "Vehicle loan or lease",
@@ -11779,6 +16254,226 @@
       "CNT": 2769
     },
     {
+      "PRODUCT": "Vehicle loan or lease",
+      "STATE": "MI",
+      "CNT": 2656
+    },
+    {
+      "PRODUCT": "Vehicle loan or lease",
+      "STATE": "AZ",
+      "CNT": 2154
+    },
+    {
+      "PRODUCT": "Vehicle loan or lease",
+      "STATE": "SC",
+      "CNT": 2077
+    },
+    {
+      "PRODUCT": "Vehicle loan or lease",
+      "STATE": "TN",
+      "CNT": 1921
+    },
+    {
+      "PRODUCT": "Vehicle loan or lease",
+      "STATE": "MA",
+      "CNT": 1730
+    },
+    {
+      "PRODUCT": "Vehicle loan or lease",
+      "STATE": "LA",
+      "CNT": 1701
+    },
+    {
+      "PRODUCT": "Vehicle loan or lease",
+      "STATE": "MO",
+      "CNT": 1569
+    },
+    {
+      "PRODUCT": "Vehicle loan or lease",
+      "STATE": "AL",
+      "CNT": 1564
+    },
+    {
+      "PRODUCT": "Vehicle loan or lease",
+      "STATE": "NV",
+      "CNT": 1433
+    },
+    {
+      "PRODUCT": "Vehicle loan or lease",
+      "STATE": "IN",
+      "CNT": 1378
+    },
+    {
+      "PRODUCT": "Vehicle loan or lease",
+      "STATE": "CO",
+      "CNT": 1258
+    },
+    {
+      "PRODUCT": "Vehicle loan or lease",
+      "STATE": "CT",
+      "CNT": 1081
+    },
+    {
+      "PRODUCT": "Vehicle loan or lease",
+      "STATE": "WA",
+      "CNT": 1074
+    },
+    {
+      "PRODUCT": "Vehicle loan or lease",
+      "STATE": "MS",
+      "CNT": 979
+    },
+    {
+      "PRODUCT": "Vehicle loan or lease",
+      "STATE": "WI",
+      "CNT": 953
+    },
+    {
+      "PRODUCT": "Vehicle loan or lease",
+      "STATE": "MN",
+      "CNT": 872
+    },
+    {
+      "PRODUCT": "Vehicle loan or lease",
+      "STATE": "KY",
+      "CNT": 756
+    },
+    {
+      "PRODUCT": "Vehicle loan or lease",
+      "STATE": "AR",
+      "CNT": 752
+    },
+    {
+      "PRODUCT": "Vehicle loan or lease",
+      "STATE": "OK",
+      "CNT": 723
+    },
+    {
+      "PRODUCT": "Vehicle loan or lease",
+      "STATE": "DE",
+      "CNT": 559
+    },
+    {
+      "PRODUCT": "Vehicle loan or lease",
+      "STATE": "OR",
+      "CNT": 520
+    },
+    {
+      "PRODUCT": "Vehicle loan or lease",
+      "STATE": "UT",
+      "CNT": 500
+    },
+    {
+      "PRODUCT": "Vehicle loan or lease",
+      "STATE": "DC",
+      "CNT": 452
+    },
+    {
+      "PRODUCT": "Vehicle loan or lease",
+      "STATE": "KS",
+      "CNT": 400
+    },
+    {
+      "PRODUCT": "Vehicle loan or lease",
+      "STATE": "IA",
+      "CNT": 327
+    },
+    {
+      "PRODUCT": "Vehicle loan or lease",
+      "STATE": "NM",
+      "CNT": 290
+    },
+    {
+      "PRODUCT": "Vehicle loan or lease",
+      "STATE": "WV",
+      "CNT": 280
+    },
+    {
+      "PRODUCT": "Vehicle loan or lease",
+      "STATE": "RI",
+      "CNT": 269
+    },
+    {
+      "PRODUCT": "Vehicle loan or lease",
+      "STATE": "NH",
+      "CNT": 264
+    },
+    {
+      "PRODUCT": "Vehicle loan or lease",
+      "STATE": "NE",
+      "CNT": 239
+    },
+    {
+      "PRODUCT": "Vehicle loan or lease",
+      "STATE": "ID",
+      "CNT": 232
+    },
+    {
+      "PRODUCT": "Vehicle loan or lease",
+      "STATE": "PR",
+      "CNT": 216
+    },
+    {
+      "PRODUCT": "Vehicle loan or lease",
+      "STATE": "MT",
+      "CNT": 182
+    },
+    {
+      "PRODUCT": "Vehicle loan or lease",
+      "STATE": "HI",
+      "CNT": 181
+    },
+    {
+      "PRODUCT": "Vehicle loan or lease",
+      "STATE": "ME",
+      "CNT": 165
+    },
+    {
+      "PRODUCT": "Vehicle loan or lease",
+      "STATE": "VT",
+      "CNT": 125
+    },
+    {
+      "PRODUCT": "Vehicle loan or lease",
+      "STATE": "SD",
+      "CNT": 124
+    },
+    {
+      "PRODUCT": "Vehicle loan or lease",
+      "STATE": "WY",
+      "CNT": 92
+    },
+    {
+      "PRODUCT": "Vehicle loan or lease",
+      "STATE": "ND",
+      "CNT": 92
+    },
+    {
+      "PRODUCT": "Vehicle loan or lease",
+      "STATE": "AK",
+      "CNT": 76
+    },
+    {
+      "PRODUCT": "Vehicle loan or lease",
+      "STATE": "AE",
+      "CNT": 34
+    },
+    {
+      "PRODUCT": "Vehicle loan or lease",
+      "STATE": "AP",
+      "CNT": 19
+    },
+    {
+      "PRODUCT": "Vehicle loan or lease",
+      "STATE": "GU",
+      "CNT": 10
+    },
+    {
+      "PRODUCT": "Vehicle loan or lease",
+      "STATE": "VI",
+      "CNT": 6
+    },
+    {
       "PRODUCT": "Virtual currency",
       "STATE": "MN",
       "CNT": 6
@@ -11795,22 +16490,12 @@
     },
     {
       "PRODUCT": "Virtual currency",
-      "STATE": "IA",
-      "CNT": 1
-    },
-    {
-      "PRODUCT": "Virtual currency",
-      "STATE": "MA",
-      "CNT": 1
-    },
-    {
-      "PRODUCT": "Virtual currency",
       "STATE": "AL",
       "CNT": 1
     },
     {
       "PRODUCT": "Virtual currency",
-      "STATE": "MD",
+      "STATE": "IA",
       "CNT": 1
     },
     {
@@ -11825,7 +16510,17 @@
     },
     {
       "PRODUCT": "Virtual currency",
+      "STATE": "MA",
+      "CNT": 1
+    },
+    {
+      "PRODUCT": "Virtual currency",
       "STATE": "VA",
+      "CNT": 1
+    },
+    {
+      "PRODUCT": "Virtual currency",
+      "STATE": "MD",
       "CNT": 1
     }
   ],
@@ -12956,6 +17651,2726 @@
       "PRODUCT": "Virtual currency",
       "SUBMITTED_VIA": "Web",
       "CNT": 18
+    }
+  ],
+  "company_by_product": [
+    {
+      "PRODUCT": "Bank account or service",
+      "COMPANY": "BANK OF AMERICA, NATIONAL ASSOCIATION",
+      "CNT": 13905,
+      "EXPLANATION_CNT": 8420,
+      "MONETARY_CNT": 3808,
+      "NONMONETARY_CNT": 964,
+      "UNTIMELY_CNT": 150
+    },
+    {
+      "PRODUCT": "Bank account or service",
+      "COMPANY": "WELLS FARGO & COMPANY",
+      "CNT": 13325,
+      "EXPLANATION_CNT": 9607,
+      "MONETARY_CNT": 2109,
+      "NONMONETARY_CNT": 793,
+      "UNTIMELY_CNT": 1529
+    },
+    {
+      "PRODUCT": "Bank account or service",
+      "COMPANY": "JPMORGAN CHASE & CO.",
+      "CNT": 9811,
+      "EXPLANATION_CNT": 7240,
+      "MONETARY_CNT": 1989,
+      "NONMONETARY_CNT": 136,
+      "UNTIMELY_CNT": 39
+    },
+    {
+      "PRODUCT": "Bank account or service",
+      "COMPANY": "CITIBANK, N.A.",
+      "CNT": 4447,
+      "EXPLANATION_CNT": 2293,
+      "MONETARY_CNT": 951,
+      "NONMONETARY_CNT": 1105,
+      "UNTIMELY_CNT": 28
+    },
+    {
+      "PRODUCT": "Bank account or service",
+      "COMPANY": "U.S. BANCORP",
+      "CNT": 3725,
+      "EXPLANATION_CNT": 2675,
+      "MONETARY_CNT": 659,
+      "NONMONETARY_CNT": 241,
+      "UNTIMELY_CNT": 9
+    },
+    {
+      "PRODUCT": "Bank account or service",
+      "COMPANY": "PNC Bank N.A.",
+      "CNT": 3488,
+      "EXPLANATION_CNT": 2485,
+      "MONETARY_CNT": 535,
+      "NONMONETARY_CNT": 94,
+      "UNTIMELY_CNT": 29
+    },
+    {
+      "PRODUCT": "Bank account or service",
+      "COMPANY": "TD BANK US HOLDING COMPANY",
+      "CNT": 3059,
+      "EXPLANATION_CNT": 1539,
+      "MONETARY_CNT": 1205,
+      "NONMONETARY_CNT": 191,
+      "UNTIMELY_CNT": 5
+    },
+    {
+      "PRODUCT": "Bank account or service",
+      "COMPANY": "SUNTRUST BANKS, INC.",
+      "CNT": 2556,
+      "EXPLANATION_CNT": 1556,
+      "MONETARY_CNT": 713,
+      "NONMONETARY_CNT": 161,
+      "UNTIMELY_CNT": 2
+    },
+    {
+      "PRODUCT": "Bank account or service",
+      "COMPANY": "CAPITAL ONE FINANCIAL CORPORATION",
+      "CNT": 2443,
+      "EXPLANATION_CNT": 1999,
+      "MONETARY_CNT": 232,
+      "NONMONETARY_CNT": 92,
+      "UNTIMELY_CNT": 11
+    },
+    {
+      "PRODUCT": "Bank account or service",
+      "COMPANY": "CITIZENS FINANCIAL GROUP, INC.",
+      "CNT": 2034,
+      "EXPLANATION_CNT": 1080,
+      "MONETARY_CNT": 806,
+      "NONMONETARY_CNT": 20,
+      "UNTIMELY_CNT": 1
+    },
+    {
+      "PRODUCT": "Bank account or service",
+      "COMPANY": "REGIONS FINANCIAL CORPORATION",
+      "CNT": 1861,
+      "EXPLANATION_CNT": 951,
+      "MONETARY_CNT": 543,
+      "NONMONETARY_CNT": 119,
+      "UNTIMELY_CNT": 66
+    },
+    {
+      "PRODUCT": "Bank account or service",
+      "COMPANY": "BB&T CORPORATION",
+      "CNT": 1671,
+      "EXPLANATION_CNT": 1509,
+      "MONETARY_CNT": 101,
+      "NONMONETARY_CNT": 5,
+      "UNTIMELY_CNT": 4
+    },
+    {
+      "PRODUCT": "Bank account or service",
+      "COMPANY": "FIFTH THIRD FINANCIAL CORPORATION",
+      "CNT": 1512,
+      "EXPLANATION_CNT": 1031,
+      "MONETARY_CNT": 327,
+      "NONMONETARY_CNT": 95,
+      "UNTIMELY_CNT": 3
+    },
+    {
+      "PRODUCT": "Bank account or service",
+      "COMPANY": "SANTANDER BANK, NATIONAL ASSOCIATION",
+      "CNT": 1446,
+      "EXPLANATION_CNT": 507,
+      "MONETARY_CNT": 171,
+      "NONMONETARY_CNT": 8,
+      "UNTIMELY_CNT": 10
+    },
+    {
+      "PRODUCT": "Bank account or service",
+      "COMPANY": "UNITED SERVICES AUTOMOBILE ASSOCIATION",
+      "CNT": 1437,
+      "EXPLANATION_CNT": 998,
+      "MONETARY_CNT": 270,
+      "NONMONETARY_CNT": 133,
+      "UNTIMELY_CNT": 11
+    },
+    {
+      "PRODUCT": "Checking or savings account",
+      "COMPANY": "WELLS FARGO & COMPANY",
+      "CNT": 47469,
+      "EXPLANATION_CNT": 38838,
+      "MONETARY_CNT": 5809,
+      "NONMONETARY_CNT": 2473,
+      "UNTIMELY_CNT": 597
+    },
+    {
+      "PRODUCT": "Checking or savings account",
+      "COMPANY": "JPMORGAN CHASE & CO.",
+      "CNT": 46791,
+      "EXPLANATION_CNT": 38200,
+      "MONETARY_CNT": 6932,
+      "NONMONETARY_CNT": 1607,
+      "UNTIMELY_CNT": 5
+    },
+    {
+      "PRODUCT": "Checking or savings account",
+      "COMPANY": "BANK OF AMERICA, NATIONAL ASSOCIATION",
+      "CNT": 45084,
+      "EXPLANATION_CNT": 26570,
+      "MONETARY_CNT": 15485,
+      "NONMONETARY_CNT": 2189,
+      "UNTIMELY_CNT": 1053
+    },
+    {
+      "PRODUCT": "Checking or savings account",
+      "COMPANY": "NAVY FEDERAL CREDIT UNION",
+      "CNT": 20252,
+      "EXPLANATION_CNT": 16592,
+      "MONETARY_CNT": 1977,
+      "NONMONETARY_CNT": 1241,
+      "UNTIMELY_CNT": 0
+    },
+    {
+      "PRODUCT": "Checking or savings account",
+      "COMPANY": "CAPITAL ONE FINANCIAL CORPORATION",
+      "CNT": 20097,
+      "EXPLANATION_CNT": 18427,
+      "MONETARY_CNT": 724,
+      "NONMONETARY_CNT": 880,
+      "UNTIMELY_CNT": 2
+    },
+    {
+      "PRODUCT": "Checking or savings account",
+      "COMPANY": "CITIBANK, N.A.",
+      "CNT": 19994,
+      "EXPLANATION_CNT": 13521,
+      "MONETARY_CNT": 4619,
+      "NONMONETARY_CNT": 1820,
+      "UNTIMELY_CNT": 11
+    },
+    {
+      "PRODUCT": "Checking or savings account",
+      "COMPANY": "Chime Financial Inc",
+      "CNT": 18572,
+      "EXPLANATION_CNT": 16199,
+      "MONETARY_CNT": 1173,
+      "NONMONETARY_CNT": 391,
+      "UNTIMELY_CNT": 24
+    },
+    {
+      "PRODUCT": "Checking or savings account",
+      "COMPANY": "U.S. BANCORP",
+      "CNT": 11526,
+      "EXPLANATION_CNT": 9045,
+      "MONETARY_CNT": 1225,
+      "NONMONETARY_CNT": 1254,
+      "UNTIMELY_CNT": 0
+    },
+    {
+      "PRODUCT": "Checking or savings account",
+      "COMPANY": "PNC Bank N.A.",
+      "CNT": 11482,
+      "EXPLANATION_CNT": 9245,
+      "MONETARY_CNT": 1828,
+      "NONMONETARY_CNT": 56,
+      "UNTIMELY_CNT": 0
+    },
+    {
+      "PRODUCT": "Checking or savings account",
+      "COMPANY": "TRUIST FINANCIAL CORPORATION",
+      "CNT": 9771,
+      "EXPLANATION_CNT": 8404,
+      "MONETARY_CNT": 731,
+      "NONMONETARY_CNT": 538,
+      "UNTIMELY_CNT": 110
+    },
+    {
+      "PRODUCT": "Checking or savings account",
+      "COMPANY": "TD BANK US HOLDING COMPANY",
+      "CNT": 8955,
+      "EXPLANATION_CNT": 5330,
+      "MONETARY_CNT": 2177,
+      "NONMONETARY_CNT": 1404,
+      "UNTIMELY_CNT": 1
+    },
+    {
+      "PRODUCT": "Checking or savings account",
+      "COMPANY": "Block, Inc.",
+      "CNT": 8406,
+      "EXPLANATION_CNT": 8339,
+      "MONETARY_CNT": 6,
+      "NONMONETARY_CNT": 0,
+      "UNTIMELY_CNT": 231
+    },
+    {
+      "PRODUCT": "Checking or savings account",
+      "COMPANY": "UNITED SERVICES AUTOMOBILE ASSOCIATION",
+      "CNT": 7141,
+      "EXPLANATION_CNT": 6179,
+      "MONETARY_CNT": 655,
+      "NONMONETARY_CNT": 304,
+      "UNTIMELY_CNT": 1
+    },
+    {
+      "PRODUCT": "Checking or savings account",
+      "COMPANY": "CITIZENS FINANCIAL GROUP, INC.",
+      "CNT": 6561,
+      "EXPLANATION_CNT": 4834,
+      "MONETARY_CNT": 1705,
+      "NONMONETARY_CNT": 1,
+      "UNTIMELY_CNT": 1
+    },
+    {
+      "PRODUCT": "Checking or savings account",
+      "COMPANY": "SOFI TECHNOLOGIES, INC.",
+      "CNT": 4591,
+      "EXPLANATION_CNT": 4206,
+      "MONETARY_CNT": 349,
+      "NONMONETARY_CNT": 25,
+      "UNTIMELY_CNT": 3
+    },
+    {
+      "PRODUCT": "Consumer Loan",
+      "COMPANY": "Santander Consumer USA Holdings Inc.",
+      "CNT": 2537,
+      "EXPLANATION_CNT": 2319,
+      "MONETARY_CNT": 51,
+      "NONMONETARY_CNT": 64,
+      "UNTIMELY_CNT": 2
+    },
+    {
+      "PRODUCT": "Consumer Loan",
+      "COMPANY": "WELLS FARGO & COMPANY",
+      "CNT": 2527,
+      "EXPLANATION_CNT": 1800,
+      "MONETARY_CNT": 252,
+      "NONMONETARY_CNT": 360,
+      "UNTIMELY_CNT": 412
+    },
+    {
+      "PRODUCT": "Consumer Loan",
+      "COMPANY": "ALLY FINANCIAL INC.",
+      "CNT": 2093,
+      "EXPLANATION_CNT": 1748,
+      "MONETARY_CNT": 169,
+      "NONMONETARY_CNT": 144,
+      "UNTIMELY_CNT": 0
+    },
+    {
+      "PRODUCT": "Consumer Loan",
+      "COMPANY": "CAPITAL ONE FINANCIAL CORPORATION",
+      "CNT": 1212,
+      "EXPLANATION_CNT": 1011,
+      "MONETARY_CNT": 72,
+      "NONMONETARY_CNT": 91,
+      "UNTIMELY_CNT": 5
+    },
+    {
+      "PRODUCT": "Consumer Loan",
+      "COMPANY": "JPMORGAN CHASE & CO.",
+      "CNT": 1029,
+      "EXPLANATION_CNT": 860,
+      "MONETARY_CNT": 69,
+      "NONMONETARY_CNT": 59,
+      "UNTIMELY_CNT": 3
+    },
+    {
+      "PRODUCT": "Consumer Loan",
+      "COMPANY": "TOYOTA MOTOR CREDIT CORPORATION",
+      "CNT": 773,
+      "EXPLANATION_CNT": 648,
+      "MONETARY_CNT": 68,
+      "NONMONETARY_CNT": 53,
+      "UNTIMELY_CNT": 0
+    },
+    {
+      "PRODUCT": "Consumer Loan",
+      "COMPANY": "CITIBANK, N.A.",
+      "CNT": 765,
+      "EXPLANATION_CNT": 531,
+      "MONETARY_CNT": 70,
+      "NONMONETARY_CNT": 148,
+      "UNTIMELY_CNT": 8
+    },
+    {
+      "PRODUCT": "Consumer Loan",
+      "COMPANY": "SYNCHRONY FINANCIAL",
+      "CNT": 682,
+      "EXPLANATION_CNT": 338,
+      "MONETARY_CNT": 249,
+      "NONMONETARY_CNT": 78,
+      "UNTIMELY_CNT": 0
+    },
+    {
+      "PRODUCT": "Consumer Loan",
+      "COMPANY": "BANK OF AMERICA, NATIONAL ASSOCIATION",
+      "CNT": 681,
+      "EXPLANATION_CNT": 544,
+      "MONETARY_CNT": 35,
+      "NONMONETARY_CNT": 63,
+      "UNTIMELY_CNT": 12
+    },
+    {
+      "PRODUCT": "Consumer Loan",
+      "COMPANY": "ONEMAIN FINANCIAL HOLDINGS, LLC.",
+      "CNT": 650,
+      "EXPLANATION_CNT": 547,
+      "MONETARY_CNT": 35,
+      "NONMONETARY_CNT": 63,
+      "UNTIMELY_CNT": 2
+    },
+    {
+      "PRODUCT": "Consumer Loan",
+      "COMPANY": "General Motors Financial Company, Inc.",
+      "CNT": 619,
+      "EXPLANATION_CNT": 525,
+      "MONETARY_CNT": 12,
+      "NONMONETARY_CNT": 65,
+      "UNTIMELY_CNT": 4
+    },
+    {
+      "PRODUCT": "Consumer Loan",
+      "COMPANY": "AMERICAN HONDA FINANCE CORP",
+      "CNT": 602,
+      "EXPLANATION_CNT": 493,
+      "MONETARY_CNT": 35,
+      "NONMONETARY_CNT": 64,
+      "UNTIMELY_CNT": 4
+    },
+    {
+      "PRODUCT": "Consumer Loan",
+      "COMPANY": "U.S. BANCORP",
+      "CNT": 573,
+      "EXPLANATION_CNT": 427,
+      "MONETARY_CNT": 62,
+      "NONMONETARY_CNT": 68,
+      "UNTIMELY_CNT": 1
+    },
+    {
+      "PRODUCT": "Consumer Loan",
+      "COMPANY": "NISSAN MOTOR ACCEPTANCE COMPANY LLC",
+      "CNT": 515,
+      "EXPLANATION_CNT": 506,
+      "MONETARY_CNT": 3,
+      "NONMONETARY_CNT": 2,
+      "UNTIMELY_CNT": 3
+    },
+    {
+      "PRODUCT": "Consumer Loan",
+      "COMPANY": "HYUNDAI CAPITAL AMERICA",
+      "CNT": 458,
+      "EXPLANATION_CNT": 287,
+      "MONETARY_CNT": 19,
+      "NONMONETARY_CNT": 36,
+      "UNTIMELY_CNT": 21
+    },
+    {
+      "PRODUCT": "Credit card",
+      "COMPANY": "CITIBANK, N.A.",
+      "CNT": 41215,
+      "EXPLANATION_CNT": 20245,
+      "MONETARY_CNT": 12379,
+      "NONMONETARY_CNT": 6991,
+      "UNTIMELY_CNT": 101
+    },
+    {
+      "PRODUCT": "Credit card",
+      "COMPANY": "CAPITAL ONE FINANCIAL CORPORATION",
+      "CNT": 40562,
+      "EXPLANATION_CNT": 28814,
+      "MONETARY_CNT": 5691,
+      "NONMONETARY_CNT": 4365,
+      "UNTIMELY_CNT": 37
+    },
+    {
+      "PRODUCT": "Credit card",
+      "COMPANY": "JPMORGAN CHASE & CO.",
+      "CNT": 27829,
+      "EXPLANATION_CNT": 20696,
+      "MONETARY_CNT": 3401,
+      "NONMONETARY_CNT": 2677,
+      "UNTIMELY_CNT": 15
+    },
+    {
+      "PRODUCT": "Credit card",
+      "COMPANY": "SYNCHRONY FINANCIAL",
+      "CNT": 27703,
+      "EXPLANATION_CNT": 17807,
+      "MONETARY_CNT": 5761,
+      "NONMONETARY_CNT": 2525,
+      "UNTIMELY_CNT": 304
+    },
+    {
+      "PRODUCT": "Credit card",
+      "COMPANY": "BANK OF AMERICA, NATIONAL ASSOCIATION",
+      "CNT": 21560,
+      "EXPLANATION_CNT": 12708,
+      "MONETARY_CNT": 5579,
+      "NONMONETARY_CNT": 1664,
+      "UNTIMELY_CNT": 307
+    },
+    {
+      "PRODUCT": "Credit card",
+      "COMPANY": "AMERICAN EXPRESS COMPANY",
+      "CNT": 20283,
+      "EXPLANATION_CNT": 14935,
+      "MONETARY_CNT": 3098,
+      "NONMONETARY_CNT": 1838,
+      "UNTIMELY_CNT": 83
+    },
+    {
+      "PRODUCT": "Credit card",
+      "COMPANY": "EQUIFAX, INC.",
+      "CNT": 18447,
+      "EXPLANATION_CNT": 7242,
+      "MONETARY_CNT": 1,
+      "NONMONETARY_CNT": 11171,
+      "UNTIMELY_CNT": 0
+    },
+    {
+      "PRODUCT": "Credit card",
+      "COMPANY": "TRANSUNION INTERMEDIATE HOLDINGS, INC.",
+      "CNT": 17206,
+      "EXPLANATION_CNT": 2297,
+      "MONETARY_CNT": 2,
+      "NONMONETARY_CNT": 14778,
+      "UNTIMELY_CNT": 0
+    },
+    {
+      "PRODUCT": "Credit card",
+      "COMPANY": "Experian Information Solutions Inc.",
+      "CNT": 16228,
+      "EXPLANATION_CNT": 15340,
+      "MONETARY_CNT": 15,
+      "NONMONETARY_CNT": 680,
+      "UNTIMELY_CNT": 0
+    },
+    {
+      "PRODUCT": "Credit card",
+      "COMPANY": "WELLS FARGO & COMPANY",
+      "CNT": 11935,
+      "EXPLANATION_CNT": 8244,
+      "MONETARY_CNT": 1789,
+      "NONMONETARY_CNT": 1454,
+      "UNTIMELY_CNT": 327
+    },
+    {
+      "PRODUCT": "Credit card",
+      "COMPANY": "DISCOVER BANK",
+      "CNT": 11046,
+      "EXPLANATION_CNT": 7664,
+      "MONETARY_CNT": 1296,
+      "NONMONETARY_CNT": 1781,
+      "UNTIMELY_CNT": 15
+    },
+    {
+      "PRODUCT": "Credit card",
+      "COMPANY": "BARCLAYS BANK DELAWARE",
+      "CNT": 9778,
+      "EXPLANATION_CNT": 7619,
+      "MONETARY_CNT": 1487,
+      "NONMONETARY_CNT": 370,
+      "UNTIMELY_CNT": 4
+    },
+    {
+      "PRODUCT": "Credit card",
+      "COMPANY": "Bread Financial Holdings, Inc.",
+      "CNT": 8990,
+      "EXPLANATION_CNT": 4259,
+      "MONETARY_CNT": 3078,
+      "NONMONETARY_CNT": 1635,
+      "UNTIMELY_CNT": 0
+    },
+    {
+      "PRODUCT": "Credit card",
+      "COMPANY": "GOLDMAN SACHS BANK USA",
+      "CNT": 6831,
+      "EXPLANATION_CNT": 4361,
+      "MONETARY_CNT": 1786,
+      "NONMONETARY_CNT": 673,
+      "UNTIMELY_CNT": 0
+    },
+    {
+      "PRODUCT": "Credit card",
+      "COMPANY": "U.S. BANCORP",
+      "CNT": 6502,
+      "EXPLANATION_CNT": 3817,
+      "MONETARY_CNT": 966,
+      "NONMONETARY_CNT": 1556,
+      "UNTIMELY_CNT": 10
+    },
+    {
+      "PRODUCT": "Credit card or prepaid card",
+      "COMPANY": "CAPITAL ONE FINANCIAL CORPORATION",
+      "CNT": 26578,
+      "EXPLANATION_CNT": 19325,
+      "MONETARY_CNT": 4359,
+      "NONMONETARY_CNT": 2894,
+      "UNTIMELY_CNT": 2
+    },
+    {
+      "PRODUCT": "Credit card or prepaid card",
+      "COMPANY": "CITIBANK, N.A.",
+      "CNT": 25033,
+      "EXPLANATION_CNT": 17996,
+      "MONETARY_CNT": 4659,
+      "NONMONETARY_CNT": 2378,
+      "UNTIMELY_CNT": 4
+    },
+    {
+      "PRODUCT": "Credit card or prepaid card",
+      "COMPANY": "JPMORGAN CHASE & CO.",
+      "CNT": 18357,
+      "EXPLANATION_CNT": 13515,
+      "MONETARY_CNT": 2911,
+      "NONMONETARY_CNT": 1931,
+      "UNTIMELY_CNT": 2
+    },
+    {
+      "PRODUCT": "Credit card or prepaid card",
+      "COMPANY": "BANK OF AMERICA, NATIONAL ASSOCIATION",
+      "CNT": 16809,
+      "EXPLANATION_CNT": 10021,
+      "MONETARY_CNT": 5088,
+      "NONMONETARY_CNT": 1699,
+      "UNTIMELY_CNT": 699
+    },
+    {
+      "PRODUCT": "Credit card or prepaid card",
+      "COMPANY": "SYNCHRONY FINANCIAL",
+      "CNT": 16202,
+      "EXPLANATION_CNT": 10474,
+      "MONETARY_CNT": 3700,
+      "NONMONETARY_CNT": 2028,
+      "UNTIMELY_CNT": 0
+    },
+    {
+      "PRODUCT": "Credit card or prepaid card",
+      "COMPANY": "AMERICAN EXPRESS COMPANY",
+      "CNT": 13942,
+      "EXPLANATION_CNT": 9880,
+      "MONETARY_CNT": 2415,
+      "NONMONETARY_CNT": 1647,
+      "UNTIMELY_CNT": 1
+    },
+    {
+      "PRODUCT": "Credit card or prepaid card",
+      "COMPANY": "Bread Financial Holdings, Inc.",
+      "CNT": 11608,
+      "EXPLANATION_CNT": 6107,
+      "MONETARY_CNT": 3474,
+      "NONMONETARY_CNT": 2027,
+      "UNTIMELY_CNT": 2
+    },
+    {
+      "PRODUCT": "Credit card or prepaid card",
+      "COMPANY": "DISCOVER BANK",
+      "CNT": 8396,
+      "EXPLANATION_CNT": 6331,
+      "MONETARY_CNT": 660,
+      "NONMONETARY_CNT": 1405,
+      "UNTIMELY_CNT": 0
+    },
+    {
+      "PRODUCT": "Credit card or prepaid card",
+      "COMPANY": "BARCLAYS BANK DELAWARE",
+      "CNT": 7599,
+      "EXPLANATION_CNT": 5752,
+      "MONETARY_CNT": 1619,
+      "NONMONETARY_CNT": 228,
+      "UNTIMELY_CNT": 1
+    },
+    {
+      "PRODUCT": "Credit card or prepaid card",
+      "COMPANY": "U.S. BANCORP",
+      "CNT": 6944,
+      "EXPLANATION_CNT": 3951,
+      "MONETARY_CNT": 1101,
+      "NONMONETARY_CNT": 1892,
+      "UNTIMELY_CNT": 0
+    },
+    {
+      "PRODUCT": "Credit card or prepaid card",
+      "COMPANY": "WELLS FARGO & COMPANY",
+      "CNT": 6854,
+      "EXPLANATION_CNT": 4351,
+      "MONETARY_CNT": 1273,
+      "NONMONETARY_CNT": 1230,
+      "UNTIMELY_CNT": 111
+    },
+    {
+      "PRODUCT": "Credit card or prepaid card",
+      "COMPANY": "TD BANK US HOLDING COMPANY",
+      "CNT": 3784,
+      "EXPLANATION_CNT": 2128,
+      "MONETARY_CNT": 790,
+      "NONMONETARY_CNT": 866,
+      "UNTIMELY_CNT": 0
+    },
+    {
+      "PRODUCT": "Credit card or prepaid card",
+      "COMPANY": "Comerica",
+      "CNT": 2859,
+      "EXPLANATION_CNT": 1850,
+      "MONETARY_CNT": 941,
+      "NONMONETARY_CNT": 68,
+      "UNTIMELY_CNT": 10
+    },
+    {
+      "PRODUCT": "Credit card or prepaid card",
+      "COMPANY": "GOLDMAN SACHS BANK USA",
+      "CNT": 2704,
+      "EXPLANATION_CNT": 2048,
+      "MONETARY_CNT": 356,
+      "NONMONETARY_CNT": 300,
+      "UNTIMELY_CNT": 1
+    },
+    {
+      "PRODUCT": "Credit card or prepaid card",
+      "COMPANY": "Netspend Corporation",
+      "CNT": 2373,
+      "EXPLANATION_CNT": 2373,
+      "MONETARY_CNT": 0,
+      "NONMONETARY_CNT": 0,
+      "UNTIMELY_CNT": 25
+    },
+    {
+      "PRODUCT": "Credit reporting",
+      "COMPANY": "EQUIFAX, INC.",
+      "CNT": 48125,
+      "EXPLANATION_CNT": 39057,
+      "MONETARY_CNT": 30,
+      "NONMONETARY_CNT": 8960,
+      "UNTIMELY_CNT": 2
+    },
+    {
+      "PRODUCT": "Credit reporting",
+      "COMPANY": "Experian Information Solutions Inc.",
+      "CNT": 45373,
+      "EXPLANATION_CNT": 25736,
+      "MONETARY_CNT": 509,
+      "NONMONETARY_CNT": 18974,
+      "UNTIMELY_CNT": 7
+    },
+    {
+      "PRODUCT": "Credit reporting",
+      "COMPANY": "TRANSUNION INTERMEDIATE HOLDINGS, INC.",
+      "CNT": 39816,
+      "EXPLANATION_CNT": 29406,
+      "MONETARY_CNT": 130,
+      "NONMONETARY_CNT": 10259,
+      "UNTIMELY_CNT": 8
+    },
+    {
+      "PRODUCT": "Credit reporting",
+      "COMPANY": "Fidelity National Information Services, Inc. (FNIS)",
+      "CNT": 831,
+      "EXPLANATION_CNT": 829,
+      "MONETARY_CNT": 0,
+      "NONMONETARY_CNT": 0,
+      "UNTIMELY_CNT": 2
+    },
+    {
+      "PRODUCT": "Credit reporting",
+      "COMPANY": "Credit Karma, LLC",
+      "CNT": 411,
+      "EXPLANATION_CNT": 411,
+      "MONETARY_CNT": 0,
+      "NONMONETARY_CNT": 0,
+      "UNTIMELY_CNT": 23
+    },
+    {
+      "PRODUCT": "Credit reporting",
+      "COMPANY": "CAPITAL ONE FINANCIAL CORPORATION",
+      "CNT": 363,
+      "EXPLANATION_CNT": 294,
+      "MONETARY_CNT": 9,
+      "NONMONETARY_CNT": 51,
+      "UNTIMELY_CNT": 0
+    },
+    {
+      "PRODUCT": "Credit reporting",
+      "COMPANY": "CORELOGIC INC",
+      "CNT": 313,
+      "EXPLANATION_CNT": 290,
+      "MONETARY_CNT": 0,
+      "NONMONETARY_CNT": 0,
+      "UNTIMELY_CNT": 2
+    },
+    {
+      "PRODUCT": "Credit reporting",
+      "COMPANY": "LEXISNEXIS",
+      "CNT": 305,
+      "EXPLANATION_CNT": 300,
+      "MONETARY_CNT": 0,
+      "NONMONETARY_CNT": 1,
+      "UNTIMELY_CNT": 3
+    },
+    {
+      "PRODUCT": "Credit reporting",
+      "COMPANY": "CITIBANK, N.A.",
+      "CNT": 267,
+      "EXPLANATION_CNT": 184,
+      "MONETARY_CNT": 25,
+      "NONMONETARY_CNT": 57,
+      "UNTIMELY_CNT": 1
+    },
+    {
+      "PRODUCT": "Credit reporting",
+      "COMPANY": "JPMORGAN CHASE & CO.",
+      "CNT": 192,
+      "EXPLANATION_CNT": 174,
+      "MONETARY_CNT": 2,
+      "NONMONETARY_CNT": 15,
+      "UNTIMELY_CNT": 2
+    },
+    {
+      "PRODUCT": "Credit reporting",
+      "COMPANY": "Innovis",
+      "CNT": 189,
+      "EXPLANATION_CNT": 189,
+      "MONETARY_CNT": 0,
+      "NONMONETARY_CNT": 0,
+      "UNTIMELY_CNT": 0
+    },
+    {
+      "PRODUCT": "Credit reporting",
+      "COMPANY": "SYNCHRONY FINANCIAL",
+      "CNT": 183,
+      "EXPLANATION_CNT": 126,
+      "MONETARY_CNT": 5,
+      "NONMONETARY_CNT": 52,
+      "UNTIMELY_CNT": 0
+    },
+    {
+      "PRODUCT": "Credit reporting",
+      "COMPANY": "FIRST ADVANTAGE CORPORATION",
+      "CNT": 171,
+      "EXPLANATION_CNT": 167,
+      "MONETARY_CNT": 0,
+      "NONMONETARY_CNT": 0,
+      "UNTIMELY_CNT": 2
+    },
+    {
+      "PRODUCT": "Credit reporting",
+      "COMPANY": "WELLS FARGO & COMPANY",
+      "CNT": 157,
+      "EXPLANATION_CNT": 125,
+      "MONETARY_CNT": 2,
+      "NONMONETARY_CNT": 29,
+      "UNTIMELY_CNT": 23
+    },
+    {
+      "PRODUCT": "Credit reporting",
+      "COMPANY": "BANK OF AMERICA, NATIONAL ASSOCIATION",
+      "CNT": 126,
+      "EXPLANATION_CNT": 109,
+      "MONETARY_CNT": 2,
+      "NONMONETARY_CNT": 15,
+      "UNTIMELY_CNT": 2
+    },
+    {
+      "PRODUCT": "Credit reporting or other personal consumer reports",
+      "COMPANY": "TRANSUNION INTERMEDIATE HOLDINGS, INC.",
+      "CNT": 3945509,
+      "EXPLANATION_CNT": 1447738,
+      "MONETARY_CNT": 11,
+      "NONMONETARY_CNT": 2281934,
+      "UNTIMELY_CNT": 1
+    },
+    {
+      "PRODUCT": "Credit reporting or other personal consumer reports",
+      "COMPANY": "EQUIFAX, INC.",
+      "CNT": 3694541,
+      "EXPLANATION_CNT": 1595886,
+      "MONETARY_CNT": 4,
+      "NONMONETARY_CNT": 2055026,
+      "UNTIMELY_CNT": 0
+    },
+    {
+      "PRODUCT": "Credit reporting or other personal consumer reports",
+      "COMPANY": "Experian Information Solutions Inc.",
+      "CNT": 3414246,
+      "EXPLANATION_CNT": 2886667,
+      "MONETARY_CNT": 267,
+      "NONMONETARY_CNT": 203652,
+      "UNTIMELY_CNT": 50
+    },
+    {
+      "PRODUCT": "Credit reporting or other personal consumer reports",
+      "COMPANY": "CBC Companies, Inc.",
+      "CNT": 54787,
+      "EXPLANATION_CNT": 22378,
+      "MONETARY_CNT": 0,
+      "NONMONETARY_CNT": 32402,
+      "UNTIMELY_CNT": 3
+    },
+    {
+      "PRODUCT": "Credit reporting or other personal consumer reports",
+      "COMPANY": "LEXISNEXIS",
+      "CNT": 52942,
+      "EXPLANATION_CNT": 38052,
+      "MONETARY_CNT": 2,
+      "NONMONETARY_CNT": 14524,
+      "UNTIMELY_CNT": 613
+    },
+    {
+      "PRODUCT": "Credit reporting or other personal consumer reports",
+      "COMPANY": "CAPITAL ONE FINANCIAL CORPORATION",
+      "CNT": 29471,
+      "EXPLANATION_CNT": 23885,
+      "MONETARY_CNT": 86,
+      "NONMONETARY_CNT": 5376,
+      "UNTIMELY_CNT": 0
+    },
+    {
+      "PRODUCT": "Credit reporting or other personal consumer reports",
+      "COMPANY": "Resurgent Capital Services L.P.",
+      "CNT": 13906,
+      "EXPLANATION_CNT": 10947,
+      "MONETARY_CNT": 0,
+      "NONMONETARY_CNT": 2948,
+      "UNTIMELY_CNT": 1
+    },
+    {
+      "PRODUCT": "Credit reporting or other personal consumer reports",
+      "COMPANY": "Fidelity National Information Services, Inc. (FNIS)",
+      "CNT": 12860,
+      "EXPLANATION_CNT": 12860,
+      "MONETARY_CNT": 0,
+      "NONMONETARY_CNT": 0,
+      "UNTIMELY_CNT": 0
+    },
+    {
+      "PRODUCT": "Credit reporting or other personal consumer reports",
+      "COMPANY": "JPMORGAN CHASE & CO.",
+      "CNT": 12736,
+      "EXPLANATION_CNT": 9971,
+      "MONETARY_CNT": 35,
+      "NONMONETARY_CNT": 2697,
+      "UNTIMELY_CNT": 0
+    },
+    {
+      "PRODUCT": "Credit reporting or other personal consumer reports",
+      "COMPANY": "CITIBANK, N.A.",
+      "CNT": 12085,
+      "EXPLANATION_CNT": 5218,
+      "MONETARY_CNT": 245,
+      "NONMONETARY_CNT": 6594,
+      "UNTIMELY_CNT": 0
+    },
+    {
+      "PRODUCT": "Credit reporting or other personal consumer reports",
+      "COMPANY": "BANK OF AMERICA, NATIONAL ASSOCIATION",
+      "CNT": 11152,
+      "EXPLANATION_CNT": 9244,
+      "MONETARY_CNT": 322,
+      "NONMONETARY_CNT": 1272,
+      "UNTIMELY_CNT": 112
+    },
+    {
+      "PRODUCT": "Credit reporting or other personal consumer reports",
+      "COMPANY": "SYNCHRONY FINANCIAL",
+      "CNT": 10633,
+      "EXPLANATION_CNT": 7563,
+      "MONETARY_CNT": 141,
+      "NONMONETARY_CNT": 2575,
+      "UNTIMELY_CNT": 128
+    },
+    {
+      "PRODUCT": "Credit reporting or other personal consumer reports",
+      "COMPANY": "Early Warning Services, LLC",
+      "CNT": 9691,
+      "EXPLANATION_CNT": 9691,
+      "MONETARY_CNT": 0,
+      "NONMONETARY_CNT": 0,
+      "UNTIMELY_CNT": 4
+    },
+    {
+      "PRODUCT": "Credit reporting or other personal consumer reports",
+      "COMPANY": "WELLS FARGO & COMPANY",
+      "CNT": 9105,
+      "EXPLANATION_CNT": 6087,
+      "MONETARY_CNT": 87,
+      "NONMONETARY_CNT": 2866,
+      "UNTIMELY_CNT": 2
+    },
+    {
+      "PRODUCT": "Credit reporting or other personal consumer reports",
+      "COMPANY": "Bread Financial Holdings, Inc.",
+      "CNT": 8781,
+      "EXPLANATION_CNT": 5575,
+      "MONETARY_CNT": 441,
+      "NONMONETARY_CNT": 2761,
+      "UNTIMELY_CNT": 1
+    },
+    {
+      "PRODUCT": "Credit reporting, credit repair services, or other personal consumer reports",
+      "COMPANY": "EQUIFAX, INC.",
+      "CNT": 699064,
+      "EXPLANATION_CNT": 625401,
+      "MONETARY_CNT": 19,
+      "NONMONETARY_CNT": 73637,
+      "UNTIMELY_CNT": 1742
+    },
+    {
+      "PRODUCT": "Credit reporting, credit repair services, or other personal consumer reports",
+      "COMPANY": "TRANSUNION INTERMEDIATE HOLDINGS, INC.",
+      "CNT": 622170,
+      "EXPLANATION_CNT": 264601,
+      "MONETARY_CNT": 434,
+      "NONMONETARY_CNT": 357134,
+      "UNTIMELY_CNT": 312
+    },
+    {
+      "PRODUCT": "Credit reporting, credit repair services, or other personal consumer reports",
+      "COMPANY": "Experian Information Solutions Inc.",
+      "CNT": 568365,
+      "EXPLANATION_CNT": 380683,
+      "MONETARY_CNT": 288,
+      "NONMONETARY_CNT": 187391,
+      "UNTIMELY_CNT": 35
+    },
+    {
+      "PRODUCT": "Credit reporting, credit repair services, or other personal consumer reports",
+      "COMPANY": "CAPITAL ONE FINANCIAL CORPORATION",
+      "CNT": 22066,
+      "EXPLANATION_CNT": 17553,
+      "MONETARY_CNT": 213,
+      "NONMONETARY_CNT": 4300,
+      "UNTIMELY_CNT": 5
+    },
+    {
+      "PRODUCT": "Credit reporting, credit repair services, or other personal consumer reports",
+      "COMPANY": "LEXISNEXIS",
+      "CNT": 9285,
+      "EXPLANATION_CNT": 8065,
+      "MONETARY_CNT": 1,
+      "NONMONETARY_CNT": 1219,
+      "UNTIMELY_CNT": 46
+    },
+    {
+      "PRODUCT": "Credit reporting, credit repair services, or other personal consumer reports",
+      "COMPANY": "SYNCHRONY FINANCIAL",
+      "CNT": 9225,
+      "EXPLANATION_CNT": 5741,
+      "MONETARY_CNT": 192,
+      "NONMONETARY_CNT": 3292,
+      "UNTIMELY_CNT": 0
+    },
+    {
+      "PRODUCT": "Credit reporting, credit repair services, or other personal consumer reports",
+      "COMPANY": "CITIBANK, N.A.",
+      "CNT": 9071,
+      "EXPLANATION_CNT": 7284,
+      "MONETARY_CNT": 180,
+      "NONMONETARY_CNT": 1606,
+      "UNTIMELY_CNT": 7
+    },
+    {
+      "PRODUCT": "Credit reporting, credit repair services, or other personal consumer reports",
+      "COMPANY": "JPMORGAN CHASE & CO.",
+      "CNT": 9041,
+      "EXPLANATION_CNT": 6710,
+      "MONETARY_CNT": 70,
+      "NONMONETARY_CNT": 2261,
+      "UNTIMELY_CNT": 0
+    },
+    {
+      "PRODUCT": "Credit reporting, credit repair services, or other personal consumer reports",
+      "COMPANY": "WELLS FARGO & COMPANY",
+      "CNT": 7888,
+      "EXPLANATION_CNT": 5094,
+      "MONETARY_CNT": 204,
+      "NONMONETARY_CNT": 2590,
+      "UNTIMELY_CNT": 125
+    },
+    {
+      "PRODUCT": "Credit reporting, credit repair services, or other personal consumer reports",
+      "COMPANY": "BANK OF AMERICA, NATIONAL ASSOCIATION",
+      "CNT": 7859,
+      "EXPLANATION_CNT": 6362,
+      "MONETARY_CNT": 284,
+      "NONMONETARY_CNT": 1213,
+      "UNTIMELY_CNT": 477
+    },
+    {
+      "PRODUCT": "Credit reporting, credit repair services, or other personal consumer reports",
+      "COMPANY": "Bread Financial Holdings, Inc.",
+      "CNT": 6740,
+      "EXPLANATION_CNT": 4397,
+      "MONETARY_CNT": 403,
+      "NONMONETARY_CNT": 1940,
+      "UNTIMELY_CNT": 0
+    },
+    {
+      "PRODUCT": "Credit reporting, credit repair services, or other personal consumer reports",
+      "COMPANY": "DISCOVER BANK",
+      "CNT": 5669,
+      "EXPLANATION_CNT": 3943,
+      "MONETARY_CNT": 36,
+      "NONMONETARY_CNT": 1690,
+      "UNTIMELY_CNT": 0
+    },
+    {
+      "PRODUCT": "Credit reporting, credit repair services, or other personal consumer reports",
+      "COMPANY": "Portfolio Recovery Associates, LLC",
+      "CNT": 4231,
+      "EXPLANATION_CNT": 3492,
+      "MONETARY_CNT": 0,
+      "NONMONETARY_CNT": 739,
+      "UNTIMELY_CNT": 0
+    },
+    {
+      "PRODUCT": "Credit reporting, credit repair services, or other personal consumer reports",
+      "COMPANY": "ALLY FINANCIAL INC.",
+      "CNT": 4225,
+      "EXPLANATION_CNT": 3972,
+      "MONETARY_CNT": 14,
+      "NONMONETARY_CNT": 239,
+      "UNTIMELY_CNT": 0
+    },
+    {
+      "PRODUCT": "Credit reporting, credit repair services, or other personal consumer reports",
+      "COMPANY": "AMERICAN EXPRESS COMPANY",
+      "CNT": 3898,
+      "EXPLANATION_CNT": 3020,
+      "MONETARY_CNT": 48,
+      "NONMONETARY_CNT": 830,
+      "UNTIMELY_CNT": 1
+    },
+    {
+      "PRODUCT": "Debt collection",
+      "COMPANY": "TRANSUNION INTERMEDIATE HOLDINGS, INC.",
+      "CNT": 57000,
+      "EXPLANATION_CNT": 18013,
+      "MONETARY_CNT": 0,
+      "NONMONETARY_CNT": 38278,
+      "UNTIMELY_CNT": 2
+    },
+    {
+      "PRODUCT": "Debt collection",
+      "COMPANY": "EQUIFAX, INC.",
+      "CNT": 55684,
+      "EXPLANATION_CNT": 29832,
+      "MONETARY_CNT": 0,
+      "NONMONETARY_CNT": 25704,
+      "UNTIMELY_CNT": 27
+    },
+    {
+      "PRODUCT": "Debt collection",
+      "COMPANY": "ENCORE CAPITAL GROUP INC.",
+      "CNT": 52475,
+      "EXPLANATION_CNT": 33711,
+      "MONETARY_CNT": 82,
+      "NONMONETARY_CNT": 18529,
+      "UNTIMELY_CNT": 30
+    },
+    {
+      "PRODUCT": "Debt collection",
+      "COMPANY": "Experian Information Solutions Inc.",
+      "CNT": 50933,
+      "EXPLANATION_CNT": 44656,
+      "MONETARY_CNT": 0,
+      "NONMONETARY_CNT": 5180,
+      "UNTIMELY_CNT": 0
+    },
+    {
+      "PRODUCT": "Debt collection",
+      "COMPANY": "Portfolio Recovery Associates, LLC",
+      "CNT": 50891,
+      "EXPLANATION_CNT": 28309,
+      "MONETARY_CNT": 5,
+      "NONMONETARY_CNT": 21245,
+      "UNTIMELY_CNT": 537
+    },
+    {
+      "PRODUCT": "Debt collection",
+      "COMPANY": "Resurgent Capital Services L.P.",
+      "CNT": 50793,
+      "EXPLANATION_CNT": 39157,
+      "MONETARY_CNT": 106,
+      "NONMONETARY_CNT": 11448,
+      "UNTIMELY_CNT": 13
+    },
+    {
+      "PRODUCT": "Debt collection",
+      "COMPANY": "CL Holdings LLC",
+      "CNT": 40263,
+      "EXPLANATION_CNT": 31732,
+      "MONETARY_CNT": 99,
+      "NONMONETARY_CNT": 8413,
+      "UNTIMELY_CNT": 8
+    },
+    {
+      "PRODUCT": "Debt collection",
+      "COMPANY": "CCS Financial Services, Inc.",
+      "CNT": 22205,
+      "EXPLANATION_CNT": 19175,
+      "MONETARY_CNT": 2,
+      "NONMONETARY_CNT": 2972,
+      "UNTIMELY_CNT": 3267
+    },
+    {
+      "PRODUCT": "Debt collection",
+      "COMPANY": "I.C. System, Inc.",
+      "CNT": 19418,
+      "EXPLANATION_CNT": 18573,
+      "MONETARY_CNT": 1,
+      "NONMONETARY_CNT": 835,
+      "UNTIMELY_CNT": 13
+    },
+    {
+      "PRODUCT": "Debt collection",
+      "COMPANY": "CAPITAL ONE FINANCIAL CORPORATION",
+      "CNT": 17590,
+      "EXPLANATION_CNT": 14773,
+      "MONETARY_CNT": 180,
+      "NONMONETARY_CNT": 2584,
+      "UNTIMELY_CNT": 15
+    },
+    {
+      "PRODUCT": "Debt collection",
+      "COMPANY": "TRANSWORLD SYSTEMS INC",
+      "CNT": 16696,
+      "EXPLANATION_CNT": 16608,
+      "MONETARY_CNT": 1,
+      "NONMONETARY_CNT": 2,
+      "UNTIMELY_CNT": 12
+    },
+    {
+      "PRODUCT": "Debt collection",
+      "COMPANY": "National Credit Systems,Inc.",
+      "CNT": 16219,
+      "EXPLANATION_CNT": 16022,
+      "MONETARY_CNT": 1,
+      "NONMONETARY_CNT": 5,
+      "UNTIMELY_CNT": 227
+    },
+    {
+      "PRODUCT": "Debt collection",
+      "COMPANY": "Kriya Capital, LLC",
+      "CNT": 14632,
+      "EXPLANATION_CNT": 995,
+      "MONETARY_CNT": 0,
+      "NONMONETARY_CNT": 12382,
+      "UNTIMELY_CNT": 23
+    },
+    {
+      "PRODUCT": "Debt collection",
+      "COMPANY": "SYNCHRONY FINANCIAL",
+      "CNT": 13045,
+      "EXPLANATION_CNT": 10040,
+      "MONETARY_CNT": 681,
+      "NONMONETARY_CNT": 2047,
+      "UNTIMELY_CNT": 73
+    },
+    {
+      "PRODUCT": "Debt collection",
+      "COMPANY": "CITIBANK, N.A.",
+      "CNT": 12313,
+      "EXPLANATION_CNT": 7933,
+      "MONETARY_CNT": 535,
+      "NONMONETARY_CNT": 3818,
+      "UNTIMELY_CNT": 4
+    },
+    {
+      "PRODUCT": "Debt or credit management",
+      "COMPANY": "John C. Heath, Attorney at Law, PLLC",
+      "CNT": 825,
+      "EXPLANATION_CNT": 825,
+      "MONETARY_CNT": 0,
+      "NONMONETARY_CNT": 0,
+      "UNTIMELY_CNT": 88
+    },
+    {
+      "PRODUCT": "Debt or credit management",
+      "COMPANY": "Experian Information Solutions Inc.",
+      "CNT": 745,
+      "EXPLANATION_CNT": 653,
+      "MONETARY_CNT": 8,
+      "NONMONETARY_CNT": 22,
+      "UNTIMELY_CNT": 0
+    },
+    {
+      "PRODUCT": "Debt or credit management",
+      "COMPANY": "TRANSUNION INTERMEDIATE HOLDINGS, INC.",
+      "CNT": 494,
+      "EXPLANATION_CNT": 193,
+      "MONETARY_CNT": 0,
+      "NONMONETARY_CNT": 272,
+      "UNTIMELY_CNT": 0
+    },
+    {
+      "PRODUCT": "Debt or credit management",
+      "COMPANY": "EQUIFAX, INC.",
+      "CNT": 489,
+      "EXPLANATION_CNT": 311,
+      "MONETARY_CNT": 0,
+      "NONMONETARY_CNT": 151,
+      "UNTIMELY_CNT": 0
+    },
+    {
+      "PRODUCT": "Debt or credit management",
+      "COMPANY": "ENCORE CAPITAL GROUP INC.",
+      "CNT": 309,
+      "EXPLANATION_CNT": 183,
+      "MONETARY_CNT": 2,
+      "NONMONETARY_CNT": 122,
+      "UNTIMELY_CNT": 0
+    },
+    {
+      "PRODUCT": "Debt or credit management",
+      "COMPANY": "NATIONAL DEBT RELIEF LLC",
+      "CNT": 298,
+      "EXPLANATION_CNT": 298,
+      "MONETARY_CNT": 0,
+      "NONMONETARY_CNT": 0,
+      "UNTIMELY_CNT": 35
+    },
+    {
+      "PRODUCT": "Debt or credit management",
+      "COMPANY": "Consumer Financial Services Solutions, Inc.",
+      "CNT": 298,
+      "EXPLANATION_CNT": 294,
+      "MONETARY_CNT": 1,
+      "NONMONETARY_CNT": 0,
+      "UNTIMELY_CNT": 72
+    },
+    {
+      "PRODUCT": "Debt or credit management",
+      "COMPANY": "FREEDOM FINANCIAL NETWORK",
+      "CNT": 225,
+      "EXPLANATION_CNT": 170,
+      "MONETARY_CNT": 45,
+      "NONMONETARY_CNT": 0,
+      "UNTIMELY_CNT": 2
+    },
+    {
+      "PRODUCT": "Debt or credit management",
+      "COMPANY": "CAPITAL ONE FINANCIAL CORPORATION",
+      "CNT": 207,
+      "EXPLANATION_CNT": 175,
+      "MONETARY_CNT": 2,
+      "NONMONETARY_CNT": 28,
+      "UNTIMELY_CNT": 0
+    },
+    {
+      "PRODUCT": "Debt or credit management",
+      "COMPANY": "Resurgent Capital Services L.P.",
+      "CNT": 173,
+      "EXPLANATION_CNT": 140,
+      "MONETARY_CNT": 0,
+      "NONMONETARY_CNT": 33,
+      "UNTIMELY_CNT": 0
+    },
+    {
+      "PRODUCT": "Debt or credit management",
+      "COMPANY": "Kikoff Inc.",
+      "CNT": 150,
+      "EXPLANATION_CNT": 144,
+      "MONETARY_CNT": 0,
+      "NONMONETARY_CNT": 6,
+      "UNTIMELY_CNT": 0
+    },
+    {
+      "PRODUCT": "Debt or credit management",
+      "COMPANY": "The J. G. Wentworth Company",
+      "CNT": 114,
+      "EXPLANATION_CNT": 113,
+      "MONETARY_CNT": 1,
+      "NONMONETARY_CNT": 0,
+      "UNTIMELY_CNT": 0
+    },
+    {
+      "PRODUCT": "Debt or credit management",
+      "COMPANY": "Portfolio Recovery Associates, LLC",
+      "CNT": 113,
+      "EXPLANATION_CNT": 74,
+      "MONETARY_CNT": 0,
+      "NONMONETARY_CNT": 37,
+      "UNTIMELY_CNT": 3
+    },
+    {
+      "PRODUCT": "Debt or credit management",
+      "COMPANY": "CL Holdings LLC",
+      "CNT": 111,
+      "EXPLANATION_CNT": 96,
+      "MONETARY_CNT": 0,
+      "NONMONETARY_CNT": 15,
+      "UNTIMELY_CNT": 0
+    },
+    {
+      "PRODUCT": "Debt or credit management",
+      "COMPANY": "Self Financial Inc.",
+      "CNT": 100,
+      "EXPLANATION_CNT": 98,
+      "MONETARY_CNT": 0,
+      "NONMONETARY_CNT": 0,
+      "UNTIMELY_CNT": 1
+    },
+    {
+      "PRODUCT": "Money transfer, virtual currency, or money service",
+      "COMPANY": "Block, Inc.",
+      "CNT": 55524,
+      "EXPLANATION_CNT": 55371,
+      "MONETARY_CNT": 27,
+      "NONMONETARY_CNT": 1,
+      "UNTIMELY_CNT": 580
+    },
+    {
+      "PRODUCT": "Money transfer, virtual currency, or money service",
+      "COMPANY": "Paypal Holdings, Inc",
+      "CNT": 28854,
+      "EXPLANATION_CNT": 19676,
+      "MONETARY_CNT": 3867,
+      "NONMONETARY_CNT": 5247,
+      "UNTIMELY_CNT": 15
+    },
+    {
+      "PRODUCT": "Money transfer, virtual currency, or money service",
+      "COMPANY": "Early Warning Services, LLC",
+      "CNT": 22420,
+      "EXPLANATION_CNT": 22420,
+      "MONETARY_CNT": 0,
+      "NONMONETARY_CNT": 0,
+      "UNTIMELY_CNT": 5
+    },
+    {
+      "PRODUCT": "Money transfer, virtual currency, or money service",
+      "COMPANY": "Coinbase, Inc.",
+      "CNT": 9103,
+      "EXPLANATION_CNT": 7358,
+      "MONETARY_CNT": 1698,
+      "NONMONETARY_CNT": 4,
+      "UNTIMELY_CNT": 36
+    },
+    {
+      "PRODUCT": "Money transfer, virtual currency, or money service",
+      "COMPANY": "JPMORGAN CHASE & CO.",
+      "CNT": 9077,
+      "EXPLANATION_CNT": 8377,
+      "MONETARY_CNT": 566,
+      "NONMONETARY_CNT": 126,
+      "UNTIMELY_CNT": 0
+    },
+    {
+      "PRODUCT": "Money transfer, virtual currency, or money service",
+      "COMPANY": "WELLS FARGO & COMPANY",
+      "CNT": 7561,
+      "EXPLANATION_CNT": 6774,
+      "MONETARY_CNT": 502,
+      "NONMONETARY_CNT": 249,
+      "UNTIMELY_CNT": 66
+    },
+    {
+      "PRODUCT": "Money transfer, virtual currency, or money service",
+      "COMPANY": "BANK OF AMERICA, NATIONAL ASSOCIATION",
+      "CNT": 7356,
+      "EXPLANATION_CNT": 5680,
+      "MONETARY_CNT": 1413,
+      "NONMONETARY_CNT": 137,
+      "UNTIMELY_CNT": 165
+    },
+    {
+      "PRODUCT": "Money transfer, virtual currency, or money service",
+      "COMPANY": "Chime Financial Inc",
+      "CNT": 3724,
+      "EXPLANATION_CNT": 3390,
+      "MONETARY_CNT": 138,
+      "NONMONETARY_CNT": 47,
+      "UNTIMELY_CNT": 2
+    },
+    {
+      "PRODUCT": "Money transfer, virtual currency, or money service",
+      "COMPANY": "WESTERN UNION COMPANY, THE",
+      "CNT": 3116,
+      "EXPLANATION_CNT": 3071,
+      "MONETARY_CNT": 44,
+      "NONMONETARY_CNT": 1,
+      "UNTIMELY_CNT": 7
+    },
+    {
+      "PRODUCT": "Money transfer, virtual currency, or money service",
+      "COMPANY": "PNC Bank N.A.",
+      "CNT": 2518,
+      "EXPLANATION_CNT": 2362,
+      "MONETARY_CNT": 119,
+      "NONMONETARY_CNT": 3,
+      "UNTIMELY_CNT": 0
+    },
+    {
+      "PRODUCT": "Money transfer, virtual currency, or money service",
+      "COMPANY": "ROBINHOOD MARKETS INC.",
+      "CNT": 2367,
+      "EXPLANATION_CNT": 2364,
+      "MONETARY_CNT": 0,
+      "NONMONETARY_CNT": 0,
+      "UNTIMELY_CNT": 389
+    },
+    {
+      "PRODUCT": "Money transfer, virtual currency, or money service",
+      "COMPANY": "CITIBANK, N.A.",
+      "CNT": 2067,
+      "EXPLANATION_CNT": 1731,
+      "MONETARY_CNT": 257,
+      "NONMONETARY_CNT": 74,
+      "UNTIMELY_CNT": 2
+    },
+    {
+      "PRODUCT": "Money transfer, virtual currency, or money service",
+      "COMPANY": "MONEYGRAM PAYMENT SYSTEMS WORLDWIDE INC",
+      "CNT": 1954,
+      "EXPLANATION_CNT": 1571,
+      "MONETARY_CNT": 376,
+      "NONMONETARY_CNT": 0,
+      "UNTIMELY_CNT": 8
+    },
+    {
+      "PRODUCT": "Money transfer, virtual currency, or money service",
+      "COMPANY": "TransferWise Ltd",
+      "CNT": 1569,
+      "EXPLANATION_CNT": 1412,
+      "MONETARY_CNT": 136,
+      "NONMONETARY_CNT": 21,
+      "UNTIMELY_CNT": 101
+    },
+    {
+      "PRODUCT": "Money transfer, virtual currency, or money service",
+      "COMPANY": "CAPITAL ONE FINANCIAL CORPORATION",
+      "CNT": 1504,
+      "EXPLANATION_CNT": 1379,
+      "MONETARY_CNT": 72,
+      "NONMONETARY_CNT": 48,
+      "UNTIMELY_CNT": 1
+    },
+    {
+      "PRODUCT": "Money transfers",
+      "COMPANY": "WESTERN UNION COMPANY, THE",
+      "CNT": 1414,
+      "EXPLANATION_CNT": 1377,
+      "MONETARY_CNT": 36,
+      "NONMONETARY_CNT": 1,
+      "UNTIMELY_CNT": 21
+    },
+    {
+      "PRODUCT": "Money transfers",
+      "COMPANY": "MONEYGRAM PAYMENT SYSTEMS WORLDWIDE INC",
+      "CNT": 1279,
+      "EXPLANATION_CNT": 1164,
+      "MONETARY_CNT": 110,
+      "NONMONETARY_CNT": 1,
+      "UNTIMELY_CNT": 3
+    },
+    {
+      "PRODUCT": "Money transfers",
+      "COMPANY": "Paypal Holdings, Inc",
+      "CNT": 921,
+      "EXPLANATION_CNT": 523,
+      "MONETARY_CNT": 214,
+      "NONMONETARY_CNT": 182,
+      "UNTIMELY_CNT": 2
+    },
+    {
+      "PRODUCT": "Money transfers",
+      "COMPANY": "BANK OF AMERICA, NATIONAL ASSOCIATION",
+      "CNT": 271,
+      "EXPLANATION_CNT": 179,
+      "MONETARY_CNT": 75,
+      "NONMONETARY_CNT": 14,
+      "UNTIMELY_CNT": 0
+    },
+    {
+      "PRODUCT": "Money transfers",
+      "COMPANY": "WELLS FARGO & COMPANY",
+      "CNT": 254,
+      "EXPLANATION_CNT": 206,
+      "MONETARY_CNT": 39,
+      "NONMONETARY_CNT": 7,
+      "UNTIMELY_CNT": 38
+    },
+    {
+      "PRODUCT": "Money transfers",
+      "COMPANY": "JPMORGAN CHASE & CO.",
+      "CNT": 228,
+      "EXPLANATION_CNT": 188,
+      "MONETARY_CNT": 33,
+      "NONMONETARY_CNT": 2,
+      "UNTIMELY_CNT": 1
+    },
+    {
+      "PRODUCT": "Money transfers",
+      "COMPANY": "CITIBANK, N.A.",
+      "CNT": 102,
+      "EXPLANATION_CNT": 80,
+      "MONETARY_CNT": 20,
+      "NONMONETARY_CNT": 2,
+      "UNTIMELY_CNT": 0
+    },
+    {
+      "PRODUCT": "Money transfers",
+      "COMPANY": "Google Compare Credit Cards Inc.",
+      "CNT": 58,
+      "EXPLANATION_CNT": 56,
+      "MONETARY_CNT": 1,
+      "NONMONETARY_CNT": 0,
+      "UNTIMELY_CNT": 20
+    },
+    {
+      "PRODUCT": "Money transfers",
+      "COMPANY": "Ria Envia, LLC",
+      "CNT": 55,
+      "EXPLANATION_CNT": 41,
+      "MONETARY_CNT": 7,
+      "NONMONETARY_CNT": 6,
+      "UNTIMELY_CNT": 10
+    },
+    {
+      "PRODUCT": "Money transfers",
+      "COMPANY": "XOOM CORPORATION",
+      "CNT": 39,
+      "EXPLANATION_CNT": 30,
+      "MONETARY_CNT": 9,
+      "NONMONETARY_CNT": 0,
+      "UNTIMELY_CNT": 0
+    },
+    {
+      "PRODUCT": "Money transfers",
+      "COMPANY": "PNC Bank N.A.",
+      "CNT": 39,
+      "EXPLANATION_CNT": 24,
+      "MONETARY_CNT": 14,
+      "NONMONETARY_CNT": 0,
+      "UNTIMELY_CNT": 0
+    },
+    {
+      "PRODUCT": "Money transfers",
+      "COMPANY": "SUNTRUST BANKS, INC.",
+      "CNT": 37,
+      "EXPLANATION_CNT": 31,
+      "MONETARY_CNT": 5,
+      "NONMONETARY_CNT": 1,
+      "UNTIMELY_CNT": 0
+    },
+    {
+      "PRODUCT": "Money transfers",
+      "COMPANY": "TD BANK US HOLDING COMPANY",
+      "CNT": 36,
+      "EXPLANATION_CNT": 26,
+      "MONETARY_CNT": 9,
+      "NONMONETARY_CNT": 1,
+      "UNTIMELY_CNT": 0
+    },
+    {
+      "PRODUCT": "Money transfers",
+      "COMPANY": "U.S. BANCORP",
+      "CNT": 34,
+      "EXPLANATION_CNT": 24,
+      "MONETARY_CNT": 10,
+      "NONMONETARY_CNT": 0,
+      "UNTIMELY_CNT": 0
+    },
+    {
+      "PRODUCT": "Money transfers",
+      "COMPANY": "HSBC NORTH AMERICA HOLDINGS INC.",
+      "CNT": 33,
+      "EXPLANATION_CNT": 25,
+      "MONETARY_CNT": 5,
+      "NONMONETARY_CNT": 2,
+      "UNTIMELY_CNT": 0
+    },
+    {
+      "PRODUCT": "Mortgage",
+      "COMPANY": "WELLS FARGO & COMPANY",
+      "CNT": 49676,
+      "EXPLANATION_CNT": 43578,
+      "MONETARY_CNT": 1531,
+      "NONMONETARY_CNT": 2432,
+      "UNTIMELY_CNT": 105
+    },
+    {
+      "PRODUCT": "Mortgage",
+      "COMPANY": "BANK OF AMERICA, NATIONAL ASSOCIATION",
+      "CNT": 48397,
+      "EXPLANATION_CNT": 34369,
+      "MONETARY_CNT": 1787,
+      "NONMONETARY_CNT": 7475,
+      "UNTIMELY_CNT": 1184
+    },
+    {
+      "PRODUCT": "Mortgage",
+      "COMPANY": "Ocwen Financial Corporation",
+      "CNT": 35447,
+      "EXPLANATION_CNT": 32495,
+      "MONETARY_CNT": 205,
+      "NONMONETARY_CNT": 468,
+      "UNTIMELY_CNT": 536
+    },
+    {
+      "PRODUCT": "Mortgage",
+      "COMPANY": "JPMORGAN CHASE & CO.",
+      "CNT": 25701,
+      "EXPLANATION_CNT": 21961,
+      "MONETARY_CNT": 1161,
+      "NONMONETARY_CNT": 647,
+      "UNTIMELY_CNT": 12
+    },
+    {
+      "PRODUCT": "Mortgage",
+      "COMPANY": "NATIONSTAR MORTGAGE LLC",
+      "CNT": 18596,
+      "EXPLANATION_CNT": 17903,
+      "MONETARY_CNT": 33,
+      "NONMONETARY_CNT": 171,
+      "UNTIMELY_CNT": 127
+    },
+    {
+      "PRODUCT": "Mortgage",
+      "COMPANY": "Shellpoint Partners, LLC",
+      "CNT": 16548,
+      "EXPLANATION_CNT": 15763,
+      "MONETARY_CNT": 184,
+      "NONMONETARY_CNT": 132,
+      "UNTIMELY_CNT": 265
+    },
+    {
+      "PRODUCT": "Mortgage",
+      "COMPANY": "SELECT PORTFOLIO SERVICING, INC.",
+      "CNT": 14976,
+      "EXPLANATION_CNT": 14822,
+      "MONETARY_CNT": 14,
+      "NONMONETARY_CNT": 84,
+      "UNTIMELY_CNT": 59
+    },
+    {
+      "PRODUCT": "Mortgage",
+      "COMPANY": "Ditech Financial LLC",
+      "CNT": 13623,
+      "EXPLANATION_CNT": 12404,
+      "MONETARY_CNT": 221,
+      "NONMONETARY_CNT": 701,
+      "UNTIMELY_CNT": 39
+    },
+    {
+      "PRODUCT": "Mortgage",
+      "COMPANY": "Mr. Cooper Group Inc.",
+      "CNT": 13321,
+      "EXPLANATION_CNT": 13288,
+      "MONETARY_CNT": 30,
+      "NONMONETARY_CNT": 3,
+      "UNTIMELY_CNT": 5
+    },
+    {
+      "PRODUCT": "Mortgage",
+      "COMPANY": "CITIBANK, N.A.",
+      "CNT": 10414,
+      "EXPLANATION_CNT": 8489,
+      "MONETARY_CNT": 402,
+      "NONMONETARY_CNT": 847,
+      "UNTIMELY_CNT": 179
+    },
+    {
+      "PRODUCT": "Mortgage",
+      "COMPANY": "U.S. BANCORP",
+      "CNT": 8947,
+      "EXPLANATION_CNT": 6572,
+      "MONETARY_CNT": 702,
+      "NONMONETARY_CNT": 1411,
+      "UNTIMELY_CNT": 71
+    },
+    {
+      "PRODUCT": "Mortgage",
+      "COMPANY": "Freedom Mortgage Company",
+      "CNT": 8813,
+      "EXPLANATION_CNT": 8700,
+      "MONETARY_CNT": 8,
+      "NONMONETARY_CNT": 6,
+      "UNTIMELY_CNT": 39
+    },
+    {
+      "PRODUCT": "Mortgage",
+      "COMPANY": "Specialized Loan Servicing Holdings LLC",
+      "CNT": 7886,
+      "EXPLANATION_CNT": 7367,
+      "MONETARY_CNT": 3,
+      "NONMONETARY_CNT": 8,
+      "UNTIMELY_CNT": 73
+    },
+    {
+      "PRODUCT": "Mortgage",
+      "COMPANY": "PNC Bank N.A.",
+      "CNT": 7437,
+      "EXPLANATION_CNT": 6457,
+      "MONETARY_CNT": 199,
+      "NONMONETARY_CNT": 213,
+      "UNTIMELY_CNT": 71
+    },
+    {
+      "PRODUCT": "Mortgage",
+      "COMPANY": "Rocket Mortgage, LLC",
+      "CNT": 7386,
+      "EXPLANATION_CNT": 7014,
+      "MONETARY_CNT": 240,
+      "NONMONETARY_CNT": 30,
+      "UNTIMELY_CNT": 38
+    },
+    {
+      "PRODUCT": "Other financial service",
+      "COMPANY": "BANK OF AMERICA, NATIONAL ASSOCIATION",
+      "CNT": 73,
+      "EXPLANATION_CNT": 56,
+      "MONETARY_CNT": 12,
+      "NONMONETARY_CNT": 3,
+      "UNTIMELY_CNT": 0
+    },
+    {
+      "PRODUCT": "Other financial service",
+      "COMPANY": "JPMORGAN CHASE & CO.",
+      "CNT": 60,
+      "EXPLANATION_CNT": 53,
+      "MONETARY_CNT": 4,
+      "NONMONETARY_CNT": 0,
+      "UNTIMELY_CNT": 1
+    },
+    {
+      "PRODUCT": "Other financial service",
+      "COMPANY": "WELLS FARGO & COMPANY",
+      "CNT": 57,
+      "EXPLANATION_CNT": 54,
+      "MONETARY_CNT": 3,
+      "NONMONETARY_CNT": 0,
+      "UNTIMELY_CNT": 10
+    },
+    {
+      "PRODUCT": "Other financial service",
+      "COMPANY": "WESTERN UNION COMPANY, THE",
+      "CNT": 52,
+      "EXPLANATION_CNT": 50,
+      "MONETARY_CNT": 2,
+      "NONMONETARY_CNT": 0,
+      "UNTIMELY_CNT": 2
+    },
+    {
+      "PRODUCT": "Other financial service",
+      "COMPANY": "GLOBAL CLIENT SOLUTIONS, LLC",
+      "CNT": 48,
+      "EXPLANATION_CNT": 48,
+      "MONETARY_CNT": 0,
+      "NONMONETARY_CNT": 0,
+      "UNTIMELY_CNT": 3
+    },
+    {
+      "PRODUCT": "Other financial service",
+      "COMPANY": "Fidelity National Information Services, Inc. (FNIS)",
+      "CNT": 40,
+      "EXPLANATION_CNT": 40,
+      "MONETARY_CNT": 0,
+      "NONMONETARY_CNT": 0,
+      "UNTIMELY_CNT": 0
+    },
+    {
+      "PRODUCT": "Other financial service",
+      "COMPANY": "John C. Heath, Attorney at Law, PLLC",
+      "CNT": 39,
+      "EXPLANATION_CNT": 29,
+      "MONETARY_CNT": 8,
+      "NONMONETARY_CNT": 2,
+      "UNTIMELY_CNT": 1
+    },
+    {
+      "PRODUCT": "Other financial service",
+      "COMPANY": "MONEYGRAM PAYMENT SYSTEMS WORLDWIDE INC",
+      "CNT": 36,
+      "EXPLANATION_CNT": 36,
+      "MONETARY_CNT": 0,
+      "NONMONETARY_CNT": 0,
+      "UNTIMELY_CNT": 0
+    },
+    {
+      "PRODUCT": "Other financial service",
+      "COMPANY": "CITIBANK, N.A.",
+      "CNT": 34,
+      "EXPLANATION_CNT": 28,
+      "MONETARY_CNT": 4,
+      "NONMONETARY_CNT": 2,
+      "UNTIMELY_CNT": 0
+    },
+    {
+      "PRODUCT": "Other financial service",
+      "COMPANY": "First Data Corporation",
+      "CNT": 25,
+      "EXPLANATION_CNT": 18,
+      "MONETARY_CNT": 2,
+      "NONMONETARY_CNT": 5,
+      "UNTIMELY_CNT": 1
+    },
+    {
+      "PRODUCT": "Other financial service",
+      "COMPANY": "AMERICAN EXPRESS COMPANY",
+      "CNT": 21,
+      "EXPLANATION_CNT": 18,
+      "MONETARY_CNT": 3,
+      "NONMONETARY_CNT": 0,
+      "UNTIMELY_CNT": 0
+    },
+    {
+      "PRODUCT": "Other financial service",
+      "COMPANY": "Equitable Acceptance Corp",
+      "CNT": 19,
+      "EXPLANATION_CNT": 14,
+      "MONETARY_CNT": 1,
+      "NONMONETARY_CNT": 4,
+      "UNTIMELY_CNT": 2
+    },
+    {
+      "PRODUCT": "Other financial service",
+      "COMPANY": "CAPITAL ONE FINANCIAL CORPORATION",
+      "CNT": 18,
+      "EXPLANATION_CNT": 18,
+      "MONETARY_CNT": 0,
+      "NONMONETARY_CNT": 0,
+      "UNTIMELY_CNT": 0
+    },
+    {
+      "PRODUCT": "Other financial service",
+      "COMPANY": "Securus J Holdings, LLC",
+      "CNT": 17,
+      "EXPLANATION_CNT": 2,
+      "MONETARY_CNT": 0,
+      "NONMONETARY_CNT": 0,
+      "UNTIMELY_CNT": 0
+    },
+    {
+      "PRODUCT": "Other financial service",
+      "COMPANY": "Brelvis Consulting, LLC",
+      "CNT": 16,
+      "EXPLANATION_CNT": 7,
+      "MONETARY_CNT": 8,
+      "NONMONETARY_CNT": 1,
+      "UNTIMELY_CNT": 0
+    },
+    {
+      "PRODUCT": "Payday loan",
+      "COMPANY": "Big Picture Loans, LLC",
+      "CNT": 487,
+      "EXPLANATION_CNT": 484,
+      "MONETARY_CNT": 1,
+      "NONMONETARY_CNT": 0,
+      "UNTIMELY_CNT": 28
+    },
+    {
+      "PRODUCT": "Payday loan",
+      "COMPANY": "ENOVA INTERNATIONAL, INC.",
+      "CNT": 444,
+      "EXPLANATION_CNT": 436,
+      "MONETARY_CNT": 4,
+      "NONMONETARY_CNT": 2,
+      "UNTIMELY_CNT": 2
+    },
+    {
+      "PRODUCT": "Payday loan",
+      "COMPANY": "Delbert Services",
+      "CNT": 369,
+      "EXPLANATION_CNT": 369,
+      "MONETARY_CNT": 0,
+      "NONMONETARY_CNT": 0,
+      "UNTIMELY_CNT": 2
+    },
+    {
+      "PRODUCT": "Payday loan",
+      "COMPANY": "Populus Financial Group, Inc. (F/K/A Ace Cash Express)",
+      "CNT": 326,
+      "EXPLANATION_CNT": 293,
+      "MONETARY_CNT": 2,
+      "NONMONETARY_CNT": 1,
+      "UNTIMELY_CNT": 9
+    },
+    {
+      "PRODUCT": "Payday loan",
+      "COMPANY": "CURO Intermediate Holdings",
+      "CNT": 302,
+      "EXPLANATION_CNT": 219,
+      "MONETARY_CNT": 20,
+      "NONMONETARY_CNT": 7,
+      "UNTIMELY_CNT": 0
+    },
+    {
+      "PRODUCT": "Payday loan",
+      "COMPANY": "CNG FINANCIAL CORPORATION",
+      "CNT": 287,
+      "EXPLANATION_CNT": 279,
+      "MONETARY_CNT": 7,
+      "NONMONETARY_CNT": 0,
+      "UNTIMELY_CNT": 11
+    },
+    {
+      "PRODUCT": "Payday loan",
+      "COMPANY": "CASHCALL, INC.",
+      "CNT": 278,
+      "EXPLANATION_CNT": 277,
+      "MONETARY_CNT": 0,
+      "NONMONETARY_CNT": 0,
+      "UNTIMELY_CNT": 2
+    },
+    {
+      "PRODUCT": "Payday loan",
+      "COMPANY": "COMMUNITY CHOICE FINANCIAL, INC.",
+      "CNT": 248,
+      "EXPLANATION_CNT": 232,
+      "MONETARY_CNT": 7,
+      "NONMONETARY_CNT": 4,
+      "UNTIMELY_CNT": 4
+    },
+    {
+      "PRODUCT": "Payday loan",
+      "COMPANY": "Mobiloans, LLC",
+      "CNT": 154,
+      "EXPLANATION_CNT": 0,
+      "MONETARY_CNT": 0,
+      "NONMONETARY_CNT": 0,
+      "UNTIMELY_CNT": 154
+    },
+    {
+      "PRODUCT": "Payday loan",
+      "COMPANY": "Advance America, Cash Advance Centers, Inc.",
+      "CNT": 146,
+      "EXPLANATION_CNT": 135,
+      "MONETARY_CNT": 9,
+      "NONMONETARY_CNT": 2,
+      "UNTIMELY_CNT": 0
+    },
+    {
+      "PRODUCT": "Payday loan",
+      "COMPANY": "BlueChip Financial",
+      "CNT": 133,
+      "EXPLANATION_CNT": 132,
+      "MONETARY_CNT": 1,
+      "NONMONETARY_CNT": 0,
+      "UNTIMELY_CNT": 3
+    },
+    {
+      "PRODUCT": "Payday loan",
+      "COMPANY": "GVA Holdings, LLC",
+      "CNT": 113,
+      "EXPLANATION_CNT": 66,
+      "MONETARY_CNT": 35,
+      "NONMONETARY_CNT": 12,
+      "UNTIMELY_CNT": 13
+    },
+    {
+      "PRODUCT": "Payday loan",
+      "COMPANY": "MNE Services, Inc",
+      "CNT": 105,
+      "EXPLANATION_CNT": 64,
+      "MONETARY_CNT": 0,
+      "NONMONETARY_CNT": 41,
+      "UNTIMELY_CNT": 16
+    },
+    {
+      "PRODUCT": "Payday loan",
+      "COMPANY": "CHECK INTO CASH INC.",
+      "CNT": 82,
+      "EXPLANATION_CNT": 54,
+      "MONETARY_CNT": 28,
+      "NONMONETARY_CNT": 0,
+      "UNTIMELY_CNT": 0
+    },
+    {
+      "PRODUCT": "Payday loan",
+      "COMPANY": "Risecredit, LLC",
+      "CNT": 74,
+      "EXPLANATION_CNT": 71,
+      "MONETARY_CNT": 0,
+      "NONMONETARY_CNT": 0,
+      "UNTIMELY_CNT": 8
+    },
+    {
+      "PRODUCT": "Payday loan, title loan, or personal loan",
+      "COMPANY": "ENOVA INTERNATIONAL, INC.",
+      "CNT": 983,
+      "EXPLANATION_CNT": 982,
+      "MONETARY_CNT": 0,
+      "NONMONETARY_CNT": 1,
+      "UNTIMELY_CNT": 0
+    },
+    {
+      "PRODUCT": "Payday loan, title loan, or personal loan",
+      "COMPANY": "WELLS FARGO & COMPANY",
+      "CNT": 978,
+      "EXPLANATION_CNT": 716,
+      "MONETARY_CNT": 153,
+      "NONMONETARY_CNT": 109,
+      "UNTIMELY_CNT": 21
+    },
+    {
+      "PRODUCT": "Payday loan, title loan, or personal loan",
+      "COMPANY": "OneMain Finance Corporation",
+      "CNT": 823,
+      "EXPLANATION_CNT": 708,
+      "MONETARY_CNT": 36,
+      "NONMONETARY_CNT": 79,
+      "UNTIMELY_CNT": 1
+    },
+    {
+      "PRODUCT": "Payday loan, title loan, or personal loan",
+      "COMPANY": "CURO Intermediate Holdings",
+      "CNT": 654,
+      "EXPLANATION_CNT": 644,
+      "MONETARY_CNT": 7,
+      "NONMONETARY_CNT": 3,
+      "UNTIMELY_CNT": 0
+    },
+    {
+      "PRODUCT": "Payday loan, title loan, or personal loan",
+      "COMPANY": "TMX Finance LLC",
+      "CNT": 644,
+      "EXPLANATION_CNT": 640,
+      "MONETARY_CNT": 0,
+      "NONMONETARY_CNT": 4,
+      "UNTIMELY_CNT": 121
+    },
+    {
+      "PRODUCT": "Payday loan, title loan, or personal loan",
+      "COMPANY": "SYNCHRONY FINANCIAL",
+      "CNT": 631,
+      "EXPLANATION_CNT": 426,
+      "MONETARY_CNT": 154,
+      "NONMONETARY_CNT": 51,
+      "UNTIMELY_CNT": 0
+    },
+    {
+      "PRODUCT": "Payday loan, title loan, or personal loan",
+      "COMPANY": "Affirm Holdings, Inc",
+      "CNT": 594,
+      "EXPLANATION_CNT": 593,
+      "MONETARY_CNT": 1,
+      "NONMONETARY_CNT": 0,
+      "UNTIMELY_CNT": 1
+    },
+    {
+      "PRODUCT": "Payday loan, title loan, or personal loan",
+      "COMPANY": "ONEMAIN FINANCIAL HOLDINGS, LLC.",
+      "CNT": 543,
+      "EXPLANATION_CNT": 441,
+      "MONETARY_CNT": 30,
+      "NONMONETARY_CNT": 72,
+      "UNTIMELY_CNT": 1
+    },
+    {
+      "PRODUCT": "Payday loan, title loan, or personal loan",
+      "COMPANY": "LDF Holdings, LLC",
+      "CNT": 540,
+      "EXPLANATION_CNT": 512,
+      "MONETARY_CNT": 1,
+      "NONMONETARY_CNT": 26,
+      "UNTIMELY_CNT": 16
+    },
+    {
+      "PRODUCT": "Payday loan, title loan, or personal loan",
+      "COMPANY": "Lending Club Corp",
+      "CNT": 531,
+      "EXPLANATION_CNT": 447,
+      "MONETARY_CNT": 38,
+      "NONMONETARY_CNT": 46,
+      "UNTIMELY_CNT": 75
+    },
+    {
+      "PRODUCT": "Payday loan, title loan, or personal loan",
+      "COMPANY": "Big Picture Loans, LLC",
+      "CNT": 444,
+      "EXPLANATION_CNT": 438,
+      "MONETARY_CNT": 6,
+      "NONMONETARY_CNT": 0,
+      "UNTIMELY_CNT": 17
+    },
+    {
+      "PRODUCT": "Payday loan, title loan, or personal loan",
+      "COMPANY": "MoneyLion Inc.",
+      "CNT": 424,
+      "EXPLANATION_CNT": 327,
+      "MONETARY_CNT": 44,
+      "NONMONETARY_CNT": 53,
+      "UNTIMELY_CNT": 53
+    },
+    {
+      "PRODUCT": "Payday loan, title loan, or personal loan",
+      "COMPANY": "PNC Bank N.A.",
+      "CNT": 386,
+      "EXPLANATION_CNT": 364,
+      "MONETARY_CNT": 19,
+      "NONMONETARY_CNT": 3,
+      "UNTIMELY_CNT": 0
+    },
+    {
+      "PRODUCT": "Payday loan, title loan, or personal loan",
+      "COMPANY": "NAVY FEDERAL CREDIT UNION",
+      "CNT": 365,
+      "EXPLANATION_CNT": 339,
+      "MONETARY_CNT": 7,
+      "NONMONETARY_CNT": 19,
+      "UNTIMELY_CNT": 0
+    },
+    {
+      "PRODUCT": "Payday loan, title loan, or personal loan",
+      "COMPANY": "Populus Financial Group, Inc. (F/K/A Ace Cash Express)",
+      "CNT": 362,
+      "EXPLANATION_CNT": 362,
+      "MONETARY_CNT": 0,
+      "NONMONETARY_CNT": 0,
+      "UNTIMELY_CNT": 4
+    },
+    {
+      "PRODUCT": "Payday loan, title loan, personal loan, or advance loan",
+      "COMPANY": "Affirm Holdings, Inc",
+      "CNT": 2934,
+      "EXPLANATION_CNT": 2933,
+      "MONETARY_CNT": 0,
+      "NONMONETARY_CNT": 0,
+      "UNTIMELY_CNT": 2
+    },
+    {
+      "PRODUCT": "Payday loan, title loan, personal loan, or advance loan",
+      "COMPANY": "OneMain Finance Corporation",
+      "CNT": 2214,
+      "EXPLANATION_CNT": 1990,
+      "MONETARY_CNT": 57,
+      "NONMONETARY_CNT": 114,
+      "UNTIMELY_CNT": 0
+    },
+    {
+      "PRODUCT": "Payday loan, title loan, personal loan, or advance loan",
+      "COMPANY": "CCF Intermediate Holdings LLC",
+      "CNT": 1109,
+      "EXPLANATION_CNT": 1098,
+      "MONETARY_CNT": 7,
+      "NONMONETARY_CNT": 4,
+      "UNTIMELY_CNT": 1
+    },
+    {
+      "PRODUCT": "Payday loan, title loan, personal loan, or advance loan",
+      "COMPANY": "ENOVA INTERNATIONAL, INC.",
+      "CNT": 1059,
+      "EXPLANATION_CNT": 1043,
+      "MONETARY_CNT": 0,
+      "NONMONETARY_CNT": 7,
+      "UNTIMELY_CNT": 0
+    },
+    {
+      "PRODUCT": "Payday loan, title loan, personal loan, or advance loan",
+      "COMPANY": "Paramount GR Holdings, LLC",
+      "CNT": 987,
+      "EXPLANATION_CNT": 969,
+      "MONETARY_CNT": 3,
+      "NONMONETARY_CNT": 0,
+      "UNTIMELY_CNT": 10
+    },
+    {
+      "PRODUCT": "Payday loan, title loan, personal loan, or advance loan",
+      "COMPANY": "Klarna AB",
+      "CNT": 725,
+      "EXPLANATION_CNT": 672,
+      "MONETARY_CNT": 51,
+      "NONMONETARY_CNT": 0,
+      "UNTIMELY_CNT": 49
+    },
+    {
+      "PRODUCT": "Payday loan, title loan, personal loan, or advance loan",
+      "COMPANY": "SYNCHRONY FINANCIAL",
+      "CNT": 577,
+      "EXPLANATION_CNT": 412,
+      "MONETARY_CNT": 109,
+      "NONMONETARY_CNT": 33,
+      "UNTIMELY_CNT": 9
+    },
+    {
+      "PRODUCT": "Payday loan, title loan, personal loan, or advance loan",
+      "COMPANY": "TRUIST FINANCIAL CORPORATION",
+      "CNT": 547,
+      "EXPLANATION_CNT": 473,
+      "MONETARY_CNT": 16,
+      "NONMONETARY_CNT": 46,
+      "UNTIMELY_CNT": 1
+    },
+    {
+      "PRODUCT": "Payday loan, title loan, personal loan, or advance loan",
+      "COMPANY": "Upstart Holdings, Inc.",
+      "CNT": 546,
+      "EXPLANATION_CNT": 524,
+      "MONETARY_CNT": 8,
+      "NONMONETARY_CNT": 4,
+      "UNTIMELY_CNT": 0
+    },
+    {
+      "PRODUCT": "Payday loan, title loan, personal loan, or advance loan",
+      "COMPANY": "UPGRADE, INC.",
+      "CNT": 531,
+      "EXPLANATION_CNT": 504,
+      "MONETARY_CNT": 11,
+      "NONMONETARY_CNT": 5,
+      "UNTIMELY_CNT": 0
+    },
+    {
+      "PRODUCT": "Payday loan, title loan, personal loan, or advance loan",
+      "COMPANY": "SOFI TECHNOLOGIES, INC.",
+      "CNT": 482,
+      "EXPLANATION_CNT": 431,
+      "MONETARY_CNT": 27,
+      "NONMONETARY_CNT": 20,
+      "UNTIMELY_CNT": 1
+    },
+    {
+      "PRODUCT": "Payday loan, title loan, personal loan, or advance loan",
+      "COMPANY": "Block, Inc.",
+      "CNT": 470,
+      "EXPLANATION_CNT": 378,
+      "MONETARY_CNT": 45,
+      "NONMONETARY_CNT": 0,
+      "UNTIMELY_CNT": 29
+    },
+    {
+      "PRODUCT": "Payday loan, title loan, personal loan, or advance loan",
+      "COMPANY": "ACIMA CREDIT, LLC",
+      "CNT": 457,
+      "EXPLANATION_CNT": 386,
+      "MONETARY_CNT": 39,
+      "NONMONETARY_CNT": 32,
+      "UNTIMELY_CNT": 1
+    },
+    {
+      "PRODUCT": "Payday loan, title loan, personal loan, or advance loan",
+      "COMPANY": "MoneyLion Inc.",
+      "CNT": 431,
+      "EXPLANATION_CNT": 340,
+      "MONETARY_CNT": 49,
+      "NONMONETARY_CNT": 42,
+      "UNTIMELY_CNT": 5
+    },
+    {
+      "PRODUCT": "Payday loan, title loan, personal loan, or advance loan",
+      "COMPANY": "Solar Mosaic LLC",
+      "CNT": 425,
+      "EXPLANATION_CNT": 425,
+      "MONETARY_CNT": 0,
+      "NONMONETARY_CNT": 0,
+      "UNTIMELY_CNT": 143
+    },
+    {
+      "PRODUCT": "Prepaid card",
+      "COMPANY": "AMERICAN EXPRESS COMPANY",
+      "CNT": 4998,
+      "EXPLANATION_CNT": 2175,
+      "MONETARY_CNT": 2654,
+      "NONMONETARY_CNT": 162,
+      "UNTIMELY_CNT": 6
+    },
+    {
+      "PRODUCT": "Prepaid card",
+      "COMPANY": "Comerica",
+      "CNT": 2310,
+      "EXPLANATION_CNT": 871,
+      "MONETARY_CNT": 762,
+      "NONMONETARY_CNT": 651,
+      "UNTIMELY_CNT": 0
+    },
+    {
+      "PRODUCT": "Prepaid card",
+      "COMPANY": "Incomm Holdings Inc.",
+      "CNT": 2223,
+      "EXPLANATION_CNT": 2223,
+      "MONETARY_CNT": 0,
+      "NONMONETARY_CNT": 0,
+      "UNTIMELY_CNT": 611
+    },
+    {
+      "PRODUCT": "Prepaid card",
+      "COMPANY": "Block, Inc.",
+      "CNT": 1793,
+      "EXPLANATION_CNT": 1781,
+      "MONETARY_CNT": 2,
+      "NONMONETARY_CNT": 0,
+      "UNTIMELY_CNT": 63
+    },
+    {
+      "PRODUCT": "Prepaid card",
+      "COMPANY": "Netspend Corporation",
+      "CNT": 1405,
+      "EXPLANATION_CNT": 1357,
+      "MONETARY_CNT": 41,
+      "NONMONETARY_CNT": 0,
+      "UNTIMELY_CNT": 54
+    },
+    {
+      "PRODUCT": "Prepaid card",
+      "COMPANY": "BANK OF AMERICA, NATIONAL ASSOCIATION",
+      "CNT": 1326,
+      "EXPLANATION_CNT": 1007,
+      "MONETARY_CNT": 287,
+      "NONMONETARY_CNT": 26,
+      "UNTIMELY_CNT": 2
+    },
+    {
+      "PRODUCT": "Prepaid card",
+      "COMPANY": "U.S. BANCORP",
+      "CNT": 1279,
+      "EXPLANATION_CNT": 882,
+      "MONETARY_CNT": 283,
+      "NONMONETARY_CNT": 114,
+      "UNTIMELY_CNT": 0
+    },
+    {
+      "PRODUCT": "Prepaid card",
+      "COMPANY": "Empowerment Ventures, LLC",
+      "CNT": 869,
+      "EXPLANATION_CNT": 129,
+      "MONETARY_CNT": 418,
+      "NONMONETARY_CNT": 321,
+      "UNTIMELY_CNT": 7
+    },
+    {
+      "PRODUCT": "Prepaid card",
+      "COMPANY": "Blackhawk Network Holdings Inc.",
+      "CNT": 783,
+      "EXPLANATION_CNT": 687,
+      "MONETARY_CNT": 92,
+      "NONMONETARY_CNT": 1,
+      "UNTIMELY_CNT": 43
+    },
+    {
+      "PRODUCT": "Prepaid card",
+      "COMPANY": "FISERV FINXACT CORE",
+      "CNT": 770,
+      "EXPLANATION_CNT": 753,
+      "MONETARY_CNT": 4,
+      "NONMONETARY_CNT": 9,
+      "UNTIMELY_CNT": 0
+    },
+    {
+      "PRODUCT": "Prepaid card",
+      "COMPANY": "Paypal Holdings, Inc",
+      "CNT": 695,
+      "EXPLANATION_CNT": 408,
+      "MONETARY_CNT": 123,
+      "NONMONETARY_CNT": 158,
+      "UNTIMELY_CNT": 2
+    },
+    {
+      "PRODUCT": "Prepaid card",
+      "COMPANY": "Conduent Incorporated",
+      "CNT": 581,
+      "EXPLANATION_CNT": 506,
+      "MONETARY_CNT": 11,
+      "NONMONETARY_CNT": 12,
+      "UNTIMELY_CNT": 217
+    },
+    {
+      "PRODUCT": "Prepaid card",
+      "COMPANY": "Chime Financial Inc",
+      "CNT": 439,
+      "EXPLANATION_CNT": 382,
+      "MONETARY_CNT": 29,
+      "NONMONETARY_CNT": 11,
+      "UNTIMELY_CNT": 0
+    },
+    {
+      "PRODUCT": "Prepaid card",
+      "COMPANY": "CITIBANK, N.A.",
+      "CNT": 279,
+      "EXPLANATION_CNT": 202,
+      "MONETARY_CNT": 69,
+      "NONMONETARY_CNT": 8,
+      "UNTIMELY_CNT": 3
+    },
+    {
+      "PRODUCT": "Prepaid card",
+      "COMPANY": "ADP Inc.",
+      "CNT": 262,
+      "EXPLANATION_CNT": 262,
+      "MONETARY_CNT": 0,
+      "NONMONETARY_CNT": 0,
+      "UNTIMELY_CNT": 0
+    },
+    {
+      "PRODUCT": "Student loan",
+      "COMPANY": "Navient Solutions, LLC.",
+      "CNT": 35730,
+      "EXPLANATION_CNT": 33532,
+      "MONETARY_CNT": 972,
+      "NONMONETARY_CNT": 914,
+      "UNTIMELY_CNT": 2
+    },
+    {
+      "PRODUCT": "Student loan",
+      "COMPANY": "MOHELA",
+      "CNT": 23290,
+      "EXPLANATION_CNT": 16792,
+      "MONETARY_CNT": 277,
+      "NONMONETARY_CNT": 974,
+      "UNTIMELY_CNT": 7252
+    },
+    {
+      "PRODUCT": "Student loan",
+      "COMPANY": "Nelnet, Inc.",
+      "CNT": 15972,
+      "EXPLANATION_CNT": 15901,
+      "MONETARY_CNT": 5,
+      "NONMONETARY_CNT": 27,
+      "UNTIMELY_CNT": 48
+    },
+    {
+      "PRODUCT": "Student loan",
+      "COMPANY": "AES/PHEAA",
+      "CNT": 13006,
+      "EXPLANATION_CNT": 9829,
+      "MONETARY_CNT": 277,
+      "NONMONETARY_CNT": 2781,
+      "UNTIMELY_CNT": 9
+    },
+    {
+      "PRODUCT": "Student loan",
+      "COMPANY": "Maximus Federal Services, Inc.",
+      "CNT": 7496,
+      "EXPLANATION_CNT": 7463,
+      "MONETARY_CNT": 10,
+      "NONMONETARY_CNT": 23,
+      "UNTIMELY_CNT": 0
+    },
+    {
+      "PRODUCT": "Student loan",
+      "COMPANY": "EdFinancial Services",
+      "CNT": 6084,
+      "EXPLANATION_CNT": 6077,
+      "MONETARY_CNT": 0,
+      "NONMONETARY_CNT": 0,
+      "UNTIMELY_CNT": 1752
+    },
+    {
+      "PRODUCT": "Student loan",
+      "COMPANY": "SLM CORPORATION",
+      "CNT": 4079,
+      "EXPLANATION_CNT": 3376,
+      "MONETARY_CNT": 245,
+      "NONMONETARY_CNT": 396,
+      "UNTIMELY_CNT": 6
+    },
+    {
+      "PRODUCT": "Student loan",
+      "COMPANY": "Servicer under contract with Federal Student Aid",
+      "CNT": 2726,
+      "EXPLANATION_CNT": 0,
+      "MONETARY_CNT": 0,
+      "NONMONETARY_CNT": 0,
+      "UNTIMELY_CNT": 2726
+    },
+    {
+      "PRODUCT": "Student loan",
+      "COMPANY": "WELLS FARGO & COMPANY",
+      "CNT": 1943,
+      "EXPLANATION_CNT": 1575,
+      "MONETARY_CNT": 119,
+      "NONMONETARY_CNT": 162,
+      "UNTIMELY_CNT": 42
+    },
+    {
+      "PRODUCT": "Student loan",
+      "COMPANY": "DISCOVER BANK",
+      "CNT": 1613,
+      "EXPLANATION_CNT": 1276,
+      "MONETARY_CNT": 78,
+      "NONMONETARY_CNT": 255,
+      "UNTIMELY_CNT": 0
+    },
+    {
+      "PRODUCT": "Student loan",
+      "COMPANY": "TRANSWORLD SYSTEMS INC",
+      "CNT": 1192,
+      "EXPLANATION_CNT": 1187,
+      "MONETARY_CNT": 0,
+      "NONMONETARY_CNT": 0,
+      "UNTIMELY_CNT": 0
+    },
+    {
+      "PRODUCT": "Student loan",
+      "COMPANY": "GREAT LAKES",
+      "CNT": 1186,
+      "EXPLANATION_CNT": 1177,
+      "MONETARY_CNT": 2,
+      "NONMONETARY_CNT": 5,
+      "UNTIMELY_CNT": 15
+    },
+    {
+      "PRODUCT": "Student loan",
+      "COMPANY": "ACS Education Services",
+      "CNT": 1165,
+      "EXPLANATION_CNT": 1095,
+      "MONETARY_CNT": 1,
+      "NONMONETARY_CNT": 41,
+      "UNTIMELY_CNT": 56
+    },
+    {
+      "PRODUCT": "Student loan",
+      "COMPANY": "JPMORGAN CHASE & CO.",
+      "CNT": 890,
+      "EXPLANATION_CNT": 803,
+      "MONETARY_CNT": 10,
+      "NONMONETARY_CNT": 33,
+      "UNTIMELY_CNT": 2
+    },
+    {
+      "PRODUCT": "Student loan",
+      "COMPANY": "HEARTLAND PAYMENT SYSTEMS INC",
+      "CNT": 829,
+      "EXPLANATION_CNT": 826,
+      "MONETARY_CNT": 1,
+      "NONMONETARY_CNT": 0,
+      "UNTIMELY_CNT": 34
+    },
+    {
+      "PRODUCT": "Vehicle loan or lease",
+      "COMPANY": "ALLY FINANCIAL INC.",
+      "CNT": 7376,
+      "EXPLANATION_CNT": 6697,
+      "MONETARY_CNT": 201,
+      "NONMONETARY_CNT": 346,
+      "UNTIMELY_CNT": 1
+    },
+    {
+      "PRODUCT": "Vehicle loan or lease",
+      "COMPANY": "Westlake Services, LLC",
+      "CNT": 5318,
+      "EXPLANATION_CNT": 5310,
+      "MONETARY_CNT": 4,
+      "NONMONETARY_CNT": 4,
+      "UNTIMELY_CNT": 6
+    },
+    {
+      "PRODUCT": "Vehicle loan or lease",
+      "COMPANY": "SANTANDER HOLDINGS USA, INC.",
+      "CNT": 5261,
+      "EXPLANATION_CNT": 3836,
+      "MONETARY_CNT": 92,
+      "NONMONETARY_CNT": 1329,
+      "UNTIMELY_CNT": 3
+    },
+    {
+      "PRODUCT": "Vehicle loan or lease",
+      "COMPANY": "CREDIT ACCEPTANCE CORPORATION",
+      "CNT": 5222,
+      "EXPLANATION_CNT": 4862,
+      "MONETARY_CNT": 306,
+      "NONMONETARY_CNT": 52,
+      "UNTIMELY_CNT": 10
+    },
+    {
+      "PRODUCT": "Vehicle loan or lease",
+      "COMPANY": "CAPITAL ONE FINANCIAL CORPORATION",
+      "CNT": 4812,
+      "EXPLANATION_CNT": 4631,
+      "MONETARY_CNT": 31,
+      "NONMONETARY_CNT": 95,
+      "UNTIMELY_CNT": 4
+    },
+    {
+      "PRODUCT": "Vehicle loan or lease",
+      "COMPANY": "WELLS FARGO & COMPANY",
+      "CNT": 4737,
+      "EXPLANATION_CNT": 4024,
+      "MONETARY_CNT": 221,
+      "NONMONETARY_CNT": 477,
+      "UNTIMELY_CNT": 209
+    },
+    {
+      "PRODUCT": "Vehicle loan or lease",
+      "COMPANY": "Santander Consumer USA Holdings Inc.",
+      "CNT": 4246,
+      "EXPLANATION_CNT": 3894,
+      "MONETARY_CNT": 143,
+      "NONMONETARY_CNT": 208,
+      "UNTIMELY_CNT": 3
+    },
+    {
+      "PRODUCT": "Vehicle loan or lease",
+      "COMPANY": "HYUNDAI CAPITAL AMERICA",
+      "CNT": 3932,
+      "EXPLANATION_CNT": 3847,
+      "MONETARY_CNT": 15,
+      "NONMONETARY_CNT": 61,
+      "UNTIMELY_CNT": 18
+    },
+    {
+      "PRODUCT": "Vehicle loan or lease",
+      "COMPANY": "TOYOTA MOTOR CREDIT CORPORATION",
+      "CNT": 3519,
+      "EXPLANATION_CNT": 3268,
+      "MONETARY_CNT": 146,
+      "NONMONETARY_CNT": 75,
+      "UNTIMELY_CNT": 2
+    },
+    {
+      "PRODUCT": "Vehicle loan or lease",
+      "COMPANY": "General Motors Financial Company, Inc.",
+      "CNT": 3003,
+      "EXPLANATION_CNT": 2600,
+      "MONETARY_CNT": 67,
+      "NONMONETARY_CNT": 326,
+      "UNTIMELY_CNT": 2
+    },
+    {
+      "PRODUCT": "Vehicle loan or lease",
+      "COMPANY": "Bridgecrest Acceptance Corporation",
+      "CNT": 2996,
+      "EXPLANATION_CNT": 2883,
+      "MONETARY_CNT": 1,
+      "NONMONETARY_CNT": 3,
+      "UNTIMELY_CNT": 69
+    },
+    {
+      "PRODUCT": "Vehicle loan or lease",
+      "COMPANY": "JPMORGAN CHASE & CO.",
+      "CNT": 2594,
+      "EXPLANATION_CNT": 2081,
+      "MONETARY_CNT": 217,
+      "NONMONETARY_CNT": 287,
+      "UNTIMELY_CNT": 0
+    },
+    {
+      "PRODUCT": "Vehicle loan or lease",
+      "COMPANY": "Exeter Finance, LLC.",
+      "CNT": 2508,
+      "EXPLANATION_CNT": 2508,
+      "MONETARY_CNT": 0,
+      "NONMONETARY_CNT": 0,
+      "UNTIMELY_CNT": 5
+    },
+    {
+      "PRODUCT": "Vehicle loan or lease",
+      "COMPANY": "NISSAN MOTOR ACCEPTANCE COMPANY LLC",
+      "CNT": 2049,
+      "EXPLANATION_CNT": 2022,
+      "MONETARY_CNT": 3,
+      "NONMONETARY_CNT": 4,
+      "UNTIMELY_CNT": 27
+    },
+    {
+      "PRODUCT": "Vehicle loan or lease",
+      "COMPANY": "AMERICAN HONDA FINANCE CORP",
+      "CNT": 2046,
+      "EXPLANATION_CNT": 1845,
+      "MONETARY_CNT": 56,
+      "NONMONETARY_CNT": 141,
+      "UNTIMELY_CNT": 15
+    },
+    {
+      "PRODUCT": "Virtual currency",
+      "COMPANY": "Coinbase, Inc.",
+      "CNT": 15,
+      "EXPLANATION_CNT": 14,
+      "MONETARY_CNT": 0,
+      "NONMONETARY_CNT": 0,
+      "UNTIMELY_CNT": 2
+    },
+    {
+      "PRODUCT": "Virtual currency",
+      "COMPANY": "Circle Internet Financial",
+      "CNT": 3,
+      "EXPLANATION_CNT": 3,
+      "MONETARY_CNT": 0,
+      "NONMONETARY_CNT": 0,
+      "UNTIMELY_CNT": 0
     }
   ]
 }

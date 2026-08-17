@@ -60,7 +60,7 @@
   --radius: 10px;
   --radius-lg: 16px;
   --shadow: 0 1px 2px rgba(14, 22, 38, 0.04), 0 14px 36px -20px rgba(14, 22, 38, 0.16);
-  --max: 1500px;
+  --max: 1680px;
 }
 
 * { box-sizing: border-box; }
@@ -1176,7 +1176,7 @@ input, select, textarea {
 .ps-rail {
   list-style: none; margin: 0; padding: 0;
   display: grid; grid-auto-flow: column;
-  grid-auto-columns: minmax(212px, 1fr); align-items: stretch; min-width: 100%;
+  grid-auto-columns: minmax(248px, 1fr); align-items: stretch; min-width: 100%;
 }
 .ps-slot { display: flex; align-items: stretch; min-width: 0; }
 .ps-card {
@@ -1188,11 +1188,11 @@ input, select, textarea {
 /* One solid tile carries the mark, so the card itself stays white and the
    page keeps a single place where colour lives. */
 .brand-lockup { display: inline-flex; align-items: center; gap: .6rem; }
-.brand-tile {
-  flex: none; width: 38px; height: 38px; border-radius: 10px;
-  background: var(--text); color: #fff;
-  display: inline-flex; align-items: center; justify-content: center;
+.brand-mark-slot {
+  flex: none; height: 32px; min-width: 32px;
+  display: inline-flex; align-items: center; justify-content: flex-start;
 }
+.mark-img { height: 22px; width: auto; display: block; }
 .brand-word { font-size: var(--fs-min); font-weight: 500; color: var(--text); letter-spacing: -.01em; }
 
 .ps-name {
@@ -1235,7 +1235,7 @@ input, select, textarea {
 }
 .ps-block.has-models:hover .ps-block-models,
 .ps-block.has-models:focus-within .ps-block-models {
-  max-height: 12rem; opacity: 1; margin-top: .35rem;
+  max-height: 20rem; opacity: 1; margin-top: .35rem;
 }
 .ps-block-models code {
   font-family: var(--mono); font-size: var(--fs-min); color: var(--blue);
@@ -1271,18 +1271,25 @@ input, select, textarea {
 
 .catalog-layer { margin-bottom: 2.25rem; }
 .catalog-layer:last-child { margin-bottom: 0; }
+.catalog-layer-head {
+  display: flex; align-items: baseline; gap: 1.25rem; flex-wrap: wrap;
+  padding-bottom: .6rem; margin-bottom: 1rem; border-bottom: 1px solid var(--line);
+}
 .catalog-layer-name {
-  display: flex; align-items: baseline; gap: .6rem;
+  display: flex; align-items: baseline; gap: .6rem; flex: none;
   font-size: var(--fs-min); font-weight: 500; text-transform: uppercase; letter-spacing: .04em;
-  color: var(--text-3); padding-bottom: .5rem; margin-bottom: 1rem;
-  border-bottom: 1px solid var(--line);
+  color: var(--text);
+}
+.catalog-layer-purpose {
+  margin: 0; flex: 1 1 20rem; min-width: 0;
+  font-size: var(--fs-min); color: var(--text-3); font-weight: 300; line-height: 1.45;
 }
 .catalog-layer-name span {
   font-family: var(--mono); font-weight: 300; color: var(--text-3);
   text-transform: none; letter-spacing: 0;
 }
 .model-grid {
-  display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 1rem;
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(330px, 1fr)); gap: 1rem;
 }
 .model-card {
   background: var(--surface); border: 1px solid var(--line); border-radius: 12px;
@@ -1342,9 +1349,8 @@ input, select, textarea {
   background: var(--surface); border: 1px solid var(--line-strong);
   cursor: default; transition: opacity .16s ease, border-color .16s ease;
 }
-.dag-node.is-staging { border-left: 3px solid var(--text-3); }
-.dag-node.is-intermediate { border-left: 3px solid var(--viz-2); }
-.dag-node.is-mart { border-left: 3px solid var(--blue); }
+.dag-node.is-staging, .dag-node.is-intermediate,
+.dag-node.is-mart, .dag-node.is-decisioning { border-color: var(--line-strong); }
 .dag-node.is-lit { border-color: var(--blue); box-shadow: var(--shadow); z-index: 3; }
 .dag-node.is-muted { opacity: .32; }
 .dag-name {
@@ -1371,6 +1377,7 @@ input, select, textarea {
 .dag-swatch.is-staging { background: var(--text-3); }
 .dag-swatch.is-intermediate { background: var(--viz-2); }
 .dag-swatch.is-mart { background: var(--blue); }
+.dag-swatch.is-decisioning { background: var(--text); }
 .dag-key-note { flex: 1 1 22rem; min-width: 0; }
 
 /* ---------- layer chain ---------- */
@@ -1525,3 +1532,51 @@ input, select, textarea {
 .example-why p { margin: 0; font-size: var(--fs-min); color: var(--text-2); font-weight: 300; line-height: 1.65; }
 .example-why code { font-family: var(--mono); color: var(--blue); }
 .example-cta { display: inline-block; margin-top: 1.35rem; font-size: var(--fs-min); }
+
+/* ---------- what page: record fields, breakdowns, next ---------- */
+
+.field-grid {
+  margin: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 1.35rem 2.5rem;
+}
+.field dt { font-size: var(--fs-min); font-weight: 500; color: var(--text); }
+.field dd {
+  margin: .25rem 0 0; font-size: var(--fs-min); color: var(--text-2);
+  font-weight: 300; line-height: 1.55;
+}
+
+.breakdown-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem 2.5rem;
+}
+.breakdown h3 {
+  font-size: var(--fs-min); font-weight: 500; color: var(--text);
+  padding-bottom: .6rem; margin-bottom: .8rem; border-bottom: 1px solid var(--line);
+}
+.bd-row {
+  display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(40px, .7fr) 3rem;
+  align-items: center; gap: .7rem; padding: .3rem 0;
+}
+.bd-label {
+  font-size: var(--fs-min); color: var(--text-2); font-weight: 300;
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.bd-bar { display: block; height: 8px; background: var(--viz-track); border-radius: 3px; overflow: hidden; }
+.bd-fill { display: block; height: 100%; background: var(--viz-1); border-radius: 3px; }
+.bd-value {
+  font-size: var(--fs-min); color: var(--text); text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.next-pair { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.35rem; }
+.next-card {
+  background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-lg);
+  padding: 1.6rem 1.7rem 1.5rem; color: inherit; display: block;
+  transition: border-color .16s ease;
+}
+.next-card:hover { border-color: var(--blue-line); color: inherit; }
+.next-card h3 { font-size: 1.3rem; font-weight: 400; letter-spacing: -.02em; }
+.next-card p {
+  margin: .6rem 0 0; font-size: var(--fs-min); color: var(--text-2);
+  font-weight: 300; line-height: 1.65;
+}
+.next-cta { display: inline-block; margin-top: 1rem; font-size: var(--fs-min); color: var(--blue); }

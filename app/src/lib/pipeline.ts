@@ -12,7 +12,7 @@
  * warehouse comes from the export instead.
  */
 
-export type Layer = "staging" | "intermediate" | "mart";
+export type Layer = "staging" | "intermediate" | "mart" | "decisioning";
 
 export interface DagNode {
   name: string;
@@ -108,7 +108,7 @@ export const DAG: DagNode[] = [
   {
     name: "int_priority_policy_application",
     grain: "1 complaint record x policy rule evaluated",
-    layer: "intermediate",
+    layer: "decisioning",
     deps: ["int_resolution_signals"],
     materialized: "view",
     role: "Evaluates all six policies against every record and keeps each result",
@@ -116,7 +116,7 @@ export const DAG: DagNode[] = [
   {
     name: "resolution_action_queue",
     grain: "1 complaint record x final recommendation run",
-    layer: "mart",
+    layer: "decisioning",
     deps: ["int_priority_policy_application", "int_resolution_signals"],
     materialized: "table",
     rows: 17119581,
@@ -177,6 +177,21 @@ export const LAYER_LABEL: Record<Layer, string> = {
   staging: "Staging",
   intermediate: "Intermediate",
   mart: "Marts",
+  decisioning: "Decisioning",
+};
+
+/**
+ * What each layer is for, in one line.
+ *
+ * Decisioning is a responsibility rather than a dbt directory: the two
+ * models below sit in intermediate/ and marts/ on disk, and are grouped here
+ * by what they do, which is what the catalog is answering.
+ */
+export const LAYER_PURPOSE: Record<Layer, string> = {
+  staging: "Cleans and standardizes the source fields once, so nothing downstream repeats it.",
+  intermediate: "Joins records, calculates metrics and derives the analytical context.",
+  mart: "Publishes the reusable datasets everything else reads.",
+  decisioning: "Evaluates the policies and turns analytical signals into one action per record.",
 };
 
 /** One stage of the pipeline, as drawn on the How it's built page. */

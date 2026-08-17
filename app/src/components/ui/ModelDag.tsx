@@ -29,6 +29,7 @@ const LAYER_CLASS: Record<DagNode["layer"], string> = {
   staging: "is-staging",
   intermediate: "is-intermediate",
   mart: "is-mart",
+  decisioning: "is-decisioning",
 };
 
 export function ModelDag() {

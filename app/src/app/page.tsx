@@ -1,66 +1,69 @@
 /**
- * Overview — the problem, the product, and one worked example.
+ * What — the dataset this product is built on.
  *
- * Every figure is read from the curated export at request time. The two
- * record counts are deliberately kept distinct: 17,119,581 published records
- * are modelled, and 16,896,978 of those fall inside complete calendar months,
- * which is what the analytical experience reads. Collapsing them into one
- * number would misstate both.
+ * Deliberately about the data and nothing else: what the CFPB publishes,
+ * how much of it there is, and what one record contains. How it is
+ * transformed belongs on the next route.
+ *
+ * The two record counts stay distinct: 17,119,581 published records are
+ * modeled, and 16,896,978 of those fall inside complete calendar months,
+ * which is what the analytical views read.
  */
 
 import Link from "next/link";
-import { Sparkline } from "@/components/ui/Sparkline";
 import { loadArchiveExplorer, loadLedgerExhibits } from "@/lib/demo-data";
-import { archiveMonths, archiveTotals, familySeries } from "@/lib/archive-analytics";
+import { archiveMonths, dimensionMix, familySeries } from "@/lib/archive-analytics";
 import { formatCompact, formatMonth, formatPct } from "@/lib/analytics";
 import { WAREHOUSE } from "@/lib/pipeline";
 
-const PIPELINE_STEPS = [
-  { name: "Source", detail: "A published CFPB complaint" },
-  { name: "Clean", detail: "Standardize and validate" },
-  { name: "Measure", detail: "Daily volume by product and issue" },
-  { name: "Compare", detail: "Measure against the issue's own history" },
-  { name: "Prioritize", detail: "Apply the decision policies" },
-  { name: "Review", detail: "Investigate what stands out" },
+/** The published outcome strings, shortened so they read in a narrow row. */
+const OUTCOME_LABEL: Record<string, string> = {
+  "Closed with explanation": "Explanation given",
+  "Closed with monetary relief": "Money returned",
+  "Closed with non-monetary relief": "Non-monetary fix",
+  "Closed without relief": "Closed, no relief",
+  "Closed with relief": "Relief given",
+  "Untimely response": "Missed the standard",
+  "In progress": "Still open",
+};
+
+/** The fields the CFPB publishes on each complaint, as the models see them. */
+const RECORD_FIELDS = [
+  { name: "Product", detail: "The financial product the complaint is about" },
+  { name: "Issue", detail: "What went wrong, from a published taxonomy" },
+  { name: "Company response", detail: "How the company closed it" },
+  { name: "Timeliness", detail: "Whether the company met the reporting standard" },
+  { name: "Date received", detail: "When the complaint was submitted" },
+  { name: "State", detail: "The consumer's state" },
+  { name: "Submitted via", detail: "Web, phone, referral, mail, fax or email" },
 ];
 
-export default async function OverviewPage() {
+export default async function WhatPage() {
   const [ledger, archive] = await Promise.all([loadLedgerExhibits(), loadArchiveExplorer()]);
 
   const rows = archive?.monthlyProductVolume ?? [];
   const months = archiveMonths(rows);
-  const totals = archiveTotals(rows, months);
   const families = familySeries(rows, months);
-
   const modelled = ledger?.totalRecords ?? WAREHOUSE.modelledRows;
   const inMonths = rows.reduce((s, r) => s + r.total, 0);
 
-  // The demonstration for "totals hide movement". Picking the fastest-growing
-  // small category would not make the point here: the archive total is itself
-  // up 56%, so a category growing at a similar rate proves nothing. The
-  // category that *diverges* most from the total does — and in this data it
-  // moves in the opposite direction entirely.
-  const overall = families.length > 0 ? familyChange(totals) : null;
-  const hidden =
-    overall?.changePct == null
-      ? undefined
-      : families
-          .filter((f) => f.share < 0.05 && f.changePct != null && f.recent12m > 1000)
-          .sort(
-            (a, b) =>
-              Math.abs((b.changePct ?? 0) - overall.changePct!) -
-              Math.abs((a.changePct ?? 0) - overall.changePct!),
-          )[0];
+  const outcomes = dimensionMix(archive?.responseByProduct ?? [], null, 5);
+  const channels = dimensionMix(archive?.channelByProduct ?? [], null, 4);
+  const states = dimensionMix(archive?.stateByProduct ?? [], null, 5);
+
+  const first = months[0];
+  const last = months[months.length - 1];
 
   return (
     <>
       {/* ---------------- hero ---------------- */}
       <section className="band wash">
         <div className="hero container">
-          <h1>From millions of complaints to signals worth investigating</h1>
+          <h1>What you are looking at</h1>
           <p className="hero-sub">
-            Explore patterns across the CFPB Consumer Complaint Database, compare changes over
-            time, and identify issues that have moved enough to warrant investigation.
+            Every complaint the CFPB has published since December 2011 — {modelled.toLocaleString()}{" "}
+            records covering {families.length} product categories and {WAREHOUSE.issueAreas} issue
+            areas, modeled so any part of it can be compared against its own history.
           </p>
           <div className="hero-actions">
             <Link href="/explore" className="btn">
@@ -73,17 +76,9 @@ export default async function OverviewPage() {
         </div>
       </section>
 
-      {/* ---------------- the dataset ---------------- */}
+      {/* ---------------- the dataset in numbers ---------------- */}
       <section className="band section">
         <div className="container">
-          <div className="section-head">
-            <h2>What you are looking at</h2>
-            <p>
-              Every complaint the CFPB has published since December 2011, modeled so that a
-              category, an issue or a month can be compared against its own history rather than
-              against the total.
-            </p>
-          </div>
           <div className="figures">
             <div className="figure">
               <span className="figure-value">{formatCompact(modelled)}</span>
@@ -92,6 +87,14 @@ export default async function OverviewPage() {
             <div className="figure">
               <span className="figure-value">{formatCompact(inMonths)}</span>
               <span className="figure-label">Inside complete months, read by the product</span>
+            </div>
+            <div className="figure">
+              <span className="figure-value">{months.length}</span>
+              <span className="figure-label">
+                {first && last
+                  ? `Complete months, ${formatMonth(`${first}-01`)} – ${formatMonth(`${last}-01`)}`
+                  : "Complete months"}
+              </span>
             </div>
             <div className="figure">
               <span className="figure-value">{families.length}</span>
@@ -103,137 +106,117 @@ export default async function OverviewPage() {
               <span className="figure-value">{WAREHOUSE.issueAreas}</span>
               <span className="figure-label">Issue areas</span>
             </div>
-            <div className="figure">
-              <span className="figure-value">{months.length}</span>
-              <span className="figure-label">
-                Complete months
-                {months.length > 0 &&
-                  `, ${formatMonth(`${months[0]}-01`)} – ${formatMonth(`${months[months.length - 1]}-01`)}`}
-              </span>
-            </div>
           </div>
         </div>
       </section>
 
-      {/* ---------------- why totals aren't enough ---------------- */}
-      {overall && hidden && (
-        <section className="band band-tint section">
-          <div className="container">
-            <div className="section-head">
-              <h2>Why totals are not enough</h2>
-              <p>
-                One category accounts for most of the file, so the headline number mostly tracks
-                that category. Smaller ones can be moving at a different rate — or in the opposite
-                direction — without registering in the total at all.
-              </p>
-            </div>
-            <div className="compare-pair">
-              <article className="compare">
-                <h3>Every category</h3>
-                <p className="compare-figure">
-                  {formatCompact(overall.recent)}
-                  <span className="compare-unit">complaints</span>
-                  <span className={`compare-delta is-${overall.dir}`}>
-                    {formatPct(overall.changePct, { signed: true })}
-                  </span>
-                </p>
-                <p className="compare-note">
-                  Last 12 months against the 12 before. {families[0].family.label} is{" "}
-                  {formatPct(families[0].share)} of the file, so this mostly tracks it.
-                </p>
-                <Sparkline points={totals.map((p) => p.value)} />
-              </article>
-              <article className="compare is-accent">
-                <h3>{hidden.family.label}</h3>
-                <p className="compare-figure">
-                  {formatCompact(hidden.recent12m)}
-                  <span className="compare-unit">complaints</span>
-                  <span
-                    className={`compare-delta is-${
-                      (hidden.changePct ?? 0) > 0.02 ? "up" : (hidden.changePct ?? 0) < -0.02 ? "down" : "flat"
-                    }`}
-                  >
-                    {formatPct(hidden.changePct, { signed: true })}
-                  </span>
-                </p>
-                <p className="compare-note">
-                  {formatPct(hidden.share)} of all complaints, moving{" "}
-                  {hidden.changePct != null && overall.changePct != null
-                    ? `${Math.abs((hidden.changePct - overall.changePct) * 100).toFixed(0)} points`
-                    : "differently"}{" "}
-                  from the total
-                </p>
-                <Sparkline points={hidden.points.map((p) => p.value)} accent />
-              </article>
-            </div>
-          </div>
-        </section>
-      )}
-
-      {/* ---------------- from record to signal ---------------- */}
-      <section className="band section">
-        <div className="container">
-          <div className="section-head">
-            <h2>What the pipeline does with each complaint</h2>
-          </div>
-          <Link href="/data-story" className="steps-link">
-            <ol className="steps">
-              {PIPELINE_STEPS.map((step) => (
-                <li className="step" key={step.name}>
-                  <span className="step-name">{step.name}</span>
-                  <span className="step-detail">{step.detail}</span>
-                </li>
-              ))}
-            </ol>
-            <span className="steps-cta">See how it&rsquo;s built →</span>
-          </Link>
-        </div>
-      </section>
-
-      {/* ---------------- foundation ---------------- */}
+      {/* ---------------- what a record contains ---------------- */}
       <section className="band band-tint section">
         <div className="container">
           <div className="section-head">
-            <h2>What it runs on</h2>
+            <h2>What one complaint record holds</h2>
+            <p>
+              The CFPB publishes a structured record for each complaint. These are the fields the
+              models work from — no narrative text and no consumer identifiers.
+            </p>
           </div>
-          <dl className="stack-roles">
-            <div className="stack-role">
-              <dt>Snowflake</dt>
-              <dd>Analytical warehouse</dd>
-            </div>
-            <div className="stack-role">
-              <dt>dbt</dt>
-              <dd>{WAREHOUSE.models} version-controlled models</dd>
-            </div>
-            <div className="stack-role">
-              <dt>{WAREHOUSE.tests} tests</dt>
-              <dd>Automated data quality</dd>
-            </div>
-            <div className="stack-role">
-              <dt>dbt Cloud</dt>
-              <dd>Production orchestration</dd>
-            </div>
-            <div className="stack-role">
-              <dt>Next.js</dt>
-              <dd>Analytical product experience</dd>
-            </div>
+          <dl className="field-grid">
+            {RECORD_FIELDS.map((f) => (
+              <div className="field" key={f.name}>
+                <dt>{f.name}</dt>
+                <dd>{f.detail}</dd>
+              </div>
+            ))}
           </dl>
         </div>
       </section>
 
+      {/* ---------------- the shape of it ---------------- */}
+      <section className="band section">
+        <div className="container">
+          <div className="section-head">
+            <h2>How the dataset breaks down</h2>
+            <p>Across every complaint published since 2011.</p>
+          </div>
+          <div className="breakdown-grid">
+            <div className="breakdown">
+              <h3>Largest categories</h3>
+              {families.slice(0, 5).map((f) => (
+                <div className="bd-row" key={f.family.id}>
+                  <span className="bd-label">{f.family.label}</span>
+                  <span className="bd-bar">
+                    <span className="bd-fill" style={{ width: `${f.share * 100}%` }} />
+                  </span>
+                  <span className="bd-value">{formatPct(f.share)}</span>
+                </div>
+              ))}
+            </div>
+            <div className="breakdown">
+              <h3>How companies closed them</h3>
+              {outcomes.map((o) => (
+                <div className="bd-row" key={o.value}>
+                  <span className="bd-label">{OUTCOME_LABEL[o.value] ?? o.value}</span>
+                  <span className="bd-bar">
+                    <span className="bd-fill" style={{ width: `${o.share * 100}%` }} />
+                  </span>
+                  <span className="bd-value">{formatPct(o.share)}</span>
+                </div>
+              ))}
+            </div>
+            <div className="breakdown">
+              <h3>How they arrived</h3>
+              {channels.map((c) => (
+                <div className="bd-row" key={c.value}>
+                  <span className="bd-label">{c.value}</span>
+                  <span className="bd-bar">
+                    <span className="bd-fill" style={{ width: `${c.share * 100}%` }} />
+                  </span>
+                  <span className="bd-value">{formatPct(c.share)}</span>
+                </div>
+              ))}
+            </div>
+            <div className="breakdown">
+              <h3>Where they came from</h3>
+              {states.map((st) => (
+                <div className="bd-row" key={st.value}>
+                  <span className="bd-label">{st.value}</span>
+                  <span className="bd-bar">
+                    <span className="bd-fill" style={{ width: `${st.share * 100}%` }} />
+                  </span>
+                  <span className="bd-value">{formatPct(st.share)}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ---------------- next ---------------- */}
+      <section className="band band-tint section">
+        <div className="container">
+          <div className="section-head">
+            <h2>Where to go next</h2>
+          </div>
+          <div className="next-pair">
+            <Link href="/explore" className="next-card">
+              <h3>Explore the data</h3>
+              <p>
+                Filter by category, compare a period against the one before it, and open a month
+                to see which issues moved inside it.
+              </p>
+              <span className="next-cta">Open Explore →</span>
+            </Link>
+            <Link href="/data-story" className="next-card">
+              <h3>See how it&rsquo;s built</h3>
+              <p>
+                The pipeline that loads this data into Snowflake, the {WAREHOUSE.models} dbt models
+                that transform it, and the {WAREHOUSE.tests} tests that check it.
+              </p>
+              <span className="next-cta">Open How →</span>
+            </Link>
+          </div>
+        </div>
+      </section>
     </>
   );
-}
-
-/** Last 12 complete months against the 12 before them. */
-function familyChange(points: { value: number }[]) {
-  const recent = points.slice(-12).reduce((s, p) => s + p.value, 0);
-  const prior = points.slice(-24, -12).reduce((s, p) => s + p.value, 0);
-  const changePct = prior > 0 ? (recent - prior) / prior : null;
-  return {
-    recent,
-    prior,
-    changePct,
-    dir: changePct == null ? "flat" : changePct > 0.02 ? "up" : changePct < -0.02 ? "down" : "flat",
-  };
 }

@@ -12,11 +12,10 @@ import { PipelineStages } from "@/components/ui/PipelineStages";
 import { loadLedgerExhibits } from "@/lib/demo-data";
 import {
   DAG,
-  DECISIONS,
   STACK_ROLES,
   DECISION_CHAIN,
   LAYER_LABEL,
-  TRUST,
+  LAYER_PURPOSE,
   WAREHOUSE,
   type Layer,
 } from "@/lib/pipeline";
@@ -119,6 +118,10 @@ export default async function DataStoryPage() {
               <span className="dag-swatch is-mart" /> {LAYER_LABEL.mart} ·{" "}
               {byLayer("mart").length} models
             </span>
+            <span className="dag-key-item">
+              <span className="dag-swatch is-decisioning" /> {LAYER_LABEL.decisioning} ·{" "}
+              {byLayer("decisioning").length} models
+            </span>
             <span className="dag-key-note">
               Marts persist as tables; staging and intermediate stay views, so the warehouse holds{" "}
               {WAREHOUSE.martTables} model tables and {WAREHOUSE.seeds} seeds.
@@ -133,12 +136,15 @@ export default async function DataStoryPage() {
           <div className="section-head">
             <h2>What each model is responsible for</h2>
           </div>
-          {(["staging", "intermediate", "mart"] as Layer[]).map((layer) => (
+          {(["staging", "intermediate", "mart", "decisioning"] as Layer[]).map((layer) => (
             <div className="catalog-layer" key={layer}>
-              <h3 className="catalog-layer-name">
-                {LAYER_LABEL[layer]}
-                <span>{byLayer(layer).length}</span>
-              </h3>
+              <div className="catalog-layer-head">
+                <h3 className="catalog-layer-name">
+                  {LAYER_LABEL[layer]}
+                  <span>{byLayer(layer).length}</span>
+                </h3>
+                <p className="catalog-layer-purpose">{LAYER_PURPOSE[layer]}</p>
+              </div>
               <div className="model-grid">
                 {byLayer(layer).map((m) => (
                   <article className="model-card" key={m.name}>
@@ -188,52 +194,6 @@ export default async function DataStoryPage() {
                 </div>
                 <p className="dc-detail">{step.detail}</p>
                 {step.model && <code className="dc-model">{step.model}</code>}
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ---------------- why it works ---------------- */}
-      <section className="band band-tint section">
-        <div className="container">
-          <div className="section-head">
-            <h2>Why the architecture is structured this way</h2>
-          </div>
-          <div className="qa-list">
-            {DECISIONS.map((d) => (
-              <div className="qa" key={d.title}>
-                <div>
-                  <h3>{d.title}</h3>
-                  <p className="qa-sub">{d.subtitle}</p>
-                </div>
-                <p>{d.answer}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ---------------- trust ---------------- */}
-      <section className="band band-tint section">
-        <div className="container">
-          <div className="section-head">
-            <h2>How the numbers are validated</h2>
-          </div>
-          <div className="trust-list">
-            {TRUST.map((t) => (
-              <div className="trust-row" key={t.name}>
-                <h3>{t.name}</h3>
-                <div>
-                  <p>{t.detail}</p>
-                  {t.points && (
-                    <ul className="trust-points">
-                      {t.points.map((pt) => (
-                        <li key={pt}>{pt}</li>
-                      ))}
-                    </ul>
-                  )}
-                </div>
               </div>
             ))}
           </div>

@@ -1,101 +1,93 @@
 /**
- * Vendor marks, drawn inline.
+ * Vendor marks in their own colours.
  *
- * The Vercel triangle is the exact path from its own asset. The others are
- * accurate geometric reductions of each vendor's mark — Snowflake's
- * six-armed asterisk, dbt's four-armed x with a diamond centre — paired with
- * the vendor name set in the page's own type. Drawn rather than fetched so
- * the page stays self-contained and the marks scale without raster edges.
+ * Snowflake and Vercel are the vendors' own asset files, served from
+ * public/brand. dbt, the CFPB and Streamlit are drawn inline in each
+ * vendor's brand colour — accurate geometry rather than a black silhouette,
+ * so the row of marks reads as real logos rather than icons.
  */
 
+/* eslint-disable @next/next/no-img-element */
+
 export function SnowflakeMark() {
-  const spokes = [0, 60, 120, 180, 240, 300];
+  return <img src="/brand/snowflake.webp" alt="" className="mark-img" />;
+}
+
+export function VercelMark() {
   return (
-    <svg width="24" height="24" viewBox="0 0 32 32" aria-hidden="true" fill="none">
-      {spokes.map((deg) => (
-        <g key={deg} transform={`rotate(${deg} 16 16)`}>
-          <line x1="16" y1="4.5" x2="16" y2="27.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-          <line x1="16" y1="8" x2="12.4" y2="11.6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-          <line x1="16" y1="8" x2="19.6" y2="11.6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-        </g>
-      ))}
-      <circle cx="16" cy="16" r="2.6" fill="currentColor" />
+    <svg width="30" height="26" viewBox="0 0 468 407" aria-hidden="true">
+      <path d="M467.444 406.664L233.722 0.190918L0 406.664H467.444Z" fill="#000000" />
     </svg>
   );
 }
 
 export function DbtMark() {
   return (
-    <svg width="24" height="24" viewBox="0 0 32 32" aria-hidden="true" fill="none">
+    <svg width="30" height="30" viewBox="0 0 32 32" aria-hidden="true" fill="none">
       <path
-        d="M6.5 6.5 L13.2 13.2 M25.5 6.5 L18.8 13.2 M6.5 25.5 L13.2 18.8 M25.5 25.5 L18.8 18.8"
-        stroke="currentColor"
-        strokeWidth="3.6"
+        d="M6.2 6.2 L13.1 13.1 M25.8 6.2 L18.9 13.1 M6.2 25.8 L13.1 18.9 M25.8 25.8 L18.9 18.9"
+        stroke="#FF694A"
+        strokeWidth="4"
         strokeLinecap="round"
       />
-      <path d="M16 12.8 L19.2 16 L16 19.2 L12.8 16 Z" fill="currentColor" />
+      <path d="M16 12.4 L19.6 16 L16 19.6 L12.4 16 Z" fill="#262A38" />
     </svg>
   );
 }
 
-export function VercelMark() {
+export function CfpbMark() {
   return (
-    <svg width="24" height="22" viewBox="0 0 468 407" aria-hidden="true">
-      <path d="M467.444 406.664L233.722 0.190918L0 406.664H467.444Z" fill="currentColor" />
+    <svg width="46" height="22" viewBox="0 0 60 26" aria-hidden="true">
+      <text
+        x="0"
+        y="20"
+        fontSize="22"
+        fontWeight="700"
+        fontFamily="var(--sans)"
+        letterSpacing="-1"
+        fill="#217C42"
+      >
+        cf
+      </text>
+      <text
+        x="24"
+        y="20"
+        fontSize="22"
+        fontWeight="700"
+        fontFamily="var(--sans)"
+        letterSpacing="-1"
+        fill="#5FBB6E"
+      >
+        pb
+      </text>
     </svg>
   );
 }
 
 export function NextMark() {
   return (
-    <svg width="24" height="24" viewBox="0 0 32 32" aria-hidden="true" fill="none">
-      <circle cx="16" cy="16" r="13" stroke="currentColor" strokeWidth="2" />
-      <path d="M11.5 21.5 L11.5 10.5 L21.5 23" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-      <line x1="20.5" y1="10.5" x2="20.5" y2="17" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-    </svg>
-  );
-}
-
-export function CfpbMark() {
-  // The CFPB's mark is a wordmark; a lettered tile is the honest reduction.
-  return (
-    <svg width="24" height="24" viewBox="0 0 32 32" aria-hidden="true">
-      <text
-        x="16"
-        y="21"
-        textAnchor="middle"
-        fontSize="13"
-        fontWeight="700"
-        fontFamily="var(--sans)"
-        fill="currentColor"
-        letterSpacing="-0.5"
-      >
-        cfpb
-      </text>
+    <svg width="30" height="30" viewBox="0 0 32 32" aria-hidden="true" fill="none">
+      <circle cx="16" cy="16" r="15" fill="#000000" />
+      <path d="M11.6 21.8 L11.6 10.2 L21.8 23" stroke="#fff" strokeWidth="1.9" strokeLinecap="round" />
+      <path d="M20.6 10.2 L20.6 17.4" stroke="#fff" strokeWidth="1.9" strokeLinecap="round" />
     </svg>
   );
 }
 
 export function StreamlitMark() {
   return (
-    <svg width="24" height="24" viewBox="0 0 32 32" aria-hidden="true" fill="none">
-      <path d="M3 13 L16 7 L29 13 L16 19 Z" fill="currentColor" />
-      <path d="M8 21 L16 25 L24 21" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
+    <svg width="30" height="30" viewBox="0 0 32 32" aria-hidden="true" fill="none">
+      <path d="M2.5 12.8 L16 6.5 L29.5 12.8 L16 19.1 Z" fill="#FF4B4B" />
+      <path d="M6 19.5 L16 24.5 L26 19.5" stroke="#FF4B4B" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" opacity=".55" />
     </svg>
   );
 }
 
-/** A mark on a solid tile, with the vendor name beside it. */
-export function BrandLockup({
-  mark,
-  name,
-}: {
-  mark: React.ReactNode;
-  name: string;
-}) {
+/** A mark with the vendor name beside it. */
+export function BrandLockup({ mark, name }: { mark: React.ReactNode; name: string }) {
   return (
     <span className="brand-lockup">
-      <span className="brand-tile" aria-hidden="true">
+      <span className="brand-mark-slot" aria-hidden="true">
         {mark}
       </span>
       <span className="brand-word">{name}</span>

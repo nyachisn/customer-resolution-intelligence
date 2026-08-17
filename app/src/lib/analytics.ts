@@ -170,6 +170,24 @@ export function formatDate(iso: string): string {
   return `${months[parseInt(m, 10) - 1]} ${parseInt(d, 10)}, ${y}`;
 }
 
+/** "Jan 2020" — for series indexed by month rather than day. */
+export function formatMonth(iso: string): string {
+  const [y, m] = iso.slice(0, 7).split("-");
+  const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+  return `${months[parseInt(m, 10) - 1]} ${y}`;
+}
+
+/**
+ * "May 5 – Jun 1, 2026" — the year is stated once when both ends share it,
+ * which keeps the range inside a dashboard tile without truncating.
+ */
+export function formatRange(fromIso: string, toIso: string): string {
+  const to = formatDate(toIso);
+  const from = formatDate(fromIso);
+  const sameYear = fromIso.slice(0, 4) === toIso.slice(0, 4);
+  return `${sameYear ? from.replace(/, \d{4}$/, "") : from} – ${to}`;
+}
+
 export function titleize(raw: string): string {
   return raw
     .toLowerCase()

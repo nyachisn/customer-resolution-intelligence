@@ -173,37 +173,3 @@ export function EmptyState({ title, children }: { title: string; children: React
     </div>
   );
 }
-
-/** Horizontal ranked bars. Every row is direct-labeled with its value. */
-export function RankedBars({
-  rows,
-  format,
-  max: explicitMax,
-}: {
-  rows: { label: string; value: number }[];
-  format?: (n: number) => string;
-  max?: number;
-}) {
-  const fmt = format ?? ((n: number) => n.toLocaleString());
-  const max = explicitMax ?? Math.max(...rows.map((r) => Math.abs(r.value)), 1);
-  return (
-    <div className="rank-list">
-      {rows.map((r) => (
-        <div className="rank-row" key={r.label}>
-          <div>
-            <div className="rank-label" title={r.label}>
-              {r.label}
-            </div>
-            <div className="rank-bar-wrap">
-              <div
-                className="rank-bar"
-                style={{ width: `${Math.max((Math.abs(r.value) / max) * 100, 1.5)}%` }}
-              />
-            </div>
-          </div>
-          <div className="rank-value">{fmt(r.value)}</div>
-        </div>
-      ))}
-    </div>
-  );
-}

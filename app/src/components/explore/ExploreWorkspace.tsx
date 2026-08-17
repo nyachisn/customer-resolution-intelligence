@@ -3,10 +3,15 @@
 /**
  * Explore — the operating dashboard.
  *
- * Built for someone who works in Salesforce or a BI tool: switches rather
- * than checkboxes, KPIs above the fold, charts that respond immediately,
- * and a plain-language readout that says what the current selection shows
- * and what to do about it.
+ * One screen, no page scroll: a control rail, a KPI strip, the long-range
+ * growth chart, a filtered daily view, the product mix, and the decision
+ * queue all stay visible at once. Panels scroll internally when their
+ * content is longer than the space the viewport gives them.
+ *
+ * Built for someone who lives in Salesforce or a BI tool: switches rather
+ * than checkboxes, every chart responds to the same filter bar, bars and
+ * queue rows are clickable, and a plain-language readout says what the
+ * current selection shows and what to do about it.
  *
  * The rule switches are a real simulation, not a display filter: a record
  * stays in the queue only while at least one of the policies that actually
@@ -14,10 +19,9 @@
  */
 
 import { useMemo, useState } from "react";
-import Link from "next/link";
 import { TrendChart } from "@/components/ui/TrendChart";
-import { Chip, ConfidenceChip, EmptyState, PriorityChip, RankedBars } from "@/components/ui/Primitives";
-import type { ComplaintRecordContext, OperationsMetric } from "@/lib/types";
+import { Chip, ConfidenceChip, PriorityChip } from "@/components/ui/Primitives";
+import type { ComplaintRecordContext, LedgerExhibits, OperationsMetric } from "@/lib/types";
 import {
   METRIC_LABELS,
   buildAttentionQueue,
@@ -26,17 +30,26 @@ import {
   dailySeries,
   dimensionsFor,
   explainReasons,
-  formatDate,
+  formatCompact,
+  formatMonth,
   formatPct,
+  formatRange,
   nextStepFor,
   titleize,
 } from "@/lib/analytics";
 
 const RANGES = [
-  { days: 28, label: "28 days" },
-  { days: 56, label: "56 days" },
-  { days: 90, label: "90 days" },
+  { days: 28, label: "28d" },
+  { days: 56, label: "56d" },
+  { days: 90, label: "90d" },
   { days: 0, label: "All" },
+];
+
+const GROWTH_SPANS = [
+  { months: 12, label: "1y" },
+  { months: 36, label: "3y" },
+  { months: 60, label: "5y" },
+  { months: 0, label: "All" },
 ];
 
 const POLICY_LABEL: Record<string, string> = {
@@ -84,14 +97,83 @@ function Switch({
   );
 }
 
+function Segmented<T extends string | number>({
+  options,
+  value,
+  onChange,
+  label,
+}: {
+  options: { value: T; label: string }[];
+  value: T;
+  onChange: (v: T) => void;
+  label: string;
+}) {
+  return (
+    <div className="segmented" role="group" aria-label={label}>
+      {options.map((o) => (
+        <button
+          key={String(o.value)}
+          type="button"
+          aria-pressed={value === o.value}
+          onClick={() => onChange(o.value)}
+        >
+          {o.label}
+        </button>
+      ))}
+    </div>
+  );
+}
+
+/** Ranked bars that filter the dashboard when a row is chosen. */
+function BarPicker({
+  rows,
+  activeLabel,
+  onPick,
+  total,
+}: {
+  rows: { label: string; value: number }[];
+  activeLabel?: string;
+  onPick?: (label: string) => void;
+  total?: number;
+}) {
+  const max = Math.max(...rows.map((r) => r.value), 1);
+  const denominator = total ?? rows.reduce((s, r) => s + r.value, 0);
+  return (
+    <div className="bar-picker">
+      {rows.map((r) => {
+        const isActive = r.label === activeLabel;
+        const share = denominator > 0 ? r.value / denominator : 0;
+        const Tag = onPick ? "button" : "div";
+        return (
+          <Tag
+            key={r.label}
+            type={onPick ? "button" : undefined}
+            className={`bar-row${isActive ? " is-active" : ""}${onPick ? " is-clickable" : ""}`}
+            onClick={onPick ? () => onPick(isActive ? "" : r.label) : undefined}
+            title={`${r.label} — ${Math.round(r.value).toLocaleString()} (${formatPct(share)})`}
+          >
+            <span className="bar-label">{r.label}</span>
+            <span className="bar-track">
+              <span className="bar-fill" style={{ width: `${Math.max((r.value / max) * 100, 1.5)}%` }} />
+            </span>
+            <span className="bar-value">{formatCompact(Math.round(r.value))}</span>
+          </Tag>
+        );
+      })}
+    </div>
+  );
+}
+
 export function ExploreWorkspace({
   metrics,
   records,
+  ledger,
   lagDays,
   initialProduct,
 }: {
   metrics: OperationsMetric[];
   records: ComplaintRecordContext[];
+  ledger: LedgerExhibits | null;
   lagDays: number;
   initialProduct?: string;
 }) {
@@ -111,9 +193,37 @@ export function ExploreWorkspace({
   const [excludeLag, setExcludeLag] = useState(true);
   const [showCompare, setShowCompare] = useState(true);
   const [enabled, setEnabled] = useState<string[]>(QUEUEING_POLICIES);
+  const [growthSpan, setGrowthSpan] = useState(0);
+  const [growthMode, setGrowthMode] = useState<"monthly" | "cumulative">("monthly");
+  const [openQueueKey, setOpenQueueKey] = useState<string | null>(null);
 
   const dimensions = useMemo(() => dimensionsFor(metrics, metricName), [metrics, metricName]);
   const activeProduct = dimensions.includes(product) ? product : "";
+
+  /* ---------------- long-range growth (whole published archive) --------- */
+
+  const growth = useMemo(() => {
+    const months = ledger?.monthlyVolume ?? [];
+    if (months.length === 0) return null;
+
+    let running = 0;
+    const cumulative = months.map((m) => {
+      running += m.total;
+      return { date: `${m.month}-01`, value: running };
+    });
+    const monthly = months.map((m) => ({ date: `${m.month}-01`, value: m.total }));
+
+    const source = growthMode === "cumulative" ? cumulative : monthly;
+    const points = growthSpan > 0 ? source.slice(-growthSpan) : source;
+
+    const first = months[0];
+    const last = months[months.length - 1];
+    const multiple = first.total > 0 ? last.total / first.total : null;
+
+    return { points, first, last, multiple, archiveTotal: running };
+  }, [ledger, growthMode, growthSpan]);
+
+  /* ---------------- filtered daily view -------------------------------- */
 
   const view = useMemo(() => {
     const full = dailySeries(metrics, metricName, activeProduct || null);
@@ -137,6 +247,9 @@ export function ExploreWorkspace({
 
   const breakdown = useMemo(() => {
     if (view.windowed.length === 0) return [];
+    // The breakdown must describe exactly the slice the chart is showing.
+    // Deriving its bounds from the rendered points — rather than recomputing
+    // a day count — keeps the two from drifting apart.
     const from = view.windowed[0].date;
     const to = view.windowed[view.windowed.length - 1].date;
     const totals = new Map<string, number>();
@@ -149,6 +262,8 @@ export function ExploreWorkspace({
       .map(([dimension, value]) => ({ dimension, value }))
       .sort((a, b) => b.value - a.value);
   }, [metrics, metricName, view.windowed]);
+
+  /* ---------------- policy simulation ---------------------------------- */
 
   const policyCounts = useMemo(() => {
     const counts = new Map<string, number>();
@@ -168,15 +283,6 @@ export function ExploreWorkspace({
   const criticalCount = queue.filter((q) => q.priority === "CRITICAL").length;
   const flaggedRecords = queue.reduce((s, q) => s + q.recordCount, 0);
   const clearedCount = records.length - flaggedRecords;
-
-  const priorityMix = useMemo(() => {
-    const order = ["CRITICAL", "HIGH", "MEDIUM", "LOW"];
-    const counts = new Map<string, number>();
-    for (const q of queue) counts.set(q.priority, (counts.get(q.priority) ?? 0) + q.recordCount);
-    return order
-      .filter((p) => counts.has(p))
-      .map((p) => ({ label: titleize(p), value: counts.get(p) ?? 0 }));
-  }, [queue]);
 
   const measureLabel = METRIC_LABELS[metricName] ?? titleize(metricName);
   const avg = view.windowed.length > 0 ? view.total / view.windowed.length : 0;
@@ -232,204 +338,250 @@ export function ExploreWorkspace({
         ? "up"
         : "down";
 
-  return (
-    <div className="explore-layout">
-      {/* ================= control rail ================= */}
-      <aside className="filter-panel" aria-label="Controls">
-        <h2>What are you looking at?</h2>
+  const growthLabel = growthMode === "cumulative" ? "Published to date" : "Published that month";
 
-        <div className="filter-group">
-          <label htmlFor="measure">Measure</label>
-          <select id="measure" value={metricName} onChange={(e) => setMetricName(e.target.value)}>
+  const windowLabel =
+    view.windowed.length > 0
+      ? formatRange(view.windowed[0].date, view.windowed[view.windowed.length - 1].date)
+      : "No data in this selection";
+
+  return (
+    <div className="dash-shell">
+      {/* ===================== filter bar ===================== */}
+      <div className="dash-bar">
+        <label className="db-field">
+          <span>Measure</span>
+          <select value={metricName} onChange={(e) => setMetricName(e.target.value)}>
             {metricNames.map((n) => (
               <option key={n} value={n}>
                 {METRIC_LABELS[n] ?? titleize(n)}
               </option>
             ))}
           </select>
-        </div>
+        </label>
 
-        <div className="filter-group">
-          <span className="filter-legend" id="range-legend">Time period</span>
-          <div className="segmented" role="group" aria-labelledby="range-legend">
-            {RANGES.map((r) => (
-              <button
-                key={r.label}
-                type="button"
-                aria-pressed={rangeDays === r.days}
-                onClick={() => setRangeDays(r.days)}
-              >
-                {r.label}
-              </button>
-            ))}
-          </div>
-        </div>
-
-        <div className="filter-group">
-          <label htmlFor="product">Product</label>
-          <select id="product" value={activeProduct} onChange={(e) => setProduct(e.target.value)}>
-            <option value="">All products ({dimensions.length})</option>
+        <label className="db-field">
+          <span>Product</span>
+          <select value={activeProduct} onChange={(e) => setProduct(e.target.value)}>
+            <option value="">All {dimensions.length} products</option>
             {dimensions.map((d) => (
-              <option key={d} value={d}>{d}</option>
+              <option key={d} value={d}>
+                {d}
+              </option>
             ))}
           </select>
+        </label>
+
+        <div className="db-field">
+          <span>Period</span>
+          <Segmented
+            label="Time period"
+            options={RANGES.map((r) => ({ value: r.days, label: r.label }))}
+            value={rangeDays}
+            onChange={setRangeDays}
+          />
         </div>
 
-        <h3>Chart options</h3>
-        <Switch
-          checked={showCompare}
-          onChange={() => setShowCompare(!showCompare)}
-          name="Compare with previous period"
-          meta="Adds a dashed line for the window before"
-        />
-        <Switch
-          checked={excludeLag}
-          onChange={() => setExcludeLag(!excludeLag)}
-          name="Hide incomplete recent days"
-          meta={`Last ${lagDays} days are still publishing`}
-        />
+        <span className="db-spacer" />
 
-        <h3>Which rules should apply?</h3>
-        {QUEUEING_POLICIES.map((p) => (
-          <Switch
-            key={p}
-            checked={enabled.includes(p)}
-            onChange={() => togglePolicy(p)}
-            name={POLICY_LABEL[p]}
-            meta={
-              <>
-                {POLICY_NOTE[p]} · fires on{" "}
-                <span className="switch-count">{policyCounts.get(p) ?? 0}</span>
-              </>
-            }
-          />
-        ))}
-
-        <button type="button" className="filter-reset" onClick={reset} disabled={isDefault}>
-          Reset everything
-        </button>
-      </aside>
-
-      {/* ================= main ================= */}
-      <section aria-label="Dashboard">
-        <div className="active-filters">
-          <Chip tone="accent">{measureLabel}</Chip>
-          <Chip>{rangeDays > 0 ? `Last ${rangeDays} days` : "All time"}</Chip>
-          <Chip>{activeProduct || `All ${dimensions.length} products`}</Chip>
-          {!excludeLag && <Chip tone="caution">Including incomplete days</Chip>}
+        <div className="db-chips">
+          {!excludeLag && <Chip tone="caution">Incomplete days included</Chip>}
           {enabled.length < QUEUEING_POLICIES.length && (
             <Chip tone="caution">
               {enabled.length} of {QUEUEING_POLICIES.length} rules on
             </Chip>
           )}
+          {activeProduct && <Chip tone="accent">{activeProduct}</Chip>}
         </div>
 
-        {/* KPIs */}
-        <div className="kpi-grid">
-          <div className="kpi">
-            <div className="kpi-label">Total in view</div>
-            <div className="kpi-value">{Math.round(view.total).toLocaleString()}</div>
-            <div className="kpi-foot">
-              {view.windowed.length > 0
-                ? `${formatDate(view.windowed[0].date)} – ${formatDate(view.windowed[view.windowed.length - 1].date)}`
-                : "No data"}
-            </div>
-          </div>
-          <div className="kpi">
-            <div className="kpi-label">Daily average</div>
-            <div className="kpi-value">{Math.round(avg).toLocaleString()}</div>
-            <div className="kpi-foot">Across {view.windowed.length} days</div>
-          </div>
-          <div className="kpi">
-            <div className="kpi-label">Change vs previous period</div>
-            <div className={`kpi-value kpi-delta is-${changeDir}`}>
-              {view.cmp ? formatPct(view.cmp.changePct, { signed: true }) : "—"}
-            </div>
-            <div className="kpi-foot">
-              {view.cmp ? "Like-for-like windows" : "Not enough history to compare"}
-            </div>
-          </div>
-          <div className="kpi">
-            <div className="kpi-label">Patterns flagged</div>
-            <div className="kpi-value">{queue.length}</div>
-            <div className="kpi-foot">
-              {criticalCount > 0 ? `${criticalCount} critical · ` : ""}
-              {clearedCount} records clear
-            </div>
-          </div>
-        </div>
+        <button type="button" className="db-reset" onClick={reset} disabled={isDefault}>
+          Reset
+        </button>
+      </div>
 
-        {/* trend */}
-        <div className="panel">
-          <h3 className="panel-title">
-            {measureLabel}
-            {activeProduct ? ` · ${activeProduct}` : ""}
-          </h3>
-          <p className="panel-sub">
-            {view.windowed.length === 0
-              ? "No data in this selection"
-              : `${formatDate(view.windowed[0].date)} to ${formatDate(view.windowed[view.windowed.length - 1].date)}${
-                  view.priorAligned ? ", against the period before it" : ""
-                }`}
-          </p>
-          <TrendChart
-            points={view.windowed}
-            comparePoints={view.priorAligned}
-            compareLabel="Previous period"
-            seriesLabel={measureLabel}
-          />
-        </div>
+      {/* ===================== body ===================== */}
+      <div className="dash-body">
+        {/* ---------- control rail ---------- */}
+        <aside className="dpanel dash-rail" aria-label="Controls">
+          <div className="dpanel-head">
+            <h2 className="dpanel-title">Rules and options</h2>
+          </div>
+          <div className="dpanel-body">
+            <h3 className="rail-head">Which rules should apply?</h3>
+            {QUEUEING_POLICIES.map((p) => (
+              <Switch
+                key={p}
+                checked={enabled.includes(p)}
+                onChange={() => togglePolicy(p)}
+                name={POLICY_LABEL[p]}
+                meta={
+                  <>
+                    {POLICY_NOTE[p]} · fires on{" "}
+                    <span className="switch-count">{policyCounts.get(p) ?? 0}</span>
+                  </>
+                }
+              />
+            ))}
 
-        {/* two-up: product mix + priority mix */}
-        <div className="panel-pair" style={{ marginTop: "1.35rem" }}>
-          <div className="panel">
-            <h3 className="panel-title">Where the volume sits</h3>
-            <p className="panel-sub">
-              {activeProduct
-                ? "Showing all products for context — the trend above is filtered."
-                : "Select a row below to filter everything to that product."}
-            </p>
-            <RankedBars
-              rows={breakdown.slice(0, 8).map((b) => ({
-                label: b.dimension,
-                value: Math.round(b.value),
-              }))}
+            <h3 className="rail-head">Chart options</h3>
+            <Switch
+              checked={showCompare}
+              onChange={() => setShowCompare(!showCompare)}
+              name="Compare with previous period"
+              meta="Adds a dashed line for the window before"
+            />
+            <Switch
+              checked={excludeLag}
+              onChange={() => setExcludeLag(!excludeLag)}
+              name="Hide incomplete recent days"
+              meta={`Last ${lagDays} days are still publishing`}
             />
           </div>
+        </aside>
 
-          <div className="panel">
-            <h3 className="panel-title">What the rules produce</h3>
-            <p className="panel-sub">
-              Records by priority, under the rules currently switched on.
-            </p>
-            {priorityMix.length > 0 ? (
-              <RankedBars rows={priorityMix} />
-            ) : (
-              <EmptyState title="Nothing flagged">
-                Switch a rule back on to populate this.
-              </EmptyState>
-            )}
+        {/* ---------- centre column ---------- */}
+        <div className="dash-col dash-center">
+          <div className="dash-kpis">
+            <div className="dkpi">
+              <div className="dkpi-label">{measureLabel}</div>
+              <div className="dkpi-value">{Math.round(view.total).toLocaleString()}</div>
+              <div className="dkpi-foot" title={windowLabel}>
+                {windowLabel}
+              </div>
+            </div>
+            <div className="dkpi">
+              <div className="dkpi-label">Daily average</div>
+              <div className="dkpi-value">{Math.round(avg).toLocaleString()}</div>
+              <div className="dkpi-foot">Across {view.windowed.length} days</div>
+            </div>
+            <div className="dkpi">
+              <div className="dkpi-label">vs previous period</div>
+              <div className={`dkpi-value is-${changeDir}`}>
+                {view.cmp ? formatPct(view.cmp.changePct, { signed: true }) : "—"}
+              </div>
+              <div className="dkpi-foot">
+                {view.cmp ? "Like-for-like windows" : "Too little history to compare"}
+              </div>
+            </div>
+            <div className="dkpi">
+              <div className="dkpi-label">Patterns flagged</div>
+              <div className="dkpi-value">{queue.length}</div>
+              <div className="dkpi-foot">
+                {criticalCount > 0 ? `${criticalCount} critical · ` : ""}
+                {clearedCount} clear
+              </div>
+            </div>
+          </div>
+
+          {/* growth */}
+          <section className="dpanel">
+            <div className="dpanel-head">
+              <div>
+                <h2 className="dpanel-title">How the complaint archive grew</h2>
+                <p className="dpanel-sub">
+                  {!growth
+                    ? "Monthly totals across every published complaint"
+                    : growthMode === "cumulative"
+                      ? `${growth.archiveTotal.toLocaleString()} complaints published in total since ${formatMonth(growth.first.month)}`
+                      : `${growth.first.total.toLocaleString()} published in ${formatMonth(growth.first.month)} · ${growth.last.total.toLocaleString()} in ${formatMonth(growth.last.month)}${
+                          growth.multiple ? ` · ${growth.multiple.toFixed(1)}× more per month` : ""
+                        }`}
+                </p>
+              </div>
+              <div className="dpanel-tools">
+                <Segmented
+                  label="Growth view"
+                  options={[
+                    { value: "monthly", label: "Per month" },
+                    { value: "cumulative", label: "Running total" },
+                  ]}
+                  value={growthMode}
+                  onChange={setGrowthMode}
+                />
+                <Segmented
+                  label="Growth span"
+                  options={GROWTH_SPANS.map((g) => ({ value: g.months, label: g.label }))}
+                  value={growthSpan}
+                  onChange={setGrowthSpan}
+                />
+              </div>
+            </div>
+            <div className="dpanel-body is-chart">
+              <TrendChart
+                points={growth?.points ?? []}
+                seriesLabel={growthLabel}
+                labelMode="month"
+                showPeak={growthMode === "monthly"}
+                emptyMessage="The archive summary has not been exported into this build."
+              />
+            </div>
+          </section>
+
+          {/* daily detail + product mix */}
+          <div className="dash-pair">
+            <section className="dpanel">
+              <div className="dpanel-head">
+                <div>
+                  <h2 className="dpanel-title">
+                    {measureLabel}
+                    {activeProduct ? ` · ${activeProduct}` : " · all products"}
+                  </h2>
+                  <p className="dpanel-sub">
+                    {view.windowed.length === 0
+                      ? "No data in this selection"
+                      : `${windowLabel}${view.priorAligned ? ", against the period before it" : ""}`}
+                  </p>
+                </div>
+              </div>
+              <div className="dpanel-body is-chart">
+                <TrendChart
+                  points={view.windowed}
+                  comparePoints={view.priorAligned}
+                  compareLabel="Previous period"
+                  seriesLabel={measureLabel}
+                />
+              </div>
+            </section>
+
+            <section className="dpanel">
+              <div className="dpanel-head">
+                <div>
+                  <h2 className="dpanel-title">Where the volume sits</h2>
+                  <p className="dpanel-sub">Choose a product to filter the whole dashboard</p>
+                </div>
+              </div>
+              <div className="dpanel-body">
+                {breakdown.length > 0 ? (
+                  <BarPicker
+                    rows={breakdown.map((b) => ({ label: b.dimension, value: b.value }))}
+                    activeLabel={activeProduct}
+                    onPick={setProduct}
+                    total={breakdown.reduce((s, b) => s + b.value, 0)}
+                  />
+                ) : (
+                  <p className="dpanel-sub">Nothing to break down in this selection.</p>
+                )}
+              </div>
+            </section>
           </div>
         </div>
 
-        {/* readout */}
-        <div className="readout" style={{ marginTop: "1.35rem" }}>
-          <div className="readout-head">
-            <h3>What this is showing</h3>
-            <p>{readout.headline}</p>
-          </div>
-          <div className="readout-body">
-            <div className="readout-col">
-              <h4>What stands out</h4>
-              <ul>
+        {/* ---------- right column ---------- */}
+        <div className="dash-col dash-right">
+          <section className="dpanel dpanel-accent">
+            <div className="dpanel-head">
+              <h2 className="dpanel-title">What this is showing</h2>
+            </div>
+            <div className="dpanel-body">
+              <p className="readout-lede">{readout.headline}</p>
+              <h3 className="rail-head">What stands out</h3>
+              <ul className="readout-list">
                 {readout.observations.map((o) => (
                   <li key={o}>{o}</li>
                 ))}
               </ul>
-            </div>
-            <div className="readout-col is-action">
-              <h4>Suggested next steps</h4>
-              <ul>
+              <h3 className="rail-head">Suggested next steps</h3>
+              <ul className="readout-list is-action">
                 {readout.actions.length > 0 ? (
                   readout.actions.map((a) => <li key={a}>{a}</li>)
                 ) : (
@@ -437,121 +589,82 @@ export function ExploreWorkspace({
                 )}
               </ul>
             </div>
-          </div>
-        </div>
+          </section>
 
-        {/* breakdown table */}
-        {breakdown.length > 0 && (
-          <div className="panel" style={{ marginTop: "1.35rem" }}>
-            <h3 className="panel-title">Product detail</h3>
-            <p className="panel-sub">Select a row to filter everything above to that product.</p>
-            <div className="table-wrap" style={{ border: "none" }}>
-              <table>
-                <thead>
-                  <tr>
-                    <th scope="col">Product</th>
-                    <th scope="col" className="num">Total</th>
-                    <th scope="col" className="num">Share</th>
-                    <th scope="col" className="num">Daily average</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {breakdown.slice(0, 12).map((b) => {
-                    const share = view.total > 0 ? b.value / view.total : 0;
-                    const days = view.windowed.length || 1;
-                    const isActive = b.dimension === activeProduct;
+          <section className="dpanel">
+            <div className="dpanel-head">
+              <div>
+                <h2 className="dpanel-title">What needs a decision</h2>
+                <p className="dpanel-sub">
+                  {queue.length > 0
+                    ? `${queue.length} pattern${queue.length === 1 ? "" : "s"} qualify · ranked by priority`
+                    : "Nothing qualifies under the rules switched on"}
+                </p>
+              </div>
+            </div>
+            <div className="dpanel-body">
+              {queue.length === 0 ? (
+                <p className="dpanel-sub">
+                  Every rule is switched off, or no record in this selection triggered the ones
+                  that remain. Switch a rule back on in the rail to repopulate the queue.
+                </p>
+              ) : (
+                <div className="dq-list">
+                  {queue.map((item) => {
+                    const open = openQueueKey === item.key;
                     return (
-                      <tr
-                        key={b.dimension}
-                        onClick={() => setProduct(isActive ? "" : b.dimension)}
-                        style={{
-                          cursor: "pointer",
-                          background: isActive ? "var(--blue-soft)" : undefined,
-                        }}
-                      >
-                        <td>{b.dimension}</td>
-                        <td className="num">{Math.round(b.value).toLocaleString()}</td>
-                        <td className="num">{formatPct(share)}</td>
-                        <td className="num">{Math.round(b.value / days).toLocaleString()}</td>
-                      </tr>
+                      <div className={`dq-row${open ? " is-open" : ""}`} key={item.key}>
+                        <button
+                          type="button"
+                          className="dq-head"
+                          aria-expanded={open}
+                          onClick={() => setOpenQueueKey(open ? null : item.key)}
+                        >
+                          <span className="dq-top">
+                            <PriorityChip priority={item.priority} />
+                            {item.volumeChangePct != null && (
+                              <span className="dq-delta">
+                                {formatPct(item.volumeChangePct, { signed: true })} vs baseline
+                              </span>
+                            )}
+                          </span>
+                          <span className="dq-issue">{item.issue}</span>
+                          <span className="dq-product">{item.product}</span>
+                          <span className="dq-next">{nextStepFor(item.recommendedAction)}</span>
+                        </button>
+                        {open && (
+                          <div className="dq-detail">
+                            <p>{explainReasons(item.reasonCodes)}</p>
+                            {item.limitation && <p className="dq-limit">{item.limitation}</p>}
+                            <p className="dq-meta">
+                              {item.recordCount} record{item.recordCount === 1 ? "" : "s"} in this
+                              pattern
+                            </p>
+                            <span className="dq-chips">
+                              <ConfidenceChip confidence={item.confidence} />
+                            </span>
+                            <button
+                              type="button"
+                              className="dq-filter"
+                              onClick={() =>
+                                setProduct(item.product === activeProduct ? "" : item.product)
+                              }
+                            >
+                              {item.product === activeProduct
+                                ? "Clear product filter"
+                                : `Filter dashboard to ${item.product}`}
+                            </button>
+                          </div>
+                        )}
+                      </div>
                     );
                   })}
-                </tbody>
-              </table>
+                </div>
+              )}
             </div>
-          </div>
-        )}
-
-        {/* queue */}
-        <div style={{ marginTop: "3rem" }}>
-          <div className="section-head">
-            <h2>What needs a decision</h2>
-            <p>
-              {queue.length > 0
-                ? `${queue.length} pattern${queue.length === 1 ? "" : "s"} qualify under the rules switched on, ranked by priority. Switch a rule off to see what stops being flagged.`
-                : "Nothing qualifies under the rules currently switched on."}
-            </p>
-          </div>
-
-          {queue.length === 0 ? (
-            <div className="decision-list">
-              <EmptyState title="Nothing flagged">
-                Every rule is switched off, or no record in this selection
-                triggered the ones that remain.
-              </EmptyState>
-            </div>
-          ) : (
-            <div className="decision-list">
-              {queue.slice(0, 10).map((item) => (
-                <article className="decision-row" key={item.key}>
-                  <div className="decision-meta">
-                    <PriorityChip priority={item.priority} />
-                    <ConfidenceChip confidence={item.confidence} />
-                  </div>
-                  <div>
-                    <h3 className="decision-title">{item.issue}</h3>
-                    <div style={{ marginBottom: ".6rem" }}>
-                      <Chip>{item.product}</Chip>
-                    </div>
-                    <p className="decision-why">{explainReasons(item.reasonCodes)}</p>
-                    <p className="decision-next">
-                      <strong>Next step:</strong> {nextStepFor(item.recommendedAction)}
-                    </p>
-                  </div>
-                  <div className="decision-signal">
-                    {item.volumeChangePct != null ? (
-                      <>
-                        <div
-                          className="ds-value"
-                          style={{ color: item.volumeChangePct > 0 ? "var(--negative)" : "var(--text)" }}
-                        >
-                          {formatPct(item.volumeChangePct, { signed: true })}
-                        </div>
-                        <div className="ds-label">vs baseline</div>
-                      </>
-                    ) : (
-                      <>
-                        <div className="ds-value" style={{ color: "var(--text-3)" }}>—</div>
-                        <div className="ds-label">no baseline</div>
-                      </>
-                    )}
-                    <div className="ds-label" style={{ marginTop: ".5rem" }}>
-                      {item.recordCount} record{item.recordCount === 1 ? "" : "s"}
-                    </div>
-                  </div>
-                </article>
-              ))}
-            </div>
-          )}
-
-          <p style={{ marginTop: "1.5rem", fontSize: "var(--fs-min)", color: "var(--text-3)", fontWeight: 300 }}>
-            The queue is drawn from a sample covering every decisioning outcome,
-            so rare ones stay visible. A flagged pattern is a prompt to
-            investigate, not a confirmed cause ·{" "}
-            <Link href="/data-story">How this is built</Link>
-          </p>
+          </section>
         </div>
-      </section>
+      </div>
     </div>
   );
 }

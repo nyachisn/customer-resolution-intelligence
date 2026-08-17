@@ -30,7 +30,7 @@ export default async function ExplorePage({
         lede="Pick a measure, a period and a product. Switch decision rules on and off to see which patterns would still reach someone."
       />
       <section className="band section-tight">
-        <div className="container">
+        <div className="container-wide">
           <ExploreWorkspace
             metrics={metrics}
             records={records}

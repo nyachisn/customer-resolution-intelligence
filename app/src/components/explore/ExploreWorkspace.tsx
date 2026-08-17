@@ -1,13 +1,14 @@
 "use client";
 
 /**
- * Explore — the single analytical workspace.
+ * Explore — the operating dashboard.
  *
- * Consolidates trend exploration, headline movement, and the attention
- * queue. Filters and policy toggles run client-side over the curated export
- * already loaded on the server, so interaction is immediate.
+ * Built for someone who works in Salesforce or a BI tool: switches rather
+ * than checkboxes, KPIs above the fold, charts that respond immediately,
+ * and a plain-language readout that says what the current selection shows
+ * and what to do about it.
  *
- * The policy toggles are a real simulation, not a display filter: a record
+ * The rule switches are a real simulation, not a display filter: a record
  * stays in the queue only while at least one of the policies that actually
  * triggered for it is still switched on.
  */
@@ -15,11 +16,12 @@
 import { useMemo, useState } from "react";
 import Link from "next/link";
 import { TrendChart } from "@/components/ui/TrendChart";
-import { Chip, ConfidenceChip, EmptyState, PriorityChip } from "@/components/ui/Primitives";
+import { Chip, ConfidenceChip, EmptyState, PriorityChip, RankedBars } from "@/components/ui/Primitives";
 import type { ComplaintRecordContext, OperationsMetric } from "@/lib/types";
 import {
   METRIC_LABELS,
   buildAttentionQueue,
+  buildReadout,
   comparePeriods,
   dailySeries,
   dimensionsFor,
@@ -43,7 +45,6 @@ const POLICY_LABEL: Record<string, string> = {
   POLICY_PUBLICATION_LAG: "Publication lag",
   POLICY_INCOMPLETE_CONTEXT: "Incomplete context",
   POLICY_CRITICAL_COMBINATION: "Critical combination",
-  POLICY_STABLE_PATTERN: "Stable pattern",
 };
 
 const POLICY_NOTE: Record<string, string> = {
@@ -52,11 +53,36 @@ const POLICY_NOTE: Record<string, string> = {
   POLICY_PUBLICATION_LAG: "Record may still be incomplete",
   POLICY_INCOMPLETE_CONTEXT: "A field needed to interpret it is missing",
   POLICY_CRITICAL_COMBINATION: "Two independent signals agreed",
-  POLICY_STABLE_PATTERN: "Nothing fired — no action needed",
 };
 
-// STABLE_PATTERN means "no rule fired", so it never puts a record in the queue.
-const QUEUEING_POLICIES = Object.keys(POLICY_LABEL).filter((p) => p !== "POLICY_STABLE_PATTERN");
+const QUEUEING_POLICIES = Object.keys(POLICY_LABEL);
+
+function Switch({
+  checked,
+  onChange,
+  name,
+  meta,
+}: {
+  checked: boolean;
+  onChange: () => void;
+  name: string;
+  meta: React.ReactNode;
+}) {
+  return (
+    <label className={`switch-row${checked ? "" : " is-off"}`}>
+      <span className="switch">
+        <input type="checkbox" checked={checked} onChange={onChange} />
+        <span className="switch-track">
+          <span className="switch-thumb" />
+        </span>
+      </span>
+      <span className="switch-copy">
+        <span className="switch-name">{name}</span>
+        <span className="switch-meta">{meta}</span>
+      </span>
+    </label>
+  );
+}
 
 export function ExploreWorkspace({
   metrics,
@@ -83,6 +109,7 @@ export function ExploreWorkspace({
   const [rangeDays, setRangeDays] = useState(28);
   const [product, setProduct] = useState<string>(initialProduct ?? "");
   const [excludeLag, setExcludeLag] = useState(true);
+  const [showCompare, setShowCompare] = useState(true);
   const [enabled, setEnabled] = useState<string[]>(QUEUEING_POLICIES);
 
   const dimensions = useMemo(() => dimensionsFor(metrics, metricName), [metrics, metricName]);
@@ -94,7 +121,7 @@ export function ExploreWorkspace({
     const windowed = rangeDays > 0 ? trimmed.slice(-rangeDays) : trimmed;
 
     let priorAligned: { date: string; value: number }[] | undefined;
-    if (rangeDays > 0 && trimmed.length >= rangeDays * 2) {
+    if (showCompare && rangeDays > 0 && trimmed.length >= rangeDays * 2) {
       const prior = trimmed.slice(-rangeDays * 2, -rangeDays);
       priorAligned = prior.map((p, i) => ({ date: windowed[i]?.date ?? p.date, value: p.value }));
     }
@@ -106,10 +133,10 @@ export function ExploreWorkspace({
       windowed[0] ?? { date: "", value: 0 },
     );
     return { windowed, priorAligned, cmp, total, peak };
-  }, [metrics, metricName, activeProduct, rangeDays, excludeLag, lagDays]);
+  }, [metrics, metricName, activeProduct, rangeDays, excludeLag, showCompare, lagDays]);
 
   const breakdown = useMemo(() => {
-    if (activeProduct || view.windowed.length === 0) return [];
+    if (view.windowed.length === 0) return [];
     const from = view.windowed[0].date;
     const to = view.windowed[view.windowed.length - 1].date;
     const totals = new Map<string, number>();
@@ -120,12 +147,9 @@ export function ExploreWorkspace({
     }
     return [...totals.entries()]
       .map(([dimension, value]) => ({ dimension, value }))
-      .sort((a, b) => b.value - a.value)
-      .slice(0, 10);
-  }, [metrics, metricName, activeProduct, view.windowed]);
+      .sort((a, b) => b.value - a.value);
+  }, [metrics, metricName, view.windowed]);
 
-  // How often each policy actually fires across the sample — shown next to
-  // each toggle so switching one off has a visible, quantified consequence.
   const policyCounts = useMemo(() => {
     const counts = new Map<string, number>();
     for (const r of records) {
@@ -141,12 +165,47 @@ export function ExploreWorkspace({
     return buildAttentionQueue(scoped);
   }, [records, enabled, activeProduct]);
 
-  const clearedCount = records.length - queue.reduce((s, q) => s + q.recordCount, 0);
+  const criticalCount = queue.filter((q) => q.priority === "CRITICAL").length;
+  const flaggedRecords = queue.reduce((s, q) => s + q.recordCount, 0);
+  const clearedCount = records.length - flaggedRecords;
+
+  const priorityMix = useMemo(() => {
+    const order = ["CRITICAL", "HIGH", "MEDIUM", "LOW"];
+    const counts = new Map<string, number>();
+    for (const q of queue) counts.set(q.priority, (counts.get(q.priority) ?? 0) + q.recordCount);
+    return order
+      .filter((p) => counts.has(p))
+      .map((p) => ({ label: titleize(p), value: counts.get(p) ?? 0 }));
+  }, [queue]);
+
+  const measureLabel = METRIC_LABELS[metricName] ?? titleize(metricName);
+  const avg = view.windowed.length > 0 ? view.total / view.windowed.length : 0;
+
+  const readout = useMemo(
+    () =>
+      buildReadout({
+        measureLabel,
+        product: activeProduct || null,
+        windowDays: rangeDays > 0 ? rangeDays : view.windowed.length,
+        total: view.total,
+        changePct: view.cmp?.changePct ?? null,
+        hasComparison: Boolean(view.cmp),
+        topShare:
+          !activeProduct && breakdown.length > 0 && view.total > 0
+            ? { label: breakdown[0].dimension, share: breakdown[0].value / view.total }
+            : null,
+        peak: view.peak.date ? view.peak : null,
+        dailyAverage: avg,
+        queueCount: queue.length,
+        criticalCount,
+        rulesOn: enabled.length,
+        rulesTotal: QUEUEING_POLICIES.length,
+      }),
+    [measureLabel, activeProduct, rangeDays, view, breakdown, avg, queue.length, criticalCount, enabled.length],
+  );
 
   function togglePolicy(policy: string) {
-    setEnabled((cur) =>
-      cur.includes(policy) ? cur.filter((p) => p !== policy) : [...cur, policy],
-    );
+    setEnabled((cur) => (cur.includes(policy) ? cur.filter((p) => p !== policy) : [...cur, policy]));
   }
 
   const isDefault =
@@ -154,6 +213,7 @@ export function ExploreWorkspace({
     rangeDays === 28 &&
     !activeProduct &&
     excludeLag &&
+    showCompare &&
     enabled.length === QUEUEING_POLICIES.length;
 
   function reset() {
@@ -161,15 +221,20 @@ export function ExploreWorkspace({
     setRangeDays(28);
     setProduct("");
     setExcludeLag(true);
+    setShowCompare(true);
     setEnabled(QUEUEING_POLICIES);
   }
 
-  const measureLabel = METRIC_LABELS[metricName] ?? titleize(metricName);
-  const avg = view.windowed.length > 0 ? view.total / view.windowed.length : 0;
+  const changeDir =
+    view.cmp?.changePct == null || Math.abs(view.cmp.changePct) < 0.02
+      ? "flat"
+      : view.cmp.changePct > 0
+        ? "up"
+        : "down";
 
   return (
     <div className="explore-layout">
-      {/* ---------------- controls ---------------- */}
+      {/* ================= control rail ================= */}
       <aside className="filter-panel" aria-label="Controls">
         <h2>What are you looking at?</h2>
 
@@ -185,9 +250,7 @@ export function ExploreWorkspace({
         </div>
 
         <div className="filter-group">
-          <span className="filter-legend" id="range-legend">
-            Time period
-          </span>
+          <span className="filter-legend" id="range-legend">Time period</span>
           <div className="segmented" role="group" aria-labelledby="range-legend">
             {RANGES.map((r) => (
               <button
@@ -207,40 +270,39 @@ export function ExploreWorkspace({
           <select id="product" value={activeProduct} onChange={(e) => setProduct(e.target.value)}>
             <option value="">All products ({dimensions.length})</option>
             {dimensions.map((d) => (
-              <option key={d} value={d}>
-                {d}
-              </option>
+              <option key={d} value={d}>{d}</option>
             ))}
           </select>
         </div>
 
-        <label className="toggle-row" style={{ borderBottom: "none", paddingBottom: 0 }}>
-          <input
-            type="checkbox"
-            checked={excludeLag}
-            onChange={(e) => setExcludeLag(e.target.checked)}
-          />
-          <span className="toggle-copy">
-            <span className="toggle-name">Hide incomplete recent days</span>
-            <span className="toggle-meta">Last {lagDays} days still publishing</span>
-          </span>
-        </label>
+        <h3>Chart options</h3>
+        <Switch
+          checked={showCompare}
+          onChange={() => setShowCompare(!showCompare)}
+          name="Compare with previous period"
+          meta="Adds a dashed line for the window before"
+        />
+        <Switch
+          checked={excludeLag}
+          onChange={() => setExcludeLag(!excludeLag)}
+          name="Hide incomplete recent days"
+          meta={`Last ${lagDays} days are still publishing`}
+        />
 
         <h3>Which rules should apply?</h3>
         {QUEUEING_POLICIES.map((p) => (
-          <label className="toggle-row" key={p}>
-            <input
-              type="checkbox"
-              checked={enabled.includes(p)}
-              onChange={() => togglePolicy(p)}
-            />
-            <span className="toggle-copy">
-              <span className="toggle-name">{POLICY_LABEL[p]}</span>
-              <span className="toggle-meta">
-                {POLICY_NOTE[p]} · fires on {policyCounts.get(p) ?? 0}
-              </span>
-            </span>
-          </label>
+          <Switch
+            key={p}
+            checked={enabled.includes(p)}
+            onChange={() => togglePolicy(p)}
+            name={POLICY_LABEL[p]}
+            meta={
+              <>
+                {POLICY_NOTE[p]} · fires on{" "}
+                <span className="switch-count">{policyCounts.get(p) ?? 0}</span>
+              </>
+            }
+          />
         ))}
 
         <button type="button" className="filter-reset" onClick={reset} disabled={isDefault}>
@@ -248,12 +310,12 @@ export function ExploreWorkspace({
         </button>
       </aside>
 
-      {/* ---------------- main ---------------- */}
-      <section aria-label="Analysis">
+      {/* ================= main ================= */}
+      <section aria-label="Dashboard">
         <div className="active-filters">
           <Chip tone="accent">{measureLabel}</Chip>
           <Chip>{rangeDays > 0 ? `Last ${rangeDays} days` : "All time"}</Chip>
-          {activeProduct && <Chip>{activeProduct}</Chip>}
+          <Chip>{activeProduct || `All ${dimensions.length} products`}</Chip>
           {!excludeLag && <Chip tone="caution">Including incomplete days</Chip>}
           {enabled.length < QUEUEING_POLICIES.length && (
             <Chip tone="caution">
@@ -262,40 +324,42 @@ export function ExploreWorkspace({
           )}
         </div>
 
-        <div className="stat-row">
-          <div className="stat-cell">
-            <div className="stat-label">Total in view</div>
-            <div className="stat-value">{Math.round(view.total).toLocaleString()}</div>
-          </div>
-          <div className="stat-cell">
-            <div className="stat-label">Daily average</div>
-            <div className="stat-value">{Math.round(avg).toLocaleString()}</div>
-          </div>
-          <div className="stat-cell">
-            <div className="stat-label">Busiest day</div>
-            <div className="stat-value">{Math.round(view.peak.value).toLocaleString()}</div>
-            <div className="stat-foot">{view.peak.date ? formatDate(view.peak.date) : ""}</div>
-          </div>
-          {view.cmp && (
-            <div className="stat-cell">
-              <div className="stat-label">Change vs prior period</div>
-              <div
-                className="stat-value"
-                style={{
-                  color:
-                    view.cmp.changePct == null || Math.abs(view.cmp.changePct) < 0.02
-                      ? "var(--text)"
-                      : view.cmp.changePct > 0
-                        ? "var(--negative)"
-                        : "var(--positive)",
-                }}
-              >
-                {formatPct(view.cmp.changePct, { signed: true })}
-              </div>
+        {/* KPIs */}
+        <div className="kpi-grid">
+          <div className="kpi">
+            <div className="kpi-label">Total in view</div>
+            <div className="kpi-value">{Math.round(view.total).toLocaleString()}</div>
+            <div className="kpi-foot">
+              {view.windowed.length > 0
+                ? `${formatDate(view.windowed[0].date)} – ${formatDate(view.windowed[view.windowed.length - 1].date)}`
+                : "No data"}
             </div>
-          )}
+          </div>
+          <div className="kpi">
+            <div className="kpi-label">Daily average</div>
+            <div className="kpi-value">{Math.round(avg).toLocaleString()}</div>
+            <div className="kpi-foot">Across {view.windowed.length} days</div>
+          </div>
+          <div className="kpi">
+            <div className="kpi-label">Change vs previous period</div>
+            <div className={`kpi-value kpi-delta is-${changeDir}`}>
+              {view.cmp ? formatPct(view.cmp.changePct, { signed: true }) : "—"}
+            </div>
+            <div className="kpi-foot">
+              {view.cmp ? "Like-for-like windows" : "Not enough history to compare"}
+            </div>
+          </div>
+          <div className="kpi">
+            <div className="kpi-label">Patterns flagged</div>
+            <div className="kpi-value">{queue.length}</div>
+            <div className="kpi-foot">
+              {criticalCount > 0 ? `${criticalCount} critical · ` : ""}
+              {clearedCount} records clear
+            </div>
+          </div>
         </div>
 
+        {/* trend */}
         <div className="panel">
           <h3 className="panel-title">
             {measureLabel}
@@ -316,10 +380,71 @@ export function ExploreWorkspace({
           />
         </div>
 
+        {/* two-up: product mix + priority mix */}
+        <div className="panel-pair" style={{ marginTop: "1.35rem" }}>
+          <div className="panel">
+            <h3 className="panel-title">Where the volume sits</h3>
+            <p className="panel-sub">
+              {activeProduct
+                ? "Showing all products for context — the trend above is filtered."
+                : "Select a row below to filter everything to that product."}
+            </p>
+            <RankedBars
+              rows={breakdown.slice(0, 8).map((b) => ({
+                label: b.dimension,
+                value: Math.round(b.value),
+              }))}
+            />
+          </div>
+
+          <div className="panel">
+            <h3 className="panel-title">What the rules produce</h3>
+            <p className="panel-sub">
+              Records by priority, under the rules currently switched on.
+            </p>
+            {priorityMix.length > 0 ? (
+              <RankedBars rows={priorityMix} />
+            ) : (
+              <EmptyState title="Nothing flagged">
+                Switch a rule back on to populate this.
+              </EmptyState>
+            )}
+          </div>
+        </div>
+
+        {/* readout */}
+        <div className="readout" style={{ marginTop: "1.35rem" }}>
+          <div className="readout-head">
+            <h3>What this is showing</h3>
+            <p>{readout.headline}</p>
+          </div>
+          <div className="readout-body">
+            <div className="readout-col">
+              <h4>What stands out</h4>
+              <ul>
+                {readout.observations.map((o) => (
+                  <li key={o}>{o}</li>
+                ))}
+              </ul>
+            </div>
+            <div className="readout-col is-action">
+              <h4>Suggested next steps</h4>
+              <ul>
+                {readout.actions.length > 0 ? (
+                  readout.actions.map((a) => <li key={a}>{a}</li>)
+                ) : (
+                  <li>Nothing is flagged in this selection — no action required.</li>
+                )}
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        {/* breakdown table */}
         {breakdown.length > 0 && (
           <div className="panel" style={{ marginTop: "1.35rem" }}>
-            <h3 className="panel-title">Which products make up that total</h3>
-            <p className="panel-sub">Select a row to narrow everything to that product.</p>
+            <h3 className="panel-title">Product detail</h3>
+            <p className="panel-sub">Select a row to filter everything above to that product.</p>
             <div className="table-wrap" style={{ border: "none" }}>
               <table>
                 <thead>
@@ -331,14 +456,18 @@ export function ExploreWorkspace({
                   </tr>
                 </thead>
                 <tbody>
-                  {breakdown.map((b) => {
+                  {breakdown.slice(0, 12).map((b) => {
                     const share = view.total > 0 ? b.value / view.total : 0;
                     const days = view.windowed.length || 1;
+                    const isActive = b.dimension === activeProduct;
                     return (
                       <tr
                         key={b.dimension}
-                        onClick={() => setProduct(b.dimension)}
-                        style={{ cursor: "pointer" }}
+                        onClick={() => setProduct(isActive ? "" : b.dimension)}
+                        style={{
+                          cursor: "pointer",
+                          background: isActive ? "var(--blue-soft)" : undefined,
+                        }}
                       >
                         <td>{b.dimension}</td>
                         <td className="num">{Math.round(b.value).toLocaleString()}</td>
@@ -353,21 +482,14 @@ export function ExploreWorkspace({
           </div>
         )}
 
-        {/* ---------------- queue ---------------- */}
-        <div style={{ marginTop: "3.5rem" }}>
+        {/* queue */}
+        <div style={{ marginTop: "3rem" }}>
           <div className="section-head">
-            <h2>What these rules flag</h2>
+            <h2>What needs a decision</h2>
             <p>
-              {queue.length > 0 ? (
-                <>
-                  {queue.length} pattern{queue.length === 1 ? "" : "s"} would reach
-                  someone with the rules currently switched on
-                  {clearedCount > 0 ? `, and ${clearedCount} records clear with no action` : ""}.
-                  Switch a rule off on the left to see what stops being flagged.
-                </>
-              ) : (
-                <>Nothing is flagged with the rules currently switched on.</>
-              )}
+              {queue.length > 0
+                ? `${queue.length} pattern${queue.length === 1 ? "" : "s"} qualify under the rules switched on, ranked by priority. Switch a rule off to see what stops being flagged.`
+                : "Nothing qualifies under the rules currently switched on."}
             </p>
           </div>
 
@@ -375,8 +497,7 @@ export function ExploreWorkspace({
             <div className="decision-list">
               <EmptyState title="Nothing flagged">
                 Every rule is switched off, or no record in this selection
-                triggered the ones that remain. Switch a rule back on to
-                populate the queue.
+                triggered the ones that remain.
               </EmptyState>
             </div>
           ) : (
@@ -402,9 +523,7 @@ export function ExploreWorkspace({
                       <>
                         <div
                           className="ds-value"
-                          style={{
-                            color: item.volumeChangePct > 0 ? "var(--negative)" : "var(--text)",
-                          }}
+                          style={{ color: item.volumeChangePct > 0 ? "var(--negative)" : "var(--text)" }}
                         >
                           {formatPct(item.volumeChangePct, { signed: true })}
                         </div>
@@ -412,9 +531,7 @@ export function ExploreWorkspace({
                       </>
                     ) : (
                       <>
-                        <div className="ds-value" style={{ color: "var(--text-3)" }}>
-                          —
-                        </div>
+                        <div className="ds-value" style={{ color: "var(--text-3)" }}>—</div>
                         <div className="ds-label">no baseline</div>
                       </>
                     )}
@@ -428,8 +545,8 @@ export function ExploreWorkspace({
           )}
 
           <p style={{ marginTop: "1.5rem", fontSize: "var(--fs-min)", color: "var(--text-3)", fontWeight: 300 }}>
-            The queue is drawn from a sample that covers every decisioning
-            outcome, so rare ones stay visible. A flagged pattern is a prompt to
+            The queue is drawn from a sample covering every decisioning outcome,
+            so rare ones stay visible. A flagged pattern is a prompt to
             investigate, not a confirmed cause ·{" "}
             <Link href="/data-story">How this is built</Link>
           </p>

@@ -16,7 +16,7 @@ import {
   VercelMark,
 } from "@/components/ui/TechMarks";
 import { loadDemoMeta, loadLedgerExhibits, loadOperationsMetrics } from "@/lib/demo-data";
-import { datesFor, dimensionsFor, formatDate } from "@/lib/analytics";
+import { datesFor, dimensionsFor } from "@/lib/analytics";
 
 export const metadata = { title: "Data Story" };
 
@@ -296,7 +296,6 @@ export default async function DataStoryPage() {
               fontWeight: 300,
             }}
           >
-            Data current as of {formatDate(meta.generated_at_utc)} ·{" "}
             <Link href="/explore">Explore the data</Link>
           </p>
         </div>

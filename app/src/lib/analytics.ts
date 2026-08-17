@@ -274,3 +274,113 @@ const ACTION_NEXT_STEP: Record<string, string> = {
 export function nextStepFor(action: string): string {
   return ACTION_NEXT_STEP[action] ?? titleize(action);
 }
+
+/* ------------------------------------------------------------------ */
+/* Readout — plain-language interpretation of the current selection     */
+/* ------------------------------------------------------------------ */
+
+export interface Readout {
+  headline: string;
+  observations: string[];
+  actions: string[];
+}
+
+/**
+ * Turns the current dashboard state into an explanation and a set of
+ * suggested next steps.
+ *
+ * Every sentence is derived from a number already on screen — nothing here
+ * asserts a cause, a forecast, or anything the source data cannot support.
+ */
+export function buildReadout(input: {
+  measureLabel: string;
+  product: string | null;
+  windowDays: number;
+  total: number;
+  changePct: number | null;
+  hasComparison: boolean;
+  topShare: { label: string; share: number } | null;
+  peak: { date: string; value: number } | null;
+  dailyAverage: number;
+  queueCount: number;
+  criticalCount: number;
+  rulesOn: number;
+  rulesTotal: number;
+}): Readout {
+  const {
+    measureLabel, product, windowDays, total, changePct, hasComparison,
+    topShare, peak, dailyAverage, queueCount, criticalCount, rulesOn, rulesTotal,
+  } = input;
+
+  const scope = product ?? "all products";
+  const observations: string[] = [];
+  const actions: string[] = [];
+
+  // --- headline -----------------------------------------------------
+  let headline: string;
+  if (!hasComparison || changePct == null) {
+    headline = `${measureLabel.toLowerCase()} across ${scope} totals ${Math.round(total).toLocaleString()} over the last ${windowDays} days. There is not enough history behind this window to compare it with the period before, so read it as a level rather than a movement.`;
+  } else if (Math.abs(changePct) < 0.02) {
+    headline = `${measureLabel} across ${scope} is essentially flat — ${formatPct(changePct, { signed: true })} against the previous ${windowDays} days. When the total holds steady, movement worth acting on is usually hiding inside individual products rather than showing up here.`;
+  } else if (changePct > 0) {
+    headline = `${measureLabel} across ${scope} is up ${formatPct(changePct, { signed: true })} against the previous ${windowDays} days, at ${Math.round(total).toLocaleString()} in total. A rise means more was reported and published — not necessarily that more went wrong.`;
+  } else {
+    headline = `${measureLabel} across ${scope} is down ${formatPct(Math.abs(changePct))} against the previous ${windowDays} days, at ${Math.round(total).toLocaleString()} in total. A fall means less was reported in this window, which can reflect reporting conditions as much as customer experience.`;
+  }
+
+  // --- observations -------------------------------------------------
+  observations.push(
+    `Averaging ${Math.round(dailyAverage).toLocaleString()} per day across the window.`,
+  );
+
+  if (peak && peak.date) {
+    observations.push(
+      `The busiest single day was ${formatDate(peak.date)} at ${Math.round(peak.value).toLocaleString()} — roughly ${dailyAverage > 0 ? (peak.value / dailyAverage).toFixed(1) : "?"}× the daily average.`,
+    );
+  }
+
+  if (!product && topShare && topShare.share > 0) {
+    observations.push(
+      `${topShare.label} accounts for ${formatPct(topShare.share)} of the total, so the headline number mostly tracks that one category.`,
+    );
+  }
+
+  if (queueCount > 0) {
+    observations.push(
+      `${queueCount} pattern${queueCount === 1 ? "" : "s"} currently qualify for review under the ${rulesOn} rule${rulesOn === 1 ? "" : "s"} switched on${criticalCount > 0 ? `, ${criticalCount} of them at critical priority` : ""}.`,
+    );
+  }
+
+  // --- suggested actions --------------------------------------------
+  if (!product && topShare && topShare.share > 0.5) {
+    actions.push(
+      `Filter to ${topShare.label} to see whether the headline is being set by that category alone, then check the others separately.`,
+    );
+  }
+
+  if (criticalCount > 0) {
+    actions.push(
+      `Start with the ${criticalCount} critical-priority pattern${criticalCount === 1 ? "" : "s"} below — those are the ones where two independent signals agreed.`,
+    );
+  } else if (queueCount > 0) {
+    actions.push(`Work the queue below in the order shown; it is already ranked by priority.`);
+  }
+
+  if (rulesOn < rulesTotal) {
+    actions.push(
+      `${rulesTotal - rulesOn} rule${rulesTotal - rulesOn === 1 ? " is" : "s are"} switched off, so the queue is narrower than the full policy set would produce. Switch them back on to see everything that would normally be flagged.`,
+    );
+  } else if (queueCount > 0) {
+    actions.push(
+      `Switch individual rules off to see which ones are actually driving the queue — a rule that changes nothing is not earning its place.`,
+    );
+  }
+
+  if (product) {
+    actions.push(
+      `Compare this against another product before drawing a conclusion — a change only means something relative to that product's own history.`,
+    );
+  }
+
+  return { headline, observations, actions };
+}

@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import "./globals.css";
-import { loadDemoMeta } from "@/lib/demo-data";
-import { formatDate } from "@/lib/analytics";
 
 export const metadata: Metadata = {
   title: {
@@ -19,9 +17,7 @@ const NAV = [
   { href: "/explore", label: "Explore" },
 ];
 
-export default async function RootLayout({ children }: { children: React.ReactNode }) {
-  const meta = await loadDemoMeta();
-
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
       <body>
@@ -44,9 +40,6 @@ export default async function RootLayout({ children }: { children: React.ReactNo
                 </Link>
               ))}
             </div>
-            {meta.generated_at_utc !== "unset" && (
-              <div className="nav-meta">Updated {formatDate(meta.generated_at_utc)}</div>
-            )}
           </nav>
         </header>
 
@@ -54,12 +47,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
 
         <footer className="site-footer">
           <div className="container footer-inner">
-            <span>
-              Built on the public CFPB Consumer Complaint Database
-              {meta.source_retrieval_date
-                ? ` · Retrieved ${formatDate(meta.source_retrieval_date)}`
-                : ""}
-            </span>
+            <span>Built on the public CFPB Consumer Complaint Database</span>
             <span className="footer-links">
               <Link href="/methodology">Methodology</Link>
               <a href="https://www.consumerfinance.gov/data-research/consumer-complaints/">

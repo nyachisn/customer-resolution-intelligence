@@ -1,54 +1,67 @@
 # Customer Resolution Intelligence
 
-**A trusted decision layer for customer-issue operations.**
+**An analytical product built on 17.1M published CFPB consumer complaints — from ingestion through to a recommended action.**
 
-> Customer signal → Context → Pattern → Priority → Action
-
-Customer Resolution Intelligence is a **portfolio prototype**. It converts the public CFPB Consumer Complaint Database into governed issue context, emerging-pattern signals, explainable operational priority, and recommended investigation or action — each carrying its supporting evidence and its stated limitations.
-
-It is an independent project. It is not affiliated with, endorsed by, or integrated with the CFPB, any financial institution, or Twilio.
+🔗 **[Live application](https://customer-resolution-intelligence.vercel.app)** · [What you're looking at](https://customer-resolution-intelligence.vercel.app/) · [How it's built](https://customer-resolution-intelligence.vercel.app/data-story) · [Explore](https://customer-resolution-intelligence.vercel.app/explore)
 
 ---
 
-## What this is
+## The architecture
 
-A demonstration of the **data foundation** an AI agent, a human agent, or a workflow platform would need to handle a customer issue with context and consistency:
+A batch ELT pipeline with a layered dbt transformation DAG.
 
-- **Issue intelligence** — a canonical complaint model with versioned taxonomy, documented grain, lineage, and tests.
-- **Operational context** — published status signals assembled into a concise, agent-safe brief per complaint record.
-- **Emerging patterns** — deterministic, seed-configured signals with baseline, observed share, and qualification status.
-- **Explainable priority** — every priority traceable to a policy rule.
-- **Recommended action** — every recommendation carrying `policy_id`, `recommended_action`, `priority`, `reason_code`, evidence fields, and confidence.
-- **Evidence and limitations** — every signal stating what it can and cannot support.
+```
+CFPB bulk archive
+      ↓  batch ingestion, record count reconciled against source metadata
+Snowflake RAW              source-preserving, landed unchanged
+      ↓  dbt
+staging → intermediate → marts → decisioning        13 models, 91 tests
+      ↓  materialized back into Snowflake
+Snowflake ANALYTICS        6 mart tables, 3 seeds
+      ↓  curated export, read through a read-only role, column allowlist
+Versioned JSON in Git
+      ↓
+Next.js on Vercel  ·  Streamlit operations console
+```
 
-Built on Snowflake + dbt, surfaced through a Next.js application on Vercel.
+| | |
+|---|---|
+| **Records loaded** | 17,119,590 → **17,119,581 modeled** (9 dropped by the required-field filter, asserted by a test) |
+| **Coverage** | 176 complete months, Dec 2011 – Jul 2026 |
+| **dbt models** | 13 — 1 staging, 5 intermediate, 5 marts, 2 decisioning |
+| **Tests** | 91 — 55 `not_null`, 17 `accepted_values`, 8 `unique`, 4 `unique_combination_of_columns`, 2 `relationships`, 5 singular |
+| **Storage** | 2.53 GB — ANALYTICS_PROD 1.51 + RAW 1.02 |
+| **Stack** | Snowflake · dbt · dbt Cloud · Next.js · Vercel · Streamlit |
 
-## What this is not
-
-- Not complaint-management software.
-- Not a complaint-resolution prediction engine.
-- Not a production financial-services decision engine.
-- Not a credit, underwriting, fraud, eligibility, or regulatory decision system.
-- Not a consumer scoring system, and not a company performance ranking.
-- Not an integration with the CFPB, any financial institution, or Twilio.
-
-It does not identify or contact consumers, make financial decisions, or determine complaint outcomes.
+**Who does what:** Snowflake is the data platform. dbt is transformation and modeling. dbt Cloud is orchestration, scheduling and CI. Next.js is the application; Vercel hosts it.
 
 ---
 
-## Why the constraints are the point
+## Three findings worth reading
 
-This project's premise is that **a data product is only as good as the claims it refuses to make**.
+**The CFPB renamed its product taxonomy twice** — April 2017 and August 2023. Plotted on the published labels, a 15-year per-product chart shows nearly every category dying and being reborn on those two dates; credit reporting alone appears as three unrelated products. The application maps eleven product lineages and marks both change dates on the curve rather than smoothing over them.
 
-An independent audit of the live CFPB source (August 15, 2026) found that several assumptions in the original specification were wrong. The most consequential:
+**A double-counting defect, found before it reached reporting.** `complaint_volume` was sourced from `issue_volume_current` — a trailing 7-day rolling sum — and then summed across every date in the export window, so a single complaint was counted in up to seven rows. It was corrected to `daily_complaint_count`, the true per-date count and the only field in the model safe to sum across dates.
+
+**Daily grain was mostly drawing the calendar.** Sundays average 6,126 published complaints against 24,011 on a Tuesday — weekends run at 37% of a weekday. A daily line is therefore a picture of the publishing schedule more than of complaint behaviour, so every trend in the product is at month grain, and the application shows the evidence for that decision.
+
+---
+
+## What the source does and does not support
+
+The premise of the project is that **a data product is only as good as the claims it refuses to make.**
+
+An independent audit of the live source found several assumptions in the original specification to be wrong. The most consequential:
 
 > **The public CFPB dataset contains no company response timestamp.**
 >
-> It publishes `date_received` and `date_sent_to_company` — the date the *CFPB routed* the complaint to the company. For modern web-submitted complaints these are separated by **seconds**. A "response time" derived from them would have measured a government API's routing speed while being labelled company responsiveness.
+> It publishes `date_received` and `date_sent_to_company` — the date the *CFPB routed* the complaint to the company. For modern web-submitted complaints these are separated by seconds. A "response time" derived from them would have measured a government API's routing speed while being labelled company responsiveness.
 
-The specified `response_days_calendar` metric was removed rather than relabelled. So was the entire dispute policy, after the audit found that the `Consumer disputed?` field — still listed in most third-party documentation — was removed from CFPB exports in June 2026.
+The specified `response_days_calendar` metric was removed rather than relabelled, along with the entire dispute policy, after the audit found the `Consumer disputed?` field had been dropped from CFPB exports in June 2026. A CI check greps the application for that vocabulary so it cannot quietly return.
 
-See [ADR-004](docs/adr/ADR-004-source-validation-removes-response-duration.md) for the decision record, and [09_supported_vs_unsupported_metrics.md](docs/09_supported_vs_unsupported_metrics.md) for the binding register of what this product may and may not measure.
+See [ADR-004](docs/adr/ADR-004-source-validation-removes-response-duration.md) and the binding register in [09_supported_vs_unsupported_metrics.md](docs/09_supported_vs_unsupported_metrics.md).
+
+**Reading the data well.** The CFPB database is an observed public complaint dataset — complaints that met publication criteria — not a statistical sample of consumer experience. Volume is highly concentrated: credit-reporting categories are roughly 81% of records. A change in complaint volume is a change in what was reported and published. Complaint narratives are excluded entirely; no narrative ingestion, NLP, or LLM processing is part of this project.
 
 ---
 
@@ -56,22 +69,21 @@ See [ADR-004](docs/adr/ADR-004-source-validation-removes-response-duration.md) f
 
 **Publisher:** U.S. Consumer Financial Protection Bureau
 **Source:** [Consumer Complaint Database](https://www.consumerfinance.gov/data-research/consumer-complaints/)
-**Ingestion:** official bulk CSV archive (`complaints.csv.zip`)
-**Retrieval date:** August 15, 2026
-**Coverage observed:** 2011-12-01 → 2026-08-15; 17,119,590 published records
-**Schema observed:** 16 fields ([field reference](https://cfpb.github.io/api/ccdb/fields.html))
+**Ingestion:** official bulk CSV archive (`complaints.csv.zip`), used rather than the filtered API export for reproducibility, full historical coverage, and to avoid the export's ~100,000-row cap
+**Coverage observed:** 2011-12-01 → 2026-08-15 · 17,119,590 published records · 16 fields
 
-The bulk archive is used rather than the filtered API export for reproducibility, full historical coverage, and to avoid the export's ~100,000-row cap.
+---
 
-### Required context
+## Access model
 
-> This portfolio prototype uses publicly available data from the CFPB Consumer Complaint Database. The prototype is an independent demonstration of data modeling and operational decisioning. It does not identify or contact consumers, make financial decisions, determine complaint outcomes, or represent an integration with CFPB, financial institutions, or Twilio.
+Four Snowflake roles, each with one job. The export script runs as the application reader, so it fails the same way the application would if the boundary were ever wrong.
 
-> The CFPB database is an **observed public complaint dataset** — a record of complaints that met publication criteria. It is not a statistical sample of consumer experience. Published complaint volume should be interpreted with relevant context including company size, market share, geography, and reporting conditions. A change in complaint volume is a change in what was reported and published, not a measured change in customer experience and not evidence of an incident.
-
-> Complaint volume is highly concentrated — credit-reporting categories account for roughly 81% of records — and is materially affected by third-party submission behavior. In June 2026 the CFPB stated it "cannot rely upon the consumer complaint portal data as a reliable reflection of actual market conditions" absent announced corrections.
-
-Complaint narratives are excluded. No narrative ingestion, NLP, sentiment analysis, or LLM processing is part of this project.
+| Role | Responsibility |
+|---|---|
+| `CRI_LOADER` | Loads source data into RAW |
+| `CRI_TRANSFORMER` | Builds the analytical models |
+| `CRI_APP_READER` | Reads curated analytical outputs |
+| `CRI_ADMIN` | Owns Snowflake objects and grants |
 
 ---
 
@@ -81,39 +93,20 @@ Complaint narratives are excluded. No narrative ingestion, NLP, sentiment analys
 |---|---|
 | [00_project_charter.md](docs/00_project_charter.md) | Product contract, scope, objectives, success criteria |
 | [01_product_requirements.md](docs/01_product_requirements.md) | Functional and non-functional requirements |
-| [02_data_provenance.md](docs/02_data_provenance.md) | Source, ingestion, usage, privacy, and disclosure rules |
+| [02_data_provenance.md](docs/02_data_provenance.md) | Source, ingestion, usage, and disclosure rules |
 | [02_data_source_audit.md](docs/02_data_source_audit.md) | Independent verification of the live source schema |
 | [03_data_dictionary.md](docs/03_data_dictionary.md) | Model and field definitions, including grain |
 | [04_decisioning_policy.md](docs/04_decisioning_policy.md) | Deterministic action policy and reason-code contract |
 | [05_architecture.md](docs/05_architecture.md) | Snowflake, dbt, application, security, and delivery design |
 | [06_known_limitations.md](docs/06_known_limitations.md) | Consolidated limitation register |
-| [08_source_quality_report.md](docs/08_source_quality_report.md) | Measured source quality and data-quality controls |
 | [09_supported_vs_unsupported_metrics.md](docs/09_supported_vs_unsupported_metrics.md) | Binding metric register |
-| [10_build_plan.md](docs/10_build_plan.md) | Build status board, issue log, and open decisions |
+| [15_explore_workspace.md](docs/15_explore_workspace.md) | Explore surface: populations, filter contract, payload strategy |
 | [adr/](docs/adr/) | Architecture decision records |
 
 ---
 
-## Project status
+## Status
 
-**Phase 0 — product contract.** Documentation only.
+Built and deployed. dbt Cloud runs the production job and runs on pull requests; the application deploys from `main` on Vercel.
 
-No Snowflake objects, dbt models, ingestion code, or application code have been written. Implementation is gated on owner approval of the checkpoints in [00_project_charter.md](docs/00_project_charter.md) §11 and [01_product_requirements.md](docs/01_product_requirements.md) §11.
-
----
-
-## Why this is Twilio-adjacent
-
-Twilio frames agent productivity around unifying channels and carrying context across AI and human agents. This project deliberately works the layer beneath that: **what is known about an issue, what pattern it belongs to, what is uncertain, and what should happen next.**
-
-Communications and agents are only as useful as the context behind them. Customer Resolution Intelligence focuses on making that context trustworthy — governed fields, explicit reasoning, stated confidence, and clear handoff conditions that a customer-engagement platform could activate.
-
-The prototype is **activation-ready**, not activated. It claims no live integration.
-
----
-
-## Contact
-
-**Request a Resolution Assessment** — a discovery conversation about your own authorized data.
-
-Do not submit personal data, credentials, or production data through the public form.
+Independent portfolio project by [Shem Nyachieo](https://github.com/nyachisn). Not affiliated with or endorsed by the CFPB or any financial institution.
